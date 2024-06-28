@@ -6,4 +6,9 @@ def home(request):
     return render(request,'baseapp/home.html',context)
 
 def system_windows_logs(request):
-    pass
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/windows.html',context)
+
+def system_windows_logs_form(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/windowsform.html',context)
