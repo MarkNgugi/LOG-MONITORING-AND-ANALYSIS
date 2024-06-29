@@ -1,0 +1,177 @@
+{%extends 'mainhome.html'%}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <h2 class="page-title">Windows system log source</h2>
+        <p>Adding a windows system source for log collection and ingestion.</p>
+
+        <a href="{%url 'system_windows_logs'%}" class="btn mb-2 btn-info">View Sources</a>
+
+
+        <div class="card my-4">
+          <div class="card-header">
+            <strong>Validation</strong>
+          </div>
+          <div class="card-body">
+            <form id="example-form" action="#">
+              <div>
+                <h3>Source Info</h3>
+
+                <section>
+                  <div class="form-group">
+                    <label for="logSourceName">Log Source Name: *</label>
+                    <input id="logSourceName" name="logSourceName" type="text" class="form-control required">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="ipAddressOrHostname">IP Address/Hostname: *</label>
+                    <input id="ipAddressOrHostname" name="ipAddressOrHostname" type="text" class="form-control required">
+                  </div>   
+
+                  <div class="form-group">
+                    <label for="portNumber">Port Number: *</label>
+                    <input id="portNumber" name="portNumber" type="text" class="form-control required">
+                  </div>                                            
+
+                  <div class="form-group">
+                    <label for="authCredentials">Authentication Method: *</label>
+                    <select id="logType" name="logType" class="form-control required">
+                      <option value="Apache">SSH keys</option>
+                      <option value="Nginx">username & password</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="logType">Log Type: *</label>
+                    <select id="logType" name="logType" class="form-control required">
+                      <option value="Apache">All</option>
+                      <option value="Apache">Boot Log</option>
+                      <option value="Nginx">Error Log</option>
+                      <option value="IIS">Authentication Log</option>
+                      <option value="IIS">package manager logs</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="logFilePaths">Log Path: *</label>
+                    <input id="logFilePaths" name="logFilePaths" type="text" class="form-control required">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="logFormat">Log Format: *</label>
+                    <input id="logFormat" name="logFormat" type="text" class="form-control required">
+                  </div>
+
+                  <div class="help-text text-muted">(*) Mandatory</div>
+                </section>
+
+
+                <h3>Log Ingestion</h3>
+                <section>
+                  <div class="form-group">
+                    <label for="ingestionMethod">Ingestion Method: *</label>
+                    <select id="ingestionMethod" name="ingestionMethod" class="form-control required">
+                      <option value="WindowsEventForwarding">Windows Event Forwarding</option>
+                      <option value="PowerShellScripts">PowerShell Scripts</option>
+                      <option value="RemoteEventLogMonitoring">Remote Event Log Monitoring</option>
+                      <option value="WMI">Windows Management Instrumentation</option>
+                    </select>
+                  </div>
+
+                  <!-- Common fields for all ingestion methods -->
+                  <div class="form-group">
+                    <label for="hostname">IP Address or Hostname: *</label>
+                    <input id="hostname" name="hostname" type="text" class="form-control required">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="collectionInterval">Collection Interval: *</label>
+                    <input id="collectionInterval" name="collectionInterval" type="text" class="form-control required">
+                  </div>     
+
+                  <div class="form-group">
+                    <label for="logRotationPolicy">Log Rotation Policy: *</label>
+                    <input id="logRotationPolicy" name="logRotationPolicy" type="text" class="form-control required">
+                  </div>  
+
+                  <div class="form-group">
+                    <label for="logRetentionPeriod">Log Retention Period: *</label>
+                    <input id="logRetentionPeriod" name="logRetentionPeriod" type="text" class="form-control required">
+                  </div>                                         
+
+                  <!-- Fields specific to Windows Event Forwarding ingestion method -->
+                  <div id="windowsEventForwardingFields">
+                    <div class="form-group">
+                      <label for="eventLogPaths">Event Log Paths:</label>
+                      <input id="eventLogPaths" name="eventLogPaths" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="forwardingServer">Forwarding Server:</label>
+                      <input id="forwardingServer" name="forwardingServer" type="text" class="form-control">
+                    </div>
+                  </div>
+
+                  <!-- Fields specific to PowerShell Scripts ingestion method -->
+                  <div id="powerShellScriptsFields" style="display: none;">
+                    <div class="form-group">
+                      <label for="scriptPath">Script Path:</label>
+                      <input id="scriptPath" name="scriptPath" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="scheduledTaskName">Scheduled Task Name:</label>
+                      <input id="scheduledTaskName" name="scheduledTaskName" type="text" class="form-control">
+                    </div>
+                  </div>
+
+                  <!-- Fields specific to Remote Event Log Monitoring ingestion method -->
+                  <div id="remoteEventLogMonitoringFields" style="display: none;">
+                    <div class="form-group">
+                      <label for="remoteLogPaths">Remote Log Paths:</label>
+                      <input id="remoteLogPaths" name="remoteLogPaths" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="remoteAccessCredentials">Remote Access Credentials:</label>
+                      <input id="remoteAccessCredentials" name="remoteAccessCredentials" type="text" class="form-control">
+                    </div>
+                  </div>
+
+                  <!-- Fields specific to Windows Management Instrumentation ingestion method -->
+                  <div id="wmiFields" style="display: none;">
+                    <div class="form-group">
+                      <label for="wmiQuery">WMI Query:</label>
+                      <input id="wmiQuery" name="wmiQuery" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="wmiNamespace">WMI Namespace:</label>
+                      <input id="wmiNamespace" name="wmiNamespace" type="text" class="form-control">
+                    </div>
+                  </div>
+
+                  <div class="help-text text-muted">(*) Mandatory</div>
+                </section>
+
+
+                <h3>Test Source</h3>
+                <section>
+                  
+                    <button type="button" class="btn mb-2 btn-info">Test Source</button>
+                    <button type="button" class="btn mb-2 btn-info">Later</button>
+                  
+                </section>
+
+                <h3>Finish</h3>
+                <section>
+                  <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+                </section>
+
+              </div>
+            </form>
+          </div> <!-- .card-body -->
+        </div> <!-- .card -->
+
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+{%endblock%}
