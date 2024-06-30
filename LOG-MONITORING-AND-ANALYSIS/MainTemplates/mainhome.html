@@ -149,7 +149,7 @@
                   </a>
                   <ul class="collapse list-unstyled pl-4 w-100" id="applicationLogs">
                     <li class="nav-item">
-                      <a class="nav-link pl-3" href="./webserver_table_advanced.html">
+                      <a class="nav-link pl-3" href="{% url 'application_webserver_logs' %}">
                         <span class="ml-1 item-text">Web Servers</span>
                       </a>
                     </li>
@@ -194,12 +194,12 @@
                       </a>
                       <ul class="collapse list-unstyled pl-4 w-100" id="appServerPerformanceLogs">
                         <li class="nav-item">
-                          <a class="nav-link pl-3" href="./perf_table_advanced.html?server=web">
+                          <a class="nav-link pl-3" href="">
                             <span class="ml-1 item-text">Web Server</span>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link pl-3" href="./perf_table_advanced.html?server=db">
+                          <a class="nav-link pl-3" href="">
                             <span class="ml-1 item-text">Database Server</span>
                           </a>
                         </li>
@@ -247,7 +247,7 @@
 
 
             <li class="nav-item w-100">
-              <a class="nav-link" href="stream_table_advanced.html">
+              <a class="nav-link" href="{%url 'logstreams'%}">
                 <i class="fe fe-layers fe-16"></i>
                 <span class="ml-3 item-text">Log Streams</span>
               </a>

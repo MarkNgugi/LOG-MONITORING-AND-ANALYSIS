@@ -1,0 +1,261 @@
+{%extends 'mainhome.html'%}
+
+{%block content%}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <h2 class="page-title">Web Server Source</h2>
+        <p>Adding a web server source for log collection and ingestion.</p>
+        <a href="{%url 'application_webserver_logs'%}" class="btn mb-2 btn-info">View Sources</a>
+
+        <div class="card my-4">
+          <div class="card-header">
+            <strong>Validation</strong>
+          </div>
+          <div class="card-body">
+            <form id="example-form" action="#">
+              <div>
+                <h3>Source Info</h3>
+
+                <section>
+                  <div class="form-group">
+                    <label for="logSourceName">Log Source Name: *</label>
+                    <input id="logSourceName" name="logSourceName" type="text" class="form-control required">
+                  </div>
+                  <div class="form-group">
+                    <label for="webServerType">Web Server Type: *</label>
+                    <select id="webServerType" name="webServerType" class="form-control required">
+                      <option value="Apache">Apache</option>
+                      <option value="Nginx">Nginx</option>
+                      <option value="IIS">IIS</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="ipAddressOrHostname">IP Address or Hostname: *</label>
+                    <input id="ipAddressOrHostname" name="ipAddressOrHostname" type="text" class="form-control required">
+                  </div>
+                  <div class="form-group">
+                    <label for="logFilePaths">Log File Paths: *</label>
+                    <input id="logFilePaths" name="logFilePaths" type="text" class="form-control required">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="logType">Log Type: *</label>
+                    <select id="logType" name="logType" class="form-control required">
+                      <option value="Apache">All</option>
+                      <option value="Apache">Access Log</option>
+                      <option value="Nginx">Error Log</option>
+                      <option value="IIS">Authentication Log</option>
+                    </select>
+                  </div> 
+
+                  <div class="form-group">
+                    <label for="logFormat">Log Format: *</label>
+                    <input id="logFormat" name="logFormat" type="text" class="form-control required">
+                  </div>
+                  <div class="form-group">
+                    <label for="authCredentials">Authentication Credentials: *</label>
+                    <select id="logType" name="logType" class="form-control required">
+                      <option value="Apache">SSH keys</option>
+                      <option value="Nginx">username & password</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="logRotationPolicy">Log Rotation Policy: *</label>
+                    <input id="logRotationPolicy" name="logRotationPolicy" type="text" class="form-control required">
+                  </div>
+                  <div class="form-group">
+                    <label for="portNumber">Port Number: *</label>
+                    <input id="portNumber" name="portNumber" type="text" class="form-control required">
+                  </div>
+                  <div class="form-group">
+                    <label for="alertingConfig">Alerting Configuration: *</label>
+                    <input id="alertingConfig" name="alertingConfig" type="text" class="form-control required">
+                  </div>
+                  <div class="form-group">
+                    <label for="collectionInterval">Collection Interval: *</label>
+                    <input id="collectionInterval" name="collectionInterval" type="text" class="form-control required">
+                  </div>
+                  <div class="help-text text-muted">(*) Mandatory</div>
+                </section>
+
+
+                <h3>Log Ingestion</h3>
+                <section>
+                  <div class="form-group">
+                    <label for="ingestionMethod">Ingestion Method: *</label>
+                    <select id="ingestionMethod" name="ingestionMethod" class="form-control required" onchange="changeFormFields()">
+                      <option value="LocalFileReading">Local File Reading</option>
+                      <option value="Syslog">Syslog</option>
+                      <option value="HTTPSEndpoint">HTTP/S Endpoint</option>
+                      <option value="AgentBased">Remote Log Reading (SSH/SFTP)</option>
+                    </select>
+                  </div>
+
+                  <!-- Common fields for all ingestion methods -->
+                  <div class="form-group">
+                    <label for="logFilePath">IP Address or Hostname: *</label>
+                    <input id="logFilePath" name="logFilePath" type="text" class="form-control required">
+                  </div>
+
+
+                  <!-- Fields specific to Syslog ingestion method -->
+                  <div id="syslogFields" style="display: none;">
+                    <div class="form-group">
+                      <label for="syslogServer">Syslog Server IP/Hostname: *</label>
+                      <input id="syslogServer" name="syslogServer" type="text" class="form-control required">
+                    </div>                         
+                    <div class="form-group">
+                      <label for="syslogPort">Syslog Port: *</label>
+                      <input id="syslogPort" name="syslogPort" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="syslogProtocol">Syslog Protocol: *</label>
+                      <input id="syslogProtocol" name="syslogProtocol" type="text" class="form-control required">
+                    </div>Log Severity Level
+                    <div class="form-group">
+                      <label for="syslogFacility">Syslog Facility: *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="syslogFacility">Log Severity Level *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="syslogFacility">Log Format: *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="syslogFacility">Log Rotation Configuration: *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>  
+                    <div class="form-group">
+                      <label for="syslogFacility">Log Format: *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="syslogFacility">Authentication Method: *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>   
+                    <div class="form-group">
+                      <label for="syslogFacility">Authentication Method: *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="syslogFacility">DNS Configuration: *</label>
+                      <input id="syslogFacility" name="syslogFacility" type="text" class="form-control required">
+                    </div>                                                                                                                                                  
+                  </div>
+
+                  <!-- Fields specific to HTTP/S Endpoint ingestion method -->
+                  <div id="endpointFields" style="display: none;">
+                    <div class="form-group">
+                      <label for="apiEndpoint">API Endpoint URL: *</label>
+                      <input id="apiEndpoint" name="apiEndpoint" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="apiKey">Authentication Method: *</label>
+                      <input id="apiKey" name="apiKey" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="apiMethod">HTTP Method: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="apiMethod">Headers: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>   
+                    <div class="form-group">
+                      <label for="apiMethod">Payload Format: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="apiMethod">Retry Policy: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="apiMethod">Timeout Configuration: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="apiMethod">SSL/TLS Configuration: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>   
+                    <div class="form-group">
+                      <label for="apiMethod">Data Rate Limiting: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>    
+                    <div class="form-group">
+                      <label for="apiMethod">Ingestion Interval: *</label>
+                      <input id="apiMethod" name="apiMethod" type="text" class="form-control required">
+                    </div>                                                                       
+                                                                                                                      
+                  </div>
+
+                  <!-- Fields specific to Remote Log Reading (SSH/SFTP) ingestion method -->
+                  <section id="remoteLogConfig" style="display: none;">
+                    <div class="form-group">
+                      <label for="remoteHost">Remote Host: *</label>
+                      <input id="remoteHost" name="remoteHost" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">   
+                      <label for="sshUsername">Authentication mtd (SSH/SFTP) *</label>
+                      <input id="sshUsername" name="sshUsername" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="remoteHost">SSH/SFTP Port: *</label>
+                      <input id="remoteHost" name="remoteHost" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="remoteHost">Remote Log Directory Path: *</label>
+                      <input id="remoteHost" name="remoteHost" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="remoteHost">Frequency of Log Retrieval: *</label>
+                      <input id="remoteHost" name="remoteHost" type="text" class="form-control required">
+                    </div>
+                                                                                                                                                  
+                    <!-- Add more fields specific to Remote Log Reading as needed -->
+                  </section>
+
+                  <!-- Fields specific to Local File Reading ingestion method -->
+                  <section id="localFileConfig" style="display: none;">
+                    <div class="form-group">
+                      <label for="localLogFilePath">Local Log File Path: *</label>
+                      <input id="localLogFilePath" name="localLogFilePath" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label for="localLogRotationPolicy">Local Log Rotation Policy: *</label>
+                      <input id="localLogRotationPolicy" name="localLogRotationPolicy" type="text" class="form-control required">
+                    </div>
+                    <!-- Add more fields specific to Local File Reading as needed -->
+                  </section>
+
+                  <div class="help-text text-muted">(*) Mandatory</div>
+                </section>
+
+
+                <h3>Test Source</h3>
+                <section>
+                  
+                    <button type="button" class="btn mb-2 btn-info">Test Source</button>
+                    <button type="button" class="btn mb-2 btn-info">Later</button>
+                  
+                </section>
+
+                <h3>Finish</h3>
+                <section>
+                  <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+                </section>
+
+              </div>
+            </form>
+          </div> <!-- .card-body -->
+        </div> <!-- .card -->
+
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+
+{%endblock%}

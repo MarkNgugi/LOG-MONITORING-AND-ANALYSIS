@@ -8,7 +8,7 @@
         <div class="row">
           <!-- Striped rows -->
           <div class="col-md-12 my-4">
-            <h2 class="h4 mb-1">Windows Log Sources</h2>
+            <h2 class="h4 mb-1">Available Log Sources</h2>
             <p class="mb-4"> </p>
             <div class="card shadow">
               <div class="card-body">
@@ -36,7 +36,7 @@
                   <div class="col ml-auto">
                     <div class="dropdown float-right">
 
-                      <form action="{%url 'system_windows_form'%}">
+                      <form action="{%url 'application_webserver_form'%}">
 
                       <button class="btn btn-primary float-right ml-3" type="submit">Add Log Source +</button>
                       <button class="btn btn-secondary dropdown-toggle" type="button" id="actionMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </button>
@@ -61,16 +61,15 @@
                           <label class="custom-control-label" for="all"></label>
                         </div>
                       </th>
-                      <th>Stream ID</th>
+                      <th>ID</th>
                       <th>Source Name</th>
+                      <th>Server Type</th>
+                      <th>Ip/Hostname</th>
+                      <th>Ingestion mtd</th>
                       <th>Log Type</th>
-                      <th>Hostname/IP</th>
-                      <th>Collection Method</th>
-                      <th>Retention Period</th>
                       <th>Status</th>
-                      <th>Log Format</th>
+                      <th>Collection Interval</th>
                       <th>Action</th>
-                      <!-- <th>Log Size</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -114,7 +113,7 @@
                       <td>10.12.10.2</td>
                       <td>Syslog</td>
                       <td>Auth</td>
-                      <td><span class="badge badge-success">Active</span></td>
+                      <td><span class="badge badge-success">Connected</span></td>
                       <td>5-Min</td>
                       <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <span class="text-muted sr-only">Action</span>
@@ -141,7 +140,7 @@
                       <td>10.10.12.13</td>
                       <td>Remote Reading</td>
                       <td>Error</td>
-                      <td><span class="badge badge-danger">Error</span></td>
+                      <td><span class="badge badge-danger">Hold</span></td>
                       <td></td>
                       <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <span class="text-muted sr-only">Action</span>
@@ -168,7 +167,7 @@
                       <td>10.12.12.10</td>
                       <td>Local Reading</td>
                       <td>Access</td>
-                      <td><span class="badge badge-primary">Inactive</span></td>
+                      <td><span class="badge badge-primary">Processing</span></td>
                       <td>30-Min</td>
                       <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <span class="text-muted sr-only">Action</span>
@@ -201,4 +200,5 @@
       </div> <!-- .col-12 -->
     </div> <!-- .row -->
   </div> <!-- .container-fluid -->
+
 {%endblock%}
