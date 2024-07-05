@@ -1,25 +1,28 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .forms import WindowsLogSource
+from .forms import WindowsLogSourceForm
+from .models import WindowsLogSource
+
 
 def home(request):
     context={}
     return render(request,'baseapp/home.html',context)
 
 def system_windows_logs(request):
-    context={}
+    log_sources=WindowsLogSource.objects.all()
+    context={'log_sources':log_sources}
     return render(request,'baseapp/logsources/systemlogs/windows.html',context)
 
 
 def system_windows_logs_form(request):
     if request.method=='POST':
-        log_source_form=WindowsLogSource(request.POST)
+        log_source_form=WindowsLogSourceForm(request.POST)
         if log_source_form.is_valid:
             log_source_form=log_source_form.save()
-            return redirect('home')
+            return redirect('system_windows_logs')
         
     else:
-        log_source_form=WindowsLogSource()
+        log_source_form=WindowsLogSourceForm()
     context={'log_source_form':log_source_form}
     return render(request,'baseapp/logsources/systemlogs/windowsform.html',context)
 

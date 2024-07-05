@@ -52,7 +52,6 @@
                 </div>
                 <!-- table -->
                 <table class="table table-bordered">
-
                   <thead>
                     <tr role="row">
                       <th>
@@ -62,35 +61,42 @@
                         </div>
                       </th>
                       <th>Stream ID</th>
-                      <th>Source Name</th>
+                      <th>Log Source Name</th>
                       <th>Log Type</th>
-                      <th>Hostname/IP</th>
-                      <th>Collection Method</th>
+                      <th>Log Format</th>
+                      <th>Ingestion Method</th>
+                      <th>Collection Interval</th>
                       <th>Retention Period</th>
                       <th>Status</th>
-                      <th>Log Format</th>
                       <th>Action</th>
                       <th>Activate</th>
-                      <!-- <th>Log Size</th> -->
                     </tr>
                   </thead>
                   <tbody>
+                    {% for log_source in log_sources %}
                     <tr>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="4574">
-                          <label class="custom-control-label" for="4574"></label>
+                          <input type="checkbox" class="custom-control-input" id="checkbox-{{ log_source.id }}">
+                          <label class="custom-control-label" for="checkbox-{{ log_source.id }}"></label>
                         </div>
                       </td>
-                      <td>1</td>
-                      <td>Server(1)</td>
-                      <td>Apache</td>
-                      <td>Pending</td>
-                      <td>API </td>
-                      <td>Access</td>
-                      <td><span class="badge badge-warning">Connecting</span></td>
-                      <td></td>
-                      <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <td>{{ log_source.id }}</td>
+                      <td>{{ log_source.log_source_name }}</td>
+                      <td>{{ log_source.get_log_type_display }}</td> <!-- Get display value for log type -->
+                      <td>{{ log_source.log_format }}</td>
+                      <td>{{ log_source.get_ingestion_method_display }}</td> <!-- Get display value for ingestion method -->
+                      <td>{{ log_source.collection_interval }}</td>
+                      <td>{{ log_source.log_retention_period }}</td>
+                      <td>
+                        {% if log_source.status == "Active" %}
+                          <span class="badge badge-success">Active</span>
+                        {% else %}
+                          <span class="badge badge-warning">Inactive</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <span class="text-muted sr-only">Action</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -102,113 +108,15 @@
                       </td>
                       <td>
                         <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="c1" checked>
-                          <label class="custom-control-label" for="c1"></label>
+                          <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.is_active %} checked {% endif %}>
+                          <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
                         </div>
                       </td>
                     </tr>
-
-                    <tr>
-                      <td>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="2397">
-                          <label class="custom-control-label" for="2397"></label>
-                        </div>
-                      </td>
-                      <td>2</td>
-                      <td>ServerTest(2)</td>
-                      <td>Nginx</td>
-                      <td>awaiting logs</td>
-                      <td>Syslog</td>
-                      <td>Auth</td>
-                      <td><span class="badge badge-success">Active</span></td>
-                      <td>5-Min</td>
-                      <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="text-muted sr-only">Action</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Remove</a>
-                          <a class="dropdown-item" href="#">Assign</a>
-                          <a class="dropdown-item" href="#">More Details</a>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="c2" checked>
-                          <label class="custom-control-label" for="c2"></label>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="4028">
-                          <label class="custom-control-label" for="4028"></label>
-                        </div>
-                      </td>
-                      <td>3</td>
-                      <td>TestSvr</td>
-                      <td>IIS</td>
-                      <td>10.10.12.13</td>
-                      <td>Remote Reading</td>
-                      <td>Error</td>
-                      <td><span class="badge badge-danger">Error</span></td>
-                      <td></td>
-                      <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="text-muted sr-only">Action</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Remove</a>
-                          <a class="dropdown-item" href="#">Assign</a>
-                          <a class="dropdown-item" href="#">More Details</a>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="c3" checked>
-                          <label class="custom-control-label" for="c3"></label>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="3782">
-                          <label class="custom-control-label" for="3782"></label>
-                        </div>
-                      </td>
-                      <td>4</td>
-                      <td>Server(3)</td>
-                      <td>Apache</td>
-                      <td>10.12.12.10</td>
-                      <td>Local Reading</td>
-                      <td>Access</td>
-                      <td><span class="badge badge-primary">Inactive</span></td>
-                      <td>30-Min</td>
-                      <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="text-muted sr-only">Action</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Remove</a>
-                          <a class="dropdown-item" href="#">Assign</a>
-                          <a class="dropdown-item" href="#">More Details</a>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="c4" checked>
-                          <label class="custom-control-label" for="c4"></label>
-                        </div>
-                      </td>
-                    </tr>
-
+                    {% endfor %}
                   </tbody>
                 </table>
+                
                 <nav aria-label="Table Paging" class="mb-0 text-muted">
                   <ul class="pagination justify-content-end mb-0">
                     <li class="page-item"><a class="page-link" href="#">Previous</a></li>

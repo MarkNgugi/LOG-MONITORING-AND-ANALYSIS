@@ -22,6 +22,10 @@ class WindowsLogSource(models.Model):
     ingestion_method = models.CharField(max_length=30, choices=INGESTION_METHODS, default='WindowsEventForwarding')
     collection_interval = models.CharField(max_length=50, default=5)
     log_retention_period = models.CharField(max_length=100,default=5)
+    kerberos_spn = models.CharField(max_length=100, help_text="Service Principal Name",null=True)
+    kerberos_realm = models.CharField(max_length=100, help_text="Kerberos Realm",null=True)
+    kerberos_keytab = models.FileField(upload_to='keytabs/', help_text="Upload Keytab File",null=True)
+
 
     def __str__(self):
         return self.log_source_name

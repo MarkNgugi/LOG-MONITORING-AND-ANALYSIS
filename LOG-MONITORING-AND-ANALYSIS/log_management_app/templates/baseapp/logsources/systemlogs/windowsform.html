@@ -14,20 +14,20 @@
                     <strong>Validation</strong>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        <div>
-                            <h3>Source Info</h3>
-                            <section>
-                              <div class="form-group">
+                  <form method="post" action="">
+                    {% csrf_token %}
+                    <div>
+                        <h3>Source Info</h3>
+                        <section>
+                            <div class="form-group">
                                 {{ log_source_form.as_p }}
-                                <button type="submit">Submit</button>
-                              </div>  
-                              <div class="help-text text-muted">(*) Mandatory</div>
-                            </section>
-
-                        </div>
-                    </form>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>  
+                            <div class="help-text text-muted">(*) Mandatory</div>
+                        </section>
+                    </div>
+                </form>
+                
                 </div> <!-- .card-body -->
             </div> <!-- .card -->
         </div> <!-- .col-12 -->
