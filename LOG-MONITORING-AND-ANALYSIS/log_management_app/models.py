@@ -24,7 +24,7 @@ class WindowsLogSource(models.Model):
     log_retention_period = models.CharField(max_length=100,default=5)
     kerberos_spn = models.CharField(max_length=100, help_text="Service Principal Name",null=True)
     kerberos_realm = models.CharField(max_length=100, help_text="Kerberos Realm",null=True)
-    kerberos_keytab = models.FileField(upload_to='keytabs/', help_text="Upload Keytab File",null=True)
+    # kerberos_keytab = models.FileField(upload_to='keytabs/', help_text="Upload Keytab File",null=True)
 
 
     def __str__(self):
