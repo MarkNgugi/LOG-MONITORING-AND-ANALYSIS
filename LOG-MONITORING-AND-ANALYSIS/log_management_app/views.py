@@ -8,6 +8,10 @@ def home(request):
     context={}
     return render(request,'baseapp/home.html',context)
 
+def system_os_types(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/OSpage.html',context)
+
 def system_windows_logs(request):
     log_sources=WindowsLogSource.objects.all()
     context={'log_sources':log_sources}

@@ -8,6 +8,7 @@ urlpatterns=[
     #LOG SOURCES
     #system log source 
         #Windows urls
+    path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
     path('home/logs-source/system/windows/', views.system_windows_logs, name='system_windows_logs'),
     path('home/logs-source/system/windows/add-log-source-and-ingestion/', views.system_windows_logs_form, name='system_windows_logs_form'),
 
