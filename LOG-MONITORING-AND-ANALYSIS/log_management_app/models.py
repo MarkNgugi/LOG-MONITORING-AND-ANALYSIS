@@ -11,7 +11,7 @@ class WindowsLogSource(models.Model):
 
     MACHINE_TYPE = [
         ('Single machine', 'Single machine'),
-        ('PowerShellScripts', 'Windows PowerShell Commands'),
+        ('Group policy machine', 'Group policy machine'),
     ]
 
     log_source_name = models.CharField(max_length=100)
