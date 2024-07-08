@@ -9,17 +9,15 @@ class WindowsLogSource(models.Model):
         ('System', 'System Logs'),
     ]
 
-    INGESTION_METHODS = [
-        ('WindowsEventForwarding', 'Windows Event Forwarding'),
+    MACHINE_TYPE = [
+        ('Single machine', 'Single machine'),
         ('PowerShellScripts', 'Windows PowerShell Commands'),
-        ('RemoteEventLogMonitoring', 'Windows Event Log Subscription'),
-        ('WMI', 'WEF Group Policy'),
     ]
 
     log_source_name = models.CharField(max_length=100)
     log_type = models.CharField(max_length=20, choices=LOG_TYPES)
     log_format = models.CharField(max_length=50)
-    ingestion_method = models.CharField(max_length=30, choices=INGESTION_METHODS, default='WindowsEventForwarding')
+    machine_type = models.CharField(max_length=30, choices=MACHINE_TYPE, default='Single machine')
     collection_interval = models.CharField(max_length=50, default=5)
     log_retention_period = models.CharField(max_length=100,default=5)
 
