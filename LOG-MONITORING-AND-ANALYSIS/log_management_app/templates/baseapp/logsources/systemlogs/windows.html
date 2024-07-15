@@ -62,9 +62,9 @@
                       </th>
                       <th>Timestamp</th>
                       <th>Log Source Name</th>
-                      <th>Log Type</th>
+                      <!-- <th>Log Type</th> -->
                       <!-- <th>Log Format</th> -->
-                      <th>Ingestion Method</th>
+                      <!-- <th>Ingestion Method</th> -->
                       <!-- <th>Collection Interval</th> -->
                       <!-- <th>Retention Period</th> -->
                       <th>Status</th>
@@ -81,13 +81,10 @@
                           <label class="custom-control-label" for="checkbox-{{ log_source.id }}"></label>
                         </div>
                       </td>
-                      <td>{{ log_source.id }}</td>
+                      <td>{{ log_source.updated_at }}</td>
                       <td>{{ log_source.log_source_name }}</td>
-                      <td>{{ log_source.get_log_type_display }}</td> <!-- Get display value for log type -->
-                      <td>{{ log_source.log_format }}</td>
-                      <td>{{ log_source.get_ingestion_method_display }}</td> <!-- Get display value for ingestion method -->
-                      <td>{{ log_source.collection_interval }}</td>
-                      <td>{{ log_source.log_retention_period }}</td>
+                      <!-- <td>{{ log_source.get_log_type_display }}</td> -->
+                      <!-- <td>{{ log_source.get_ingestion_method_display }}</td> -->
                       <td>
                         {% if log_source.status == "Active" %}
                           <span class="badge badge-success">Active</span>

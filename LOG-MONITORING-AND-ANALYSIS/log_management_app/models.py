@@ -19,6 +19,8 @@ class WindowsLogSource(models.Model):
     ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='Powershell')
     # collection_interval = models.CharField(max_length=50, default=5)
     # log_retention_period = models.CharField(max_length=100,default=5)
+    created_at=models.DateTimeField(auto_now_add=True,null=True)
+    updated_at=models.DateTimeField(auto_now=True,null=True)
 
 
     def __str__(self):

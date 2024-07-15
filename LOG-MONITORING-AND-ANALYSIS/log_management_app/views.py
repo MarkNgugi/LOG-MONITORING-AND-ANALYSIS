@@ -23,13 +23,16 @@ def system_windows_logs_form(request):
         log_source_form=WindowsLogSourceForm(request.POST)
         if log_source_form.is_valid:
             log_source_form=log_source_form.save()
-            return redirect('system_windows_logs')
+            return redirect('ingestionmtd')
         
     else:
         log_source_form=WindowsLogSourceForm()
     context={'log_source_form':log_source_form}
     return render(request,'baseapp/logsources/systemlogs/windowsform.html',context)
 
+def ingestionmtd(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/ingmtd.html',context)
 
 def application_webserver_logs(request):
     context={}
