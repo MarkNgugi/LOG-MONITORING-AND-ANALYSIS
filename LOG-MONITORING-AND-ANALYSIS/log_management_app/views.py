@@ -77,6 +77,6 @@ def add_log_source(request):
     else:
         form = WindowsLogSourceForm()
     
-    return render(request, 'logsources/add_log_source.html', {'form': form})
+    return render(request, 'baseapp/logsources/add_log_source.html', {'form': form})
 
 
