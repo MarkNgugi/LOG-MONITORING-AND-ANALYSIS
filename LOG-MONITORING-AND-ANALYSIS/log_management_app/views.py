@@ -2,7 +2,6 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .forms import WindowsLogSourceForm
 from .models import WindowsLogSource
-import winrm
 
 
 def home(request):
@@ -44,39 +43,15 @@ def logstreams(request):
     context={}
     return render(request,'baseapp/logstreams/logstreams.html',context)
 
-
-def check_connection(host, username, password, port=5985):
-    try:
-        session = winrm.Session(f'http://{host}:{port}/wsman', auth=(username, password))
-        result = session.run_cmd('echo WinRM connection successful')
-
-        if result.status_code == 0:
-            return True, result.std_out.decode('utf-8')
-        else:
-            return False, result.std_err.decode('utf-8')
-    except Exception as e:
-        return False, str(e)
-
 def add_log_source(request):
     if request.method == 'POST':
         form = WindowsLogSourceForm(request.POST)
         if form.is_valid():
-            log_source = form.save(commit=False)
-            success, message = check_connection(
-                log_source.winrm_host,
-                log_source.winrm_username,
-                log_source.winrm_password,
-                log_source.winrm_port
-            )
-
-            if success:
-                form.add_error(None, "Connection successful!")
-            else:
-                form.add_error(None, f"Connection failed: {message}")
-
+            form.save()
+            return redirect('log_source_list')  
     else:
         form = WindowsLogSourceForm()
-    
-    return render(request, 'baseapp/logsources/add_log_source.html', {'form': form})
 
+    context={'form':form}
+    return render(request, 'baseapp/logsources/add_log_source.html',context)
 
