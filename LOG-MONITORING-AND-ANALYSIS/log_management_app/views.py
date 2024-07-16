@@ -30,6 +30,10 @@ def system_windows_logs_form(request):
     context={'log_source_form':log_source_form}
     return render(request,'baseapp/logsources/systemlogs/windowsform.html',context)
 
+def system_collection_options(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/collectionopts.html',context)
+
 def ingestionmtd(request):
     context={}
     return render(request,'baseapp/logsources/systemlogs/ingmtd.html',context)
