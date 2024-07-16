@@ -1,12 +1,11 @@
 {% extends 'mainhome.html' %}
- 
-{% block content %}
 
+{% block content %}
 <div class="container-fluid">
   <div class="instructions-header">
     <h2 class="page-title">Ingestion Instructions</h2>
     <p class="lead text-muted">Follow the steps below to ingest your logs.</p>
-  </div><br><br>
+  </div><br>
   <div class="row justify-content-center">
     <div class="col-lg-9 col-md-12">
       <div class="card shadow">
@@ -24,14 +23,30 @@
           </ul>
           <div class="tab-content" id="installation-tabContent">
             <div class="tab-pane fade show active" id="powershell" role="tabpanel" aria-labelledby="powershell-tab">
-              <h4>PowerShell Installation</h4>
-              <p>Follow these steps to install using PowerShell:</p>
+              <h4>Step 1: Client Registration</h4>
+              <p>Follow these steps to register your client:</p>
               <ol>
-                <li>Open PowerShell as an administrator.</li>
-                <li>Run the following command to install the software:</li>
-                <pre><code>Install-Package -Name YourPackageName</code></pre>
-                <li>Verify the installation by running:</li>
-                <pre><code>Get-Package -Name YourPackageName</code></pre>
+                <h5><li>Open PowerShell as an administrator.</li></h5>
+                <h5><li>Run the following command to initiate a secure connection to the website:</li></h5>
+                <div class="code-box">
+                  <div class="code-box-header">
+                    <span class="code-header-title">PowerShell Code</span>
+                    <div class="code-box-actions">
+                      
+                        <i class="fe fe-copy fe-16"></i>
+                        <i class="fe fe-download fe-16"></i>
+                      
+   
+                    </div>
+                  </div>
+                  <pre><code class="language-powershell">
+Invoke-RestMethod -Uri "https://yourwebsite.com/api/register" -Method Post -Body @{
+    "identifier" = "your-client-identifier";
+    "auth" = "your-auth-credentials"
+}
+                  </code></pre>
+                </div><br>
+                <h5><li>Verify the registration by checking the response from the server.</li></h5>
               </ol>
               <br>
               <div class="next-btn">
@@ -39,32 +54,101 @@
               </div>
             </div>
             <div class="tab-pane fade" id="bash" role="tabpanel" aria-labelledby="bash-tab">
-              <h4>Bash Installation</h4>
-              <p>Follow these steps to install using Bash:</p>
+              <h4>Step 2: Log Sending</h4>
+              <p>Follow these steps to start sending logs:</p>
               <ol>
-                <li>Open your terminal.</li>
-                <li>Update your package list:</li>
-                <pre><code>sudo apt update</code></pre>
-                <li>Install the software:</li>
-                <pre><code>sudo apt install your-package-name</code></pre>
-                <li>Verify the installation:</li>
-                <pre><code>your-package-name --version</code></pre>
+                <li>Collect logs using PowerShell scripts.</li>
+                <li>Run the following command to send logs to the website:</li>
+                <div class="code-box">
+                  <div class="code-box-header">
+                    <span class="code-header-title">Bash Code</span>
+                    <div class="code-box-actions">
+                      <button class="btn btn-light btn-sm" onclick="copyToClipboard()">
+                        
+                      </button>
+                      <button class="btn btn-light btn-sm" onclick="downloadCode()">
+                        
+                      </button>
+                    </div>
+                  </div>
+                  <pre><code class="language-bash">
+Invoke-RestMethod -Uri "https://yourwebsite.com/api/logs" -Method Post -Body @{
+    "logData" = "your-log-data";
+    "token" = "your-client-token"
+}
+
+                  </code></pre>
+                </div>
+                <li>Verify the log transmission by checking the response from the server.</li>
               </ol>
               <br>
               <div class="d-flex justify-content-between">
                 <button class="btn btn-secondary" onclick="$('#powershell-tab').tab('show')">Previous</button>
                 <button class="btn btn-primary" onclick="$('#windows-tab').tab('show')">Next</button>
               </div>
-              
-            </div>
+            </div> 
             <div class="tab-pane fade" id="windows" role="tabpanel" aria-labelledby="windows-tab">
-              <h4>Windows Installation</h4>
-              <p>Follow these steps to install on Windows:</p>
+              <h4>Step 3: Heartbeat and Reconnection</h4>
+              <p>Follow these steps to maintain the connection and check client status:</p>
               <ol>
-                <li>Download the installer from the official website.</li>
-                <li>Run the installer and follow the on-screen instructions.</li>
-                <li>After installation, open the application from the start menu.</li>
-                <li>Verify the installation by checking the version in the application about section.</li>
+                <li>Set up a heartbeat mechanism to send regular "alive" signals:</li>
+                <div class="code-box">
+                  <div class="code-box-header">
+                    <span class="code-header-title">PowerShell Code</span>
+                    <div class="code-box-actions">
+                      <button class="btn btn-light btn-sm" onclick="copyToClipboard()">
+                        
+                      </button>
+                      <button class="btn btn-light btn-sm" onclick="downloadCode()">
+                        
+                      </button>
+                    </div>
+                  </div>
+                  <pre><code class="language-powershell">
+function Send-Heartbeat {
+    param (
+        [string]$url,
+        [string]$token
+    )
+
+    try {
+        $response = Invoke-RestMethod -Uri $url -Method Post -Headers @{Authorization = "Bearer $token"} -ContentType "application/json"
+        Write-Output "Heartbeat sent successfully."
+    } catch {
+        Write-Output "Failed to send heartbeat: $_"
+    }
+}
+
+while ($true) {
+    Send-Heartbeat -url "https://yourwebsite.com/api/heartbeat" -token "your-client-token"
+    Start-Sleep -Seconds 300
+}
+                  </code></pre>
+                </div>
+                <li>The server will update the client status based on heartbeats.</li>
+                <li>Implement retry logic on the client to handle temporary disconnections:</li>
+                <div class="code-box">
+                  <div class="code-box-header">
+                    <span class="code-header-title">PowerShell Code</span>
+                    <div class="code-box-actions">
+                      <button class="btn btn-light btn-sm" onclick="copyToClipboard()">
+                        
+                      </button>
+                      <button class="btn btn-light btn-sm" onclick="downloadCode()">
+                        
+                      </button>
+                    </div>
+                  </div>
+                  <pre><code class="language-powershell">
+try {
+    # Your log sending or heartbeat logic
+} catch {
+    Write-Output "Retrying connection..."
+    Start-Sleep -Seconds 60
+    # Retry logic here
+}
+                  </code></pre>
+                </div>
               </ol>
               <br>
               <div class="d-flex justify-content-between">
@@ -72,14 +156,7 @@
                 <form action="{% url 'system_windows_logs' %}" method="get">
                   <button type="submit" class="btn btn-primary">Done</button>
                 </form>
-                
               </div>
-
-              <!-- <div class="next-btn">
-                <button class="btn btn-primary" onclick="$('#bash-tab').tab('show')">Previous</button>
-                <button class="btn btn-primary">Finish</button>
-              </div> -->
-
             </div>
           </div>
         </div>
@@ -87,4 +164,4 @@
     </div> <!-- .col-12 -->
   </div> <!-- .row -->
 </div> <!-- .container-fluid -->
-  {% endblock %}
+{% endblock %}
