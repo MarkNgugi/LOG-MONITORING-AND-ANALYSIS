@@ -11,11 +11,10 @@ class WindowsLogSourceForm(forms.ModelForm):
 
     class Meta:
         model = WindowsLogSource
-        fields = ['log_source_name', 'log_type', 'log_format', 'ingestion_mtd']
+        fields = ['log_source_name', 'log_type', 'ingestion_mtd']
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
-            'log_format': forms.Select(attrs={'class': 'form-control'}),
             'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
         }
 
@@ -48,7 +47,6 @@ class WindowsFileLogSourceForm(forms.ModelForm):
         }
 
 
-
 class WindowsPerfLogsForm(forms.ModelForm):
     performance_metrics = forms.ModelMultipleChoiceField(
         queryset=PerformanceMetric.objects.all(),
@@ -59,7 +57,11 @@ class WindowsPerfLogsForm(forms.ModelForm):
 
     class Meta:
         model = WindowsPerfLogs
-        fields = ['client_name', 'ip_address', 'port_number', 'username', 'password', 'performance_metrics', 'collection_interval', 'retention_period', 'log_format', 'notifications']
+        fields = [
+            'client_name', 'ip_address', 'port_number', 'username', 'password', 
+            'performance_metrics', 'collection_interval', 'retention_period', 
+            'log_format', 'notifications'
+        ]
         widgets = {
             'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter client name'}),
             'ip_address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter IP address'}),

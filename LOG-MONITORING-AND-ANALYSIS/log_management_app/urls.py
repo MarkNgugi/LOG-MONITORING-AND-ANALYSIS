@@ -9,14 +9,20 @@ urlpatterns=[
     #system log source 
         #Windows urls
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
-    path('home/logsource/',views.add_log_source,name='add_log_source'),
-    path('home/logs-source/system/windows/', views.system_windows_logs, name='system_windows_logs'),
-    path('home/logs-source/system/windows/add-log-source-and-ingestion/', views.system_windows_logs_form, name='system_windows_logs_form'),
-    path('home/ingestion-mtd/',views.ingestionmtd,name='ingestionmtd'),
+    path('home/logs-source/system/windows/', views.system_windows_logs_table, name='system_windows_logs_table'),
     path('home/collection-options/',views.system_collection_options,name='system_collection_options'),
-    path('home/logfilestreams.',views.logfilestreams,name='logfilestreams'),
+   
+    #collection forms
+    path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
+    path('home/logfilestreams/',views.logfilestreams,name='logfilestreams'),
     path('home/performancelogs/',views.performancelogs,name='performancelogs'),
     path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
+
+    #instructions
+    path('home/syslogs-instructions/',views.streamsyslogs,name='streamsyslogs'),
+    path('home/syslogsfiles-instructions/',views.streamlogfiles,name='streamlogfiles'),
+    path('home/performance-instructions/',views.collectperflogs,name='collectperflogs'),
+    path('home/activedirectory-instructions/',views.activedirectorylogs,name='activedirectorylogs'),
 
     #application log sources
     path('home/logs-source/application/webserver/', views.application_webserver_logs, name='application_webserver_logs'),

@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="mt-4">Add Windows Log Source</h2>
+    <h2 class="mt-4">Add Windows Performance Log Source</h2>
     <form method="post" action="">
         {% csrf_token %}
         <div class="card my-4">
@@ -37,9 +37,9 @@
                     {{ logperf.password.help_text }}
                 </div>
                 <div class="form-group">
-                    {{ logperf.performance_metrics.label_tag }}
+                    <h5>{{ logperf.performance_metrics.help_text }}</h5> <br> 
                     {{ logperf.performance_metrics }}
-                    {{ logperf.performance_metrics.help_text }}
+                    
                 </div>
                 <div class="form-group">
                     {{ logperf.collection_interval.label_tag }}
@@ -61,7 +61,10 @@
                     {{ logperf.notifications }}
                     {{ logperf.notifications.help_text }}
                 </div>
-                <button type="submit" class="btn btn-primary">Add Log Source</button>
+                <form method="post" action="{%url 'collectperflogs'%}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </form>
             </div> <!-- .card-body -->
         </div> <!-- .card -->
     </form>

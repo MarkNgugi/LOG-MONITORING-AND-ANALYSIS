@@ -13,7 +13,6 @@ class WindowsLogSource(models.Model):
 
     log_source_name = models.CharField(max_length=100)
     log_type = models.ManyToManyField(LogType)
-    log_format = models.CharField(max_length=50, default='JSON')
     ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='powershell')
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -95,9 +94,6 @@ class PerformanceMetric(models.Model):
     def __str__(self):
         return self.name
 
-# models.py
-
-from django.db import models
 
 class WindowsActiveDirectoryLogSource(models.Model):
     # Fields for the Active Directory log source

@@ -4,10 +4,10 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
-            <h2 class="page-title">Windows System Log Source</h2>
+            <h2 class="page-title">Windows System Stream Log Source</h2>
             <p>Adding a Windows system source for log collection and ingestion.</p>
 
-            <a href="{% url 'system_windows_logs' %}" class="btn mb-2 btn-info">View Sources</a>
+            <a href="" class="btn mb-2 btn-info">View Sources</a>
 
             <div class="card my-4">
                 <div class="card-header">
@@ -21,7 +21,10 @@
                         <section>
                             <div class="form-group">
                                 {{ log_source_form.as_p }}
-                                <button type="submit" class="btn btn-primary">Next</button>
+                                <form method="post" action="{%url 'streamsyslogs'%}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Next</button>
+                                </form>
                             </div>  
                             <div class="help-text text-muted">(*) Mandatory</div>
                         </section>

@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
 from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm
 from .models import WindowsLogSource
 
@@ -10,66 +9,93 @@ def home(request):
 
 def system_os_types(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/OSpage.html',context)
+    return render(request,'baseapp/logsources/systemlogs/windows/OSpage.html',context)
 
-def system_windows_logs(request):
+def system_windows_logs_table(request):
     log_sources=WindowsLogSource.objects.all()
     context={'log_sources':log_sources}
-    return render(request,'baseapp/logsources/systemlogs/windows.html',context)
+    return render(request,'baseapp/logsources/systemlogs/windows/windowslogstable.html',context)
 
-
-def system_windows_logs_form(request):
-    if request.method=='POST':
-        log_source_form=WindowsLogSourceForm(request.POST)
-        if log_source_form.is_valid:
-            log_source_form=log_source_form.save()
-            return redirect('ingestionmtd')
-        
-    else:
-        log_source_form=WindowsLogSourceForm()
-    context={'log_source_form':log_source_form}
-    return render(request,'baseapp/logsources/systemlogs/windowsform.html',context)
-
+#syslogs collectin mtds start
 def system_collection_options(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/collectionopts.html',context)
+    return render(request,'baseapp/logsources/systemlogs/windows/collectionopts.html',context)
 
-def ingestionmtd(request):
-    context={}
-    return render(request,'baseapp/logsources/systemlogs/ingmtd.html',context)
+#syslogs collectin mtds end
+
+#syslogs forms start
+def stream_windows_host_logs(request):
+    if request.method=='POST':
+        log_source_form=WindowsLogSourceForm(request.POST)
+        if log_source_form.is_valid():
+            log_source_form=log_source_form.save()
+            return redirect('streamsyslogs')
+        
+    else: 
+        log_source_form=WindowsLogSourceForm()
+    context={'log_source_form':log_source_form}
+    return render(request,'baseapp/logsources/systemlogs/windows/streamsyslogsform.html',context)
+
 
 def logfilestreams(request):
     if request.method=='POST':
         logfileform=WindowsFileLogSourceForm(request.POST)
-        if logfileform.is_valid:
+        if logfileform.is_valid():
             logfileform=logfileform.save()
-            return redirect('home')
+            return redirect('streamlogfiles')
     else:
         logfileform=WindowsFileLogSourceForm()
     context={'logfileform':logfileform}
-    return render(request,'baseapp/logsources/systemlogs/logfilestream.html',context)
+    return render(request,'baseapp/logsources/systemlogs/windows/logfilestreamform.html',context)
 
 def performancelogs(request):
     if request.method=='POST':
         logperf=WindowsPerfLogsForm(request.POST)
-        if logperf.is_valid:
+        if logperf.is_valid():
             logperf=logperf.save()
-            return redirect('home')
+            return redirect('collectperflogs')
     else:
         logperf=WindowsPerfLogsForm()
     context={'logperf':logperf}
-    return render(request,'baseapp/logsources/systemlogs/perf.html',context)
+    return render(request,'baseapp/logsources/systemlogs/windows/perfform.html',context)
+
 
 def activedirectoryform(request):
-    if request.method=='POST':
-        activedirectoryform=WindowsActiveDirectoryLogSourceForm(request.POST)
-        if activedirectoryform.is_valid:
-            activedirectoryform=activedirectoryform.save()
-            return redirect('home')
+    if request.method == 'POST':
+        activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
+        if activedirectoryform.is_valid():
+            activedirectoryform.save()
+            return redirect('activedirectorylogs') 
     else:
-        activedirectoryform=WindowsActiveDirectoryLogSourceForm()
-    context={'activedirectoryform':activedirectoryform}
-    return render(request,'baseapp/logsources/systemlogs/activedirectoryform.html',context)
+        activedirectoryform = WindowsActiveDirectoryLogSourceForm()
+    
+    context = {'activedirectoryform': activedirectoryform}
+    return render(request, 'baseapp/logsources/systemlogs/windows/activedirectoryform.html', context)
+
+
+#syslogs forms end
+
+#syslogs instructions start
+def streamsyslogs(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/windows/inst-streamsyslogs.html',context)
+
+def streamlogfiles(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/windows/inst-streamlogfiles.html',context)
+
+def collectperflogs(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/windows/collectperflogs.html',context)
+
+def activedirectorylogs(request):
+    context={}
+    return render(request,'baseapp/logsources/systemlogs/windows/inst-activedirectorylogs.html',context)
+
+#syslogs instructions end
+
+
+
 
 def application_webserver_logs(request):
     context={}
@@ -83,15 +109,4 @@ def logstreams(request):
     context={}
     return render(request,'baseapp/logstreams/logstreams.html',context)
 
-def add_log_source(request):
-    if request.method == 'POST':
-        form = WindowsLogSourceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('log_source_list')  
-    else:
-        form = WindowsLogSourceForm()
-
-    context={'form':form}
-    return render(request, 'baseapp/logsources/add_log_source.html',context)
 

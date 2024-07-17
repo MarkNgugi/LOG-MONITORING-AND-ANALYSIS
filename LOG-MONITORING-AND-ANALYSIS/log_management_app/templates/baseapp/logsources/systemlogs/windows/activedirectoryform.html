@@ -1,4 +1,4 @@
-
+ 
 {% extends 'mainhome.html' %}
 
 {% block content %}
@@ -61,7 +61,11 @@
                     {{ activedirectoryform.retention_period }}
                     {{ activedirectoryform.retention_period.help_text }}
                 </div>
-                <button type="submit" class="btn btn-primary">Add Log Source</button>
+
+                <form method="post" action="{%url 'activedirectorylogs'%}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </form>
             </div> <!-- .card-body -->
         </div> <!-- .card -->
     </form>
