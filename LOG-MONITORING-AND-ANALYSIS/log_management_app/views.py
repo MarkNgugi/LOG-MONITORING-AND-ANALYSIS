@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .forms import WindowsLogSourceForm
+from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm
 from .models import WindowsLogSource
 
 
@@ -37,6 +37,39 @@ def system_collection_options(request):
 def ingestionmtd(request):
     context={}
     return render(request,'baseapp/logsources/systemlogs/ingmtd.html',context)
+
+def logfilestreams(request):
+    if request.method=='POST':
+        logfileform=WindowsFileLogSourceForm(request.POST)
+        if logfileform.is_valid:
+            logfileform=logfileform.save()
+            return redirect('home')
+    else:
+        logfileform=WindowsFileLogSourceForm()
+    context={'logfileform':logfileform}
+    return render(request,'baseapp/logsources/systemlogs/logfilestream.html',context)
+
+def performancelogs(request):
+    if request.method=='POST':
+        logperf=WindowsPerfLogsForm(request.POST)
+        if logperf.is_valid:
+            logperf=logperf.save()
+            return redirect('home')
+    else:
+        logperf=WindowsPerfLogsForm()
+    context={'logperf':logperf}
+    return render(request,'baseapp/logsources/systemlogs/perf.html',context)
+
+def activedirectoryform(request):
+    if request.method=='POST':
+        activedirectoryform=WindowsActiveDirectoryLogSourceForm(request.POST)
+        if activedirectoryform.is_valid:
+            activedirectoryform=activedirectoryform.save()
+            return redirect('home')
+    else:
+        activedirectoryform=WindowsActiveDirectoryLogSourceForm()
+    context={'activedirectoryform':activedirectoryform}
+    return render(request,'baseapp/logsources/systemlogs/activedirectoryform.html',context)
 
 def application_webserver_logs(request):
     context={}

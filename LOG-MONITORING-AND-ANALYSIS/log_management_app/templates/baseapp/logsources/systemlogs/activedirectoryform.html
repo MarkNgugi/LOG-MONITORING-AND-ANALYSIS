@@ -1,0 +1,69 @@
+
+{% extends 'mainhome.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Add Windows Active Directory Log Source</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="card my-4">
+            <div class="card-header">
+                <strong>Active Directory Log Source Form</strong>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    {{ activedirectoryform.log_source_name.label_tag }}
+                    {{ activedirectoryform.log_source_name }}
+                    {{ activedirectoryform.log_source_name.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.domain_name.label_tag }}
+                    {{ activedirectoryform.domain_name }}
+                    {{ activedirectoryform.domain_name.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.domain_controller_ip.label_tag }}
+                    {{ activedirectoryform.domain_controller_ip }}
+                    {{ activedirectoryform.domain_controller_ip.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.port_number.label_tag }}
+                    {{ activedirectoryform.port_number }}
+                    {{ activedirectoryform.port_number.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.username.label_tag }}
+                    {{ activedirectoryform.username }}
+                    {{ activedirectoryform.username.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.password.label_tag }}
+                    {{ activedirectoryform.password }}
+                    {{ activedirectoryform.password.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.log_level.label_tag }}
+                    {{ activedirectoryform.log_level }}
+                    {{ activedirectoryform.log_level.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.log_format.label_tag }}
+                    {{ activedirectoryform.log_format }}
+                    {{ activedirectoryform.log_format.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.collection_interval.label_tag }}
+                    {{ activedirectoryform.collection_interval }}
+                    {{ activedirectoryform.collection_interval.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ activedirectoryform.retention_period.label_tag }}
+                    {{ activedirectoryform.retention_period }}
+                    {{ activedirectoryform.retention_period.help_text }}
+                </div>
+                <button type="submit" class="btn btn-primary">Add Log Source</button>
+            </div> <!-- .card-body -->
+        </div> <!-- .card -->
+    </form>
+</div>
+{% endblock %}

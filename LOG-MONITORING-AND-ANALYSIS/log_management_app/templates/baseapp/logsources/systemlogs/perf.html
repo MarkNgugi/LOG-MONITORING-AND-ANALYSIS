@@ -1,0 +1,69 @@
+
+{% extends 'mainhome.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Add Windows Log Source</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="card my-4">
+            <div class="card-header">
+                <strong>Windows Log Source Form</strong>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    {{ logperf.client_name.label_tag }}
+                    {{ logperf.client_name }}
+                    {{ logperf.client_name.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.ip_address.label_tag }}
+                    {{ logperf.ip_address }}
+                    {{ logperf.ip_address.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.port_number.label_tag }}
+                    {{ logperf.port_number }}
+                    {{ logperf.port_number.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.username.label_tag }}
+                    {{ logperf.username }}
+                    {{ logperf.username.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.password.label_tag }}
+                    {{ logperf.password }}
+                    {{ logperf.password.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.performance_metrics.label_tag }}
+                    {{ logperf.performance_metrics }}
+                    {{ logperf.performance_metrics.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.collection_interval.label_tag }}
+                    {{ logperf.collection_interval }}
+                    {{ logperf.collection_interval.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.retention_period.label_tag }}
+                    {{ logperf.retention_period }}
+                    {{ logperf.retention_period.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.log_format.label_tag }}
+                    {{ logperf.log_format }}
+                    {{ logperf.log_format.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ logperf.notifications.label_tag }}
+                    {{ logperf.notifications }}
+                    {{ logperf.notifications.help_text }}
+                </div>
+                <button type="submit" class="btn btn-primary">Add Log Source</button>
+            </div> <!-- .card-body -->
+        </div> <!-- .card -->
+    </form>
+</div>
+{% endblock %}

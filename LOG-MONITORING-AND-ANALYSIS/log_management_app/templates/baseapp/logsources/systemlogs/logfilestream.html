@@ -1,0 +1,29 @@
+<!-- add_windows_log_source.html -->
+
+{% extends 'mainhome.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <h2 class="page-title">Add Windows Log Source</h2>
+            <p>Configure the log source settings for streaming log files from a Windows client.</p>
+            
+            <a href="{% url 'system_windows_logs' %}" class="btn mb-2 btn-info">View Sources</a>
+            
+            <div class="card my-4">
+                <div class="card-header">
+                    <strong>Add Log Source</strong>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ logfileform.as_p }}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div> <!-- .card-body -->
+            </div> <!-- .card -->
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->
+{% endblock %}

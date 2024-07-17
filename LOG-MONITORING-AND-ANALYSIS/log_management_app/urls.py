@@ -14,6 +14,9 @@ urlpatterns=[
     path('home/logs-source/system/windows/add-log-source-and-ingestion/', views.system_windows_logs_form, name='system_windows_logs_form'),
     path('home/ingestion-mtd/',views.ingestionmtd,name='ingestionmtd'),
     path('home/collection-options/',views.system_collection_options,name='system_collection_options'),
+    path('home/logfilestreams.',views.logfilestreams,name='logfilestreams'),
+    path('home/performancelogs/',views.performancelogs,name='performancelogs'),
+    path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
 
     #application log sources
     path('home/logs-source/application/webserver/', views.application_webserver_logs, name='application_webserver_logs'),
