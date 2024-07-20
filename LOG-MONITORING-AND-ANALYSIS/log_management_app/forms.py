@@ -16,6 +16,7 @@ class WindowsLogSourceForm(forms.ModelForm):
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
             'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
+            'collection_frequency': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class WindowsFileLogSourceForm(forms.ModelForm):

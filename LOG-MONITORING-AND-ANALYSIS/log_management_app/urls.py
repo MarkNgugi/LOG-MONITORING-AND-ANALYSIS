@@ -24,9 +24,15 @@ urlpatterns=[
     path('home/performance-instructions/',views.collectperflogs,name='collectperflogs'),
     path('home/activedirectory-instructions/',views.activedirectorylogs,name='activedirectorylogs'),
 
-    #application log sources
+
+    #APPLICATION LOGS
     path('home/logs-source/application/webserver/', views.application_webserver_logs, name='application_webserver_logs'),
     path('home/logs-source/application/webserverform/', views.application_webserver_form, name='application_webserver_form'),
+
+    path('home/webserver-types/',views.web_server_types,name='web_server_types'), 
+    path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'),
+    path('home/webcollection-agent/',views.webserver_collection_agents,name='webserver_collection_agents'),
+
 
     #LOG STREAMS
     path('home/log-streams/', views.logstreams, name='logstreams'),

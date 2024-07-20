@@ -1,0 +1,119 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row align-items-center mb-2">
+                <div class="col">
+                    <h2 class="h5 page-title">Select a collection agent like option to add your logs</h2>
+                </div>
+            </div>
+            <br> <br> <br>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h4 class="mb-0">Custom Scripts</h4>
+                                            <p class="small text-muted mb-0">Custom Scripts</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h4 class="mb-0">HTTP Log Streaming:</h4>
+                                            <p class="small text-muted mb-0">Ram Usage</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h4 class="mb-0">Web Server APIs</h4>
+                                            <p class="small text-muted mb-0">Network</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h4 class="mb-0">File Watchers:</h4>
+                                            <p class="small text-muted mb-0">Network</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h4 class="mb-0">Server Push Tech</h4>
+                                            <p class="small text-muted mb-0">Network</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h4 class="mb-0">Remote Logging</h4>
+                                            <p class="small text-muted mb-0">Network</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                          
+                    </div> <!-- end section -->
+                </div> <!-- /. col -->
+            </div> <!-- end section --> 
+            <br>
+            <!-- New Component -->
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="mb-4">Explanation of Methods</h4>
+                                    <ul>
+                                        <li><strong>Custom Scripts:</strong> Use scripts to automate log collection and processing.</li>
+                                        <li><strong>HTTP Log Streaming:</strong> Stream logs over HTTP or HTTPS from the server.</li>
+                                        <li><strong>Web Server APIs:</strong> Utilize built-in APIs of web servers to retrieve logs.</li>
+                                        <li><strong>File Watchers:</strong> Monitor and read log files in real-time.</li>
+                                        <li><strong>Server Push Tech:</strong> Push log data to clients using technologies like WebSockets.</li>
+                                        <li><strong>Remote Logging:</strong> Send logs to a remote server or central logging service.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end explanation section -->
+        </div>
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->
+
+{% endblock %}

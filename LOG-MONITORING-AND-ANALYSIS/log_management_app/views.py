@@ -96,6 +96,7 @@ def activedirectorylogs(request):
 
 
 
+#APPLICATION LOGS START
 
 def application_webserver_logs(request):
     context={}
@@ -109,4 +110,14 @@ def logstreams(request):
     context={}
     return render(request,'baseapp/logstreams/logstreams.html',context)
 
+def web_server_types(request):
+    context={}
+    return render(request,'baseapp/logsources/applicationlogs/webservertypes.html',context)
 
+def webserver_collection_options(request):
+    context={}
+    return render(request,'baseapp/logsources/applicationlogs/collectionopts.html',context)
+
+def webserver_collection_agents(request):
+    context={}
+    return render(request,'baseapp/logsources/applicationlogs/collectionagent.html',context)
