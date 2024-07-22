@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import WindowsLogSource, LogType, WindowsFileLogSource, WindowsPerfLogs, PerformanceMetric, WindowsActiveDirectoryLogSource
+from .models import WindowsLogSource, LogType, WindowsFileLogSource, WindowsPerfLogs, PerformanceMetric, WindowsActiveDirectoryLogSource, WebserverLogFileUpload
 
 
 class WindowsLogSourceForm(forms.ModelForm):
@@ -91,3 +91,17 @@ class WindowsActiveDirectoryLogSourceForm(forms.ModelForm):
             'collection_interval': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter collection interval in seconds'}),
             'retention_period': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter retention period in days'}),
         }
+
+#APPLICATION LOGS FORMS
+
+class WebserverLogFileUploadForm(forms.ModelForm):
+    class Meta:
+        model = WebserverLogFileUpload
+        fields = ['source_name', 'file_type', 'log_file_description', 'file']
+        widgets = {
+            'source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),
+            'file_type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter file type'}),
+            'log_file_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Enter log file description'}),
+            
+        }
+

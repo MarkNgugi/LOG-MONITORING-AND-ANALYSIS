@@ -1,7 +1,10 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
-urlpatterns=[
+urlpatterns = [
+    path('upload/', views.webserverfileupload, name='upload_file'),
 
     path('home/',views.home,name='home'),
 
@@ -33,10 +36,12 @@ urlpatterns=[
     path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'),
     path('home/webcollection-agent/',views.webserver_collection_agents,name='webserver_collection_agents'),
 
+    #collection forms
+    path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
 
     #LOG STREAMS
     path('home/log-streams/', views.logstreams, name='logstreams'),
     path('home2/log-streams',views.home,)
     
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

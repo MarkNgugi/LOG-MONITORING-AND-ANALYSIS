@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
-from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm
+from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm
 from .models import WindowsLogSource
+from django.urls import reverse
 
 
 def home(request):
@@ -121,3 +122,19 @@ def webserver_collection_options(request):
 def webserver_collection_agents(request):
     context={}
     return render(request,'baseapp/logsources/applicationlogs/collectionagent.html',context)
+
+#APPLICATION LOGS FORMS
+    #webserver forms
+
+def webserverfileupload(request):
+    if request.method == 'POST':
+        webserverfileuploadform=WebserverLogFileUploadForm(request.POST,request.FILES)
+        if webserverfileuploadform.is_valid():
+            webserverfileuploadform.save()
+            return redirect(reverse('home'))
+    else:
+        webserverfileuploadform=WebserverLogFileUploadForm()
+    
+    context={'webserverfileuploadform':webserverfileuploadform}
+    return render(request,'baseapp/logsources/applicationlogs/webserverfileupload.html',context)
+

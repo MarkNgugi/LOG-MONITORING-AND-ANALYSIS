@@ -118,3 +118,16 @@ class WindowsActiveDirectoryLogSource(models.Model):
 
     def __str__(self):
         return self.log_source_name
+
+
+#APPLICATION LOGS MODELS
+
+class WebserverLogFileUpload(models.Model):
+    source_name = models.CharField(max_length=100)
+    file_type = models.CharField(max_length=50)
+    upload_date = models.DateTimeField(auto_now_add=True)
+    log_file_description = models.TextField()
+    file = models.FileField(upload_to='uploads/',null=True)
+
+    def __str__(self):
+        return self.log_file_name
