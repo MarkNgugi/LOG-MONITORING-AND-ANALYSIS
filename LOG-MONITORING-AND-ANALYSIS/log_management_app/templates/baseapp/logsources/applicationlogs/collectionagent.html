@@ -2,6 +2,20 @@
 
 {% block content %}
 
+<style>
+.card-link .card {
+    border: 2px solid transparent; /* Default border thickness */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth transition for both shadow and border */
+}
+
+.card-link .card:hover {
+    border-color: #1b68ff; /* Change border color on hover */
+    border-width: 5px; /* Make the border thicker on hover */
+    box-shadow: 0 0 20px 5px #1b68ff; /* Blue glow effect */
+}
+
+  </style>
+
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
@@ -14,78 +28,91 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="row justify-content-center">
+                        <!-- Each card is now a link -->
                         <div class="col-md-4 mb-4">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="mb-0">Using Custom Scripts</h4>
-                                            <p class="small text-muted mb-0">Custom Scripts</p>
+                            <a href="" class="card-link">
+                                <div class="card shadow card-hover">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="mb-0">Using Custom Scripts</h4>
+                                                <p class="small text-muted mb-0">Custom Scripts</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-4 mb-4">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="mb-0">HTTP Log Streaming:</h4>
-                                            <p class="small text-muted mb-0">Ram Usage</p>
+                            <a href="" class="card-link">
+                                <div class="card shadow card-hover">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="mb-0">HTTP Log Streaming</h4>
+                                                <p class="small text-muted mb-0">Ram Usage</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-4 mb-4">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="mb-0">Web Server APIs</h4>
-                                            <p class="small text-muted mb-0">Network</p>
+                            <a href="" class="card-link">
+                                <div class="card shadow card-hover">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="mb-0">Web Server APIs</h4>
+                                                <p class="small text-muted mb-0">Network</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-4 mb-4">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="mb-0">Using File Watchers:</h4>
-                                            <p class="small text-muted mb-0">Network</p>
+                            <a href="" class="card-link">
+                                <div class="card shadow card-hover">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="mb-0">Using File Watchers</h4>
+                                                <p class="small text-muted mb-0">Network</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-4 mb-4">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="mb-0">Server Push Tech</h4>
-                                            <p class="small text-muted mb-0">Network</p>
+                            <a href="" class="card-link">
+                                <div class="card shadow card-hover">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="mb-0">Server Push Tech</h4>
+                                                <p class="small text-muted mb-0">Network</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-4 mb-4">
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="mb-0">Remote Logging</h4>
-                                            <p class="small text-muted mb-0">Network</p>
+                            <a href="" class="card-link">
+                                <div class="card shadow card-hover">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="mb-0">Remote Logging</h4>
+                                                <p class="small text-muted mb-0">Network</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>                                          
+                            </a>
+                        </div>
                     </div> <!-- end section -->
                 </div> <!-- /. col -->
             </div> <!-- end section --> 
