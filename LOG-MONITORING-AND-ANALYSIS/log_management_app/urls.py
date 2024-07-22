@@ -9,7 +9,7 @@ urlpatterns = [
     path('home/',views.home,name='home'),
 
     #LOG SOURCES
-    #system log source 
+    #SYSTEM LOGS
         #Windows urls
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
     path('home/logs-source/system/windows/', views.system_windows_logs_table, name='system_windows_logs_table'),
@@ -26,6 +26,7 @@ urlpatterns = [
     path('home/syslogsfiles-instructions/',views.streamlogfiles,name='streamlogfiles'),
     path('home/performance-instructions/',views.collectperflogs,name='collectperflogs'),
     path('home/activedirectory-instructions/',views.activedirectorylogs,name='activedirectorylogs'),
+
 
 
     #APPLICATION LOGS

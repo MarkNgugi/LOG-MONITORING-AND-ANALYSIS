@@ -130,4 +130,4 @@ class WebserverLogFileUpload(models.Model):
     file = models.FileField(upload_to='uploads/',null=True)
 
     def __str__(self):
-        return self.log_file_name
+        return self.source_name
