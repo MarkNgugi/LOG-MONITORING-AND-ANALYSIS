@@ -30,6 +30,8 @@ urlpatterns = [
 
 
     #APPLICATION LOGS
+
+        #WEBSERVERS
     path('home/logs-source/application/webserver/', views.application_webserver_logs, name='application_webserver_logs'),
     path('home/logs-source/application/webserverform/', views.application_webserver_form, name='application_webserver_form'),
 
@@ -39,6 +41,10 @@ urlpatterns = [
 
     #collection forms
     path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
+
+
+        #DATABASES
+    path('home/database-types/',views.database_types,name='database_types'), 
 
     #LOG STREAMS
     path('home/log-streams/', views.logstreams, name='logstreams'),

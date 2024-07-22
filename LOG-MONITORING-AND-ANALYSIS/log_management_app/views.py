@@ -98,30 +98,26 @@ def activedirectorylogs(request):
 
 
 #APPLICATION LOGS START
-
+    #webserver
 def application_webserver_logs(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webserver.html',context)
+    return render(request,'baseapp/logsources/applicationlogs/webservers/webserver.html',context)
 
 def application_webserver_form(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webserverform.html',context)
-
-def logstreams(request):
-    context={}
-    return render(request,'baseapp/logstreams/logstreams.html',context)
+    return render(request,'baseapp/logsources/applicationlogs/webservers/webserverform.html',context)
 
 def web_server_types(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webservertypes.html',context)
+    return render(request,'baseapp/logsources/applicationlogs/webservers/webservertypes.html',context)
 
 def webserver_collection_options(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/collectionopts.html',context)
+    return render(request,'baseapp/logsources/applicationlogs/webservers/collectionopts.html',context)
 
 def webserver_collection_agents(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/collectionagent.html',context)
+    return render(request,'baseapp/logsources/applicationlogs/webservers/collectionagent.html',context)
 
 #APPLICATION LOGS FORMS
     #webserver forms
@@ -136,5 +132,20 @@ def webserverfileupload(request):
         webserverfileuploadform=WebserverLogFileUploadForm()
     
     context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logsources/applicationlogs/webserverfileupload.html',context)
+    return render(request,'baseapp/logsources/applicationlogs/webservers/webserverfileupload.html',context)
 
+    #database
+
+def database_types(request):
+    context={}
+    return render(request,'baseapp/logsources/applicationlogs/databases/databasetypes.html',context)
+
+
+
+
+
+#STREAMS
+
+def logstreams(request):
+    context={}
+    return render(request,'baseapp/logstreams/logstreams.html',context)
