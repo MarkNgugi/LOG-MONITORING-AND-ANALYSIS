@@ -46,6 +46,10 @@ urlpatterns = [
         #DATABASES
     path('home/database-types/',views.database_types,name='database_types'), 
 
+        #CACHING SYSTEMS
+
+    path('home/cachingsystems-types/',views.cachingsystems_types,name='cachingsystems_types'),
+
     #LOG STREAMS
     path('home/log-streams/', views.logstreams, name='logstreams'),
     path('home2/log-streams',views.home,)

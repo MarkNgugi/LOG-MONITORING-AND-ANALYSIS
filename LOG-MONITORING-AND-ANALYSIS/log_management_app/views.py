@@ -141,7 +141,11 @@ def database_types(request):
     return render(request,'baseapp/logsources/applicationlogs/databases/databasetypes.html',context)
 
 
+    #caching systems
 
+def cachingsystems_types(request):
+    context={}
+    return render(request,'baseapp/logsources/applicationlogs/middleware/cachingsystems.html',context)
 
 
 #STREAMS

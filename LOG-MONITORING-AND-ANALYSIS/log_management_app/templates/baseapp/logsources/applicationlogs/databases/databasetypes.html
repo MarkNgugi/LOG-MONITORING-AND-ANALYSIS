@@ -19,10 +19,11 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <!-- <h2>Section title</h2> -->
-            <h1 class="h3 page-title">Select Your OS</h1>
+            <h1 class="h3 page-title">Select Your Database</h1>
             <p class="text-muted">This primitive is meant to make it easy to display both user-centric or activity-centric actions in your app. Sometimes it makes sense to even blend both in a single timeline, which works perfectly.</p>
             <br><br> <br>
-            <!-- info small box -->
+            <!-- SQL Databases -->
+            <h2 class="h4">SQL Databases</h2> <br>
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <a href="{% url 'system_collection_options' %}" class="card-link">
@@ -35,7 +36,7 @@
                               <span class="badge badge-pill badge-success">10,11</span>
                             </div>
                             <div class="col-auto">
-                              <img src="/static/assets/images/mysql.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
+                              <img src="/static/assets/images/mysql.svg" alt="MySQL Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
                             </div>
                           </div>                   
                         </div>
@@ -54,7 +55,7 @@
                               <span class="badge badge-pill badge-success">16</span>
                             </div>
                             <div class="col-auto">
-                              <img src="/static/assets/images/postgres.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
+                              <img src="/static/assets/images/postgres.svg" alt="PostgreSQL Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
                             </div>
                           </div>
                         </div>
@@ -73,14 +74,18 @@
                               <span class="badge badge-pill badge-warning">15</span>
                             </div>
                             <div class="col-auto">
-                              <img src="/static/assets/images/microsoft-sql-server1.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
+                              <img src="/static/assets/images/microsoft-sql-server1.svg" alt="Microsoft SQL Server Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
                             </div>
                           </div>
                         </div>
                       </div>
                     </a>
                 </div>
+            </div> <!-- End SQL Databases row -->
 
+            <!-- NoSQL Databases -->
+            <h2 class="h4">NoSQL Databases</h2> <br>
+            <div class="row justify-content-center">
                 <div class="col-md-4 mb-4">
                     <a href="" class="card-link">
                       <div class="card shadow">
@@ -92,26 +97,7 @@
                               <span class="badge badge-pill badge-success">16</span>
                             </div>
                             <div class="col-auto">
-                              <img src="/static/assets/images/mongodb.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <a href="" class="card-link">
-                      <div class="card shadow">
-                        <div class="card-body">
-                          <div class="row align-items-center">
-                            <div class="col">
-                              <span class="h2 mb-0">Redis</span>
-                              <p class="small text-muted mb-0">version</p>
-                              <span class="badge badge-pill badge-success">16</span>
-                            </div>
-                            <div class="col-auto">
-                              <img src="/static/assets/images/redis.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
+                              <img src="/static/assets/images/mongodb.svg" alt="MongoDB Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
                             </div>
                           </div>
                         </div>
@@ -130,14 +116,14 @@
                               <span class="badge badge-pill badge-success">16</span>
                             </div>
                             <div class="col-auto">
-                              <img src="/static/assets/images/cassandra.png" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
+                              <img src="/static/assets/images/cassandra.png" alt="Cassandra Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
                             </div>
                           </div>
                         </div>
                       </div>
                     </a>
                 </div>                
-            </div> <!-- end section -->
+            </div> <!-- End NoSQL Databases row -->
 
         </div>
     </div> <!-- .row -->
