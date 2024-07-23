@@ -1,0 +1,174 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #212529;
+            font-family: Arial, sans-serif;
+        }
+        /* header {
+
+        }
+        header h1 {
+            margin: 0;
+        } */
+        .filter-section {
+            /* background-color: #343a40; */
+            background-color: #323538;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .dashboard-widgets .dashboard-widget {
+            padding: 20px;
+            background-color: #212529;
+            border: 3px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-widget h5 {
+            margin-bottom: 10px;
+            font-weight: 600;
+            
+        }
+        .alert-card {
+            background-color: #212529;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .alert-card.critical { border-left: 5px solid red; }
+        .alert-card.high { border-left: 5px solid orange; }
+        .alert-card.medium { border-left: 5px solid yellow; }
+        .alert-card.low { border-left: 5px solid green; }
+        .alert-card h5 {
+            margin: 0 0 10px;
+            font-weight: 600;
+        }
+        .alert-card .details { margin-top: 10px; }
+        .alert-card .actions { margin-top: 15px; }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+    </style>
+
+    <div class="container">
+        <header class="my-4">
+            <h1>Alerts Dashboard</h1>
+        </header>
+
+        <section class="filter-section">
+            <form class="form-inline">
+                <div class="form-group mr-3">
+                    <label for="filterSourceType" class="mr-2">Source Type:</label>
+                    <select id="filterSourceType" class="form-control">
+                        <option>All</option>
+                        <option>Windows</option>
+                        <option>Linux</option>
+                        <option>MacOS</option>
+                        <option>Webserver</option>
+                        <option>Database</option>
+                        <option>Middleware</option>
+                    </select>
+                </div>
+                <div class="form-group mr-3">
+                    <label for="filterSeverity" class="mr-2">Severity:</label>
+                    <select id="filterSeverity" class="form-control">
+                        <option>All</option>
+                        <option>Critical</option>
+                        <option>High</option>
+                        <option>Medium</option>
+                        <option>Low</option>
+                    </select>
+                </div>
+                <div class="form-group mr-3">
+                    <label for="filterTimeFrame" class="mr-2">Time Frame:</label>
+                    <input type="date" id="filterTimeFrame" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </section>
+
+        <section class="dashboard-widgets">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="dashboard-widget">
+                        <h5>Critical Alerts</h5>
+                        <p class="text-danger display-4">5</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-widget">
+                        <h5>High Alerts</h5>
+                        <p class="text-warning display-4">8</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-widget">
+                        <h5>Medium Alerts</h5>
+                        <p class="text-info display-4">12</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-widget">
+                        <h5>Low Alerts</h5>
+                        <p class="text-success display-4">20</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="alerts">
+            <div class="alert-card critical">
+                <h5><i class="fas fa-exclamation-triangle"></i> Critical Alert</h5>
+                <p><strong>Source:</strong> Windows Server</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 14:35:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
+                </div>
+            </div>
+            <div class="alert-card high">
+                <h5><i class="fas fa-exclamation-circle"></i> High Alert</h5>
+                <p><strong>Source:</strong> Linux Server</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 14:00:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
+                </div>
+            </div>
+            <div class="alert-card medium">
+                <h5><i class="fas fa-info-circle"></i> Medium Alert</h5>
+                <p><strong>Source:</strong> MacOS Client</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 13:30:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
+                </div>
+            </div>
+            <div class="alert-card low">
+                <h5><i class="fas fa-check-circle"></i> Low Alert</h5>
+                <p><strong>Source:</strong> Webserver</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 13:00:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

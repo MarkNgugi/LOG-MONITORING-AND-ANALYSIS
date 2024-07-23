@@ -52,7 +52,10 @@ urlpatterns = [
 
     #LOG STREAMS
     path('home/log-streams/', views.logstreams, name='logstreams'),
-    path('home2/log-streams',views.home,)
     
+    
+
+    #ALERTS
+    path('home/alerts/',views.alertspage,name='alertspage')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -153,3 +153,10 @@ def cachingsystems_types(request):
 def logstreams(request):
     context={}
     return render(request,'baseapp/logstreams/logstreams.html',context)
+
+
+#ALERTS
+
+def alertspage(request):
+    context={}
+    return render(request,'baseapp/alerts/alerts.html',context)
