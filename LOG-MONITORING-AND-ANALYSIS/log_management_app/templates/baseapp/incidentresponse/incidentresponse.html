@@ -1,0 +1,224 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        .section-title {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .timeline {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .timeline-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background-color: #007bff;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .timeline-item p {
+            margin: 0;
+        }
+        .timeline-item time {
+            font-weight: bold;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-body p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+        .card-body strong {
+            color: #007bff;
+        }
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+        }
+        .text-muted {
+            color: #6c757d;
+        }
+        .badge-pill {
+            font-size: 0.75rem;
+            padding: 0.35em 0.65em;
+        }
+    </style>
+
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-12">
+                <h1 class="page-title">Incident Response</h1>
+                <p class="text-muted">Manage and respond to security incidents effectively.</p>
+            </div>
+        </div>
+
+        <!-- Incident Overview -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Incident Overview</h5>
+                        <p><strong>Incident ID:</strong> 12345</p>
+                        <p><strong>Title:</strong> Unauthorized Access Detected</p>
+                        <p><strong>Status:</strong> In Progress</p>
+                        <p><strong>Severity Level:</strong> High</p>
+                        <p><strong>Reported Date:</strong> 2024-07-21 14:22:01</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incident Details -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Incident Details</h5>
+                        <p><strong>Description:</strong> Unauthorized access to the database server detected.</p>
+                        <p><strong>Affected Systems:</strong> Database Server, Web Server</p>
+                        <p><strong>Impact Assessment:</strong> Potential data breach affecting customer information.</p>
+                        <p><strong>Detection Method:</strong> Automated alert from intrusion detection system.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Timeline</h5>
+                        <ul class="timeline">
+                            <li class="timeline-item"><time>14:22:</time> Incident reported by IDS</li>
+                            <li class="timeline-item"><time>14:25:</time> Initial investigation started</li>
+                            <li class="timeline-item"><time>14:30:</time> Mitigation steps initiated</li>
+                            <!-- Additional timeline events can be added here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investigation -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Investigation</h5>
+                        <p><strong>Evidence Collection:</strong> Collected log files, network traffic data, and system snapshots.</p>
+                        <p><strong>Logs and Data:</strong> Relevant logs linked to the incident can be viewed here.</p>
+                        <p><strong>Root Cause Analysis:</strong> Preliminary analysis suggests compromised user credentials.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Response Actions -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Response Actions</h5>
+                        <p><strong>Mitigation Steps:</strong> Restricted access to the affected servers, changed compromised credentials.</p>
+                        <p><strong>Containment:</strong> Isolated the affected systems to prevent further damage.</p>
+                        <p><strong>Eradication:</strong> Removed the malware and backdoors from the affected systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Communication -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Communication</h5>
+                        <p><strong>Internal Communication:</strong> Sent alerts to the security team and IT department.</p>
+                        <p><strong>External Communication:</strong> Notified affected customers and regulatory bodies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resolution -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Resolution</h5>
+                        <p><strong>Resolution Summary:</strong> Incident resolved by revoking compromised credentials and enhancing security measures.</p>
+                        <p><strong>Lessons Learned:</strong> Identified the need for better access control and regular security audits.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Follow-Up -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Follow-Up</h5>
+                        <p><strong>Post-Incident Review:</strong> Scheduled a review meeting to discuss the incident and response.</p>
+                        <p><strong>Action Items:</strong> Improve access control policies, conduct regular security training.</p>
+                        <p><strong>Policy Updates:</strong> Updated security policies to include new preventive measures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incident Response Team -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Incident Response Team</h5>
+                        <p><strong>Team Members:</strong> List of team members involved in the incident response.</p>
+                        <p><strong>Roles and Responsibilities:</strong> Defined roles and responsibilities for each team member.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+    </div>
+{% endblock %}    
+
+
+

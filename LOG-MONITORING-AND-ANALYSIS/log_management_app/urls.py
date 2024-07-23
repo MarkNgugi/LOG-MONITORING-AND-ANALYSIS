@@ -67,5 +67,9 @@ urlpatterns = [
     
     path('home/reports/',views.reportspage,name='reportspage'),
 
+    
+    #INCIDENT RESPONSE
+    path('home/incidentresponse/',views.incidentresponse,name='incidentresponse'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

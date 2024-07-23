@@ -176,3 +176,9 @@ def anomalydetail(request):
 def reportspage(request):
     context={}
     return render(request,'baseapp/reports/report.html',context)
+
+#INCIDENT RESPONSE
+
+def incidentresponse(request):
+    context={}
+    return render(request,'baseapp/incidentresponse/incidentresponse.html',context)
