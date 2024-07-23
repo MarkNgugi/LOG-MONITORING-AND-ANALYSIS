@@ -160,3 +160,9 @@ def logstreams(request):
 def alertspage(request):
     context={}
     return render(request,'baseapp/alerts/alerts.html',context)
+
+#ANOMALIES
+
+def anomaliespage(request):
+    context={}
+    return render(request,'baseapp/anomalies/anomalies.html',context)
