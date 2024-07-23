@@ -166,3 +166,13 @@ def alertspage(request):
 def anomaliespage(request):
     context={}
     return render(request,'baseapp/anomalies/anomalies.html',context)
+
+def anomalydetail(request):
+    context={}
+    return render(request,'baseapp/anomalies/anomalydetail.html',context)
+
+#REPORTS
+
+def reportspage(request):
+    context={}
+    return render(request,'baseapp/reports/report.html',context)

@@ -56,9 +56,16 @@ urlpatterns = [
     
 
     #ALERTS
-    path('home/alerts/',views.alertspage,name='alertspage'),
+    path('home/alerts/',views.alertspage,name='alertspage'),    
 
     #ANOMALIES
-    path('home/anomalies/',views.anomaliespage,name='anomaliespage')
+    path('home/anomalies/',views.anomaliespage,name='anomaliespage'),
+    path('home/anomalydetail/',views.anomalydetail,name='anomalydetail'),
+
+
+    #REPORTS 
+    
+    path('home/reports/',views.reportspage,name='reportspage'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

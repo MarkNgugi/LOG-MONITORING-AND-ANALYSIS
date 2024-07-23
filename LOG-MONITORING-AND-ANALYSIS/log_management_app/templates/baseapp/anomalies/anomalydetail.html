@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #e0f7fa, #80deea);
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #e0e0e0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #333;
+            font-size: 28px;
+        }
+        .back-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+        .details {
+            margin-bottom: 25px;
+        }
+        .details h2 {
+            margin-top: 0;
+            font-size: 26px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .details p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .details .label {
+            font-weight: 600;
+            color: #007bff;
+        }
+        .actions {
+            margin-top: 25px;
+        }
+        .actions button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #218838;
+        }
+        .actions .btn-danger {
+            background-color: #dc3545;
+        }
+        .actions .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .details p.timestamp {
+            font-style: italic;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Anomaly Details</h1>
+            <a href="anomalies.html" class="back-btn">Back to Anomalies</a>
+        </div>
+        <div class="details">
+            <h2>High CPU Usage Detected</h2>
+            <p><span class="label">Source:</span> Linux Server</p>
+            <p><span class="label">Type:</span> Performance</p>
+            <p><span class="label">Description:</span> Anomaly detected due to excessive CPU usage on Linux server. Possible process causing high resource consumption.</p>
+            <p><span class="label">Timestamp:</span> <span class="timestamp">2024-07-23 14:00</span></p>
+            <p><span class="label">Severity:</span> High</p>
+        </div>
+        <div class="actions">
+            <button>Resolve Anomaly</button>
+            <button class="btn-danger">Dismiss</button>
+        </div>
+    </div>
+</body>
+</html>
