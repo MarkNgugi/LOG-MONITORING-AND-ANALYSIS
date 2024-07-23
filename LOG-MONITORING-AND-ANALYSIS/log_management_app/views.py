@@ -179,6 +179,10 @@ def reportspage(request):
 
 #INCIDENT RESPONSE
 
+def incidences(request):
+    context={}
+    return render(request,'baseapp/incidentresponse/incidences.html',context)
+
 def incidentresponse(request):
     context={}
     return render(request,'baseapp/incidentresponse/incidentresponse.html',context)

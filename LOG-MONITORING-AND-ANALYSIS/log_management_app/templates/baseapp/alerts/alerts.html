@@ -30,8 +30,8 @@
             background-color: #212529;
             border: 1px solid #ddd;
             border-radius: 5px;
-            padding: 15px;
-            margin: 10px 0;
+            padding: 20px;
+            margin: 15px 0;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .alert-card.critical { border-left: 5px solid red; }
@@ -43,7 +43,7 @@
             font-weight: 600;
         }
         .alert-card .details { margin-top: 10px; }
-        .alert-card .actions { margin-top: 10px; }
+        .alert-card .actions { margin-top: 15px; }
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
@@ -60,9 +60,9 @@
         </header>
 
         <section class="filter-section">
-            <form class="form-inline d-flex justify-content-between">
-                <div class="form-group mr-3">
-                    <label for="filterSourceType" class="mr-2">Source Type:</label>
+            <form class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="filterSourceType">Source Type:</label>
                     <select id="filterSourceType" class="form-control">
                         <option>All</option>
                         <option>Windows</option>
@@ -73,8 +73,8 @@
                         <option>Middleware</option>
                     </select>
                 </div>
-                <div class="form-group mr-3">
-                    <label for="filterSeverity" class="mr-2">Severity:</label>
+                <div class="form-group col-md-3">
+                    <label for="filterSeverity">Severity:</label>
                     <select id="filterSeverity" class="form-control">
                         <option>All</option>
                         <option>Critical</option>
@@ -83,11 +83,13 @@
                         <option>Low</option>
                     </select>
                 </div>
-                <div class="form-group mr-3">
-                    <label for="filterTimeFrame" class="mr-2">Time Frame:</label>
+                <div class="form-group col-md-3">
+                    <label for="filterTimeFrame">Time Frame:</label>
                     <input type="date" id="filterTimeFrame" class="form-control">
                 </div>
-                <button type="submit" class="btn btn-primary">Filter</button>
+                <div class="form-group col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary ml-auto">Filter</button>
+                </div>
             </form>
         </section>
 
@@ -122,67 +124,43 @@
 
         <section class="alerts">
             <div class="alert-card critical">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-exclamation-triangle"></i> Critical Alert</h5>
-                        <p><strong>Source:</strong> Windows Server</p>
-                        <p><strong>Timestamp:</strong> 2024-07-23 14:35:00</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="details">Description of the alert and additional details...</p>
-                        <div class="actions">
-                            <button class="btn btn-primary btn-sm">Acknowledge</button>
-                            <button class="btn btn-secondary btn-sm">View Details</button>
-                        </div>
-                    </div>
+                <h5><i class="fas fa-exclamation-triangle"></i> Critical Alert</h5>
+                <p><strong>Source:</strong> Windows Server</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 14:35:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
             <div class="alert-card high">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-exclamation-circle"></i> High Alert</h5>
-                        <p><strong>Source:</strong> Linux Server</p>
-                        <p><strong>Timestamp:</strong> 2024-07-23 14:00:00</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="details">Description of the alert and additional details...</p>
-                        <div class="actions">
-                            <button class="btn btn-primary btn-sm">Acknowledge</button>
-                            <button class="btn btn-secondary btn-sm">View Details</button>
-                        </div>
-                    </div>
+                <h5><i class="fas fa-exclamation-circle"></i> High Alert</h5>
+                <p><strong>Source:</strong> Linux Server</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 14:00:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
             <div class="alert-card medium">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-info-circle"></i> Medium Alert</h5>
-                        <p><strong>Source:</strong> MacOS Client</p>
-                        <p><strong>Timestamp:</strong> 2024-07-23 13:30:00</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="details">Description of the alert and additional details...</p>
-                        <div class="actions">
-                            <button class="btn btn-primary btn-sm">Acknowledge</button>
-                            <button class="btn btn-secondary btn-sm">View Details</button>
-                        </div>
-                    </div>
+                <h5><i class="fas fa-info-circle"></i> Medium Alert</h5>
+                <p><strong>Source:</strong> MacOS Client</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 13:30:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
             <div class="alert-card low">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-check-circle"></i> Low Alert</h5>
-                        <p><strong>Source:</strong> Webserver</p>
-                        <p><strong>Timestamp:</strong> 2024-07-23 13:00:00</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="details">Description of the alert and additional details...</p>
-                        <div class="actions">
-                            <button class="btn btn-primary btn-sm">Acknowledge</button>
-                            <button class="btn btn-secondary btn-sm">View Details</button>
-                        </div>
-                    </div>
+                <h5><i class="fas fa-check-circle"></i> Low Alert</h5>
+                <p><strong>Source:</strong> Webserver</p>
+                <p><strong>Timestamp:</strong> 2024-07-23 13:00:00</p>
+                <p class="details">Description of the alert and additional details...</p>
+                <div class="actions">
+                    <button class="btn btn-primary">Acknowledge</button>
+                    <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
         </section>

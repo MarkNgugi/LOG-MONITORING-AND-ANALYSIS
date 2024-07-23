@@ -69,6 +69,7 @@ urlpatterns = [
 
     
     #INCIDENT RESPONSE
+    path('home/incidences/',views.incidences,name='incidences'),
     path('home/incidentresponse/',views.incidentresponse,name='incidentresponse'),
 
 
