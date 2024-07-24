@@ -14,6 +14,7 @@ def logsources(request):
     context={}
     return render(request,'baseapp/logsources/logsources.html',context)    
 
+#LOG INGESTION 
 def system_os_types(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
@@ -153,6 +154,12 @@ def cachingsystems_types(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/middleware/cachingsystems.html',context)
 
+
+#SEARCH
+
+def search(request):
+    context={}
+    return render(request,'baseapp/search/search.html',context)
 
 #STREAMS
 

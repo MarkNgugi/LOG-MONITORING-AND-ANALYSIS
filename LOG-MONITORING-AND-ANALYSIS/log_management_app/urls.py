@@ -12,6 +12,9 @@ urlpatterns = [
 
     path('home/log-sources',views.logsources,name='logsources'),
 
+#SEARCH
+
+    path('home/search',views.search,name='search'),
 
 #LOG INGESTION
 
