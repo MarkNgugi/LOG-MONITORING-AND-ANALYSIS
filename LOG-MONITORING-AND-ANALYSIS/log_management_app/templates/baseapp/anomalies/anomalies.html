@@ -5,7 +5,7 @@
         <div class="container-fluid">
           <div class="row justify-content-center">
             <div class="col-12">
-              <h2 class="h3 mb-0 page-title">Anomalies Dashboard</h2>
+              <h2 class="h3 mb-0 page-title">Anomalies Overview</h2>
               <div class="row align-items-center my-4">
                 <div class="col-md-6">
                   <div id="chart-box">
@@ -15,7 +15,19 @@
                 <div class="col-md-6">
                   <div class="row align-items-center my-2">
                     <div class="col">
-                      <strong>Completed</strong><br / />
+                      <strong>Total Anomalies</strong><br/>
+                      <span class="my-0 text-muted small">+85%</span>
+                    </div>
+                    <div class="col-auto">
+                      <strong class="my-0">1200</strong>
+                    </div>
+ 
+                  </div> 
+                  <hr style="height: 3px; background-color: #1b68ff; border: none; border-radius: 10px;">
+
+                  <div class="row align-items-center my-2">
+                    <div class="col">
+                      <strong>Open</strong><br/>
                       <span class="my-0 text-muted small">+85%</span>
                     </div>
                     <div class="col-auto">
@@ -26,10 +38,10 @@
                         <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
-                  </div>
+                  </div>                  
                   <div class="row align-items-center my-2">
                     <div class="col">
-                      <strong>Processing</strong><br / />
+                      <strong>Acknowledged</strong><br / />
                       <span class="my-0 text-muted small">+60%</span>
                     </div>
                     <div class="col-auto">
@@ -43,7 +55,7 @@
                   </div>
                   <div class="row align-items-center my-2">
                     <div class="col">
-                      <strong>Assigned</strong>
+                      <strong>Resolved</strong>
                       <div class="my-0 text-muted small">+2%</div>
                     </div>
                     <div class="col-auto">
@@ -57,7 +69,7 @@
                   </div>
                   <div class="row align-items-center my-2">
                     <div class="col">
-                      <strong>Pending</strong>
+                      <strong>Assigned</strong>
                       <div class="my-0 text-muted small">+6%</div>
                     </div>
                     <div class="col-auto">
@@ -78,13 +90,13 @@
                       <a class="nav-link active bg-transparent pr-2 pl-0 text-primary" href="#">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Pending <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
+                      <a class="nav-link text-muted px-2" href="#">Open <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Processing <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
+                      <a class="nav-link text-muted px-2" href="#">Acknowledged <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Completed <span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                      <a class="nav-link text-muted px-2" href="#">Resolved <span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
                     </li>
                   </ul>
                 </div>
@@ -108,235 +120,199 @@
                     <thead>
                       <tr>
                         <th>ID</th>
+                        <th>Host</th>
                         <th></th>
                         <th>Subject</th>
-                        <th>Create At</th>
+                        <th>Timestamp</th>
                         <th>Status</th>
-                        <th>Updated At</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td class="text-muted small">2007</td>
+                        <td class="text-muted small">Windows</td>
                         <td class="text-center"><span class="dot dot-lg bg-secondary mr-2"></span></td>
-                        <th scope="col"><a href="{%url 'anomalydetail' %}">sed, sapien. Nunc pulvinar arcu et pede. Nunc sed</a></th>
-                        <td class="text-muted small">Apr 29, 2020</td>
+                        <th scope="col">sed, sapien. Nunc pulvinar arcu et pede. Nunc sed</th>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Completed</span>
+                          <span class="small text-muted">resolved</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">May 9, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="{%url 'anomalydetail'%}">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
-                      <tr>
-                        <td class="text-muted small">2053</td>
-                        <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span></td>
-                        <th scope="col">lorem eu metus. In lorem. Donec elementum, lorem ut</th>
-                        <td class="text-muted small">May 4, 2020</td>
-                        <td>
-                          <span class="small text-muted">Completed</span>
-                          <div class="progress mt-2" style="height: 3px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td class="text-muted small">May 2, 2020</td>
-                        <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-muted small">2569</td>
-                        <td class="text-center"><span class="dot dot-lg bg-secondary mr-2"></span></td>
-                        <th scope="col">sagittis. Duis gravida. Praesent eu</th>
-                        <td class="text-muted small">May 7, 2020</td>
-                        <td>
-                          <span class="small text-muted">Pending</span>
-                          <div class="progress mt-2" style="height: 3px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td class="text-muted small">May 9, 2020</td>
-                        <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
-                          </div>
-                        </td>
-                      </tr>
+
                       <tr>
                         <td class="text-muted small">2192</td>
+                        <td class="text-muted small">server01</td>
                         <td class="text-center"><span class="dot dot-lg bg-primary mr-2"></span></td>
                         <th scope="col">mattis semper, dui lectus rutrum urna, nec luctus</th>
-                        <td class="text-muted small">May 5, 2020</td>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Processing</span>
+                          <span class="small text-muted">acknowledged</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">Apr 27, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
+
                       <tr>
                         <td class="text-muted small">2028</td>
+                        <td class="text-muted small">apache2</td>
                         <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span></td>
                         <th scope="col">at arcu. Vestibulum ante ipsum</th>
-                        <td class="text-muted small">May 2, 2020</td>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Assigned</span>
+                          <span class="small text-muted">resolved</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">May 4, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
+
                       <tr>
                         <td class="text-muted small">2673</td>
+                        <td class="text-muted small">192.168.104.34</td>
                         <td class="text-center"><span class="dot dot-lg bg-primary mr-2"></span></td>
                         <th scope="col">dui nec urna suscipit nonummy. Fusce fermentum fermentum</th>
-                        <td class="text-muted small">May 13, 2020</td>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Processing</span>
+                          <span class="small text-muted">acknowledged</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">May 3, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
+
                       <tr>
                         <td class="text-muted small">2698</td>
+                        <td class="text-muted small">redis324</td>
                         <td class="text-center"><span class="dot dot-lg bg-primary mr-2"></span></td>
                         <td>habitant morbi tristique senectus et</td>
-                        <td class="text-muted small">May 7, 2020</td>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Completed</span>
+                          <span class="small text-muted">resolved</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">May 8, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
+
                       <tr>
                         <td class="text-muted small">2382</td>
+                        <td class="text-muted small">macOS</td>
                         <td class="text-center"><span class="dot dot-lg bg-secondary mr-2"></span></td>
                         <td>arcu. Vestibulum ut eros non enim</td>
-                        <td class="text-muted small">May 2, 2020</td>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Assigned</span>
+                          <span class="small text-muted">open</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">Apr 30, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
+
                       <tr>
                         <td class="text-muted small">2582</td>
+                        <td class="text-muted small">linux02</td>
                         <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span></td>
                         <th scope="col">ipsum sodales purus, in molestie tortor nibh</th>
-                        <td class="text-muted small">May 2, 2020</td>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Completed</span>
+                          <span class="small text-muted">resolved</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">May 6, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
+
                       <tr>
                         <td class="text-muted small">2811</td>
+                        <td class="text-muted small">memcached8</td>
                         <td class="text-center"><span class="dot dot-lg bg-secondary mr-2"></span></td>
                         <th scope="col">non, bibendum sed, est. Nunc laoreet lectus quis</th>
-                        <td class="text-muted small">Apr 5, 2020</td>
+                        <td class="text-muted small">2024-07-23 14:35:00</td>
                         <td>
-                          <span class="small text-muted">Processing</span>
+                          <span class="small text-muted">open</span>
                           <div class="progress mt-2" style="height: 3px;">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </td>
-                        <td class="text-muted small">May 14, 2020</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>
                         </td>
                       </tr>
+
                     </tbody>
                   </table>
                   <nav aria-label="Table Paging" class="my-3">

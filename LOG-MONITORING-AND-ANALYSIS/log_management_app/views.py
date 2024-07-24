@@ -186,3 +186,9 @@ def incidences(request):
 def incidentresponse(request):
     context={}
     return render(request,'baseapp/incidentresponse/incidentresponse.html',context)
+
+#LOG RETENTION
+
+def logretention(request):
+    context={}
+    return render(request,'baseapp/logretention/logretention.html',context)

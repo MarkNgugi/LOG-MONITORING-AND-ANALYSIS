@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anomaly Details</title>
+{% extends 'mainhome.html' %}
+
+{% block content %}
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #e0f7fa, #80deea);
+            background-color: #212529;
         }
         .container {
-            width: 80%;
+            width: 90%;
             margin: 30px auto;
-            background-color: #fff;
+            background-color: #343a40;
             padding: 25px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid #e0e0e0;
+            border: 1px solid #007bff;
         }
         .header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             border-bottom: 3px solid #007bff;
@@ -30,90 +28,186 @@
         }
         .header h1 {
             margin: 0;
-            color: #333;
+            color: #fff;
             font-size: 28px;
         }
-        .back-btn {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px 25px;
-            font-size: 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .back-btn:hover {
-            background-color: #0056b3;
-        }
+
         .details {
             margin-bottom: 25px;
         }
-        .details h2 {
+        .details h3 {
             margin-top: 0;
             font-size: 26px;
-            color: #333;
+            color: #fff;
             border-bottom: 2px solid #007bff;
             padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .details p {
+        
+        .details .btn:hover {
+            background-color: #0056b3;
+        }
+        .detail-card {
+            background-color: #495057;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .detail-card p {
             margin: 10px 0;
             font-size: 18px;
-            color: #555;
+            color: #fff;
             line-height: 1.6;
         }
-        .details .label {
+        .detail-card .label {
             font-weight: 600;
             color: #007bff;
         }
-        .actions {
-            margin-top: 25px;
-        }
-        .actions button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 12px 25px;
-            font-size: 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-right: 15px;
-            transition: background-color 0.3s ease;
-        }
-        .actions button:hover {
-            background-color: #218838;
-        }
-        .actions .btn-danger {
-            background-color: #dc3545;
-        }
-        .actions .btn-danger:hover {
-            background-color: #c82333;
-        }
-        .details p.timestamp {
+        .detail-card p.timestamp {
             font-style: italic;
             color: #999;
         }
+        .actions {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .actions .button-group {
+            display: flex;
+        }
+        .actions .button-group button {
+            margin-right: 10px;
+        }
+        .solution-steps {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #495057;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .solution-steps h3 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .solution-steps ol {
+            padding-left: 20px;
+            font-size: 18px;
+            color: #050505;
+        }
+        .solution-steps ol li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #c7c1c1;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .solution-steps ol li::marker {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .solution-steps ol li code {
+            background-color: #e7f3fe;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .details h3 {
+                font-size: 22px;
+            }
+            .details p {
+                font-size: 16px;
+            }
+            .actions button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            .solution-steps h3, .related-info h3 {
+                font-size: 20px;
+            }
+            .solution-steps ol, .related-info ul {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header h1, .header .back-btn {
+                margin-bottom: 10px;
+            }
+            .actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .actions .button-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .actions button {
+                margin-bottom: 10px;
+            }
+        }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Anomaly Details</h1>
-            <a href="anomalies.html" class="back-btn">Back to Anomalies</a>
-        </div>
-        <div class="details">
-            <h2>High CPU Usage Detected</h2>
-            <p><span class="label">Source:</span> Linux Server</p>
-            <p><span class="label">Type:</span> Performance</p>
-            <p><span class="label">Description:</span> Anomaly detected due to excessive CPU usage on Linux server. Possible process causing high resource consumption.</p>
-            <p><span class="label">Timestamp:</span> <span class="timestamp">2024-07-23 14:00</span></p>
-            <p><span class="label">Severity:</span> High</p>
-        </div>
-        <div class="actions">
-            <button>Resolve Anomaly</button>
-            <button class="btn-danger">Dismiss</button>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <h1 class="h3 page-title">Anomaly Details</h1>
+            <p class="text-muted">View and analyze logs from different sources: systems and applications.</p> 
         </div>
     </div>
-</body>
-</html>
+
+    <div class="container">
+        <div class="details">
+            <h3>
+                High CPU Usage Detected
+                <a href="{%url 'anomaliespage' %}" class="btn mb-2 btn-primary">Back to Anomalies</a>
+            </h3>
+            <div class="detail-card">
+                <p><span class="label">Source:</span> Linux Server</p>
+                <p><span class="label">Type:</span> Performance</p>
+                <p><span class="label">Description:</span> Anomaly detected due to excessive CPU usage on Linux server. Possible process causing high resource consumption.</p>
+                <p><span class="label">Timestamp:</span> <span class="timestamp">2024-07-23 14:00</span></p>
+                <p><span class="label">Severity:</span> High</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="button-group">
+                <button class="btn mb-2 btn-primary">Resolve Anomaly</button>
+                <button class="btn mb-2 btn-danger">Dismiss</button>
+            </div>
+            <a href="create_report.html" class="btn btn-primary">Generate Report</a>
+        </div>
+        <div class="solution-steps">
+            <h3>Steps to Resolve Anomaly</h3>
+            <ol>
+                <li>Identify the process causing high CPU usage using the <code>top</code> command.</li>
+                <li>Analyze the process to determine if it is behaving normally or if there is a bug causing excessive resource usage.</li>
+                <li>If a specific application is causing the issue, restart the application and monitor the CPU usage.</li>
+                <li>Check for any available updates or patches for the application or system that might address the high CPU usage issue.</li>
+                <li>Consult the application or system logs for any errors or warnings that could indicate the cause of the high CPU usage.</li>
+                <li>Consider optimizing the application or system settings to better handle the workload.</li>
+                <li>If necessary, escalate the issue to the system administrator or relevant support team for further investigation and resolution.</li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Retention Policies</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f1f3f5;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .policy-card {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .policy-card h5 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        .policy-card p, .policy-card ul {
+            font-size: 16px;
+            color: #666;
+        }
+        .policy-info {
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e2e6ea;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        .policy-table {
+            margin-top: 20px;
+        }
+        .policy-table th, .policy-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .policy-table thead {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .policy-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .form-group label {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="mb-4">
+            <h1>Log Retention Policies</h1>
+            <p>Manage how long logs are stored and ensure compliance with your retention requirements.</p>
+        </header>
+
+        <!-- Policy Overview -->
+        <section class="policy-card">
+            <h5>Overview of Log Retention Policies</h5>
+            <p>Log retention policies are essential for managing the lifecycle of your logs, ensuring that they are stored for the required period and then appropriately archived or deleted. Effective policies help in compliance with legal and regulatory requirements and optimize storage resources.</p>
+            <p><strong>Key Benefits:</strong></p>
+            <ul>
+                <li>Compliance with industry regulations and standards.</li>
+                <li>Efficient use of storage resources.</li>
+                <li>Improved performance by removing outdated logs.</li>
+            </ul>
+        </section>
+
+        <!-- Policy Details for Log Sources -->
+        <section class="policy-card">
+            <h5>Retention Policies for Log Sources</h5>
+            <div class="policy-info">
+                <h6>System Logs:</h6>
+                <p><strong>Windows Logs:</strong> Retain for 90 days.</p>
+                <p><strong>Linux Logs:</strong> Retain for 60 days.</p>
+                <p><strong>MacOS Logs:</strong> Retain for 30 days.</p>
+            </div>
+            <div class="policy-info">
+                <h6>Application Logs:</h6>
+                <p><strong>Webserver Logs:</strong> Retain for 180 days.</p>
+                <p><strong>Database Logs:</strong> Retain for 120 days.</p>
+                <p><strong>Middleware Caching Logs:</strong> Retain for 90 days.</p>
+            </div>
+        </section>
+
+        <!-- Detailed Retention Policies -->
+        <section class="policy-card">
+            <h5>Manage Retention Policies</h5>
+            <form>
+                <div class="form-group">
+                    <label for="logSourceSelect">Select Log Source Type:</label>
+                    <select id="logSourceSelect" class="form-control">
+                        <option>Windows</option>
+                        <option>Linux</option>
+                        <option>MacOS</option>
+                        <option>Webserver</option>
+                        <option>Database</option>
+                        <option>Middleware</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subCategorySelect">Select Specific Source:</label>
+                    <select id="subCategorySelect" class="form-control">
+                        <!-- Populate based on selection of Log Source Type -->
+                        <option>Windows Server 2019</option>
+                        <option>Windows Server 2022</option>
+                        <option>Apache</option>
+                        <option>Nginx</option>
+                        <!-- More options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="retentionPeriod">Retention Period (days):</label>
+                    <input type="number" id="retentionPeriod" class="form-control" min="1" max="365">
+                    <small class="form-text text-muted">Specify the number of days to retain logs for the selected source.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Policy</button>
+                <button type="button" class="btn btn-secondary ml-2">Cancel</button>
+            </form>
+        </section>
+
+        <!-- Retention Policy Table -->
+        <section class="policy-card">
+            <h5>All Retention Policies</h5>
+            <table class="table table-striped policy-table">
+                <thead>
+                    <tr>
+                        <th>Log Source</th>
+                        <th>Specific Source</th>
+                        <th>Retention Period (days)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Windows</td>
+                        <td>Windows Server 2019</td>
+                        <td>90</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Windows</td>
+                        <td>Windows Server 2022</td>
+                        <td>90</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Linux</td>
+                        <td>Ubuntu 20.04</td>
+                        <td>60</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>MacOS</td>
+                        <td>MacOS Ventura</td>
+                        <td>30</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Webserver</td>
+                        <td>Apache</td>
+                        <td>180</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Webserver</td>
+                        <td>Nginx</td>
+                        <td>180</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Database</td>
+                        <td>MySQL</td>
+                        <td>120</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Database</td>
+                        <td>PostgreSQL</td>
+                        <td>120</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Middleware</td>
+                        <td>Redis</td>
+                        <td>90</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Middleware</td>
+                        <td>Memcached</td>
+                        <td>90</td>
+                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
