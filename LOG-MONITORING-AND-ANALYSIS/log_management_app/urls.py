@@ -8,20 +8,21 @@ urlpatterns = [
 
     path('home/',views.home,name='home'),
 
-    #LOG SOURCES
+#LOG SOURCES
+
     #SYSTEM LOGS
-        #Windows urls
+        #Windows 
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
     path('home/logs-source/system/windows/', views.system_windows_logs_table, name='system_windows_logs_table'),
     path('home/collection-options/',views.system_collection_options,name='system_collection_options'),
    
-    #collection forms
+        #collection forms
     path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
     path('home/logfilestreams/',views.logfilestreams,name='logfilestreams'),
     path('home/performancelogs/',views.performancelogs,name='performancelogs'),
     path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
 
-    #instructions
+        #instructions
     path('home/syslogs-instructions/',views.streamsyslogs,name='streamsyslogs'),
     path('home/syslogsfiles-instructions/',views.streamlogfiles,name='streamlogfiles'),
     path('home/performance-instructions/',views.collectperflogs,name='collectperflogs'),
@@ -39,24 +40,26 @@ urlpatterns = [
     path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'),
     path('home/webcollection-agent/',views.webserver_collection_agents,name='webserver_collection_agents'),
 
-    #collection forms
+        #collection forms
     path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
 
 
         #DATABASES
     path('home/database-types/',views.database_types,name='database_types'), 
 
+
         #CACHING SYSTEMS
 
     path('home/cachingsystems-types/',views.cachingsystems_types,name='cachingsystems_types'),
+
 
     #LOG STREAMS
     path('home/log-streams/', views.logstreams, name='logstreams'),
     
     
-
     #ALERTS
     path('home/alerts/',views.alertspage,name='alertspage'),    
+
 
     #ANOMALIES
     path('home/anomalies/',views.anomaliespage,name='anomaliespage'),
@@ -64,10 +67,9 @@ urlpatterns = [
 
 
     #REPORTS 
-    
     path('home/reports/',views.reportspage,name='reportspage'),
 
-    
+
     #INCIDENT RESPONSE
     path('home/incidences/',views.incidences,name='incidences'),
     path('home/incidentresponse/',views.incidentresponse,name='incidentresponse'),

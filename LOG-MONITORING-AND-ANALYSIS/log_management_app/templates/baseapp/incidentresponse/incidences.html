@@ -1,7 +1,13 @@
 {% extends 'mainhome.html' %}
 
 {% block content %}
-      
+
+<style>
+  .custom-badge-text {
+      font-size: 18px; /* Adjust the size as needed */
+  }
+</style>
+
         <div class="container-fluid">
           <div class="row justify-content-center">
             <div class="col-12">
@@ -11,7 +17,7 @@
                 </div>
                 <div class="col-auto">
                   <button type="button" class="btn btn-secondary"><span class="fe fe-trash fe-12 mr-2"></span>Delete</button>
-                  <button type="button" class="btn btn-primary"><span class="fe fe-filter fe-12 mr-2"></span>Create</button>
+                  <button type="button" class="btn btn-primary">+ Incident Response</button>
                 </div>
               </div>
               <div class="row">
@@ -23,7 +29,10 @@
                       <div class="card-text my-2">
                         <strong class="card-title my-0">Bass Wendy </strong>
                         <p class="small text-muted mb-0">Accumsan Consulting</p>
-                        <p class="small"><span class="badge badge-light text-muted">New York, USA</span></p>
+                        <br>
+                        <p class="small custom-badge-text">
+                          <span class="badge badge-light">From : Alerts</span>
+                      </p>
                       </div>
                     </div> <!-- ./card-text -->
                     <div class="card-footer">
