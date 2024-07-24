@@ -8,19 +8,25 @@ def home(request):
     context={}
     return render(request,'baseapp/home.html',context)
 
+#LOG SOURCES
+
+def logsources(request):
+    context={}
+    return render(request,'baseapp/logsources/logsources.html',context)    
+
 def system_os_types(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/windows/OSpage.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
 
 def system_windows_logs_table(request):
     log_sources=WindowsLogSource.objects.all()
     context={'log_sources':log_sources}
-    return render(request,'baseapp/logsources/systemlogs/windows/windowslogstable.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/windowslogstable.html',context)
 
 #syslogs collectin mtds start
 def system_collection_options(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/windows/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/collectionopts.html',context)
 
 #syslogs collectin mtds end
 
@@ -35,7 +41,7 @@ def stream_windows_host_logs(request):
     else: 
         log_source_form=WindowsLogSourceForm()
     context={'log_source_form':log_source_form}
-    return render(request,'baseapp/logsources/systemlogs/windows/streamsyslogsform.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/streamsyslogsform.html',context)
 
 
 def logfilestreams(request):
@@ -47,7 +53,7 @@ def logfilestreams(request):
     else:
         logfileform=WindowsFileLogSourceForm()
     context={'logfileform':logfileform}
-    return render(request,'baseapp/logsources/systemlogs/windows/logfilestreamform.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
 
 def performancelogs(request):
     if request.method=='POST':
@@ -58,7 +64,7 @@ def performancelogs(request):
     else:
         logperf=WindowsPerfLogsForm()
     context={'logperf':logperf}
-    return render(request,'baseapp/logsources/systemlogs/windows/perfform.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/perfform.html',context)
 
 
 def activedirectoryform(request):
@@ -71,7 +77,7 @@ def activedirectoryform(request):
         activedirectoryform = WindowsActiveDirectoryLogSourceForm()
     
     context = {'activedirectoryform': activedirectoryform}
-    return render(request, 'baseapp/logsources/systemlogs/windows/activedirectoryform.html', context)
+    return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
 
 
 #syslogs forms end
@@ -79,19 +85,19 @@ def activedirectoryform(request):
 #syslogs instructions start
 def streamsyslogs(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/windows/inst-streamsyslogs.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/inst-streamsyslogs.html',context)
 
 def streamlogfiles(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/windows/inst-streamlogfiles.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/inst-streamlogfiles.html',context)
 
 def collectperflogs(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/windows/collectperflogs.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/collectperflogs.html',context)
 
 def activedirectorylogs(request):
     context={}
-    return render(request,'baseapp/logsources/systemlogs/windows/inst-activedirectorylogs.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/inst-activedirectorylogs.html',context)
 
 #syslogs instructions end
 
@@ -101,23 +107,23 @@ def activedirectorylogs(request):
     #webserver
 def application_webserver_logs(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webservers/webserver.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserver.html',context)
 
 def application_webserver_form(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webservers/webserverform.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverform.html',context)
 
 def web_server_types(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webservers/webservertypes.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webservertypes.html',context)
 
 def webserver_collection_options(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webservers/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionopts.html',context)
 
 def webserver_collection_agents(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/webservers/collectionagent.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionagent.html',context)
 
 #APPLICATION LOGS FORMS
     #webserver forms
@@ -132,20 +138,20 @@ def webserverfileupload(request):
         webserverfileuploadform=WebserverLogFileUploadForm()
     
     context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logsources/applicationlogs/webservers/webserverfileupload.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
 
     #database
 
 def database_types(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/databases/databasetypes.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/databases/databasetypes.html',context)
 
 
     #caching systems
 
 def cachingsystems_types(request):
     context={}
-    return render(request,'baseapp/logsources/applicationlogs/middleware/cachingsystems.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/middleware/cachingsystems.html',context)
 
 
 #STREAMS

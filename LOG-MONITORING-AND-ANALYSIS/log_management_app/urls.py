@@ -10,6 +10,11 @@ urlpatterns = [
 
 #LOG SOURCES
 
+    path('home/log-sources',views.logsources,name='logsources'),
+
+
+#LOG INGESTION
+
     #SYSTEM LOGS
         #Windows 
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
