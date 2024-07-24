@@ -89,6 +89,7 @@
               </svg>
             </a>
           </div>
+
           <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item dropdown">
               <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -108,15 +109,27 @@
               </ul>
             </li>
           </ul>
+
+
+          
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>Log Management</span>
           </p>
 
+
           <ul class="navbar-nav flex-fill w-100 mb-2">
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="widgets.html">
+                <i class="fe fe-layers fe-16"></i>
+                <span class="ml-3 item-text">Log Sources</span>
+              </a>
+            </li>
+
             <li class="nav-item dropdown">
               <a href="#logSources" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                 <i class="fe fe-box fe-16"></i>
-                <span class="ml-3 item-text">Log Sources</span>
+                <span class="ml-3 item-text">Log Ingestion</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="logSources">
                 
@@ -156,37 +169,10 @@
                     </li>
                   </ul>
                 </li>
-                
-
+      
               </ul>
             </li>
 
-<!--             <li class="nav-item dropdown">
-              <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-credit-card fe-16"></i>
-                <span class="ml-3 item-text">Log Ingestion</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="forms">
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./form_elements.html"><span class="ml-1 item-text">Basic Elements</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text">Advanced Elements</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./form_validation.html"><span class="ml-1 item-text">Validation</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./form_wizard.html"><span class="ml-1 item-text">Wizard</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./form_layouts.html"><span class="ml-1 item-text">Layouts</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./form_upload.html"><span class="ml-1 item-text">File upload</span></a>
-                </li>
-              </ul>
-            </li> -->
 
             <li class="nav-item w-100">
               <a class="nav-link" href="widgets.html">
@@ -202,22 +188,7 @@
                 <i class="fe fe-layers fe-16"></i>
                 <span class="ml-3 item-text">Log Streams</span>
               </a>
-            </li>
-
-
-<!--             <li class="nav-item w-100">
-              <a class="nav-link" href="widgets.html">
-                <i class="fe fe-layers fe-16"></i>
-                <span class="ml-3 item-text">Log parsing rules</span>
-              </a>
-            </li> -->
-   
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'alertspage' %}">
-                <i class="fe fe-16 fe-bell"></i>
-                <span class="ml-3 item-text">Alerts</span>
-              </a>
-            </li>            
+            </li>          
 
             <li class="nav-item w-100">
               <a class="nav-link" href="{%url 'anomaliespage'%}">
@@ -226,13 +197,6 @@
               </a>
             </li> 
 
-<!--             <li class="nav-item w-100">
-              <a class="nav-link" href="widgets.html">
-                <i class="fe fe-layers fe-16"></i>
-                <span class="ml-3 item-text">Detection Rules</span>
-              </a>
-            </li> -->
-
             <li class="nav-item w-100">
               <a class="nav-link" href="{%url 'reportspage'%}">
                 <i class="fe fe-layers fe-16"></i>
@@ -240,19 +204,19 @@
               </a>
             </li>
 
-<!--             <li class="nav-item w-100">
-              <a class="nav-link" href="widgets.html">
-                <i class="fe fe-layers fe-16"></i>
-                <span class="ml-3 item-text">Visualizations</span>
-              </a>
-            </li> -->
-
             <li class="nav-item w-100"> 
               <a class="nav-link" href="{%url 'incidences'%}">
                 <i class="fe fe-layers fe-16"></i>
                 <span class="ml-3 item-text">Incident Response</span>
               </a>
             </li>
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="widgets.html">
+                <i class="fe fe-layers fe-16"></i>
+                <span class="ml-3 item-text">Log parsing rules</span>
+              </a>
+            </li> 
 
             <li class="nav-item w-100"> 
               <a class="nav-link" href="contacts-grid.html">
@@ -263,6 +227,7 @@
 
           </ul>
 
+          
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>Monitoring & Analysis</span> 
           </p>
@@ -331,9 +296,118 @@
               </a>
             </li>
 
+          </ul>                   
+
+
+          <p class="text-muted nav-heading mt-4 mb-1">
+            <span>AI and Machine Learning</span> 
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2">
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Predictive Analysis</span>
+              </a>
+            </li>
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Auto Incident Response</span>
+              </a>
+            </li>
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Log Classification</span>
+              </a>
+            </li>
+            
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">AI Models</span>
+              </a>
+            </li>
+            
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Model Training</span>
+              </a>
+            </li>
+            
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Model Performance</span>
+              </a>
+            </li>
+            
           </ul>
-          
-                    
+
+          <p class="text-muted nav-heading mt-4 mb-1">
+            <span>Alerts and Notifications</span> 
+          </p>
+          <ul class="navbar-nav flex-fill w-100 mb-2">
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Alert Configuration</span>
+              </a>
+            </li>
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Notification Channels</span>
+              </a>
+            </li>
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Alert Escalation</span>
+              </a>
+            </li>
+            
+            <li class="nav-item w-100">
+              <a class="nav-link" href="{%url 'alertspage' %}">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Alert History</span>
+              </a>
+            </li>
+            
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Custom Alerts</span>
+              </a>
+            </li>
+            
+            <li class="nav-item w-100">
+              <a class="nav-link" href="calendar.html">
+                <i class="fe fe-calendar fe-16"></i>
+                <span class="ml-3 item-text">Scheduled Reports</span>
+              </a>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a href="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-user fe-16"></i>
+                <span class="ml-3 item-text">Notification Settings</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">Email Notification Preferences</span></a>
+                <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">SMS Notification Preferences</span></a>
+                <a class="nav-link pl-3" href="./profile-settings.html"><span class="ml-1">Alert Thresholds</span></a>
+              </ul>
+            </li>
+            
+          </ul>
 
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>User Management & Settings</span>
@@ -377,17 +451,6 @@
               </ul>
             </li>
           
-            <li class="nav-item dropdown">
-              <a href="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-user fe-16"></i>
-                <span class="ml-3 item-text">Notification Settings</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="profile">
-                <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">Email Notification Preferences</span></a>
-                <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">SMS Notification Preferences</span></a>
-                <a class="nav-link pl-3" href="./profile-settings.html"><span class="ml-1">Alert Thresholds</span></a>
-              </ul>
-            </li>
           
             <li class="nav-item dropdown">
               <a href="#integration" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
