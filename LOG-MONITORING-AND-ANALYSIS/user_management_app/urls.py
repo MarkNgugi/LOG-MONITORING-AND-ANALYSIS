@@ -12,5 +12,6 @@ urlpatterns=[
     path('profilesecurity/',views.profilesecurity,name='profilesecurity'),
     path('profilenotifications/',views.profilenotifications,name='profilenotifications'),
     path('iplist/',views.ip_page,name='ip_page'),
+    path('test/',views.test,name='test'),
 
 ]

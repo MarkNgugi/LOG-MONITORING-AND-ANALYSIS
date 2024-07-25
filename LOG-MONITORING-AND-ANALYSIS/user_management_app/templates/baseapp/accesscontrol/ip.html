@@ -3,11 +3,40 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-12">
-      <h2 class="page-title">IP whitelist and blacklist </h2>
+      <h2 class="page-title">IP whitelist and blacklist </h2> <br>
 
-      <div class="row">
+      <div class="row justify-content-center">
+
+        <div class="col-md-8">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <p class="mb-2"><strong>Custom input masks</strong></p>
+
+                    <div class="form-group mb-3">
+                        <label for="custom-ipadd">IP address</label>
+                        <input class="form-control input-ip" id="custom-ipadd">
+                    </div>
+
+                    <!-- Dropdown and Submit Button -->
+                    <div class="form-group mb-3">
+                        <label for="list-type">List Type</label>
+                        <select class="form-control" id="list-type">
+                            <option value="whitelist">Whitelist</option>
+                            <option value="blacklist">Blacklist</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">add</button>
+
+                </div> <!-- /.card-body -->
+            </div> <!-- /.card -->
+        </div> <!-- /.col -->
+
+    </div> <!-- end section -->      
+
+      <div class="row justify-content-center">
         <!-- simple table -->
-        <div class="col-md-12 my-4">
+        <div class="col-md-10 my-4">
           <div class="card shadow">
             <div class="card-body">
               <h5 class="card-title">IP whitelist and blacklist table</h5>
@@ -107,7 +136,7 @@
                                 </div>
                               </div>
                             </td>
-                          </tr>
+                          </tr>                          
                         </tbody>
                       </table>
                     </div>

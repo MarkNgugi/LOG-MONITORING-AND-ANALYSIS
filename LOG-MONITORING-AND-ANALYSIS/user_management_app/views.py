@@ -25,4 +25,8 @@ def ip_page(request):
     context={}
     return render(request,'baseapp/accesscontrol/ip.html',context)
 
+def test(request):
+    context={}
+    return render(request,'baseapp/accesscontrol/test.html',context)
+
 
