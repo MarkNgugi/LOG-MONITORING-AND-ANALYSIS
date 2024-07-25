@@ -1,5 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
-def simple(request):
-    return HttpResponse("This is the first page")
+
+def useraccounts(request):
+    context={}
+    return render(request,'baseapp/useraccounts/useraccounts.html',context)
+
+def profilesettings(request):
+    context={}
+    return render(request,'baseapp/profilesettings/profilesettings.html',context)
+
