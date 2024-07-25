@@ -456,7 +456,7 @@
                 <span class="ml-3 item-text">Access Control</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="accesscontrol">
-                <a class="nav-link pl-3" href="./support-center.html"><span class="ml-1">IP Whitelisting/Blacklisting</span></a>
+                <a class="nav-link pl-3" href="{%url 'ip_page'%}"><span class="ml-1">IP Whitelisting/Blacklisting</span></a>
                 <a class="nav-link pl-3" href="./support-tickets.html"><span class="ml-1">Time-Based Access Control</span></a>
               </ul>
             </li>
@@ -467,9 +467,17 @@
                 <span class="ml-3 item-text">Customization</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="customization">
-                <a class="nav-link pl-3" href="./support-center.html"><span class="ml-1">Layout</span></a>
-                <a class="nav-link pl-3" href="./support-tickets.html"><span class="ml-1">Theme Settings</span></a>
-                <a class="nav-link pl-3" href="./support-tickets.html"><span class="ml-1">Language Preferences</span></a>
+                <li class="nav-item dropdown">
+                  <a href="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                    <span class="ml-3 item-text">Layout</span>
+                  </a>
+                  <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                    <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">Default</span></a>
+                    <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">Top navigation</span></a>
+                  </ul>
+                </li>
+                <!-- <a class="nav-link pl-3" href="./support-tickets.html"><span class="ml-1">Theme Settings</span></a> -->
+                <a class="nav-link pl-3" href=""><span class="ml-1">Language Preferences</span></a>
               </ul>
             </li>
           

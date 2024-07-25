@@ -21,3 +21,8 @@ def profilenotifications(request):
     context={}
     return render(request,'baseapp/profilesettings/profilenotifications.html',context)
 
+def ip_page(request):
+    context={}
+    return render(request,'baseapp/accesscontrol/ip.html',context)
+
+
