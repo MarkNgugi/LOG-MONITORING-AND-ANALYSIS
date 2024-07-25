@@ -7,5 +7,8 @@ urlpatterns=[
     path('useraccounts/',views.useraccounts,name='useraccounts'),
 
 
-    path('profile-settings',views.profilesettings,name='profilesettings')
+    path('profile-settings',views.profilesettings,name='profilesettings'),
+    path('accountsecurity/',views.accountsecurity,name='accountsecurity'),
+    path('profilesecurity/',views.profilesecurity,name='profilesecurity'),
+    path('profilenotifications/',views.profilenotifications,name='profilenotifications')
 ]
