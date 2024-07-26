@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Alerts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group select {
+            height: 40px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .alert-list {
+            margin-top: 40px;
+        }
+
+        .alert-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .alert-list th,
+        .alert-list td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .alert-list th {
+            background-color: #f2f2f2;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-buttons .button {
+            background-color: #28a745;
+        }
+
+        .action-buttons .button.delete {
+            background-color: #dc3545;
+        }
+
+        .action-buttons .button.edit {
+            background-color: #ffc107;
+        }
+
+        .advanced-conditions {
+            margin-top: 40px;
+        }
+
+        .advanced-conditions h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .advanced-conditions .form-group {
+            margin-bottom: 15px;
+        }
+
+        .advanced-conditions .button {
+            background-color: #17a2b8;
+        }
+
+        .advanced-conditions .button:hover {
+            background-color: #138496;
+        }
+
+        .notification-options {
+            margin-top: 40px;
+        }
+
+        .notification-options h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .notification-options .form-group {
+            margin-bottom: 15px;
+        }
+
+        .notification-options .button {
+            background-color: #17a2b8;
+        }
+
+        .notification-options .button:hover {
+            background-color: #138496;
+        }
+
+        .custom-alerts-manage {
+            margin-top: 40px;
+        }
+
+        .custom-alerts-manage h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Custom Alerts</h1>
+
+        <div class="form-group">
+            <label for="alert-name">Alert Name</label>
+            <input type="text" id="alert-name" name="alert-name" placeholder="Enter alert name">
+        </div>
+
+        <div class="form-group">
+            <label for="alert-condition">Condition</label>
+            <textarea id="alert-condition" name="alert-condition" placeholder="Define alert condition"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="alert-action">Action</label>
+            <textarea id="alert-action" name="alert-action" placeholder="Define alert action"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="notification-channel">Notification Channel</label>
+            <select id="notification-channel" name="notification-channel">
+                <option value="email">Email</option>
+                <option value="sms">SMS</option>
+                <option value="slack">Slack</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="notification-message">Notification Message</label>
+            <textarea id="notification-message" name="notification-message" placeholder="Enter notification message"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="alert-template">Alert Template</label>
+            <select id="alert-template" name="alert-template">
+                <option value="none">Select a template</option>
+                <option value="high-cpu">High CPU Usage</option>
+                <option value="low-disk">Low Disk Space</option>
+                <option value="network-issue">Network Issue</option>
+            </select>
+        </div>
+
+        <button class="button">Create Custom Alert</button>
+
+        <div class="advanced-conditions">
+            <h2>Advanced Conditions</h2>
+            <div class="form-group">
+                <label for="advanced-condition">Advanced Condition</label>
+                <textarea id="advanced-condition" name="advanced-condition" placeholder="Define advanced condition using regex, scripts, etc."></textarea>
+            </div>
+            <button class="button">Add Advanced Condition</button>
+        </div>
+
+        <div class="notification-options">
+            <h2>Notification Options</h2>
+            <div class="form-group">
+                <label for="notification-type">Notification Type</label>
+                <select id="notification-type" name="notification-type">
+                    <option value="immediate">Immediate</option>
+                    <option value="summary">Summary</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="notification-frequency">Notification Frequency</label>
+                <input type="number" id="notification-frequency" name="notification-frequency" placeholder="Enter frequency in minutes">
+            </div>
+            <button class="button">Save Notification Options</button>
+        </div>
+
+        <div class="custom-alerts-manage">
+            <h2>Manage Custom Alerts</h2>
+            <div class="alert-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Condition</th>
+                            <th>Action</th>
+                            <th>Notification Channel</th>
+                            <th>Notification Options</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample data -->
+                        <tr>
+                            <td>High CPU Usage</td>
+                            <td>CPU > 80%</td>
+                            <td>Send Email</td>
+                            <td>Email</td>
+                            <td>Immediate</td>
+                            <td class="action-buttons">
+                                <a href="#" class="button edit">Edit</a>
+                                <a href="#" class="button delete">Delete</a>
+                                <a href="#" class="button">Activate</a>
+                                <a href="#" class="button">Deactivate</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Low Disk Space</td>
+                            <td>Disk < 20%</td>
+                            <td>Send SMS</td>
+                            <td>SMS</td>
+                            <td>Immediate</td>
+                            <td class="action-buttons">
+                                <a href="#" class="button edit">Edit</a>
+                                <a href="#" class="button delete">Delete</a>
+                                <a href="#" class="button">Activate</a>
+                                <a href="#" class="button">Deactivate</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Configuration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tooltip {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.flex {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-group.flex .form-group-item {
+            flex: 1;
+        }
+
+        .severity-info {
+            background-color: #17a2b8;
+        }
+
+        .severity-warning {
+            background-color: #ffc107;
+        }
+
+        .severity-critical {
+            background-color: #dc3545;
+        }
+
+        .severity-info,
+        .severity-warning,
+        .severity-critical {
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .btn-save {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-activate {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-test {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .form-group.flex {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Alert Configuration</h1>
+        <form>
+            <div class="form-group">
+                <label for="alertName">Alert Name <span class="tooltip">?
+                        <span class="tooltiptext">Enter a unique name for the alert.</span>
+                    </span></label>
+                <input type="text" id="alertName" name="alertName" placeholder="Enter alert name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description <span class="tooltip">?
+                        <span class="tooltiptext">Provide a brief description of the alert.</span>
+                    </span></label>
+                <textarea id="description" name="description" rows="3" placeholder="Enter alert description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="logSource">Log Source <span class="tooltip">?
+                        <span class="tooltiptext">Select the source of logs for this alert.</span>
+                    </span></label>
+                <select id="logSource" name="logSource" required>
+                    <option value="">Select log source</option>
+                    <option value="windows">Windows</option>
+                    <option value="linux">Linux</option>
+                    <option value="macos">macOS</option>
+                    <option value="webServer">Web Server</option>
+                    <option value="database">Database</option>
+                    <option value="middleware">Middleware Caching System</option>
+                </select>
+            </div>
+
+            <div class="form-group flex">
+                <div class="form-group-item">
+                    <label for="severity">Severity Level <span class="tooltip">?
+                            <span class="tooltiptext">Classify the severity of the alert.</span>
+                        </span></label>
+                    <select id="severity" name="severity" required>
+                        <option value="">Select severity level</option>
+                        <option value="info" class="severity-info">Info</option>
+                        <option value="warning" class="severity-warning">Warning</option>
+                        <option value="critical" class="severity-critical">Critical</option>
+                    </select>
+                </div>
+
+                <div class="form-group-item">
+                    <label for="conditions">Alert Conditions <span class="tooltip">?
+                            <span class="tooltiptext">Define the conditions that trigger the alert.</span>
+                        </span></label>
+                    <input type="text" id="conditions" name="conditions" placeholder="Enter alert conditions" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="logicalOperators">Logical Operators <span class="tooltip">?
+                        <span class="tooltiptext">Combine multiple conditions using AND/OR operators.</span>
+                    </span></label>
+                <select id="logicalOperators" name="logicalOperators" required>
+                    <option value="">Select operator</option>
+                    <option value="and">AND</option>
+                    <option value="or">OR</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notificationRules">Notification Rules <span class="tooltip">?
+                        <span class="tooltiptext">Define how and when notifications are sent.</span>
+                    </span></label>
+                <textarea id="notificationRules" name="notificationRules" rows="3" placeholder="Define notification rules"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="notificationDelay">Notification Delay <span class="tooltip">?
+                        <span class="tooltiptext">Set a delay for notifications (optional).</span>
+                    </span></label>
+                <input type="datetime-local" id="notificationDelay" name="notificationDelay">
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-test">Preview and Test Alert</button>
+            </div>
+
+            <div class="form-group flex">
+                <button type="submit" class="btn btn-save">Save</button>
+                <button type="button" class="btn btn-activate">Activate</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
