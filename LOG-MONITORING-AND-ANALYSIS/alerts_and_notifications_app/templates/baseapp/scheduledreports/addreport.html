@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Reports</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .form-control, .btn {
+            border-radius: 20px;
+        }
+        .card-header, .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .card-header {
+            border-radius: 20px 20px 0 0;
+        }
+        .table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h4>Scheduled Reports</h4>
+            </div>
+            <div class="card-body">
+                <!-- Create Report Schedule Form -->
+                <form>
+                    <div class="form-group">
+                        <label for="reportType">Report Type:</label>
+                        <select class="form-control" id="reportType">
+                            <option>Daily</option>
+                            <option>Weekly</option>
+                            <option>Monthly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryTime">Time of Delivery:</label>
+                        <input type="time" class="form-control" id="deliveryTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipients">Recipients:</label>
+                        <input type="email" class="form-control" id="recipients" placeholder="Enter recipient email" multiple>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportTypes">Types of Reports:</label>
+                        <select multiple class="form-control" id="reportTypes">
+                            <option>Windows System Logs</option>
+                            <option>Linux System Logs</option>
+                            <option>macOS System Logs</option>
+                            <option>Web Server Logs</option>
+                            <option>Database Logs</option>
+                            <option>Middleware Caching Logs</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportFormat">Report Format:</label>
+                        <select class="form-control" id="reportFormat">
+                            <option>PDF</option>
+                            <option>CSV</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Report Schedule</button>
+                </form>
+
+                <!-- Report History Table -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Report Type</th>
+                            <th>Time of Delivery</th>
+                            <th>Recipients</th>
+                            <th>Date Sent</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Weekly Summary</td>
+                            <td>08:00 AM</td>
+                            <td>example@example.com</td>
+                            <td>2024-07-01</td>
+                            <td>
+                                <button class="btn btn-sm btn-info">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Daily Report</td>
+                            <td>06:00 PM</td>
+                            <td>user@example.com</td>
+                            <td>2024-07-02</td>
+                            <td>
+                                <button class="btn btn-sm btn-info">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
