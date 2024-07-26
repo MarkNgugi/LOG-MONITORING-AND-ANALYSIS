@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'log_management_app',
     'user_management_app',
+    'alerts_and_notifications_app',
+
 ]
 
 MIDDLEWARE = [

@@ -62,11 +62,7 @@ urlpatterns = [
 
 
     #LOG STREAMS
-    path('home/log-streams/', views.logstreams, name='logstreams'),
-    
-    
-    #ALERTS
-    path('home/alerts/',views.alertspage,name='alertspage'),    
+    path('home/log-streams/', views.logstreams, name='logstreams'),    
 
 
     #ANOMALIES
