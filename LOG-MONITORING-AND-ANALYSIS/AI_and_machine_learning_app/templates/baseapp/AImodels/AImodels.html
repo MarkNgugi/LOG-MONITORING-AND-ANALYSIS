@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Models - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .status.active {
+            color: #28a745;
+        }
+        .status.inactive {
+            color: #dc3545;
+        }
+        .status.training {
+            color: #ffc107;
+        }
+        .status.failed {
+            color: #dc3545;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            text-align: center;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .metrics {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .metric-card {
+            flex: 1;
+            min-width: 250px;
+            margin: 10px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .metric-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .actions {
+            margin-top: 15px;
+        }
+        .actions a {
+            display: inline-block;
+            padding: 10px 15px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 5px;
+            text-align: center;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        AI Models Dashboard
+    </header>
+    <div class="container">
+        <div class="section">
+            <h2>Model Repository</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Model A</td>
+                        <td>Classification</td>
+                        <td class="status active">Active</td>
+                        <td><a href="#" class="btn">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Model B</td>
+                        <td>Regression</td>
+                        <td class="status inactive">Inactive</td>
+                        <td><a href="#" class="btn">View Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Model Details</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model ID</th>
+                        <th>Name</th>
+                        <th>Version</th>
+                        <th>Purpose</th>
+                        <th>Configuration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Model A</td>
+                        <td>v1.0</td>
+                        <td>Predicts customer churn</td>
+                        <td>Config A</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Model B</td>
+                        <td>v2.3</td>
+                        <td>Forecasts sales</td>
+                        <td>Config B</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Model Training Status</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model ID</th>
+                        <th>Name</th>
+                        <th>Training Status</th>
+                        <th>Progress</th>
+                        <th>Issues</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Model A</td>
+                        <td class="status training">Training</td>
+                        <td>60%</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Model B</td>
+                        <td class="status failed">Failed</td>
+                        <td>30%</td>
+                        <td>Data error</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Model Deployment</h2>
+            <p>Deploy models to production or staging environments using the tools below:</p>
+            <div class="actions">
+                <a href="#" class="btn">Deploy Model A</a>
+                <a href="#" class="btn">Deploy Model B</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Model Versioning</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model ID</th>
+                        <th>Name</th>
+                        <th>Current Version</th>
+                        <th>Previous Versions</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Model A</td>
+                        <td>v1.0</td>
+                        <td>v0.9</td>
+                        <td><a href="#" class="btn">Rollback</a></td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Model B</td>
+                        <td>v2.3</td>
+                        <td>v2.2, v2.1</td>
+                        <td><a href="#" class="btn">Rollback</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Model Evaluation</h2>
+            <div class="metrics">
+                <div class="metric-card">
+                    <h3>Confusion Matrix</h3>
+                    <img src="confusion-matrix.png" alt="Confusion Matrix">
+                </div>
+                <div class="metric-card">
+                    <h3>ROC Curve</h3>
+                    <img src="roc-curve.png" alt="ROC Curve">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

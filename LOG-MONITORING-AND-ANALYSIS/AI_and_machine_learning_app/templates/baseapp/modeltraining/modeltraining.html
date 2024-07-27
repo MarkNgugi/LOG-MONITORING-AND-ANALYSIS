@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Training</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .section h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .section p {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #555;
+        }
+        .section form {
+            margin-top: 20px;
+        }
+        .section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .section input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .section input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .section input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .progress-container {
+            background-color: #ddd;
+            border-radius: 5px;
+            height: 20px;
+            width: 100%;
+            margin: 10px 0;
+            position: relative;
+        }
+        .progress-bar {
+            background-color: #007bff;
+            height: 100%;
+            border-radius: 5px;
+            width: 0;
+            transition: width 0.5s;
+        }
+        .metrics {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .metrics div {
+            flex: 1;
+            text-align: center;
+        }
+        .metrics h3 {
+            margin: 0;
+            color: #007bff;
+        }
+        .metrics p {
+            margin: 5px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .section ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .section ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Model Training</h1>
+
+        <div class="section">
+            <h2>Training Data Management</h2>
+            <p>This section provides tools to upload, curate, and manage datasets used for training AI models. Efficient data management ensures that your models are trained on high-quality, relevant data.</p>
+            <ul>
+                <li><a href="#" class="button">Upload Data</a></li>
+                <li><a href="#" class="button">Manage Datasets</a></li>
+                <li><a href="#" class="button">Data Quality Report</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Training Configuration</h2>
+            <p>Configure the training parameters to optimize the performance of your AI models. Set up learning rate, number of epochs, batch size, and other parameters that influence the training process.</p>
+            <form>
+                <label for="learning-rate">Learning Rate:</label>
+                <input type="number" id="learning-rate" name="learning-rate" step="0.01" value="0.01" /><br />
+                <label for="epochs">Epochs:</label>
+                <input type="number" id="epochs" name="epochs" value="10" /><br />
+                <label for="batch-size">Batch Size:</label>
+                <input type="number" id="batch-size" name="batch-size" value="32" /><br />
+                <input type="submit" value="Save Configuration" />
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Training Jobs</h2>
+            <p>Initiate, monitor, and manage training jobs from this interface. Keep track of ongoing jobs and access detailed logs and status updates.</p>
+            <ul>
+                <li><a href="#" class="button">Start New Job</a></li>
+                <li><a href="#" class="button">View All Jobs</a></li>
+                <li><a href="#" class="button">Job Logs</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Training Progress</h2>
+            <p>Monitor the real-time progress of your training jobs. The progress bar provides a visual representation of the completion status.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 75%;"></div>
+            </div>
+            <p>75% Completed</p>
+        </div>
+
+        <div class="section">
+            <h2>Training Results</h2>
+            <p>View detailed results and metrics from completed training sessions. Analyze accuracy, loss, and other performance indicators to evaluate model effectiveness.</p>
+            <div class="metrics">
+                <div>
+                    <h3>Accuracy</h3>
+                    <p>95%</p>
+                </div>
+                <div>
+                    <h3>Loss</h3>
+                    <p>0.05</p>
+                </div>
+                <div>
+                    <h3>Precision</h3>
+                    <p>92%</p>
+                </div>
+                <div>
+                    <h3>Recall</h3>
+                    <p>93%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Retraining</h2>
+            <p>Use these tools to retrain models with new data or updated configurations. Retraining helps improve model performance over time by incorporating new information and insights.</p>
+            <ul>
+                <li><a href="#" class="button">Retrain Model</a></li>
+                <li><a href="#" class="button">View Retraining History</a></li>
+                <li><a href="#" class="button">Retraining Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

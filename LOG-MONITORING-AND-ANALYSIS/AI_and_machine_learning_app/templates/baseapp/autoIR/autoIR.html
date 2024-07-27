@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Incident Response</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 22px;
+            margin-top: 20px;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card h3 {
+            font-size: 18px;
+            color: #333;
+            margin-top: 0;
+        }
+        .card p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+        }
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .dashboard .card {
+            flex: 1 1 calc(50% - 20px);
+            margin: 0;
+        }
+        .dashboard .card:nth-child(2n) {
+            margin-right: 0;
+        }
+        .logs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .logs-table th, .logs-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .logs-table th {
+            background: #f1f1f1;
+            color: #333;
+        }
+        .logs-table td {
+            font-size: 14px;
+            color: #666;
+        }
+        .logs-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .notification {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .notification label {
+            font-size: 16px;
+            color: #333;
+        }
+        .notification select, .notification input {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .notification button {
+            padding: 12px;
+            font-size: 16px;
+            color: #fff;
+            background: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .notification button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Auto Incident Response</h1>
+        
+        <div class="section">
+            <h2>Incident Response Playbooks</h2>
+            <div class="card">
+                <h3>Predefined Automated Response Actions</h3>
+                <p>Access predefined response actions for common incidents. These playbooks provide a structured approach to handling various types of incidents, ensuring quick and efficient responses.</p>
+                <p><strong>Examples:</strong></p>
+                <ul>
+                    <li>Automated email alerts for unauthorized access.</li>
+                    <li>Immediate lockdown of compromised accounts.</li>
+                    <li>Automated network isolation for detected malware.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Customizable Workflows</h2>
+            <div class="card">
+                <h3>Create and Edit Workflows</h3>
+                <p>Customize your incident response workflows according to your organization's needs. Create new workflows or modify existing ones to better address various scenarios.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Drag-and-drop interface for workflow design.</li>
+                    <li>Integration with existing incident management systems.</li>
+                    <li>Ability to save and reuse workflows.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Response Triggers</h2>
+            <div class="card">
+                <h3>Configure Response Triggers</h3>
+                <p>Set up triggers that automatically activate incident response procedures based on specific criteria such as log patterns or thresholds.</p>
+                <p><strong>Trigger Examples:</strong></p>
+                <ul>
+                    <li>Trigger an alert when a specific error rate is exceeded.</li>
+                    <li>Execute a predefined response when unusual login behavior is detected.</li>
+                    <li>Automatically escalate incidents based on severity levels.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Real-Time Monitoring</h2>
+            <div class="dashboard">
+                <div class="card">
+                    <h3>Active Incidents</h3>
+                    <p>Monitor active incidents in real-time. This dashboard displays current incidents, their status, and details such as time of occurrence and affected systems.</p>
+                    <p><strong>Key Metrics:</strong></p>
+                    <ul>
+                        <li>Incident count and status overview.</li>
+                        <li>Time-to-resolution metrics.</li>
+                        <li>Incident severity breakdown.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Automated Responses</h3>
+                    <p>Track automated responses being executed in real-time. This helps ensure that responses are being carried out as intended and allows for quick adjustments if needed.</p>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Response execution logs.</li>
+                        <li>Performance metrics of automated actions.</li>
+                        <li>Alerts on response failures or anomalies.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Incident Logs</h2>
+            <table class="logs-table">
+                <thead>
+                    <tr>
+                        <th>Incident ID</th>
+                        <th>Description</th>
+                        <th>Date/Time</th>
+                        <th>Automated Response</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Unauthorized access detected</td>
+                        <td>2024-07-26 14:32</td>
+                        <td>Alert sent, IP blocked</td>
+                        <td>Resolved</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Suspicious file modification</td>
+                        <td>2024-07-26 15:10</td>
+                        <td>Alert sent, file quarantined</td>
+                        <td>In Progress</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Integration with Notification Systems</h2>
+            <div class="notification">
+                <label for="notification-channel">Select Notification Channel:</label>
+                <select id="notification-channel">
+                    <option value="email">Email</option>
+                    <option value="sms">SMS</option>
+                    <option value="slack">Slack</option>
+                    <option value="webhook">Webhook</option>
+                </select>
+                
+                <label for="notification-message">Custom Notification Message:</label>
+                <input type="text" id="notification-message" placeholder="Enter your message here" maxlength="255">
+
+                <button type="button">Save Notification Settings</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
