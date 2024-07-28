@@ -85,8 +85,23 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+   
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'logs',
+#         'ENFORCE_SCHEMA': False,
+#         'CLIENT': {
+#             'host': 'mongodb+srv://mark:markmark003@atlascluster.ogqxvgo.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster',
+#             'username': 'mark',
+#             'password': 'markmark003',
+#             'authMechanism': 'SCRAM-SHA-1',
+#         },
+#     }
+# }
 
 
 # Password validation
