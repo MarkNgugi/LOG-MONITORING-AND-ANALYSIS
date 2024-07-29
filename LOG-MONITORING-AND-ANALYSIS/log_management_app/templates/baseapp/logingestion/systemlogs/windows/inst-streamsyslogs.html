@@ -46,7 +46,8 @@ Invoke-RestMethod -Uri "https://yourwebsite.com/api/register" -Method Post -Body
                 <h5><li>Verify the registration by checking the response from the server.</li></h5>
               </ol>
               <br>
-              <div class="next-btn">
+              <div class="d-flex justify-content-between">
+                <a href="{%url 'stream_windows_host_logs'%}"><button class="btn btn-secondary">Back</button></a>
                 <button class="btn btn-primary" onclick="$('#bash-tab').tab('show')">Next</button>
               </div>
             </div>
@@ -82,7 +83,7 @@ Invoke-RestMethod -Uri "https://yourwebsite.com/api/logs" -Method Post -Body @{
               </div>
             </div> 
             <div class="tab-pane fade" id="windows" role="tabpanel" aria-labelledby="windows-tab">
-              <h4>Step 3: Heartbeat and Reconnection</h4>
+              <h3>Step 3: Heartbeat and Reconnection(add test connection)</h3>
               <p>Follow these steps to maintain the connection and check client status:</p>
               <ol>
                 <li>Set up a heartbeat mechanism to send regular "alive" signals:</li>

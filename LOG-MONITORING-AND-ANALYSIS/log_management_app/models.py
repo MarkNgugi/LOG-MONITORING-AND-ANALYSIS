@@ -10,17 +10,42 @@ class LogType(models.Model):
 class WindowsLogSource(models.Model):
     INGESTION_MTD = [
         ('powershell', 'Powershell'),
+        # Add other ingestion methods if needed
+    ]
+
+    COLLECTION_INTERVAL_CHOICES = [
+        ('5m', 'Every 5 minutes'),
+        ('15m', 'Every 15 minutes'),
+        ('30m', 'Every 30 minutes'),
+        ('1h', 'Every 1 hour'),
+        ('6h', 'Every 6 hours'),
+        ('12h', 'Every 12 hours'),
+        ('24h', 'Every 24 hours'),
+    ]
+
+    RETENTION_POLICY_CHOICES = [
+        ('7d', '7 days'),
+        ('14d', '14 days'),
+        ('30d', '30 days'),
+        ('60d', '60 days'),
+        ('90d', '90 days'),
+        ('180d', '180 days'),
+        ('365d', '365 days'),
     ]
 
     log_source_name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
     log_type = models.ManyToManyField(LogType)
+    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
+    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='powershell')
+    comments = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    #add collection interval
 
     def __str__(self):
         return self.log_source_name
+    
 
 class LogFileType(models.TextChoices):
     TEXT = 'text', 'Text'
@@ -131,6 +156,7 @@ class WebserverLogFileUpload(models.Model):
     file = models.FileField(upload_to='uploads/',null=True)
 
     def __str__(self):
+<<<<<<< HEAD
         return self.source_name
     
 
@@ -144,3 +170,6 @@ class SecurityLog(models.Model):
     def __str__(self):
         return f"Event ID: {self.event_id} at {self.timestamp}"
 
+=======
+        return self.source_name 
+>>>>>>> bb9a304 (log sources table changes)

@@ -1,36 +1,60 @@
-{% extends 'mainhome.html' %}
+{% extends 'mainhome.html' %} 
 
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
-            <h2 class="page-title">Windows System Stream Log Source</h2>
+            <h2 class="page-title">Script-based Log Collection and Ingestion</h2> 
             <p>Adding a Windows system source for log collection and ingestion.</p>
 
-            <a href="" class="btn mb-2 btn-info">View Sources</a>
+            <a href="{% url 'system_windows_logs_table' %}" class="btn mb-2 btn-info">View Sources</a>
 
             <div class="card my-4">
                 <div class="card-header">
                     <strong>Validation</strong>
                 </div>
                 <div class="card-body">
-                  <form method="post" action="">
-                    {% csrf_token %}
-                    <div>
-                        <h3>Source Info</h3>
-                        <section>
-                            <div class="form-group">
-                                {{ log_source_form.as_p }}
-                                <form method="post" action="{%url 'streamsyslogs'%}">
-                                    {% csrf_token %}
+                    <form method="post" action="{% url 'stream_windows_host_logs' %}">
+                        {% csrf_token %}
+                        <div>
+                            <h3>Source Info</h3>
+                            <section>
+                                <div class="form-group">
+                                    {{ log_source_form.log_source_name.label_tag }}(*)
+                                    {{ log_source_form.log_source_name }}
+                                </div>
+                                <div class="form-group">
+                                    {{ log_source_form.description.label_tag }}
+                                    {{ log_source_form.description }}
+                                </div>
+                                <h3>Select log types to collect:</h3>
+                                <div class="form-group">
+                                    {{ log_source_form.log_type.label_tag }}(*)
+                                    {{ log_source_form.log_type }}
+                                </div>
+                                <div class="form-group">
+                                    {{ log_source_form.collection_interval.label_tag }}(*)
+                                    {{ log_source_form.collection_interval }}
+                                </div>
+                                <div class="form-group">
+                                    {{ log_source_form.retention_policy.label_tag }}(*)
+                                    {{ log_source_form.retention_policy }}
+                                </div>
+                                <div class="form-group">
+                                    {{ log_source_form.ingestion_mtd.label_tag }}(*)
+                                    {{ log_source_form.ingestion_mtd }}
+                                </div>
+                                <div class="form-group">
+                                    {{ log_source_form.comments.label_tag }}
+                                    {{ log_source_form.comments }}
+                                </div><br>
+                                <div>
                                     <button type="submit" class="btn btn-primary">Next</button>
-                                </form>
-                            </div>  
-                            <div class="help-text text-muted">(*) Mandatory</div>
-                        </section>
-                    </div>
-                </form>
-                
+                                </div>
+                            </section>
+                            <!-- <div class="help-text text-muted">(*) Mandatory</div> -->
+                        </div>
+                    </form>
                 </div> <!-- .card-body -->
             </div> <!-- .card -->
         </div> <!-- .col-12 -->

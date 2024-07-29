@@ -11,12 +11,18 @@ class WindowsLogSourceForm(forms.ModelForm):
 
     class Meta:
         model = WindowsLogSource
-        fields = ['log_source_name', 'log_type', 'ingestion_mtd']
+        fields = [
+            'log_source_name', 'description', 'log_type', 'collection_interval',
+            'retention_policy', 'ingestion_mtd', 'comments'
+        ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),
             'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
             'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
-            'collection_frequency': forms.Select(attrs={'class': 'form-control'}),
+            'comments': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter comments', 'rows': 3}),
         }
 
 class WindowsFileLogSourceForm(forms.ModelForm):
