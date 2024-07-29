@@ -25,11 +25,12 @@ def home(request):
 #LOG SOURCES
 
 def logsources(request):
-    context={}
+    log_sources=WindowsLogSource.objects.all()
+    context={'log_sources':log_sources}
     return render(request,'baseapp/logsources/logsources.html',context)    
 
 #LOG INGESTION 
-def system_os_types(request):
+def system_os_types(request): 
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
 

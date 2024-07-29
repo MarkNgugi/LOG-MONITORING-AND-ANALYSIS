@@ -114,7 +114,7 @@ while ($true) {
     Send-Heartbeat -url "https://yourwebsite.com/api/heartbeat" -token "your-client-token"
     Start-Sleep -Seconds 300
 }
-                  </code></pre>
+                  </code></pre> 
                 </div>
                 <li>The server will update the client status based on heartbeats.</li>
                 <li>Implement retry logic on the client to handle temporary disconnections:</li>
@@ -140,7 +140,7 @@ try {
               <br>
               <div class="d-flex justify-content-between">
                 <button class="btn btn-secondary" onclick="$('#bash-tab').tab('show')">Previous</button>
-                <form action="{%url 'system_windows_logs_table'%}" method="get">
+                <form action="{%url 'logsources'%}" method="get">
                   <button type="submit" class="btn btn-primary">Done</button>
                 </form>
               </div>

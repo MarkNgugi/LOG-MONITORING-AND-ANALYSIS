@@ -33,13 +33,22 @@ class WindowsLogSource(models.Model):
         ('365d', '365 days'),
     ]
 
+    SOURCE_STATUS_CHOICES = [
+        ('Online', 'Active'),
+        ('Offline', 'Inactive'),
+    ]
+
     log_source_name = models.CharField(max_length=100)
+    hostname_ip_address = models.CharField(max_length=255,default='localhost',null=True)
     description = models.TextField(blank=True, null=True)
     log_type = models.ManyToManyField(LogType)
+    status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
+    # timestamp = models.DateTimeField(auto_now_add=True)
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='powershell')
     comments = models.TextField(blank=True, null=True)
+    activate = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -156,7 +165,7 @@ class WebserverLogFileUpload(models.Model):
     file = models.FileField(upload_to='uploads/',null=True)
 
     def __str__(self):
-<<<<<<< HEAD
+
         return self.source_name
     
 
@@ -165,11 +174,11 @@ class WebserverLogFileUpload(models.Model):
 class SecurityLog(models.Model):
     event_id = models.IntegerField(default=0)
     timestamp = models.DateTimeField(default=timezone.now)
-    message = models.TextField()
+    message = models.TextField(null=True)
 
     def __str__(self):
         return f"Event ID: {self.event_id} at {self.timestamp}"
 
-=======
+
         return self.source_name 
->>>>>>> bb9a304 (log sources table changes)
+

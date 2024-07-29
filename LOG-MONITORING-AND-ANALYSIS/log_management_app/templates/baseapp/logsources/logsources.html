@@ -127,8 +127,9 @@
                       <button type="button" class="btn mb-2 btn-secondary btn-block">Reset</button>
                     </div>
                   </div>
-                </div>
+                </div> 
               </div>
+              
               <table class="table border table-hover bg-white">
                 <thead>
                   <tr role="row">
@@ -138,18 +139,20 @@
                         <label class="custom-control-label" for="all"></label>
                       </div>
                     </th>
-                    <th>ID</th>
-                    <th>Source Name</th>
-                    <th>Hostname/IP Address</th>
-                    <th>Timestamp</th>
-                    <th>Status</th>
-                    <th>Retention Policy</th>
-                    <th>Collection Interval</th>
-                    <th>Activate</th>
-                    <th>Action</th>                    
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Source Name</th>
+                    <th class="text-center">Hostname/IP Address</th>
+                    <th class="text-center">Timestamp</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Retention Policy</th>
+                    <th class="text-center">Collection Interval</th>
+                    <th class="text-center">Activate</th>
+                    <th class="text-center">Action</th>                    
                   </tr>
                 </thead>
+
                 <tbody>
+                  {%for log_source in log_sources %}
                   <tr>
                     <td class="align-center">
                       <div class="custom-control custom-checkbox">
@@ -157,29 +160,42 @@
                         <label class="custom-control-label"></label>
                       </div>
                     </td>
-                    <td>1331</td>
-                    <td>2020-12-26 01:32:21</td>
-                    <td>Kasimir Lindsey</td>
-                    <td>(697) 486-2101</td>
-                    <td>996-3523 Et Ave</td>
-                    <td>$3.64</td>
-                    <td> Paypal</td>
-                    <td><span class="dot dot-lg bg-success mr-2"></span>Online</td>
-                    <td>
+                    <td class="text-center">{{log_source.id}}</td>
+                    <td class="text-center">{{log_source.log_source_name}}</td>
+                    <td class="text-center">{{log_source.hostname_ip_address}}</td>
+                    <td class="text-center">{{log_source.created_at}}</td>
+
+                    {% if log_source.status == 'Online' %}
+                        <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span>Online</td>
+                    {% else %}
+                        <td class="text-center"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
+                    {% endif %}
+
+                    <td class="text-center">{{log_source.retention_policy}}</td>
+                    <td class="text-center">{{log_source.collection_interval}}</td>
+                    <td class="text-center">
+                      <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.activate %}checked{% endif %}>
+                          <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
+                      </div>
+                  </td>
+                    <td class="text-center">
                       <div class="dropdown">
                         <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <span class="text-muted sr-only">Action</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Remove</a>
-                          <a class="dropdown-item" href="#">Assign</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                          <a class="dropdown-item" href="#">More details</a>
                         </div>
                       </div>
                     </td>
                   </tr>
                 </tbody>
+                {%endfor%}
               </table>
+
               <nav aria-label="Table Paging" class="my-3">
                 <ul class="pagination justify-content-end mb-0">
                   <li class="page-item"><a class="page-link" href="#">Previous</a></li>
