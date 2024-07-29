@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(WindowsLogSource)
 admin.site.register(LogType)
 admin.site.register(WebserverLogFileUpload)
+admin.site.register(SecurityLog)

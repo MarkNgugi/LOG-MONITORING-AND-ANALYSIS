@@ -131,3 +131,54 @@ class WebserverLogFileUpload(models.Model):
 
     def __str__(self):
         return self.source_name
+    
+
+#testing model
+
+# models.py in your Django app
+
+from django.db import models
+
+class SecurityLog(models.Model):
+    event_id = models.IntegerField()
+    version = models.IntegerField()
+    qualifiers = models.IntegerField(null=True, blank=True)
+    level = models.CharField(max_length=50)
+    task = models.CharField(max_length=50)
+    opcode = models.CharField(max_length=50)
+    keywords = models.CharField(max_length=50)
+    record_id = models.IntegerField()
+    provider_name = models.CharField(max_length=255)
+    provider_id = models.CharField(max_length=255)
+    log_name = models.CharField(max_length=50)
+    process_id = models.IntegerField()
+    thread_id = models.IntegerField()
+    machine_name = models.CharField(max_length=255)
+    user_id = models.CharField(max_length=255)
+    account_name = models.CharField(max_length=255)
+    account_domain = models.CharField(max_length=255)
+    account_logon_id = models.CharField(max_length=255)
+    logon_type = models.IntegerField()
+    logon_process = models.CharField(max_length=255)
+    authentication_package = models.CharField(max_length=255)
+    workstation_name = models.CharField(max_length=255)
+    ip_address = models.GenericIPAddressField()
+    ip_port = models.IntegerField()
+    object_name = models.CharField(max_length=255)
+    object_type = models.CharField(max_length=255)
+    handle_id = models.CharField(max_length=255)
+    access_mask = models.CharField(max_length=255)
+    privileges = models.CharField(max_length=255)
+    restricted_sid_count = models.IntegerField()
+    description = models.TextField()
+    time_created = models.DateTimeField()
+    correlation = models.JSONField(null=True, blank=True)
+    execution = models.JSONField()
+    channel = models.CharField(max_length=50)
+    category = models.CharField(max_length=255)
+    opcode_value = models.IntegerField()
+    severity = models.CharField(max_length=50)
+    user_data = models.JSONField()
+
+    def __str__(self):
+        return f"EventID: {self.event_id}, Machine: {self.machine_name}"

@@ -2,8 +2,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
+from .views import SecurityLogView
 
 urlpatterns = [
+
+    path('api/logs/', SecurityLogView.as_view(), name='security_logs'),
     path('upload/', views.webserverfileupload, name='upload_file'),
 
     path('home/',views.home,name='home'),
