@@ -5,3 +5,5 @@ class SecurityLogSerializer(serializers.ModelSerializer):
     class Meta:
         model=SecurityLog
         fields='__all__'
+
+    
