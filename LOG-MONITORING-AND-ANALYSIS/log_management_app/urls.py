@@ -17,7 +17,7 @@ urlpatterns = [
 
     path('home/search',views.search,name='search'),
 
-#LOG INGESTION
+#LOG INGESTION 
 
     #SYSTEM LOGS
         #Windows 

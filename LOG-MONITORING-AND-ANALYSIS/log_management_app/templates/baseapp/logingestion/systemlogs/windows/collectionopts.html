@@ -21,6 +21,12 @@
         background-color: #0056b3; /* Darker blue for hover */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for the button */
     }
+
+    .centered-card {
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        margin: 0 auto; /* Center the card within the column */
+    }
 </style>
 
 <div class="container-fluid">
@@ -109,6 +115,29 @@
                         </div> <!-- .card-body -->
                     </div> <!-- .card -->
                 </div>
+
+            
+                <div class="col-md 11 centered-card">
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="py-5 text-center">
+                                <div class="p-3"><span class="fe fe-24 fe-file-plus"></span></div>
+                                <h2 class="mb-1">Upload webserver files</h2> <br>
+                                <span>Collect Active Directory Authentication Logs: 
+                                    Monitor and collect logs related to user logins, authentications, and 
+                                    authorizations within the domain.</span>
+                            </div>
+                            <div class="row justify-content-center mb-1">
+                                <div class="col-auto">
+                                    <a href="{% url 'activedirectoryform' %}" class="btn btn-primary">Get Started</a>
+                                </div>
+                            </div>
+                        </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                </div> 
+            
+                      
+
             </div> <!-- .row -->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->
