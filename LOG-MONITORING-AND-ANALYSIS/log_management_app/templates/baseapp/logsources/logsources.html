@@ -138,14 +138,14 @@
                         <input type="checkbox" class="custom-control-input" id="all">
                         <label class="custom-control-label" for="all"></label>
                       </div>
-                    </th>
+                    </th> 
                     <th class="text-center">ID</th>
                     <th class="text-center">Source Name</th>
                     <th class="text-center">Hostname/IP Address</th>
-                    <th class="text-center">Ingestion Mtd</th>
+                    <!-- <th class="text-center">Ingestion Mtd</th> -->
                     <th class="text-center">Timestamp</th>
                     <th class="text-center">Status</th>
-                    <th class="text-center">Retention Policy</th>
+                    <th class="text-center">Collection Mtd</th>
                     <th class="text-center">Collection Interval</th>
                     <th class="text-center">Activate</th>
                     <th class="text-center">Action</th>                    
@@ -164,7 +164,7 @@
                     <td class="text-center">{{log_source.id}}</td>
                     <td class="text-center">{{log_source.log_source_name}}</td>
                     <td class="text-center">{{log_source.hostname_ip_address}}</td>
-                    <td class="text-center">{{log_source.ingestion_mtd}}</td>
+                    <!-- <td class="text-center">{{log_source.ingestion_mtd}}</td> -->
                     <td class="text-center">{{log_source.created_at}}</td>
 
                     {% if log_source.status == 'Online' %}
@@ -173,7 +173,7 @@
                         <td class="text-center"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
                     {% endif %}
 
-                    <td class="text-center">{{log_source.retention_policy}}</td>
+                    <td class="text-center">{{log_source.collection_mtd}}</td>
                     <td class="text-center">{{log_source.collection_interval}}</td>
                     <td class="text-center">
                       <div class="custom-control custom-switch">

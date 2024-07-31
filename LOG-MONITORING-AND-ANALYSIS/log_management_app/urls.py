@@ -23,7 +23,9 @@ urlpatterns = [
         #Windows 
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
     path('home/logs-source/system/windows/', views.system_windows_logs_table, name='system_windows_logs_table'),
-    path('home/collection-options/',views.system_collection_options,name='system_collection_options'),
+    path('home/windows/collection-options/',views.windows_collection_options,name='windows_collection_options'),
+    path('home/unixlinux/collection-options/',views.unixlinux_collection_options,name='unixlinux_collection_options'),
+    path('home/macos/unixlinux/collection-options/',views.macos_collection_options,name='macos_collection_options'),
    
         #collection forms
     path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),

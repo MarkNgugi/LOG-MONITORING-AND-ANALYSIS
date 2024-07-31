@@ -21,45 +21,16 @@
                     {{ activedirectoryform.domain_name }}
                     {{ activedirectoryform.domain_name.help_text }}
                 </div>
-                <div class="form-group">
-                    {{ activedirectoryform.domain_controller_ip.label_tag }}
-                    {{ activedirectoryform.domain_controller_ip }}
-                    {{ activedirectoryform.domain_controller_ip.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ activedirectoryform.port_number.label_tag }}
-                    {{ activedirectoryform.port_number }}
-                    {{ activedirectoryform.port_number.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ activedirectoryform.username.label_tag }}
-                    {{ activedirectoryform.username }}
-                    {{ activedirectoryform.username.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ activedirectoryform.password.label_tag }}
-                    {{ activedirectoryform.password }}
-                    {{ activedirectoryform.password.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ activedirectoryform.log_level.label_tag }}
-                    {{ activedirectoryform.log_level }}
-                    {{ activedirectoryform.log_level.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ activedirectoryform.log_format.label_tag }}
-                    {{ activedirectoryform.log_format }}
-                    {{ activedirectoryform.log_format.help_text }}
-                </div>
+
                 <div class="form-group">
                     {{ activedirectoryform.collection_interval.label_tag }}
                     {{ activedirectoryform.collection_interval }}
                     {{ activedirectoryform.collection_interval.help_text }}
                 </div>
                 <div class="form-group">
-                    {{ activedirectoryform.retention_period.label_tag }}
-                    {{ activedirectoryform.retention_period }}
-                    {{ activedirectoryform.retention_period.help_text }}
+                    {{ activedirectoryform.retention_policy.label_tag }}
+                    {{ activedirectoryform.retention_policy }}
+                    {{ activedirectoryform.retention_policy.help_text }}
                 </div>
 
                 <form method="post" action="{%url 'activedirectorylogs'%}">

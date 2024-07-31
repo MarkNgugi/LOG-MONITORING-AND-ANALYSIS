@@ -12,30 +12,11 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    {{ logperf.client_name.label_tag }}
-                    {{ logperf.client_name }}
-                    {{ logperf.client_name.help_text }}
+                    {{ logperf.log_source_name.label_tag }}
+                    {{ logperf.log_source_name }}
+                    {{ logperf.log_source_name.help_text }}
                 </div>
-                <div class="form-group">
-                    {{ logperf.ip_address.label_tag }}
-                    {{ logperf.ip_address }}
-                    {{ logperf.ip_address.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ logperf.port_number.label_tag }}
-                    {{ logperf.port_number }}
-                    {{ logperf.port_number.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ logperf.username.label_tag }}
-                    {{ logperf.username }}
-                    {{ logperf.username.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ logperf.password.label_tag }}
-                    {{ logperf.password }}
-                    {{ logperf.password.help_text }}
-                </div>
+
                 <div class="form-group">
                     <h5>{{ logperf.performance_metrics.help_text }}</h5> <br> 
                     {{ logperf.performance_metrics }}
@@ -47,24 +28,13 @@
                     {{ logperf.collection_interval.help_text }}
                 </div>
                 <div class="form-group">
-                    {{ logperf.retention_period.label_tag }}
-                    {{ logperf.retention_period }}
-                    {{ logperf.retention_period.help_text }}
+                    {{ logperf.retention_policy.label_tag }}
+                    {{ logperf.retention_policy }}
+                    {{ logperf.retention_policy.help_text }}
                 </div>
-                <div class="form-group">
-                    {{ logperf.log_format.label_tag }}
-                    {{ logperf.log_format }}
-                    {{ logperf.log_format.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ logperf.notifications.label_tag }}
-                    {{ logperf.notifications }}
-                    {{ logperf.notifications.help_text }}
-                </div>
-                <form method="post" action="{%url 'collectperflogs'%}">
-                    {% csrf_token %}
+                <div>
                     <button type="submit" class="btn btn-primary">Next</button>
-                </form>
+                </div>
             </div> <!-- .card-body -->
         </div> <!-- .card -->
     </form>

@@ -36,21 +36,18 @@ class WindowsFileLogSourceForm(forms.ModelForm):
             'file_size_limit',
             'log_encoding',
             'rotation_policy',
-            'log_format',
-            'auth_method',
-            'additional_params'
+            'retention_policy'
+
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),
             'log_file_type': forms.Select(attrs={'class': 'form-control'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
             'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),
             'log_encoding': forms.Select(attrs={'class': 'form-control'}),
             'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
-            'log_format': forms.Select(attrs={'class': 'form-control'}),
-            'auth_method': forms.Select(attrs={'class': 'form-control'}),
-            'additional_params': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Enter any additional parameters'}),
         }
 
 
@@ -62,40 +59,30 @@ class WindowsPerfLogsForm(forms.ModelForm):
         help_text="Select the metrics to collect"
     )
 
-    class Meta:
+    class Meta: 
         model = WindowsPerfLogs
         fields = [
-            'client_name', 'ip_address', 'port_number', 'username', 'password', 
-            'performance_metrics', 'collection_interval', 'retention_period', 
-            'log_format', 'notifications'
+            'log_source_name',  
+            'performance_metrics', 'collection_interval', 'retention_policy', 
+            
         ]
         widgets = {
-            'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter client name'}),
-            'ip_address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter IP address'}),
-            'port_number': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter port number'}),
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter username'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter password'}),
-            'collection_interval': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter interval in seconds'}),
-            'retention_period': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter retention period in days'}),
-            'log_format': forms.Select(attrs={'class': 'form-control'}),
-            'notifications': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'performance_metrics': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+
         }
 
-class WindowsActiveDirectoryLogSourceForm(forms.ModelForm):
+class WindowsActiveDirectoryLogSourceForm(forms.ModelForm): 
     class Meta:
         model = WindowsActiveDirectoryLogSource
-        fields = ['log_source_name', 'domain_name', 'domain_controller_ip', 'port_number', 'username', 'password', 'log_level', 'log_format', 'collection_interval', 'retention_period']
+        fields = ['log_source_name', 'domain_name', 'collection_interval', 'retention_policy']
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'domain_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter domain name'}),
-            'domain_controller_ip': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter domain controller IP address'}),
-            'port_number': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter port number'}),
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter username'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter password'}),
-            'log_level': forms.Select(attrs={'class': 'form-control'}),
-            'log_format': forms.Select(attrs={'class': 'form-control'}),
-            'collection_interval': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter collection interval in seconds'}),
-            'retention_period': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter retention period in days'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
         }
 
 #APPLICATION LOGS FORMS

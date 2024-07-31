@@ -6,7 +6,7 @@ from itertools import chain
 
 from django.shortcuts import render,redirect
 from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm,WindowsFileLogSource
-from .models import WindowsLogSource,SecurityLog
+from .models import WindowsLogSource,SecurityLog,WindowsPerfLogs,WindowsActiveDirectoryLogSource
 from django.urls import reverse
 
 
@@ -28,8 +28,10 @@ def home(request):
 def logsources(request):
     log_sources_1 = WindowsLogSource.objects.all()
     log_sources_2 = WindowsFileLogSource.objects.all()
+    log_sources_3 = WindowsPerfLogs.objects.all()
+    log_sources_4 = WindowsActiveDirectoryLogSource.objects.all()
 
-    log_sources = list(chain(log_sources_1, log_sources_2))
+    log_sources = list(chain(log_sources_1, log_sources_2,log_sources_3, log_sources_4))
     context={'log_sources':log_sources}
     return render(request,'baseapp/logsources/logsources.html',context)    
 
@@ -44,9 +46,17 @@ def system_windows_logs_table(request):
     return render(request,'baseapp/logingestion/systemlogs/windows/windowslogstable.html',context)
 
 #syslogs collectin mtds start
-def system_collection_options(request):
+def windows_collection_options(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/collectionopts.html',context)
+
+def unixlinux_collection_options(request):
+    context={}
+    return render(request,'baseapp/logingestion/systemlogs/unixlinux/collectionopts.html',context)
+
+def macos_collection_options(request):
+    context={}
+    return render(request,'baseapp/logingestion/systemlogs/macos/collectionopts.html',context)
 
 #syslogs collectin mtds end
 
@@ -74,7 +84,7 @@ def logfilestreams(request):
             logfileform=logfileform.save()
             return redirect('streamlogfiles')
     else:
-        logfileform=WindowsFileLogSourceForm()
+        logfileform=WindowsFileLogSourceForm() 
     context={'logfileform':logfileform}
     return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
 
