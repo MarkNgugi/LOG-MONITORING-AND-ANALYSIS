@@ -89,11 +89,37 @@ class AuthMethod(models.TextChoices):
     BASIC_AUTH = 'basic', 'Basic Auth'
     WINDOWS_AUTH = 'windows', 'Windows Authentication'
 
+  
+
 class WindowsFileLogSource(models.Model):
+
+    RETENTION_POLICY_CHOICES = [
+        ('7d', '7 days'),
+        ('14d', '14 days'),
+        ('30d', '30 days'),
+        ('60d', '60 days'),
+        ('90d', '90 days'),
+        ('180d', '180 days'),
+        ('365d', '365 days'),
+    ]  
+
+    COLLECTION_INTERVAL_CHOICES = [
+        ('5m', 'Every 5 minutes'),
+        ('15m', 'Every 15 minutes'),
+        ('30m', 'Every 30 minutes'),
+        ('1h', 'Every 1 hour'),
+        ('6h', 'Every 6 hours'),
+        ('12h', 'Every 12 hours'),
+        ('24h', 'Every 24 hours'),
+    ]
+
     log_source_name = models.CharField(max_length=100)
+    hostname_ip_address = models.CharField(max_length=255,default='localhost',null=True)
+    ingestion_mtd = models.CharField(max_length=30, default='powershell')
     log_file_path = models.CharField(max_length=255)
     log_file_type = models.CharField(max_length=10, choices=LogFileType.choices) #change to checkboxes
-    collection_frequency = models.CharField(max_length=4, choices=LogCollectionFrequency.choices)
+    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
+    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     file_size_limit = models.PositiveIntegerField()  # in MB
     log_encoding = models.CharField(max_length=10, choices=LogEncoding.choices)
     rotation_policy = models.CharField(max_length=15, choices=RotationPolicy.choices)
@@ -106,7 +132,7 @@ class WindowsFileLogSource(models.Model):
     def __str__(self):
         return self.log_source_name
 
-class WindowsPerfLogs(models.Model):
+class WindowsPerfLogs(models.Model): 
     # Fields for the Windows client log source
     client_name = models.CharField(max_length=100, verbose_name="Client Name")
 

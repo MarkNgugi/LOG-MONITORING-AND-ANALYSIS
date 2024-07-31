@@ -2,9 +2,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import SecurityLogSerializer
+from itertools import chain
 
 from django.shortcuts import render,redirect
-from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm
+from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm,WindowsFileLogSource
 from .models import WindowsLogSource,SecurityLog
 from django.urls import reverse
 
@@ -25,7 +26,10 @@ def home(request):
 #LOG SOURCES
 
 def logsources(request):
-    log_sources=WindowsLogSource.objects.all()
+    log_sources_1 = WindowsLogSource.objects.all()
+    log_sources_2 = WindowsFileLogSource.objects.all()
+
+    log_sources = list(chain(log_sources_1, log_sources_2))
     context={'log_sources':log_sources}
     return render(request,'baseapp/logsources/logsources.html',context)    
 
@@ -55,8 +59,11 @@ def stream_windows_host_logs(request):
             return redirect('streamsyslogs')
         
     else: 
-        log_source_form=WindowsLogSourceForm()
-    context={'log_source_form':log_source_form}
+        log_source_form=WindowsLogSourceForm() 
+    context={
+        'log_source_form':log_source_form,
+        
+        }
     return render(request,'baseapp/logingestion/systemlogs/windows/streamsyslogsform.html',context)
 
 

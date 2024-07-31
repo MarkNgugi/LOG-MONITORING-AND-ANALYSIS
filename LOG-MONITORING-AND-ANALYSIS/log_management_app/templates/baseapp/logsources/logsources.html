@@ -142,6 +142,7 @@
                     <th class="text-center">ID</th>
                     <th class="text-center">Source Name</th>
                     <th class="text-center">Hostname/IP Address</th>
+                    <th class="text-center">Ingestion Mtd</th>
                     <th class="text-center">Timestamp</th>
                     <th class="text-center">Status</th>
                     <th class="text-center">Retention Policy</th>
@@ -154,15 +155,16 @@
                 <tbody>
                   {%for log_source in log_sources %}
                   <tr>
-                    <td class="align-center">
+                    <td class="align-center"> 
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input">
                         <label class="custom-control-label"></label>
                       </div>
-                    </td>
+                    </td>            
                     <td class="text-center">{{log_source.id}}</td>
                     <td class="text-center">{{log_source.log_source_name}}</td>
                     <td class="text-center">{{log_source.hostname_ip_address}}</td>
+                    <td class="text-center">{{log_source.ingestion_mtd}}</td>
                     <td class="text-center">{{log_source.created_at}}</td>
 
                     {% if log_source.status == 'Online' %}
