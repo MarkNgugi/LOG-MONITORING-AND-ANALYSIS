@@ -126,7 +126,7 @@ def stream_linux_host_logs(request):
         'log_source_form':log_source_form,
         
         }
-    return render(request,'baseapp/logingestion/systemlogs/linux/linuxlogsform.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/linux/stream_linux_logsform.html',context)
 
 
 

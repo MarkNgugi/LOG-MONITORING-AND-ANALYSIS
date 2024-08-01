@@ -2,6 +2,35 @@
 
 from django.db import migrations, models
 
+def add_default_log_types(apps, schema_editor):
+    # Get the models
+    WindowsLogType = apps.get_model('log_management_app', 'WindowsLogType')
+    LinuxLogType = apps.get_model('log_management_app', 'LinuxLogType')
+    
+    # Define default log types
+    windows_log_types = [
+        'Event Log',
+        'Application Log',
+        'Security Log',
+        'System Log'
+    ]
+    
+    linux_log_types = [
+        'Syslog',
+        'Auth Log',
+        'Kernel Log',
+        'Cron Log',
+        'Mail Log',
+        'Daemon Log'
+    ]
+    
+    # Add default Windows log types
+    for log_type in windows_log_types:
+        WindowsLogType.objects.get_or_create(name=log_type)
+    
+    # Add default Linux log types
+    for log_type in linux_log_types:
+        LinuxLogType.objects.get_or_create(name=log_type)
 
 class Migration(migrations.Migration):
 
@@ -45,4 +74,5 @@ class Migration(migrations.Migration):
             name='log_type',
             field=models.ManyToManyField(to='log_management_app.windowslogtype'),
         ),
+        migrations.RunPython(add_default_log_types),  # Add this line to run the function
     ]

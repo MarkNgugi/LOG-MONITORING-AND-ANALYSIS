@@ -39,7 +39,7 @@ urlpatterns = [
 
 
 
-    
+
         #instructions
     path('home/syslogs-instructions/',views.streamsyslogs,name='streamsyslogs'),
     path('home/syslogsfiles-instructions/',views.streamlogfiles,name='streamlogfiles'),
