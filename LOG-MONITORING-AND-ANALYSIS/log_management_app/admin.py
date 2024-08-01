@@ -5,7 +5,7 @@ from .models import *
 
 
 admin.site.register(WindowsLogType)
-admin.site.register(PerformanceMetric)
+admin.site.register(WindowsPerformanceMetric)
 
 admin.site.register(WindowsLogSource) 
 admin.site.register(WindowsFileLogSource)
@@ -14,6 +14,7 @@ admin.site.register(WindowsActiveDirectoryLogSource)
 
 
 admin.site.register(LinuxLogType) 
+admin.site.register(LinuxPerformanceMetric)
 admin.site.register(LinuxLogSource)
 
 admin.site.register(WebserverLogFileUpload)

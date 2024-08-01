@@ -74,7 +74,7 @@ def stream_windows_host_logs(request):
     return render(request,'baseapp/logingestion/systemlogs/windows/stream_win_logsform.html',context)
 
 
-def logfilestreams(request):
+def windowslogfilestreams(request):
     if request.method=='POST':
         logfileform=WindowsFileLogSourceForm(request.POST)
         if logfileform.is_valid():
@@ -85,7 +85,7 @@ def logfilestreams(request):
     context={'logfileform':logfileform}
     return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
 
-def performancelogs(request):
+def windowsperformancelogs(request):
     if request.method=='POST':
         logperf=WindowsPerfLogsForm(request.POST)
         if logperf.is_valid():
@@ -127,6 +127,43 @@ def stream_linux_host_logs(request):
         
         }
     return render(request,'baseapp/logingestion/systemlogs/linux/stream_linux_logsform.html',context)
+
+
+def linuxlogfilestreams(request):
+    if request.method=='POST':
+        logfileform=WindowsFileLogSourceForm(request.POST)
+        if logfileform.is_valid():
+            logfileform=logfileform.save()
+            return redirect('streamlogfiles')
+    else:
+        logfileform=WindowsFileLogSourceForm() 
+    context={'logfileform':logfileform}
+    return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
+
+
+def linuxperformancelogs(request):
+    if request.method=='POST':
+        logperf=WindowsPerfLogsForm(request.POST)
+        if logperf.is_valid():
+            logperf=logperf.save()
+            return redirect('collectperflogs')
+    else:
+        logperf=WindowsPerfLogsForm()
+    context={'logperf':logperf}
+    return render(request,'baseapp/logingestion/systemlogs/windows/perfform.html',context)
+
+
+def ldaplogs(request):
+    if request.method == 'POST':
+        activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
+        if activedirectoryform.is_valid():
+            activedirectoryform.save()
+            return redirect('activedirectorylogs') 
+    else:
+        activedirectoryform = WindowsActiveDirectoryLogSourceForm()
+    
+    context = {'activedirectoryform': activedirectoryform}
+    return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
 
 
 

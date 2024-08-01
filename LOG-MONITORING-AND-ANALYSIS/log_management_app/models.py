@@ -168,7 +168,7 @@ class WindowsPerfLogs(models.Model):
         return self.log_source_name
 
 
-class PerformanceMetric(models.Model):
+class WindowsPerformanceMetric(models.Model):
     name = models.CharField(max_length=100, verbose_name="Metric Name")
     
     def __str__(self):
@@ -321,7 +321,7 @@ class LinuxFileLogSource(models.Model):
 
     log_source_name = models.CharField(max_length=100)
     hostname_ip_address = models.CharField(max_length=255,default='localhost',null=True)
-    ingestion_mtd = models.CharField(max_length=30, default='powershell')
+    ingestion_mtd = models.CharField(max_length=30, default='bash')
     log_file_path = models.CharField(max_length=255)
     log_file_type = models.CharField(max_length=10, choices=LogFileType)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
@@ -369,10 +369,10 @@ class LinuxPerfLogs(models.Model):
     hostname_ip_address = models.CharField(max_length=255,default='localhost',null=True)
     performance_metrics = models.ManyToManyField(
         'PerformanceMetric',
-        verbose_name="Performance Metrics",
+        verbose_name="Linux Performance Metrics",
         help_text="Select the metrics to collect",
     )
-    ingestion_mtd = models.CharField(max_length=30, default='powershell')
+    ingestion_mtd = models.CharField(max_length=30, default='bash')
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
@@ -386,7 +386,7 @@ class LinuxPerfLogs(models.Model):
         return self.log_source_name
 
 
-class PerformanceMetric(models.Model):
+class LinuxPerformanceMetric(models.Model):
     name = models.CharField(max_length=100, verbose_name="Metric Name")
     
     def __str__(self):

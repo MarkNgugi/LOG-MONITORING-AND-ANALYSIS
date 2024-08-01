@@ -29,13 +29,16 @@ urlpatterns = [
    
         #windows collection forms
     path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
-    path('home/logfilestreams/',views.logfilestreams,name='logfilestreams'),
-    path('home/performancelogs/',views.performancelogs,name='performancelogs'),
+    path('home/windows/logfilestreams/',views.windowslogfilestreams,name='windowslogfilestreams'),
+    path('home/performancelogs/',views.windowsperformancelogs,name='windowsperformancelogs'),
     path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
 
 
         #linux collection forms
     path('home/linux/form/',views.stream_linux_host_logs,name='stream_linux_host_logs'),
+    path('home/linux/logfilestreams/',views.linuxlogfilestreams,name='linuxlogfilestreams'),
+    path('home/performancelogs/',views.linuxperformancelogs,name='linuxperformancelogs'),
+    path('home/activedirectory/',views.ldaplogs,name='ldaplogs'),    
 
 
 
