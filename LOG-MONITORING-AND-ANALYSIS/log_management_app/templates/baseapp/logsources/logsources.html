@@ -7,20 +7,27 @@
               <h2 class="h3 mb-3 page-title">Log Sources</h2>
               <div class="row mb-4 items-align-center">
                 <div class="col-md">
+
                   <ul class="nav nav-pills justify-content-start">
                     <li class="nav-item">
-                      <a class="nav-link active bg-transparent pr-2 pl-0 text-primary" href="#">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
+                        <a class="nav-link {% if not os_type %}active bg-transparent text-primary{% else %}text-muted{% endif %} pr-2 pl-0" 
+                           href="{% url 'logsources' %}">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Windows <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
+                        <a class="nav-link {% if os_type == 'windows' %}active bg-transparent text-primary{% else %}text-muted{% endif %} px-2" 
+                           href="{% url 'logsources' 'windows' %}">Windows <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Linux <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
+                        <a class="nav-link {% if os_type == 'linux' %}active bg-transparent text-primary{% else %}text-muted{% endif %} px-2" 
+                           href="{% url 'logsources' 'linux' %}">Linux <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Mac OS <span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                        <a class="nav-link {% if os_type == 'macos' %}active bg-transparent text-primary{% else %}text-muted{% endif %} px-2" 
+                           href="{% url 'logsources' 'macos' %}">Mac OS <span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
                     </li>
-                  </ul>
+                    
+                </ul>
+                
                 </div>
                 <div class="col-md-auto ml-auto text-right">
                   <span class="small bg-white border py-1 px-2 rounded mr-2 d-none d-lg-inline">
@@ -142,7 +149,7 @@
                     <th class="text-center">ID</th>
                     <th class="text-center">Source Name</th>
                     <th class="text-center">Hostname/IP Address</th>
-                    <!-- <th class="text-center">Ingestion Mtd</th> -->
+                    <th class="text-center">OS Type</th>
                     <th class="text-center">Timestamp</th>
                     <th class="text-center">Status</th>
                     <th class="text-center">Collection Mtd</th>
@@ -164,7 +171,7 @@
                     <td class="text-center">{{log_source.id}}</td>
                     <td class="text-center">{{log_source.log_source_name}}</td>
                     <td class="text-center">{{log_source.hostname_ip_address}}</td>
-                    <!-- <td class="text-center">{{log_source.ingestion_mtd}}</td> -->
+                    <td class="text-center">{{log_source.os_type}}</td>
                     <td class="text-center">{{log_source.created_at}}</td>
 
                     {% if log_source.status == 'Online' %}

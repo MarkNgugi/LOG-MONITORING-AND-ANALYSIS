@@ -5,8 +5,8 @@ from .serializers import SecurityLogSerializer
 from itertools import chain
 
 from django.shortcuts import render,redirect
-from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm,WindowsFileLogSource, LinuxLogSourceForm, LinuxFileLogSourceForm, LinuxPerfLogsForm, LdapLogSourceForm
-from .models import WindowsLogSource,SecurityLog,WindowsPerfLogs,WindowsActiveDirectoryLogSource
+from .forms import *
+from .models import *
 from django.urls import reverse
 
 
@@ -25,15 +25,44 @@ def home(request):
 
 #LOG SOURCES
 
-def logsources(request):
-    log_sources_1 = WindowsLogSource.objects.all()
-    log_sources_2 = WindowsFileLogSource.objects.all()
-    log_sources_3 = WindowsPerfLogs.objects.all()
-    log_sources_4 = WindowsActiveDirectoryLogSource.objects.all()
+from itertools import chain
 
-    log_sources = list(chain(log_sources_1, log_sources_2,log_sources_3, log_sources_4))
-    context={'log_sources':log_sources}
-    return render(request,'baseapp/logsources/logsources.html',context)    
+def logsources(request, os_type=None):
+    # Filter log sources based on the os_type parameter
+    if os_type == "windows":
+        log_sources = list(chain(
+            WindowsLogSource.objects.all(),
+            WindowsFileLogSource.objects.all(),
+            WindowsPerfLogs.objects.all(),
+            WindowsActiveDirectoryLogSource.objects.all()
+        ))
+    elif os_type == "linux":
+        log_sources = list(chain(
+            LinuxLogSource.objects.all(),
+            LinuxFileLogSource.objects.all(),
+            LinuxPerfLogs.objects.all(),
+            LDAPLogSource.objects.all()
+        ))
+    elif os_type == "macos":
+        log_sources = list(chain(
+            MacLogSource.objects.all(),
+            MacFileLogSource.objects.all(),
+            MacPerfLogs.objects.all(),
+            OpenDirLogSource.objects.all()
+        ))
+    else:  # Default to show all log sources
+        log_sources = list(chain(
+            WindowsLogSource.objects.all(), WindowsFileLogSource.objects.all(),
+            WindowsPerfLogs.objects.all(), WindowsActiveDirectoryLogSource.objects.all(),
+            LinuxLogSource.objects.all(), LinuxFileLogSource.objects.all(),
+            LinuxPerfLogs.objects.all(), LDAPLogSource.objects.all(),
+            MacLogSource.objects.all(), MacFileLogSource.objects.all(),
+            MacPerfLogs.objects.all(), OpenDirLogSource.objects.all()
+        ))
+
+    context = {'log_sources': log_sources, 'os_type': os_type}
+    return render(request, 'baseapp/logsources/logsources.html', context)
+    
 
 
 #LOG INGESTION 
@@ -63,7 +92,7 @@ def stream_windows_host_logs(request):
         log_source_form=WindowsLogSourceForm(request.POST)
         if log_source_form.is_valid():
             log_source_form=log_source_form.save()
-            return redirect('streamsyslogs')
+            return redirect('logsources')
         
     else: 
         log_source_form=WindowsLogSourceForm() 
@@ -79,7 +108,7 @@ def windowslogfilestreams(request):
         logfileform=WindowsFileLogSourceForm(request.POST)
         if logfileform.is_valid():
             logfileform=logfileform.save()
-            return redirect('streamlogfiles')
+            return redirect('logsources')
     else:
         logfileform=WindowsFileLogSourceForm() 
     context={'logfileform':logfileform}
@@ -90,7 +119,7 @@ def windowsperformancelogs(request):
         logperf=WindowsPerfLogsForm(request.POST)
         if logperf.is_valid():
             logperf=logperf.save()
-            return redirect('collectperflogs')
+            return redirect('logsources')
     else:
         logperf=WindowsPerfLogsForm()
     context={'logperf':logperf}
@@ -102,7 +131,7 @@ def activedirectoryform(request):
         activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
         if activedirectoryform.is_valid():
             activedirectoryform.save()
-            return redirect('activedirectorylogs') 
+            return redirect('logsources') 
     else:
         activedirectoryform = WindowsActiveDirectoryLogSourceForm()
     
@@ -118,7 +147,7 @@ def stream_linux_host_logs(request):
         log_source_form=LinuxLogSourceForm(request.POST)
         if log_source_form.is_valid():
             log_source_form=log_source_form.save()
-            return redirect('logsource')
+            return redirect('logsources')
         
     else: 
         log_source_form=LinuxLogSourceForm() 
@@ -134,7 +163,7 @@ def linuxlogfilestreams(request):
         logfileform=LinuxFileLogSourceForm(request.POST)
         if logfileform.is_valid():
             logfileform=logfileform.save()
-            return redirect('logsource')
+            return redirect('logsources')
     else:
         logfileform=LinuxFileLogSourceForm() 
     context={'logfileform':logfileform}
@@ -146,7 +175,7 @@ def linuxperformancelogs(request):
         logperf=LinuxPerfLogsForm(request.POST)
         if logperf.is_valid():
             logperf=logperf.save()
-            return redirect('logsource')
+            return redirect('logsources')
     else:
         logperf=LinuxPerfLogsForm()
     context={'logperf':logperf}
@@ -158,7 +187,7 @@ def ldaplogs(request):
         ldapform = LdapLogSourceForm(request.POST)
         if ldapform.is_valid():
             ldapform.save()
-            return redirect('logsource') 
+            return redirect('logsources') 
     else:
         ldapform = LdapLogSourceForm()
     
@@ -168,6 +197,63 @@ def ldaplogs(request):
 
 
 #===============================LINUX FORM END========================================
+
+
+#===============================MACOS FORM START========================================
+
+def stream_mac_host_logs(request):
+    if request.method=='POST':
+        log_source_form=MacLogSourceForm(request.POST)
+        if log_source_form.is_valid():
+            log_source_form=log_source_form.save()
+            return redirect('logsources')
+        
+    else: 
+        log_source_form=MacLogSourceForm() 
+    context={
+        'log_source_form':log_source_form,
+        
+        }
+    return render(request,'baseapp/logingestion/systemlogs/macos/stream_mac_logsform.html',context)
+
+
+def maclogfilestreams(request):
+    if request.method=='POST':
+        logfileform=MacFileLogSourceForm(request.POST)
+        if logfileform.is_valid():
+            logfileform=logfileform.save()
+            return redirect('logsources')
+    else:
+        logfileform=MacFileLogSourceForm() 
+    context={'logfileform':logfileform}
+    return render(request,'baseapp/logingestion/systemlogs/macos/logfilestreamform.html',context)
+
+
+def macperformancelogs(request):
+    if request.method=='POST':
+        logperf=MacPerfLogsForm(request.POST)
+        if logperf.is_valid():
+            logperf=logperf.save()
+            return redirect('logsources')
+    else:
+        logperf=MacPerfLogsForm()
+    context={'logperf':logperf}
+    return render(request,'baseapp/logingestion/systemlogs/macos/perfform.html',context)
+
+
+def opendirlogs(request):
+    if request.method == 'POST':
+        opendirform = OpenDirLogSourceForm(request.POST)
+        if opendirform.is_valid():
+            opendirform.save()
+            return redirect('logsources') 
+    else:
+        opendirform = OpenDirLogSourceForm()
+    
+    context = {'opendirform': opendirform}
+    return render(request, 'baseapp/logingestion/systemlogs/macos/opendirform.html', context)
+
+#===============================MACOS FORM END========================================
 
 
 #syslogs instructions start

@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import WindowsLogSource, WindowsLogType, LinuxLogType, WindowsFileLogSource, WindowsPerfLogs, WindowsPerformanceMetric, WindowsActiveDirectoryLogSource, WebserverLogFileUpload, LinuxLogSource,LinuxFileLogSource, LinuxPerfLogs, LinuxPerformanceMetric, LDAPLogSource
+from .models import *
 
 #====================WINDOWS LOGS FORMS START=======================
 
@@ -173,10 +173,90 @@ class LdapLogSourceForm(forms.ModelForm):
 #================LINUX LOGS FORMS END============================================
 
 
+#================MACOS LOGS FORMS START============================================
+
+class MacLogSourceForm(forms.ModelForm):
+    log_type = forms.ModelMultipleChoiceField(
+        queryset=MacLogType.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = MacLogSource
+        fields = [
+            'log_source_name', 'log_type', 'collection_interval',
+            'retention_policy', 'collection_mtd'
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+            'collection_mtd': forms.Select(attrs={'class': 'form-control'}),
+            
+        }
 
 
+class MacFileLogSourceForm(forms.ModelForm):
+    class Meta:
+        model = MacFileLogSource
+        fields = [
+            'log_source_name',
+            'log_file_path',
+            'log_file_type',
+            'collection_interval',
+            'file_size_limit',
+            'rotation_policy',
+            'retention_policy'
+
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),
+            'log_file_type': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),            
+            'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 
+class MacPerfLogsForm(forms.ModelForm):
+    performance_metrics = forms.ModelMultipleChoiceField(
+        queryset=MacPerformanceMetric.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+        help_text="Select the metrics to collect"
+    )
+
+    class Meta: 
+        model = MacPerfLogs
+        fields = [
+            'log_source_name',  
+            'performance_metrics', 'collection_interval', 'retention_policy', 
+            
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'performance_metrics': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+
+        }
+
+
+class OpenDirLogSourceForm(forms.ModelForm): 
+    class Meta:
+        model = OpenDirLogSource
+        fields = ['log_source_name', 'domain_name', 'collection_interval', 'retention_policy']
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'domain_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter domain name'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+#=================================MACOS LOGS FORMS END============================================
 
 
 
