@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import WindowsLogSource, WindowsLogType, LinuxLogType, WindowsFileLogSource, WindowsPerfLogs, WindowsPerformanceMetric, WindowsActiveDirectoryLogSource, WebserverLogFileUpload, LinuxLogSource, LinuxPerfLogs, LinuxPerformanceMetric, LDAPLogSource
+from .models import WindowsLogSource, WindowsLogType, LinuxLogType, WindowsFileLogSource, WindowsPerfLogs, WindowsPerformanceMetric, WindowsActiveDirectoryLogSource, WebserverLogFileUpload, LinuxLogSource,LinuxFileLogSource, LinuxPerfLogs, LinuxPerformanceMetric, LDAPLogSource
 
 #====================WINDOWS LOGS FORMS START=======================
 
@@ -24,6 +24,7 @@ class WindowsLogSourceForm(forms.ModelForm):
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
             'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
             'comments': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter comments', 'rows': 3}),
+
         }
 
 class WindowsFileLogSourceForm(forms.ModelForm):
@@ -97,17 +98,40 @@ class LinuxLogSourceForm(forms.ModelForm):
     class Meta:
         model = LinuxLogSource
         fields = [
-            'log_source_name', 'description', 'log_type', 'collection_interval',
-            'retention_policy', 'ingestion_mtd', 'comments'
+            'log_source_name', 'log_type', 'collection_interval',
+            'retention_policy', 'collection_mtd'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),
             'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
-            'comments': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter comments', 'rows': 3}),
+            'collection_mtd': forms.Select(attrs={'class': 'form-control'}),
+            
+        }
+
+
+class LinuxFileLogSourceForm(forms.ModelForm):
+    class Meta:
+        model = LinuxFileLogSource
+        fields = [
+            'log_source_name',
+            'log_file_path',
+            'log_file_type',
+            'collection_interval',
+            'file_size_limit',
+            'rotation_policy',
+            'retention_policy'
+
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),
+            'log_file_type': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),            
+            'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
@@ -121,30 +145,6 @@ class LinuxPerfLogsForm(forms.ModelForm):
 
     class Meta: 
         model = LinuxPerfLogs
-        fields = [
-            'log_source_name',  
-            'performance_metrics', 'collection_interval', 'retention_policy', 
-            
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'performance_metrics': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-
-        }
-
-
-class LinuxPerfLogsForm(forms.ModelForm):
-    performance_metrics = forms.ModelMultipleChoiceField(
-        queryset=LinuxPerformanceMetric.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True,
-        help_text="Select the metrics to collect"
-    )
-
-    class Meta: 
-        model = WindowsPerfLogs
         fields = [
             'log_source_name',  
             'performance_metrics', 'collection_interval', 'retention_policy', 

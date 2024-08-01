@@ -5,7 +5,7 @@ from .serializers import SecurityLogSerializer
 from itertools import chain
 
 from django.shortcuts import render,redirect
-from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm,WindowsFileLogSource, LinuxLogSourceForm
+from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm,WindowsFileLogSource, LinuxLogSourceForm, LinuxFileLogSourceForm, LinuxPerfLogsForm, LdapLogSourceForm
 from .models import WindowsLogSource,SecurityLog,WindowsPerfLogs,WindowsActiveDirectoryLogSource
 from django.urls import reverse
 
@@ -118,7 +118,7 @@ def stream_linux_host_logs(request):
         log_source_form=LinuxLogSourceForm(request.POST)
         if log_source_form.is_valid():
             log_source_form=log_source_form.save()
-            return redirect('home')
+            return redirect('logsource')
         
     else: 
         log_source_form=LinuxLogSourceForm() 
@@ -131,43 +131,45 @@ def stream_linux_host_logs(request):
 
 def linuxlogfilestreams(request):
     if request.method=='POST':
-        logfileform=WindowsFileLogSourceForm(request.POST)
+        logfileform=LinuxFileLogSourceForm(request.POST)
         if logfileform.is_valid():
             logfileform=logfileform.save()
-            return redirect('streamlogfiles')
+            return redirect('logsource')
     else:
-        logfileform=WindowsFileLogSourceForm() 
+        logfileform=LinuxFileLogSourceForm() 
     context={'logfileform':logfileform}
-    return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/linux/logfilestreamform.html',context)
 
 
 def linuxperformancelogs(request):
     if request.method=='POST':
-        logperf=WindowsPerfLogsForm(request.POST)
+        logperf=LinuxPerfLogsForm(request.POST)
         if logperf.is_valid():
             logperf=logperf.save()
-            return redirect('collectperflogs')
+            return redirect('logsource')
     else:
-        logperf=WindowsPerfLogsForm()
+        logperf=LinuxPerfLogsForm()
     context={'logperf':logperf}
-    return render(request,'baseapp/logingestion/systemlogs/windows/perfform.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/linux/perfform.html',context)
 
 
 def ldaplogs(request):
     if request.method == 'POST':
-        activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
-        if activedirectoryform.is_valid():
-            activedirectoryform.save()
-            return redirect('activedirectorylogs') 
+        ldapform = LdapLogSourceForm(request.POST)
+        if ldapform.is_valid():
+            ldapform.save()
+            return redirect('logsource') 
     else:
-        activedirectoryform = WindowsActiveDirectoryLogSourceForm()
+        ldapform = LdapLogSourceForm()
     
-    context = {'activedirectoryform': activedirectoryform}
-    return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
+    context = {'ldapform': ldapform}
+    return render(request, 'baseapp/logingestion/systemlogs/linux/ldapform.html', context)
 
 
 
 #===============================LINUX FORM END========================================
+
+
 #syslogs instructions start
 def streamsyslogs(request):
     context={}
