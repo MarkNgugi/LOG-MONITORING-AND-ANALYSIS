@@ -1,11 +1,12 @@
 
 from django import forms
-from .models import WindowsLogSource, LogType, WindowsFileLogSource, WindowsPerfLogs, PerformanceMetric, WindowsActiveDirectoryLogSource, WebserverLogFileUpload
+from .models import WindowsLogSource, WindowsLogType, LinuxLogType, WindowsFileLogSource, WindowsPerfLogs, PerformanceMetric, WindowsActiveDirectoryLogSource, WebserverLogFileUpload, LinuxLogSource
 
+#====================WINDOWS LOGS FORMS START=======================
 
 class WindowsLogSourceForm(forms.ModelForm):
     log_type = forms.ModelMultipleChoiceField(
-        queryset=LogType.objects.all(),
+        queryset=WindowsLogType.objects.all(),
         widget=forms.CheckboxSelectMultiple
     )
 
@@ -34,7 +35,6 @@ class WindowsFileLogSourceForm(forms.ModelForm):
             'log_file_type',
             'collection_interval',
             'file_size_limit',
-            'log_encoding',
             'rotation_policy',
             'retention_policy'
 
@@ -45,8 +45,7 @@ class WindowsFileLogSourceForm(forms.ModelForm):
             'log_file_type': forms.Select(attrs={'class': 'form-control'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),
-            'log_encoding': forms.Select(attrs={'class': 'form-control'}),
+            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),            
             'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
         }
 
@@ -85,8 +84,56 @@ class WindowsActiveDirectoryLogSourceForm(forms.ModelForm):
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
         }
 
-#APPLICATION LOGS FORMS
+#=================================WINDOWS LOGS FORMS END============================================
 
+#================LINUX LOGS FORMS START============================================
+
+class LinuxLogSourceForm(forms.ModelForm):
+    log_type = forms.ModelMultipleChoiceField(
+        queryset=LinuxLogType.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = LinuxLogSource
+        fields = [
+            'log_source_name', 'description', 'log_type', 'collection_interval',
+            'retention_policy', 'ingestion_mtd', 'comments'
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),
+            'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+            'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
+            'comments': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter comments', 'rows': 3}),
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#APPLICATION LOGS FORMS
+ 
 class WebserverLogFileUploadForm(forms.ModelForm):
     class Meta:
         model = WebserverLogFileUpload

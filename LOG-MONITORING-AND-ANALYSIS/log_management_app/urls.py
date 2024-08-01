@@ -22,22 +22,32 @@ urlpatterns = [
     #SYSTEM LOGS
         #Windows 
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
-    path('home/logs-source/system/windows/', views.system_windows_logs_table, name='system_windows_logs_table'),
+
     path('home/windows/collection-options/',views.windows_collection_options,name='windows_collection_options'),
-    path('home/unixlinux/collection-options/',views.unixlinux_collection_options,name='unixlinux_collection_options'),
+    path('home/unixlinux/collection-options/',views.linux_collection_options,name='linux_collection_options'),
     path('home/macos/unixlinux/collection-options/',views.macos_collection_options,name='macos_collection_options'),
    
-        #collection forms
+        #windows collection forms
     path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
     path('home/logfilestreams/',views.logfilestreams,name='logfilestreams'),
     path('home/performancelogs/',views.performancelogs,name='performancelogs'),
     path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
 
+
+        #linux collection forms
+    path('home/linux/form/',views.stream_linux_host_logs,name='stream_linux_host_logs'),
+
+
+
+    
         #instructions
     path('home/syslogs-instructions/',views.streamsyslogs,name='streamsyslogs'),
     path('home/syslogsfiles-instructions/',views.streamlogfiles,name='streamlogfiles'),
     path('home/performance-instructions/',views.collectperflogs,name='collectperflogs'),
     path('home/activedirectory-instructions/',views.activedirectorylogs,name='activedirectorylogs'),
+
+
+
 
 
 

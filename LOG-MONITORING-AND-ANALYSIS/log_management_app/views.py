@@ -5,7 +5,7 @@ from .serializers import SecurityLogSerializer
 from itertools import chain
 
 from django.shortcuts import render,redirect
-from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm,WindowsFileLogSource
+from .forms import WindowsLogSourceForm,WindowsFileLogSourceForm,WindowsPerfLogsForm,WindowsActiveDirectoryLogSourceForm,WebserverLogFileUploadForm,WindowsFileLogSource, LinuxLogSourceForm
 from .models import WindowsLogSource,SecurityLog,WindowsPerfLogs,WindowsActiveDirectoryLogSource
 from django.urls import reverse
 
@@ -35,32 +35,29 @@ def logsources(request):
     context={'log_sources':log_sources}
     return render(request,'baseapp/logsources/logsources.html',context)    
 
+
 #LOG INGESTION 
 def system_os_types(request): 
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
 
-def system_windows_logs_table(request):
-    log_sources=WindowsLogSource.objects.all()
-    context={'log_sources':log_sources}
-    return render(request,'baseapp/logingestion/systemlogs/windows/windowslogstable.html',context)
 
-#syslogs collectin mtds start
+#syslogs collectin mtds START
 def windows_collection_options(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/collectionopts.html',context)
 
-def unixlinux_collection_options(request):
+def linux_collection_options(request):
     context={}
-    return render(request,'baseapp/logingestion/systemlogs/unixlinux/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/linux/collectionopts.html',context)
 
 def macos_collection_options(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/macos/collectionopts.html',context)
 
-#syslogs collectin mtds end
+#syslogs collectin mtds END
 
-#syslogs forms start
+#WINDOWS FORMS START
 def stream_windows_host_logs(request):
     if request.method=='POST':
         log_source_form=WindowsLogSourceForm(request.POST)
@@ -74,7 +71,7 @@ def stream_windows_host_logs(request):
         'log_source_form':log_source_form,
         
         }
-    return render(request,'baseapp/logingestion/systemlogs/windows/streamsyslogsform.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/stream_win_logsform.html',context)
 
 
 def logfilestreams(request):
@@ -112,9 +109,28 @@ def activedirectoryform(request):
     context = {'activedirectoryform': activedirectoryform}
     return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
 
+#WINDOWS FORMS END
 
-#syslogs forms end
+#====================LINUX FORMS START============================
 
+def stream_linux_host_logs(request):
+    if request.method=='POST':
+        log_source_form=LinuxLogSourceForm(request.POST)
+        if log_source_form.is_valid():
+            log_source_form=log_source_form.save()
+            return redirect('home')
+        
+    else: 
+        log_source_form=LinuxLogSourceForm() 
+    context={
+        'log_source_form':log_source_form,
+        
+        }
+    return render(request,'baseapp/logingestion/systemlogs/linux/linuxlogsform.html',context)
+
+
+
+#===============================LINUX FORM END========================================
 #syslogs instructions start
 def streamsyslogs(request):
     context={}
