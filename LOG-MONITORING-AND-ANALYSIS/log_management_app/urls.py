@@ -76,6 +76,7 @@ urlpatterns = [
     # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
     path('home/webserver/apache',views.apacheserverlogstream,name='apacheserverlogstream'),
     path('home/webserver/apachefile',views.apacheserverlogfilestream,name='apacheserverlogfilestream'),
+    path('home/webserver/apacheperf',views.apacheserverperflogs,name='apacheserverperflogs'),
 
 
         #DATABASES

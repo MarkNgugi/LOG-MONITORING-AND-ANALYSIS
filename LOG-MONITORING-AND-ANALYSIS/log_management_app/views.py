@@ -339,7 +339,7 @@ def apacheserverlogstream(request):
 
 def apacheserverlogfilestream(request):
     if request.method=='POST':
-        apacheform=ApacheserverLogFileStream(request.POST)
+        apacheform=ApacheserverLogFileStream(request.POST) 
         if apacheform.is_valid():
             apacheform.save()
             return redirect('logsources')
@@ -348,6 +348,33 @@ def apacheserverlogfilestream(request):
         apacheform=ApacheserverLogFileStreamForm()
     context={'apacheform':apacheform}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apachefilestream.html',context)
+
+
+def apacheserverperflogs(request):
+    if request.method=='POST':
+        apacheform=ApacheserverPerfLogForm(request.POST)
+        if apacheform.is_valid():
+            apacheform.save()
+            return redirect('logsources')
+        
+    else:
+        apacheform=ApacheserverPerfLogForm()
+    context={'apacheform':apacheform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apacheperflogs.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #database
 
