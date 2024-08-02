@@ -25,44 +25,57 @@ def home(request):
 
 #LOG SOURCES
 
-from itertools import chain
 
 def logsources(request, os_type=None):
-    # Filter log sources based on the os_type parameter
-    if os_type == "windows":
-        log_sources = list(chain(
-            WindowsLogSource.objects.all(),
-            WindowsFileLogSource.objects.all(),
-            WindowsPerfLogs.objects.all(),
-            WindowsActiveDirectoryLogSource.objects.all()
-        ))
-    elif os_type == "linux":
-        log_sources = list(chain(
-            LinuxLogSource.objects.all(),
-            LinuxFileLogSource.objects.all(),
-            LinuxPerfLogs.objects.all(),
-            LDAPLogSource.objects.all()
-        ))
-    elif os_type == "macos":
-        log_sources = list(chain(
-            MacLogSource.objects.all(),
-            MacFileLogSource.objects.all(),
-            MacPerfLogs.objects.all(),
-            OpenDirLogSource.objects.all()
-        ))
-    else:  # Default to show all log sources
-        log_sources = list(chain(
-            WindowsLogSource.objects.all(), WindowsFileLogSource.objects.all(),
-            WindowsPerfLogs.objects.all(), WindowsActiveDirectoryLogSource.objects.all(),
-            LinuxLogSource.objects.all(), LinuxFileLogSource.objects.all(),
-            LinuxPerfLogs.objects.all(), LDAPLogSource.objects.all(),
-            MacLogSource.objects.all(), MacFileLogSource.objects.all(),
-            MacPerfLogs.objects.all(), OpenDirLogSource.objects.all()
-        ))
+    log_sources_1 = WindowsLogSource.objects.all()
+    log_sources_2 = WindowsFileLogSource.objects.all()
+    log_sources_3 = WindowsPerfLogs.objects.all()
+    log_sources_4 = WindowsActiveDirectoryLogSource.objects.all()
 
-    context = {'log_sources': log_sources, 'os_type': os_type}
+    log_sources_5 = LinuxLogSource.objects.all()
+    log_sources_6 = LinuxFileLogSource.objects.all()
+    log_sources_7 = LinuxPerfLogs.objects.all()
+    log_sources_8 = LDAPLogSource.objects.all()
+
+    log_sources_9 = MacLogSource.objects.all()
+    log_sources_10 = MacFileLogSource.objects.all()
+    log_sources_11 = MacPerfLogs.objects.all()
+    log_sources_12 = OpenDirLogSource.objects.all()
+
+    # Chain all log sources
+    all_log_sources = list(chain(
+        log_sources_1, log_sources_2, log_sources_3, log_sources_4, 
+        log_sources_5, log_sources_6, log_sources_7, log_sources_8,
+        log_sources_9, log_sources_10, log_sources_11, log_sources_12
+    ))
+
+    # Count each OS type before filtering
+    windows_count = len(list(chain(log_sources_1, log_sources_2, log_sources_3, log_sources_4)))
+    linux_count = len(list(chain(log_sources_5, log_sources_6, log_sources_7, log_sources_8)))
+    mac_count = len(list(chain(log_sources_9, log_sources_10, log_sources_11, log_sources_12)))
+    all_count = len(all_log_sources)  # Total count of all log sources
+
+    # Filtering based on os_type
+    if os_type == "windows":
+        log_sources = list(chain(log_sources_1, log_sources_2, log_sources_3, log_sources_4))
+    elif os_type == "linux":
+        log_sources = list(chain(log_sources_5, log_sources_6, log_sources_7, log_sources_8))
+    elif os_type == "macos":
+        log_sources = list(chain(log_sources_9, log_sources_10, log_sources_11, log_sources_12))
+    else:
+        log_sources = all_log_sources
+
+    context = {
+        'log_sources': log_sources,
+        'windows_count': windows_count,
+        'linux_count': linux_count,
+        'mac_count': mac_count,
+        'all_count': all_count,
+        'os_type': os_type,  # Pass os_type to the template for active tab
+    }
+
     return render(request, 'baseapp/logsources/logsources.html', context)
-    
+
 
 
 #LOG INGESTION 
