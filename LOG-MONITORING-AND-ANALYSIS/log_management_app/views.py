@@ -311,20 +311,6 @@ def webserver_collection_options(request):
 #APPLICATION LOGS FORMS
     #webserver forms
 
-# def webserverfileupload(request):
-#     if request.method == 'POST':
-#         webserverfileuploadform=WebserverLogFileUploadForm(request.POST,request.FILES)
-#         if webserverfileuploadform.is_valid():
-#             webserverfileuploadform.save()
-#             return redirect(reverse('home'))
-#     else:
-#         webserverfileuploadform=WebserverLogFileUploadForm()
-    
-#     context={'webserverfileuploadform':webserverfileuploadform}
-#     return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
-
-
-
 def apacheserverlogstream(request):
     if request.method=='POST':
         apacheform=ApacheserverLogStream(request.POST)
@@ -362,7 +348,17 @@ def apacheserverperflogs(request):
     context={'apacheform':apacheform}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apacheperflogs.html',context)
 
-
+def apachefileupload(request):
+    if request.method == 'POST':
+        webserverfileuploadform=WebserverLogFileUploadForm(request.POST,request.FILES)
+        if webserverfileuploadform.is_valid():
+            webserverfileuploadform.save()
+            return redirect(reverse('home'))
+    else:
+        webserverfileuploadform=WebserverLogFileUploadForm()
+    
+    context={'webserverfileuploadform':webserverfileuploadform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
 
 
 
