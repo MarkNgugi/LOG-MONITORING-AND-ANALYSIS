@@ -65,7 +65,10 @@ urlpatterns = [
 
         #WEBSERVERS
     path('home/webserver-types/',views.web_server_types,name='web_server_types'), 
-    path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'),        
+    path('home/webcollection-options/apache/',views.apache_collection_options,name='apache_collection_options'),        
+    path('home/webcollection-options/nginx/',views.nginx_collection_options,name='nginx_collection_options'),  
+    path('home/webcollection-options/iis/',views.iis_collection_options,name='iis_collection_options'),
+
     path('home/logs-source/application/webserverform/', views.application_webserver_form, name='application_webserver_form'),
 
     
@@ -77,6 +80,16 @@ urlpatterns = [
     path('home/webserver/apache',views.apacheserverlogstream,name='apacheserverlogstream'),
     path('home/webserver/apachefile',views.apacheserverlogfilestream,name='apacheserverlogfilestream'),
     path('home/webserver/apacheperf',views.apacheserverperflogs,name='apacheserverperflogs'),
+
+    path('home/webserver/nginx',views.nginxserverlogstream,name='nginxserverlogstream'),
+    path('home/webserver/nginxfile',views.nginxserverlogfilestream,name='nginxserverlogfilestream'),
+    path('home/webserver/nginxperf',views.nginxserverperflogs,name='nginxserverperflogs'),
+
+    path('home/webserver/iis',views.iisserverlogstream,name='iisserverlogstream'),
+    path('home/webserver/iisfile',views.iisserverlogfilestream,name='iisserverlogfilestream'),
+    path('home/webserver/iisperf',views.iisserverperflogs,name='iisserverperflogs'),
+
+
 
 
         #DATABASES

@@ -1,0 +1,62 @@
+ 
+{% extends 'mainhome.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Add Nginx Log file Source</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="card my-4">
+            <div class="card-header">
+                <strong>Apache Log Source Form</strong>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    {{ nginxform.log_source_name.label_tag }}
+                    {{ nginxform.log_source_name }}
+                    {{ nginxform.log_source_name.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ nginxform.log_file_path.label_tag }}
+                    {{ nginxform.log_file_path }}
+                    {{ nginxform.log_file_path.help_text }}
+                </div>
+
+                <div class="form-group">
+                    {{ nginxform.log_level.label_tag }}
+                    {{ nginxform.log_level }}
+                    {{ nginxform.log_level.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ nginxform.filter_keyword.label_tag }}
+                    {{ nginxform.filter_keyword }}
+                    {{ nginxform.filter_keyword.help_text }}
+                </div>
+
+                <div class="form-group">
+                    {{ nginxform.log_rotation_interval.label_tag }}
+                    {{ nginxform.log_rotation_interval }}
+                    {{ nginxform.log_rotation_interval.help_text }}
+                </div>
+                
+                <div class="form-group">
+                    {{ nginxform.collection_interval.label_tag }}
+                    {{ nginxform.collection_interval }}
+                    {{ nginxform.collection_interval.help_text }}
+                </div>
+                
+                <div class="form-group">
+                    {{ nginxform.retention_policy.label_tag }}
+                    {{ nginxform.retention_policy }}
+                    {{ nginxform.retention_policy.help_text }}
+                </div>                
+
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </form>
+            </div> <!-- .card-body -->
+        </div> <!-- .card -->
+    </form>
+</div>
+{% endblock %}

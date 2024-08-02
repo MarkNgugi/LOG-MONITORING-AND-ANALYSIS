@@ -31,6 +31,13 @@ admin.site.register(ApacheserverLogStream)
 admin.site.register(ApacheserverLogFileStream)
 admin.site.register(ApacheserverPerfLogs)
 
+admin.site.register(NginxserverLogStream)
+admin.site.register(NginxserverLogFileStream)
+admin.site.register(NginxserverPerfLogs)
+
+admin.site.register(IISserverLogStream)
+admin.site.register(IISserverLogFileStream)
+admin.site.register(IISserverPerfLogs)
 
 admin.site.register(SecurityLog)
 

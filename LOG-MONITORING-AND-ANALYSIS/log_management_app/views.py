@@ -302,18 +302,24 @@ def application_webserver_form(request):
     return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverform.html',context)
 
 
-def webserver_collection_options(request):
+def apache_collection_options(request):
     context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/collectionopts.html',context)
 
+def nginx_collection_options(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/collectionopts.html',context)
 
+def iis_collection_options(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/collectionopts.html',context)
 
 #APPLICATION LOGS FORMS
     #webserver forms
 
 def apacheserverlogstream(request):
     if request.method=='POST':
-        apacheform=ApacheserverLogStream(request.POST)
+        apacheform=ApacheserverLogStreamForm(request.POST)
         if apacheform.is_valid():
             apacheform.save()
             return redirect('logsources')
@@ -325,7 +331,7 @@ def apacheserverlogstream(request):
 
 def apacheserverlogfilestream(request):
     if request.method=='POST':
-        apacheform=ApacheserverLogFileStream(request.POST) 
+        apacheform=ApacheserverLogFileStreamForm(request.POST) 
         if apacheform.is_valid():
             apacheform.save()
             return redirect('logsources')
@@ -350,24 +356,124 @@ def apacheserverperflogs(request):
 
 def apachefileupload(request):
     if request.method == 'POST':
-        webserverfileuploadform=WebserverLogFileUploadForm(request.POST,request.FILES)
+        webserverfileuploadform=ApacheLogFileUploadForm(request.POST,request.FILES)
         if webserverfileuploadform.is_valid():
             webserverfileuploadform.save()
             return redirect(reverse('home'))
     else:
-        webserverfileuploadform=WebserverLogFileUploadForm()
+        webserverfileuploadform=ApacheLogFileUploadForm()
     
     context={'webserverfileuploadform':webserverfileuploadform}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
 
 
+#APACHE FORMS END
 
 
+def nginxserverlogstream(request):
+    if request.method=='POST':
+        nginxform=NginxserverLogStreamForm(request.POST)
+        if nginxform.is_valid():
+            nginxform.save()
+            return redirect('logsources')
+        
+    else:
+        nginxform=NginxserverLogStreamForm()
+    context={'nginxform':nginxform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxstream.html',context)
+
+def nginxserverlogfilestream(request):
+    if request.method=='POST':
+        nginxform=NginxserverLogFileStreamForm(request.POST) 
+        if nginxform.is_valid():
+            nginxform.save()
+            return redirect('logsources')
+        
+    else:
+        nginxform=NginxserverLogFileStreamForm()
+    context={'nginxform':nginxform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxperflogs.html',context)
 
 
+def nginxserverperflogs(request):
+    if request.method=='POST':
+        nginxform=NginxserverPerfLogForm(request.POST)
+        if nginxform.is_valid():
+            nginxform.save()
+            return redirect('logsources')
+        
+    else:
+        nginxform=NginxserverPerfLogForm()
+    context={'nginxform':nginxform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxfilestream.html',context)
+
+def nginxfileupload(request):
+    if request.method == 'POST':
+        webserverfileuploadform=NginxLogFileUploadForm(request.POST,request.FILES)
+        if webserverfileuploadform.is_valid():
+            webserverfileuploadform.save()
+            return redirect(reverse('home'))
+    else:
+        webserverfileuploadform=NginxLogFileUploadForm()
+    
+    context={'webserverfileuploadform':webserverfileuploadform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
 
 
+#NGINX FORMS END
 
+
+def iisserverlogstream(request):
+    if request.method=='POST':
+        iisform=IISserverLogStreamForm(request.POST)
+        if iisform.is_valid():
+            iisform.save()
+            return redirect('logsources')
+        
+    else:
+        iisform=IISserverLogStreamForm()
+    context={'iisform':iisform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisstream.html',context)
+
+def iisserverlogfilestream(request):
+    if request.method=='POST':
+        iisform=IISserverLogFileStreamForm(request.POST) 
+        if iisform.is_valid():
+            iisform.save()
+            return redirect('logsources')
+        
+    else:
+        iisform=NginxserverLogFileStreamForm()
+    context={'iisform':iisform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisperflogs.html',context)
+
+
+def iisserverperflogs(request):
+    if request.method=='POST':
+        iisform=IISserverPerfLogForm(request.POST)
+        if iisform.is_valid():
+            iisform.save()
+            return redirect('logsources')
+        
+    else:
+        iisform=IISserverPerfLogForm()
+    context={'iisform':iisform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisfilestream.html',context)
+
+def iisfileupload(request):
+    if request.method == 'POST':
+        webserverfileuploadform=IISLogFileUploadForm(request.POST,request.FILES)
+        if webserverfileuploadform.is_valid():
+            webserverfileuploadform.save()
+            return redirect(reverse('home'))
+    else:
+        webserverfileuploadform=IISLogFileUploadForm()
+    
+    context={'webserverfileuploadform':webserverfileuploadform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
+
+
+#IIS FORMS END
 
 
 
