@@ -69,6 +69,7 @@ urlpatterns = [
     path('home/webcollection-options/nginx/',views.nginx_collection_options,name='nginx_collection_options'),  
     path('home/webcollection-options/iis/',views.iis_collection_options,name='iis_collection_options'),
     path('home/webcollection-options/tomcat/',views.tomcat_collection_options,name='tomcat_collection_options'),
+    path('home/webcollection-options/lighttpd/',views.lighttpd_collection_options,name='lighttpd_collection_options'),
 
     path('home/logs-source/application/webserverform/', views.application_webserver_form, name='application_webserver_form'),
 
@@ -93,6 +94,11 @@ urlpatterns = [
     path('home/webserver/tomcat',views.tomcatserverlogstream,name='tomcatserverlogstream'),
     path('home/webserver/tomcatfile',views.tomcatserverlogfilestream,name='tomcatserverlogfilestream'),
     path('home/webserver/tomcatperf',views.tomcatserverperflogs,name='tomcatserverperflogs'),
+
+
+    path('home/webserver/lighttpd',views.lighttpdserverlogstream,name='lighttpdserverlogstream'),
+    path('home/webserver/lighttpdfile',views.lighttpdserverlogfilestream,name='lighttpdserverlogfilestream'),
+    path('home/webserver/lighttpdperf',views.lighttpdserverperflogs,name='lighttpdserverperflogs'),    
 
 
 

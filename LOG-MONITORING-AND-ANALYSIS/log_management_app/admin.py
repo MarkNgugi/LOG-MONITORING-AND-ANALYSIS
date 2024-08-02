@@ -43,6 +43,10 @@ admin.site.register(TomcatserverLogStream)
 admin.site.register(TomcatserverLogFileStream)
 admin.site.register(TomcatserverPerfLogs)
 
+admin.site.register(LighttpdserverLogStream)
+admin.site.register(LighttpdserverLogFileStream)
+admin.site.register(LighttpdserverPerfLogs)
+
 admin.site.register(SecurityLog)
 
 

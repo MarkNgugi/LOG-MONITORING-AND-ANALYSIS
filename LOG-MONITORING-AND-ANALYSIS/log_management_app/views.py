@@ -317,6 +317,12 @@ def iis_collection_options(request):
 def tomcat_collection_options(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/collectionopts.html',context)
+
+def lighttpd_collection_options(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/collectionopts.html',context)
+
+
 #APPLICATION LOGS FORMS
     #webserver forms
 
@@ -530,10 +536,60 @@ def tomcatfileupload(request):
     return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
 
 
-#IIS FORMS END
+#TOMCAT FORMS END
 
 
+def lighttpdserverlogstream(request):
+    if request.method=='POST':
+        lighttpdform=LighttpdserverLogStreamForm(request.POST)
+        if lighttpdform.is_valid():
+            lighttpdform.save()
+            return redirect('logsources')
+        
+    else:
+        lighttpdform=LighttpdserverLogStreamForm()
+    context={'lighttpdform':lighttpdform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/lighttpdstream.html',context)
 
+def lighttpdserverlogfilestream(request):
+    if request.method=='POST':
+        lighttpdform=LighttpdserverLogFileStreamForm(request.POST) 
+        if lighttpdform.is_valid():
+            lighttpdform.save()
+            return redirect('logsources')
+        
+    else:
+        lighttpdform=LighttpdserverLogFileStreamForm()
+    context={'lighttpdform':lighttpdform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/lighttpdfilestream.html',context)
+
+
+def lighttpdserverperflogs(request):
+    if request.method=='POST':
+        lighttpdform=LighttpdserverPerfLogForm(request.POST)
+        if lighttpdform.is_valid():
+            lighttpdform.save()
+            return redirect('logsources')
+        
+    else:
+        lighttpdform=LighttpdserverPerfLogForm()
+    context={'lighttpdform':lighttpdform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/lighttpdperflogs.html',context)
+
+def lighttpdfileupload(request):
+    if request.method == 'POST':
+        webserverfileuploadform=LighttpdLogFileUploadForm(request.POST,request.FILES)
+        if webserverfileuploadform.is_valid():
+            webserverfileuploadform.save()
+            return redirect(reverse('home'))
+    else:
+        webserverfileuploadform=LighttpdLogFileUploadForm()
+    
+    context={'webserverfileuploadform':webserverfileuploadform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
+
+
+#LIGHTTPD FORMS END
 
 
 

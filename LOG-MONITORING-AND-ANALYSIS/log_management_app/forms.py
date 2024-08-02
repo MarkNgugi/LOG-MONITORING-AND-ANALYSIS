@@ -522,4 +522,70 @@ class TomcatserverPerfLogForm(forms.ModelForm):
         }   
 
 
-#TOMCAT LOGS FORMS END
+#TOMCAT LOGS FORMS END=================================================
+
+
+#LIGHTTPD LOGS FORMS START 
+class LighttpdserverLogStreamForm(forms.ModelForm):
+    class Meta:
+        model = LighttpdserverLogStream
+        fields = [
+            'log_source_name', 'log_file_path',
+            'log_level', 'filter_keyword', 'log_rotation_interval', 
+            'collection_interval', 'retention_policy'
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
+            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+
+            
+        }
+
+
+class LighttpdserverLogFileStreamForm(forms.ModelForm):
+    class Meta:
+        model = LighttpdserverLogStream
+        fields = [
+            'log_source_name', 'log_file_path',
+            'log_level', 'filter_keyword', 'log_rotation_interval', 
+            'collection_interval', 'retention_policy'
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
+            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+
+            
+        }
+
+class LighttpdserverPerfLogForm(forms.ModelForm):
+    class Meta:
+        model = LighttpdserverLogStream
+        fields = [
+            'log_source_name', 'log_file_path',
+            'log_level', 'filter_keyword', 'log_rotation_interval', 
+            'collection_interval', 'retention_policy'
+        ]
+        widgets = {
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
+            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+
+            
+        }   
+
+
+#LIGHTTPD LOGS FORMS END
