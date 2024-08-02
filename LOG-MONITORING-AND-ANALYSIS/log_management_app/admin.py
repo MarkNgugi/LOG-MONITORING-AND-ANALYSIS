@@ -28,6 +28,9 @@ admin.site.register(OpenDirLogSource)
 
 
 admin.site.register(ApacheserverLogStream)
+admin.site.register(ApacheserverLogFileStream)
+
+
 admin.site.register(SecurityLog)
 
 
