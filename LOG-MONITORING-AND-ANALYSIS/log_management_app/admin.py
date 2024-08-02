@@ -39,6 +39,10 @@ admin.site.register(IISserverLogStream)
 admin.site.register(IISserverLogFileStream)
 admin.site.register(IISserverPerfLogs)
 
+admin.site.register(TomcatserverLogStream)
+admin.site.register(TomcatserverLogFileStream)
+admin.site.register(TomcatserverPerfLogs)
+
 admin.site.register(SecurityLog)
 
 

@@ -68,6 +68,7 @@ urlpatterns = [
     path('home/webcollection-options/apache/',views.apache_collection_options,name='apache_collection_options'),        
     path('home/webcollection-options/nginx/',views.nginx_collection_options,name='nginx_collection_options'),  
     path('home/webcollection-options/iis/',views.iis_collection_options,name='iis_collection_options'),
+    path('home/webcollection-options/tomcat/',views.tomcat_collection_options,name='tomcat_collection_options'),
 
     path('home/logs-source/application/webserverform/', views.application_webserver_form, name='application_webserver_form'),
 
@@ -88,6 +89,10 @@ urlpatterns = [
     path('home/webserver/iis',views.iisserverlogstream,name='iisserverlogstream'),
     path('home/webserver/iisfile',views.iisserverlogfilestream,name='iisserverlogfilestream'),
     path('home/webserver/iisperf',views.iisserverperflogs,name='iisserverperflogs'),
+
+    path('home/webserver/tomcat',views.tomcatserverlogstream,name='tomcatserverlogstream'),
+    path('home/webserver/tomcatfile',views.tomcatserverlogfilestream,name='tomcatserverlogfilestream'),
+    path('home/webserver/tomcatperf',views.tomcatserverperflogs,name='tomcatserverperflogs'),
 
 
 

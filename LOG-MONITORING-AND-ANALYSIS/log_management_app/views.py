@@ -314,6 +314,9 @@ def iis_collection_options(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/collectionopts.html',context)
 
+def tomcat_collection_options(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/collectionopts.html',context)
 #APPLICATION LOGS FORMS
     #webserver forms
 
@@ -474,6 +477,67 @@ def iisfileupload(request):
 
 
 #IIS FORMS END
+
+
+
+def tomcatserverlogstream(request):
+    if request.method=='POST':
+        tomcatform=TomcatserverLogStreamForm(request.POST)
+        if tomcatform.is_valid():
+            tomcatform.save()
+            return redirect('logsources')
+        
+    else:
+        tomcatform=TomcatserverLogStreamForm()
+    context={'tomcatform':tomcatform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/tomcatstream.html',context)
+
+def tomcatserverlogfilestream(request):
+    if request.method=='POST':
+        tomcatform=TomcatserverLogFileStreamForm(request.POST) 
+        if tomcatform.is_valid():
+            tomcatform.save()
+            return redirect('logsources')
+        
+    else:
+        tomcatform=TomcatserverLogFileStreamForm()
+    context={'tomcatform':tomcatform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/tomcatfilestream.html',context)
+
+
+def tomcatserverperflogs(request):
+    if request.method=='POST':
+        tomcatform=TomcatserverPerfLogForm(request.POST)
+        if tomcatform.is_valid():
+            tomcatform.save()
+            return redirect('logsources')
+        
+    else:
+        tomcatform=TomcatserverPerfLogForm()
+    context={'tomcatform':tomcatform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/tomcatperflogs.html',context)
+
+def tomcatfileupload(request):
+    if request.method == 'POST':
+        webserverfileuploadform=TomcatLogFileUploadForm(request.POST,request.FILES)
+        if webserverfileuploadform.is_valid():
+            webserverfileuploadform.save()
+            return redirect(reverse('home'))
+    else:
+        webserverfileuploadform=TomcatLogFileUploadForm()
+    
+    context={'webserverfileuploadform':webserverfileuploadform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
+
+
+#IIS FORMS END
+
+
+
+
+
+
+
 
 
 
