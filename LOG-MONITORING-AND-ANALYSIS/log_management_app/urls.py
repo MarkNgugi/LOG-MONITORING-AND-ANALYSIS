@@ -5,7 +5,7 @@ from .views import SecurityLogView
 urlpatterns = [
 
     path('api/logs/', views.SecurityLogView, name='security_logs'),
-    path('upload/', views.webserverfileupload, name='upload_file'),
+    # path('upload/', views.webserverfileupload, name='upload_file'),
 
     path('home/',views.home,name='home'),
 
@@ -64,15 +64,17 @@ urlpatterns = [
     #APPLICATION LOGS
 
         #WEBSERVERS
-    path('home/logs-source/application/webserver/', views.application_webserver_logs, name='application_webserver_logs'),
+    path('home/webserver-types/',views.web_server_types,name='web_server_types'), 
+    path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'),        
     path('home/logs-source/application/webserverform/', views.application_webserver_form, name='application_webserver_form'),
 
-    path('home/webserver-types/',views.web_server_types,name='web_server_types'), 
-    path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'),
-    path('home/webcollection-agent/',views.webserver_collection_agents,name='webserver_collection_agents'),
+    
+    
+    # path('home/webcollection-agent/',views.webserver_collection_agents,name='webserver_collection_agents'),
 
         #collection forms
-    path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
+    # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
+    path('home/webserver/apache',views.apacheserverlogstream,name='apacheserverlogstream'),
 
 
         #DATABASES

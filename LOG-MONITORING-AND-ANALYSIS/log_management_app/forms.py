@@ -266,14 +266,27 @@ class OpenDirLogSourceForm(forms.ModelForm):
 
 #APPLICATION LOGS FORMS
  
-class WebserverLogFileUploadForm(forms.ModelForm):
+from django import forms
+from .models import ApacheserverLogStream
+
+class ApacheserverLogStreamForm(forms.ModelForm):
     class Meta:
-        model = WebserverLogFileUpload
-        fields = ['source_name', 'file_type', 'log_file_description', 'file']
+        model = ApacheserverLogStream
+        fields = [
+            'log_source_name', 'log_file_path',
+            'log_level', 'filter_keyword', 'log_rotation_interval', 
+            'collection_interval', 'retention_policy'
+        ]
         widgets = {
-            'source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),
-            'file_type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter file type'}),
-            'log_file_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Enter log file description'}),
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
+            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+
             
         }
+
 

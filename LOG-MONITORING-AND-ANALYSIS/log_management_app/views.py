@@ -292,40 +292,52 @@ def activedirectorylogs(request):
 
 #APPLICATION LOGS START
     #webserver
-def application_webserver_logs(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserver.html',context)
-
-def application_webserver_form(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverform.html',context)
 
 def web_server_types(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/webservertypes.html',context)
 
+def application_webserver_form(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverform.html',context)
+
+
 def webserver_collection_options(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionopts.html',context)
 
-def webserver_collection_agents(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionagent.html',context)
+
 
 #APPLICATION LOGS FORMS
     #webserver forms
 
-def webserverfileupload(request):
-    if request.method == 'POST':
-        webserverfileuploadform=WebserverLogFileUploadForm(request.POST,request.FILES)
-        if webserverfileuploadform.is_valid():
-            webserverfileuploadform.save()
-            return redirect(reverse('home'))
-    else:
-        webserverfileuploadform=WebserverLogFileUploadForm()
+# def webserverfileupload(request):
+#     if request.method == 'POST':
+#         webserverfileuploadform=WebserverLogFileUploadForm(request.POST,request.FILES)
+#         if webserverfileuploadform.is_valid():
+#             webserverfileuploadform.save()
+#             return redirect(reverse('home'))
+#     else:
+#         webserverfileuploadform=WebserverLogFileUploadForm()
     
-    context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
+#     context={'webserverfileuploadform':webserverfileuploadform}
+#     return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
+
+
+
+def apacheserverlogstream(request):
+    if request.method=='POST':
+        apacheform=ApacheserverLogStream(request.POST)
+        if apacheform.is_valid():
+            apacheform.save()
+            return redirect('logsources')
+        
+    else:
+        apacheform=ApacheserverLogStreamForm()
+    context={'apacheform':apacheform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apachestream.html',context)
+
+
 
     #database
 

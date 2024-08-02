@@ -27,7 +27,7 @@ admin.site.register(MacPerformanceMetric)
 admin.site.register(OpenDirLogSource)
 
 
-admin.site.register(WebserverLogFileUpload)
+admin.site.register(ApacheserverLogStream)
 admin.site.register(SecurityLog)
 
 
