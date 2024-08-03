@@ -1,11 +1,6 @@
 
     <form method="post" action="">
         {% csrf_token %}
-        <div class="card my-4">
-            <div class="card-header">
-                <strong>Nginx Log Source Form</strong>
-            </div>
-            <div class="card-body">
                 <div class="form-group">
                     {{ nginxform.log_source_name.label_tag }}
                     {{ nginxform.log_source_name }}
@@ -46,11 +41,9 @@
                     {{ nginxform.retention_policy.help_text }}
                 </div>                
 
-                <form method="post" action="">
+                <!-- <form method="post" action="">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary">Next</button>
-                </form>
-            </div> <!-- .card-body -->
-        </div> <!-- .card -->
-    </form>
+                </form> -->
+    </form> 
 
