@@ -64,12 +64,14 @@ urlpatterns = [
     #APPLICATION LOGS
 
         #WEBSERVERS
-    path('home/webserver-types/',views.web_server_types,name='web_server_types'), 
-    path('home/webcollection-options/apache/',views.apache_collection_options,name='apache_collection_options'),        
-    path('home/webcollection-options/nginx/',views.nginx_collection_options,name='nginx_collection_options'),  
-    path('home/webcollection-options/iis/',views.iis_collection_options,name='iis_collection_options'),
-    path('home/webcollection-options/tomcat/',views.tomcat_collection_options,name='tomcat_collection_options'),
-    path('home/webcollection-options/lighttpd/',views.lighttpd_collection_options,name='lighttpd_collection_options'),
+
+    path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'), 
+
+    path('home/webcollection-options/logstreaming/',views.logstreamingwizard,name='logstreamingwizard'),        
+    path('home/webcollection-options/Logfilestreaming/',views.logfilestreamingwizard,name='logfilestreamingwizard'),  
+    path('home/webcollection-options/perflogs/',views.perflogwizard,name='perflogwizard'),
+    path('home/webcollection-options/fileupload/',views.logfileuploadwizard,name='logfileuploadwizard'),
+    
 
     path('home/logs-source/application/webserverform/', views.application_webserver_form, name='application_webserver_form'),
 

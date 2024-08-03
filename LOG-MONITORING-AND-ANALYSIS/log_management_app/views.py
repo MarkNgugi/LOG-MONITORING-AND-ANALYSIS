@@ -293,34 +293,33 @@ def activedirectorylogs(request):
 #APPLICATION LOGS START
     #webserver
 
-def web_server_types(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webservertypes.html',context)
+
 
 def application_webserver_form(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverform.html',context)
 
 
-def apache_collection_options(request):
+def webserver_collection_options(request):
     context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionopts.html',context)
 
-def nginx_collection_options(request):
+def logstreamingwizard(request):
     context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/logstreamwizard.html',context)
 
-def iis_collection_options(request):
+def logfilestreamingwizard(request):
     context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/logfilestreamwizard.html',context)
 
-def tomcat_collection_options(request):
+def perflogwizard(request):
     context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/perflogsstreamwizard.html',context)
 
-def lighttpd_collection_options(request):
+def logfileuploadwizard(request):
     context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/collectionopts.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/logfileuploadwizard.html',context)
+
 
 
 #APPLICATION LOGS FORMS

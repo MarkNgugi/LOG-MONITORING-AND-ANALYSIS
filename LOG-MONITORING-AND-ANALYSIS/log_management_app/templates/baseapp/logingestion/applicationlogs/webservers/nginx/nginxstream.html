@@ -1,14 +1,9 @@
- 
-{% extends 'mainhome.html' %}
 
-{% block content %}
-<div class="container">
-    <h2 class="mt-4">Add Nginx Log Source</h2>
     <form method="post" action="">
         {% csrf_token %}
         <div class="card my-4">
             <div class="card-header">
-                <strong>Apache Log Source Form</strong>
+                <strong>Nginx Log Source Form</strong>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -58,5 +53,4 @@
             </div> <!-- .card-body -->
         </div> <!-- .card -->
     </form>
-</div>
-{% endblock %}
+
