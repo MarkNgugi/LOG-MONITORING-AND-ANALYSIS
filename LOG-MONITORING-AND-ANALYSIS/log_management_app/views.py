@@ -1,7 +1,3 @@
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .serializers import SecurityLogSerializer
 from itertools import chain
 
 from django.shortcuts import render,redirect
@@ -10,21 +6,10 @@ from .models import *
 from django.urls import reverse
 
 
-@api_view(['POST'])
-def SecurityLogView(request):
-    serializer = SecurityLogSerializer(data=request.data, many=True)
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response({"message": "Logs received successfully"}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+#LOG SOURCES
 def home(request):
     context={}
     return render(request,'baseapp/home.html',context)
-
-#LOG SOURCES
-
 
 def logsources(request, os_type=None):
     log_sources_1 = WindowsLogSource.objects.all()
@@ -599,9 +584,133 @@ def lighttpdfileupload(request):
 
     #database
 
-def database_types(request):
+def database_collection_options(request):
     context={}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/databasetypes.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/databases/collectionopts.html',context)
+
+def dblogstreamingwizard(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/logstreamwizard.html',context)
+
+def dblogfilestreamingwizard(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/logfilestreamwizard.html',context)
+
+def dbperflogwizard(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/perflogsstreamwizard.html',context)
+
+def dblogfileuploadwizard(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/logfileuploadwizard.html',context)
+
+
+#DATABASE FORMS START
+
+def mysqllogstream(request):
+    if request.method=='POST':
+        mysqlform=MysqlLogStreamForm(request.POST)
+        if mysqlform.is_valid():
+            mysqlform.save()
+            return redirect('logsources')
+        
+    else:
+        mysqlform=MysqlLogStreamForm()
+    context={'mysqlform':mysqlform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlstream.html',context)
+
+def mysqllogfilestream(request):
+    if request.method=='POST':
+        mysqlform=MysqlLogFileStreamForm(request.POST) 
+        if mysqlform.is_valid():
+            mysqlform.save()
+            return redirect('logsources')
+        
+    else:
+        mysqlform=MysqlLogFileStreamForm()
+    context={'mysqlform':mysqlform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlfilestream.html',context)
+
+
+def mysqlperflogs(request):
+    if request.method=='POST':
+        mysqlform=MysqlPerfLogForm(request.POST)
+        if mysqlform.is_valid():
+            mysqlform.save()
+            return redirect('logsources')
+        
+    else:
+        mysqlform=MysqlPerfLogForm()
+    context={'mysqlform':mysqlform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlperflogs.html',context)
+
+def mysqlfileupload(request):
+    if request.method == 'POST':
+        webserverfileuploadform=MysqlLogFileUploadForm(request.POST,request.FILES)
+        if webserverfileuploadform.is_valid():
+            webserverfileuploadform.save()
+            return redirect(reverse('home'))
+    else:
+        webserverfileuploadform=MysqlLogFileUploadForm()
+    
+    context={'webserverfileuploadform':webserverfileuploadform}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
+
+
+#POSTGRES
+def postgreslogstream(request):
+    if request.method=='POST':
+        postgresform=PostgresLogStreamForm(request.POST)
+        if postgresform.is_valid():
+            postgresform.save()
+            return redirect('logsources')
+        
+    else:
+        postgresform=PostgresLogStreamForm()
+    context={'postgresform':postgresform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresstream.html',context)
+
+def postgreslogfilestream(request):
+    if request.method=='POST':
+        postgresform=PostgresLogFileStreamForm(request.POST) 
+        if postgresform.is_valid():
+            postgresform.save()
+            return redirect('logsources')
+        
+    else:
+        postgresform=PostgresLogFileStreamForm()
+    context={'postgresform':postgresform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresfilestream.html',context)
+
+
+def postgresperflogs(request):
+    if request.method=='POST':
+        postgresform=PostgresPerfLogForm(request.POST)
+        if postgresform.is_valid():
+            postgresform.save()
+            return redirect('logsources')
+        
+    else:
+        postgresform=PostgresPerfLogForm()
+    context={'postgresform':postgresform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresperflogs.html',context)
+
+
+
+#DATABASE FORMS END
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     #caching systems

@@ -1,0 +1,62 @@
+ 
+{% extends 'mainhome.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Add IIS Perf Log Source</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="card my-4">
+            <div class="card-header">
+                <strong>Apache Log Source Form</strong>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    {{ iisform.log_source_name.label_tag }}
+                    {{ iisform.log_source_name }}
+                    {{ iisform.log_source_name.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ iisform.log_file_path.label_tag }}
+                    {{ iisform.log_file_path }}
+                    {{ iisform.log_file_path.help_text }}
+                </div>
+
+                <div class="form-group">
+                    {{ iisform.log_level.label_tag }}
+                    {{ iisform.log_level }}
+                    {{ iisform.log_level.help_text }}
+                </div>
+                <div class="form-group">
+                    {{ iisform.filter_keyword.label_tag }}
+                    {{ iisform.filter_keyword }}
+                    {{ iisform.filter_keyword.help_text }}
+                </div>
+
+                <div class="form-group">
+                    {{ iisform.log_rotation_interval.label_tag }}
+                    {{ iisform.log_rotation_interval }}
+                    {{ iisform.log_rotation_interval.help_text }}
+                </div>
+                
+                <div class="form-group">
+                    {{ iisform.collection_interval.label_tag }}
+                    {{ iisform.collection_interval }}
+                    {{ iisform.collection_interval.help_text }}
+                </div>
+                
+                <div class="form-group">
+                    {{ iisform.retention_policy.label_tag }}
+                    {{ iisform.retention_policy }}
+                    {{ iisform.retention_policy.help_text }}
+                </div>                
+
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </form>
+            </div> <!-- .card-body -->
+        </div> <!-- .card -->
+    </form>
+</div>
+{% endblock %}

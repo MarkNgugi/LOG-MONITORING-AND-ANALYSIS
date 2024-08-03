@@ -1,13 +1,11 @@
 from django.urls import path
 from . import views
-from .views import SecurityLogView
+
 
 urlpatterns = [
 
-    path('api/logs/', views.SecurityLogView, name='security_logs'),
-    # path('upload/', views.webserverfileupload, name='upload_file'),
-
     path('home/',views.home,name='home'),
+
 
 #LOG SOURCES
 
@@ -102,12 +100,28 @@ urlpatterns = [
     path('home/webserver/lighttpdfile',views.lighttpdserverlogfilestream,name='lighttpdserverlogfilestream'),
     path('home/webserver/lighttpdperf',views.lighttpdserverperflogs,name='lighttpdserverperflogs'),    
 
-
+ 
 
 
         #DATABASES
-    path('home/database-types/',views.database_types,name='database_types'), 
+    path('home/databsecollection-options/',views.database_collection_options,name='database_collection_options'), 
 
+    path('home/databaecollection-options/logstreaming/',views.dblogstreamingwizard,name='dblogstreamingwizard'),        
+    path('home/databasecollection-options/Logfilestreaming/',views.dblogfilestreamingwizard,name='dblogfilestreamingwizard'),  
+    path('home/databasecollection-options/perflogs/',views.dbperflogwizard,name='dbperflogwizard'),
+    path('home/databasecollection-options/fileupload/',views.dblogfileuploadwizard,name='dblogfileuploadwizard'), 
+
+
+        #collection forms
+    # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
+    path('home/webserver/mysql',views.mysqllogstream,name='mysqllogstream'),
+    path('home/webserver/mysqlfile',views.mysqllogfilestream,name='mysqllogfilestream'),
+    path('home/webserver/mysqlperf',views.mysqlperflogs,name='mysqlperflogs'),
+
+
+    path('home/webserver/postgres',views.postgreslogstream,name='postgreslogstream'),
+    path('home/webserver/postgresfile',views.postgreslogfilestream,name='postgreslogfilestream'),
+    path('home/webserver/postgresperf',views.postgresperflogs,name='postgresperflogs'),
 
         #CACHING SYSTEMS
 

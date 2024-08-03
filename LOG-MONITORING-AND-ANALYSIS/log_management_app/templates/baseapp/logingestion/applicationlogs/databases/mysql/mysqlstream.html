@@ -1,0 +1,47 @@
+    
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ mysqlform.log_source_name.label_tag }}
+                {{ mysqlform.log_source_name }}
+                {{ mysqlform.log_source_name.help_text }}
+            </div>
+            <div class="form-group">
+                {{ mysqlform.log_file_path.label_tag }} 
+                {{ mysqlform.log_file_path }}
+                {{ mysqlform.log_file_path.help_text }}
+            </div>
+
+            <div class="form-group">
+                {{ mysqlform.log_level.label_tag }}
+                {{ mysqlform.log_level }}
+                {{ mysqlform.log_level.help_text }}
+            </div>
+            <div class="form-group">
+                {{ mysqlform.filter_keyword.label_tag }}
+                {{ mysqlform.filter_keyword }}
+                {{ mysqlform.filter_keyword.help_text }}
+            </div>
+
+            <div class="form-group">
+                {{ mysqlform.log_rotation_interval.label_tag }}
+                {{ mysqlform.log_rotation_interval }}
+                {{ mysqlform.log_rotation_interval.help_text }}
+            </div>
+            
+            <div class="form-group">
+                {{ mysqlform.collection_interval.label_tag }}
+                {{ mysqlform.collection_interval }}
+                {{ mysqlform.collection_interval.help_text }}
+            </div>
+            
+            <div class="form-group">
+                {{ mysqlform.retention_policy.label_tag }}
+                {{ mysqlform.retention_policy }}
+                {{ mysqlform.retention_policy.help_text }}
+            </div>
+
+            <!-- <button type="submit" class="btn btn-primary">Next</button> -->
+        </form>
+    
+

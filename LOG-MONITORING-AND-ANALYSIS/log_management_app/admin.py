@@ -47,7 +47,17 @@ admin.site.register(LighttpdserverLogStream)
 admin.site.register(LighttpdserverLogFileStream)
 admin.site.register(LighttpdserverPerfLogs)
 
-admin.site.register(SecurityLog)
+admin.site.register(MysqlLogStream)
+admin.site.register(MysqlLogFileStream)
+admin.site.register(MysqlPerfLogs)
+
+admin.site.register(PostgresLogStream)
+admin.site.register(PostgresLogFileStream)
+admin.site.register(PostgresPerfLogs)
+
+
+
+
 
 
 
