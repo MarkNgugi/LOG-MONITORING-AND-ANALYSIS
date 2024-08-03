@@ -55,6 +55,12 @@ admin.site.register(PostgresLogStream)
 admin.site.register(PostgresLogFileStream)
 admin.site.register(PostgresPerfLogs)
 
+admin.site.register(MongodbLogStream)
+admin.site.register(MongodbLogFileStream)
+admin.site.register(MongodbPerfLogs)
+
+
+
 
 
 

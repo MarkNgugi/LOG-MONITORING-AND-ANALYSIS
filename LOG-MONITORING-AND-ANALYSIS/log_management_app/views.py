@@ -696,6 +696,44 @@ def postgresperflogs(request):
     return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresperflogs.html',context)
 
 
+#MONGO
+def mongodblogstream(request):
+    if request.method=='POST':
+        mongodbform=MongodbLogStreamForm(request.POST)
+        if mongodbform.is_valid():
+            mongodbform.save()
+            return redirect('logsources')
+        
+    else:
+        mongodbform=MongodbLogStreamForm()
+    context={'mongodbform':mongodbform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbstream.html',context)
+
+def mongodblogfilestream(request):
+    if request.method=='POST':
+        mongodbform=MongodbLogFileStreamForm(request.POST) 
+        if mongodbform.is_valid():
+            mongodbform.save()
+            return redirect('logsources')
+        
+    else:
+        mongodbform=MongodbLogFileStreamForm()
+    context={'mongodbform':mongodbform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbfilestream.html',context)
+
+
+def mongodbperflogs(request):
+    if request.method=='POST':
+        mongodbform=MongodbPerfLogForm(request.POST)
+        if mongodbform.is_valid():
+            mongodbform.save()
+            return redirect('logsources')
+        
+    else:
+        mongodbform=MongodbPerfLogForm()
+    context={'mongodbform':mongodbform}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbperflogs.html',context)
+
 
 #DATABASE FORMS END
 

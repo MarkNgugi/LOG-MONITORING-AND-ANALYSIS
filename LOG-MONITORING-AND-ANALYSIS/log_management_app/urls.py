@@ -106,10 +106,10 @@ urlpatterns = [
         #DATABASES
     path('home/databsecollection-options/',views.database_collection_options,name='database_collection_options'), 
 
-    path('home/databaecollection-options/logstreaming/',views.dblogstreamingwizard,name='dblogstreamingwizard'),        
-    path('home/databasecollection-options/Logfilestreaming/',views.dblogfilestreamingwizard,name='dblogfilestreamingwizard'),  
-    path('home/databasecollection-options/perflogs/',views.dbperflogwizard,name='dbperflogwizard'),
-    path('home/databasecollection-options/fileupload/',views.dblogfileuploadwizard,name='dblogfileuploadwizard'), 
+    path('home/databaecollection-options/db/logstreaming/',views.dblogstreamingwizard,name='dblogstreamingwizard'),        
+    path('home/databasecollection-options/db/Logfilestreaming/',views.dblogfilestreamingwizard,name='dblogfilestreamingwizard'),  
+    path('home/databasecollection-options/db/perflogs/',views.dbperflogwizard,name='dbperflogwizard'),
+    path('home/databasecollection-options/db/fileupload/',views.dblogfileuploadwizard,name='dblogfileuploadwizard'), 
 
 
         #collection forms
@@ -122,6 +122,10 @@ urlpatterns = [
     path('home/webserver/postgres',views.postgreslogstream,name='postgreslogstream'),
     path('home/webserver/postgresfile',views.postgreslogfilestream,name='postgreslogfilestream'),
     path('home/webserver/postgresperf',views.postgresperflogs,name='postgresperflogs'),
+
+    path('home/webserver/mongo',views.mongodblogstream,name='mongodblogstream'),
+    path('home/webserver/mongofile',views.mongodblogfilestream,name='mongodblogfilestream'),
+    path('home/webserver/mongoperf',views.mongodbperflogs,name='mongodbperflogs'),
 
         #CACHING SYSTEMS
 

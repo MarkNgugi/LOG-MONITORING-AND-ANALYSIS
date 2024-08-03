@@ -1,15 +1,15 @@
 {% extends 'mainhome.html' %}
 
 {% block content %}
-<div class="container-fluid"> 
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-11">
-            <h2 class="page-title">Log File Streaming</h2>
+            <h2 class="page-title">Log File streaming</h2>
             <p>Using jQuery Steps as default wizard plugin. That is an extremely flexible, compact, and feature-rich plugin.</p>
 
             <div class="row justify-content-center">
                 <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="apache">
+                    <div class="card shadow border-0" data-database="mysql">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-3 text-center">
@@ -18,7 +18,7 @@
                                     </span>
                                 </div>
                                 <div class="col">
-                                    <span class="h4 mb-0 text-white">Apache</span>
+                                    <span class="h4 mb-0 text-white">Mysql</span>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="nginx">
+                    <div class="card shadow border-0" data-database="postgres">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-3 text-center">
@@ -35,7 +35,7 @@
                                     </span>
                                 </div>
                                 <div class="col">
-                                    <span class="h4 mb-0 text-white">Nginx</span>
+                                    <span class="h4 mb-0 text-white">Postgres</span>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                 </div>
                 
                 <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="iis">
+                    <div class="card shadow border-0" data-database="mongodb">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-3 text-center">
@@ -52,51 +52,18 @@
                                     </span>
                                 </div>
                                 <div class="col">
-                                    <span class="h4 mb-0 text-white">IIS</span>
+                                    <span class="h4 mb-0 text-white">Mongodb</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="tomcat">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-3 text-center">
-                                    <span class="circle circle-sm bg-primary">
-                                        <i class="fe fe-16 fe-activity text-white mb-0"></i>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4 mb-0 text-white">Tomcat</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="lighttpd">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-3 text-center">
-                                    <span class="circle circle-sm bg-primary">
-                                        <i class="fe fe-16 fe-activity text-white mb-0"></i>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4 mb-0 text-white">Lighttpd</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>          
+                        
             </div>
 
             <div class="card my-4">
                 <div class="card-header">
-                    <strong id="selected-webserver">APACHE </strong><strong> FILE STREAMING</strong>
+                    <strong id="selected-database">MYSQL</strong><strong> LOG FILE STREAMING</strong>
                 </div>
                 <div class="card-body">
                     <form id="example-form" action="#">
@@ -159,39 +126,34 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
       var cards = document.querySelectorAll('.card');
-      var selectedWebserver = 'apache'; // Default selected web server
+      var selectedDatabase = 'mysql'; // Default selected web server
 
-      function selectCard(webserver) {
+      function selectCard(database) {
           // Remove the background color from all cards
           cards.forEach(function(c) {
               c.querySelector('.card-body').style.backgroundColor = '';
           });
 
           // Add background color to the selected card
-          var card = document.querySelector('.card[data-webserver="' + webserver + '"]');
+          var card = document.querySelector('.card[data-database="' + database + '"]');
           card.querySelector('.card-body').style.backgroundColor = '#1b68ff';
 
           // Update the header text
-          document.getElementById('selected-webserver').textContent = webserver.toUpperCase();
+          document.getElementById('selected-database').textContent = database.toUpperCase();
 
           // Load the form for the selected web server
           var url = '';
-          switch (webserver) {
-              case 'apache':
-                  url = '{% url "apacheserverlogstream" %}';
+          switch (database) {
+              case 'mysql':
+                  url = '{% url "mysqllogstream" %}';
                   break;
-              case 'nginx':
-                  url = '{% url "nginxserverlogstream" %}';
+              case 'postgres':
+                  url = '{% url "postgreslogstream" %}';
                   break;
-              case 'iis':
-                  url = '{% url "iisserverlogstream" %}';
+              case 'mongodb':
+                  url = '{% url "mongodblogstream" %}';
                   break;
-              case 'tomcat':
-                  url = '{% url "tomcatserverlogstream" %}';
-                  break;
-              case 'lighttpd':
-                  url = '{% url "lighttpdserverlogstream" %}';
-                  break;
+
               // Add other cases as needed
           }
 
@@ -206,7 +168,7 @@
       }
 
       // Set default selection to Apache on page load
-      selectCard(selectedWebserver);
+      selectCard(selectedDatabase);
 
       cards.forEach(function(card) {
           card.addEventListener('click', function(event) {
@@ -215,8 +177,8 @@
                   return; // Do nothing if the click is inside a form
               }
 
-              selectedWebserver = this.getAttribute('data-webserver');
-              selectCard(selectedWebserver);
+              selectedDatabase = this.getAttribute('data-database');
+              selectCard(selectedDatabase);
           });
       });
   });
