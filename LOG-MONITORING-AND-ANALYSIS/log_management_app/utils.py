@@ -6,7 +6,7 @@ import json
 
 # Load Event ID to Alert Level mapping from a JSON file
 def load_event_id_config():
-    with open('path/to/event_ids_config.json', 'r') as file:
+    with open('log_management_app/configs/windows/event_ids_config.json', 'r') as file:
         return json.load(file)
 
 def get_mongo_client():

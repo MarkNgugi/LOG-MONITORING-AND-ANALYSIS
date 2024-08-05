@@ -807,9 +807,20 @@ def logretention(request):
 #ALERTS
 
 
-def alert_list(request):
-    alerts = Alert.objects.all().order_by('-timestamp')
+def alert_list(request): 
+    # alerts = Alert.objects.all().order_by('-timestamp')
 
-    context={'alerts':alerts}
-    return render(request, 'baseapp/alerts/alert_list.html', context)
+    critical_alerts=Alert.objects.filter(alert_level='Critical')
+    high_alerts=Alert.objects.filter(alert_level='High')
+    medium_alerts=Alert.objects.filter(alert_level='Medium')
+    low_alerts=Alert.objects.filter(alert_level='Low')
+
+    context={
+        'critical_alerts': critical_alerts,
+        'high_alerts': high_alerts,
+        'medium_alerts': medium_alerts,
+        'low_alerts': low_alerts,
+    }
+    
+    return render(request, 'baseapp/alerts/alerts.html', context)
 

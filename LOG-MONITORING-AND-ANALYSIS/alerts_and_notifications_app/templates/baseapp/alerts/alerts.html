@@ -99,71 +99,83 @@
                 <div class="col-md-3">
                     <div class="dashboard-widget">
                         <h5>Critical Alerts</h5>
-                        <p class="text-danger display-4">5</p>
+                        <p class="text-danger display-4">{{critical_alerts.count}}</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="dashboard-widget">
                         <h5>High Alerts</h5>
-                        <p class="text-warning display-4">8</p>
+                        <p class="text-warning display-4">{{high_alerts.count}}</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="dashboard-widget">
                         <h5>Medium Alerts</h5>
-                        <p class="text-info display-4">12</p>
+                        <p class="text-info display-4">{{medium_alerts.count}}</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="dashboard-widget">
                         <h5>Low Alerts</h5>
-                        <p class="text-success display-4">20</p>
+                        <p class="text-success display-4">{{low_alerts.count}}</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="alerts">
+            {% for alert in critical_alerts %}
             <div class="alert-card critical">
                 <h5><i class="fas fa-exclamation-triangle"></i> Critical Alert</h5>
-                <p><strong>Source:</strong> Windows Server</p>
-                <p><strong>Timestamp:</strong> 2024-07-23 14:35:00</p>
-                <p class="details">Description of the alert and additional details...</p>
+                <p><strong>Source:</strong> {{alert.source_name}}</p>
+                <p><strong>Timestamp:</strong> {{alert.timestamp}}</p>
+                <p class="details">{{alert.description}}</p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
+            {% endfor %}
+
+            {%for alert in high_alerts%}
             <div class="alert-card high">
                 <h5><i class="fas fa-exclamation-circle"></i> High Alert</h5>
-                <p><strong>Source:</strong> Linux Server</p>
-                <p><strong>Timestamp:</strong> 2024-07-23 14:00:00</p>
-                <p class="details">Description of the alert and additional details...</p>
+                <p><strong>Source:</strong> {{alert.source_name}}</p>
+                <p><strong>Timestamp:</strong> {{alert.timestamp}}</p>
+                <p class="details">{{alert.description}}</p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
+            {% endfor %}
+
+            {%for alert in medium_alerts%}
             <div class="alert-card medium">
                 <h5><i class="fas fa-info-circle"></i> Medium Alert</h5>
-                <p><strong>Source:</strong> MacOS Client</p>
-                <p><strong>Timestamp:</strong> 2024-07-23 13:30:00</p>
-                <p class="details">Description of the alert and additional details...</p>
+                <p><strong>Source:</strong>{{alert.source_name}}</p>
+                <p><strong>Timestamp:</strong>{{alert.timestamp}}</p>
+                <p class="details">{{alert.description}}</p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
+            {% endfor %}
+
+            {% for alert in low_alerts %}
             <div class="alert-card low">
                 <h5><i class="fas fa-check-circle"></i> Low Alert</h5>
-                <p><strong>Source:</strong> Webserver</p>
-                <p><strong>Timestamp:</strong> 2024-07-23 13:00:00</p>
-                <p class="details">Description of the alert and additional details...</p>
+                <p><strong>Source:</strong> {{alert.source_name}}</p>
+                <p><strong>Timestamp:</strong>{{alert.timestamp}}</p>
+                <p class="details">{{alert.description}}</p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
                 </div>
             </div>
+            {% endfor %}
+
         </section>
     </div>
 {% endblock %}
