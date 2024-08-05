@@ -35,9 +35,9 @@
             margin: 15px 0;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        .alert-card.critical { border-left: 5px solid red; }
-        .alert-card.high { border-left: 5px solid orange; }
-        .alert-card.medium { border-left: 5px solid yellow; }
+        .alert-card.critical { border-left: 7px solid red; }
+        .alert-card.high { border-left: 7px solid orange; }
+        .alert-card.medium { border-left: 7px solid yellow; }
         .alert-card.low { border-left: 5px solid green; }
         .alert-card h5 {
             margin: 0 0 10px;
@@ -126,10 +126,10 @@
         <section class="alerts">
             {% for alert in critical_alerts %}
             <div class="alert-card critical">
-                <h5><i class="fas fa-exclamation-triangle"></i> Critical Alert</h5>
+                <!-- <h5><i class="fas fa-exclamation-triangle"></i> Critical Alert</h5> -->
                 <p><strong>Source:</strong> {{alert.source_name}}</p>
                 <p><strong>Timestamp:</strong> {{alert.timestamp}}</p>
-                <p class="details">{{alert.description}}</p>
+                <p class="details"><strong>Description:</strong><h5>{{alert.description}}</h5></p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
@@ -142,7 +142,7 @@
                 <h5><i class="fas fa-exclamation-circle"></i> High Alert</h5>
                 <p><strong>Source:</strong> {{alert.source_name}}</p>
                 <p><strong>Timestamp:</strong> {{alert.timestamp}}</p>
-                <p class="details">{{alert.description}}</p>
+                <p class="details"><strong>Description:</strong><h5>{{alert.description}}</h5></p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
@@ -155,7 +155,7 @@
                 <h5><i class="fas fa-info-circle"></i> Medium Alert</h5>
                 <p><strong>Source:</strong>{{alert.source_name}}</p>
                 <p><strong>Timestamp:</strong>{{alert.timestamp}}</p>
-                <p class="details">{{alert.description}}</p>
+                <p class="details"><strong>Description:</strong><h5>{{alert.description}}</h5></p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
@@ -168,7 +168,7 @@
                 <h5><i class="fas fa-check-circle"></i> Low Alert</h5>
                 <p><strong>Source:</strong> {{alert.source_name}}</p>
                 <p><strong>Timestamp:</strong>{{alert.timestamp}}</p>
-                <p class="details">{{alert.description}}</p>
+                <p class="details"><strong>Description:</strong><h5>{{alert.description}}</h5></p>
                 <div class="actions">
                     <button class="btn btn-primary">Acknowledge</button>
                     <button class="btn btn-secondary">View Details</button>
