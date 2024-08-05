@@ -31,6 +31,24 @@ def process_and_store_logs():
     event_id_config = load_event_id_config()
     
     for log in logs:
+        event_id = log.get('event_id')
+        alert_level = categorize_log(log, event_id_config)
+        
+        # Debugging output
+        print(f"Event ID: {event_id}, Alert Level: {alert_level}")
+        
+        Alert.objects.create(
+            event_id=event_id,
+            description=log.get('description'),
+            alert_level=alert_level,
+            source_name=log.get('source_name'),
+            timestamp=log.get('timestamp'),
+        )
+
+    logs = fetch_logs_from_mongo()
+    event_id_config = load_event_id_config()
+    
+    for log in logs:
         alert_level = categorize_log(log, event_id_config)
         Alert.objects.create(
             event_id=log.get('event_id'),

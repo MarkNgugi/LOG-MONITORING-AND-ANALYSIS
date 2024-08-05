@@ -811,6 +811,7 @@ def alert_list(request):
     # alerts = Alert.objects.all().order_by('-timestamp')
 
     critical_alerts=Alert.objects.filter(alert_level='Critical')
+    print(critical_alerts)
     high_alerts=Alert.objects.filter(alert_level='High')
     medium_alerts=Alert.objects.filter(alert_level='Medium')
     low_alerts=Alert.objects.filter(alert_level='Low')

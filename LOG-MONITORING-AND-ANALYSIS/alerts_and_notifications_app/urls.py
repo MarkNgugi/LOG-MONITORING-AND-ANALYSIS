@@ -5,7 +5,7 @@ urlpatterns=[
 
     #ALERTS
     path('alerts-config/',views.alertconfig,name='alertconfig'),
-    path('alerts-history/',views.alertspage,name='alertspage'),
+    # path('alerts-history/',views.alertspage,name='alertspage'),
     
 
 
