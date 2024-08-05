@@ -154,3 +154,9 @@ MEDIA_ROOT = BASE_DIR / 'static/assets/files'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MONGODB_SETTINGS = {
+    'host': 'mongodb+srv://mark:markmark003@atlascluster.ogqxvgo.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster',
+    'db': 'logs'
+}

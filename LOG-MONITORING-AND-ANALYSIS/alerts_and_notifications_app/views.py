@@ -9,6 +9,7 @@ def alertconfig(request):
 def alertspage(request):
     context={}
     return render(request,'baseapp/alerts/alerts.html',context)
+    
 
 def scheduledreports(request):
     context={}

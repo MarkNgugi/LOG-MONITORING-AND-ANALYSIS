@@ -153,4 +153,6 @@ urlpatterns = [
     path('home/logretention/',views.logretention,name='logretention'),
 
 
+
+    path('alerts-history/',views.alert_list,name='alert_list'),
 ]

@@ -1956,3 +1956,17 @@ class MongoLogFileUploadForm(models.Model):
 
 #MONGODB END
 
+
+
+# ALERTS
+
+
+class Alert(models.Model):
+    event_id = models.CharField(max_length=50)
+    description = models.TextField()
+    alert_level = models.CharField(max_length=20)
+    source_name = models.CharField(max_length=100)
+    timestamp = models.DateTimeField()
+
+    def __str__(self):
+        return f"Alert {self.event_id}: {self.description[:50]}..."

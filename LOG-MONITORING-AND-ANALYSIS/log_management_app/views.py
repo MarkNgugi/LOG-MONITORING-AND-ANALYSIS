@@ -801,3 +801,15 @@ def incidentresponse(request):
 def logretention(request):
     context={}
     return render(request,'baseapp/logretention/logretention.html',context)
+
+
+
+#ALERTS
+
+
+def alert_list(request):
+    alerts = Alert.objects.all().order_by('-timestamp')
+
+    context={'alerts':alerts}
+    return render(request, 'baseapp/alerts/alert_list.html', context)
+
