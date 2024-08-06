@@ -23,7 +23,7 @@
                             <a class="nav-link" id="databases-tab" data-toggle="tab" href="#databases" role="tab" aria-controls="databases" aria-selected="false">Databases</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="caching-systems-tab" data-toggle="tab" href="#caching-systems" role="tab" aria-controls="caching-systems" aria-selected="false">Caching Systems</a>
+                            <a class="nav-link" id="caching-systems-tab" data-toggle="tab" href="#caching-systems" role="tab" aria-controls="caching-systems" aria-selected="false">Network</a>
                         </li>
                     </ul>
                 
@@ -43,7 +43,7 @@
                                         Windows
                                         <span class="badge badge-pill {% if os_type == 'windows' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{windows_count}}</span>
                                     </a>
-                                </li>
+                                </li> 
                                 <li class="nav-item">
                                     <a class="nav-link {% if os_type == 'linux' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'linux' %}">
                                         Linux
@@ -62,6 +62,12 @@
                         <!-- Web Servers Tab -->
                         <div class="tab-pane fade" id="web-servers" role="tabpanel" aria-labelledby="web-servers-tab">
                             <ul class="nav nav-pills">
+                              <li class="nav-item">
+                                <a class="nav-link {% if app_type == 'apache' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'apache' %}">
+                                    All
+                                    <span class="badge badge-pill {% if app_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{apache_count}}</span>
+                                </a>
+                            </li>                              
                                 <li class="nav-item">
                                     <a class="nav-link {% if app_type == 'apache' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'apache' %}">
                                         Apache
@@ -99,6 +105,12 @@
                         <div class="tab-pane fade" id="databases" role="tabpanel" aria-labelledby="databases-tab">
                             <ul class="nav nav-pills">
                                 <li class="nav-item">
+                                <a class="nav-link {% if app_type == 'apache' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'apache' %}">
+                                    All
+                                    <span class="badge badge-pill {% if app_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{apache_count}}</span>
+                                </a>
+                                </li>                              
+                                <li class="nav-item">
                                     <a class="nav-link {% if db_type == 'mysql' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'mysql' %}">
                                         MySQL
                                         <span class="badge badge-pill {% if db_type == 'mysql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{mysql_count}}</span>
@@ -124,16 +136,16 @@
                             <ul class="nav nav-pills">
                                 <li class="nav-item">
                                     <a class="nav-link {% if cache_type == 'redis' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'redis' %}">
-                                        Redis
+                                        Firewall logs
                                         <span class="badge badge-pill {% if cache_type == 'redis' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{redis_count}}</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link {% if cache_type == 'memcached' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'memcached' %}">
                                         Memcached
                                         <span class="badge badge-pill {% if cache_type == 'memcached' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{memcached_count}}</span>
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>

@@ -9,7 +9,7 @@
         }
         .filter-section {
             background-color: #323538;
-            padding: 20px;
+            padding: 10px;
             border-radius: 5px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
@@ -52,6 +52,7 @@
         .btn-secondary {
             background-color: #6c757d;
             border-color: #6c757d;
+            margin-right: 10px;
         }
     </style>
 
@@ -61,8 +62,8 @@
         </header>
 
         <section class="filter-section">
-            <form class="form-row">
-                <div class="form-group col-md-3">
+            <form class="form-row d-flex flex-wrap justify-content-between">
+                <div class="form-group col-12 col-md-2">
                     <label for="filterSourceType">Source Type:</label>
                     <select id="filterSourceType" class="form-control">
                         <option>All</option>
@@ -74,7 +75,20 @@
                         <option>Middleware</option>
                     </select>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-12 col-md-2">
+                    <label for="clientname">Source Name:</label>
+                    <select id="clientname" class="form-control">
+                        <option>All</option>
+                        <option>Windows001</option>
+                        <option>Windows</option>
+                        <option>windowstest</option>
+                        <option>windows54</option>
+                        <option>windows23</option>
+                        <option>windows-45</option>
+                        <option>win892</option>
+                    </select>
+                </div>                
+                <div class="form-group col-12 col-md-2">
                     <label for="filterSeverity">Severity:</label>
                     <select id="filterSeverity" class="form-control">
                         <option>All</option>
@@ -84,15 +98,17 @@
                         <option>Low</option>
                     </select>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-12 col-md-2">
                     <label for="filterTimeFrame">Time Frame:</label>
                     <input type="date" id="filterTimeFrame" class="form-control">
                 </div>
-                <div class="form-group col-md-3 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary ml-auto">Filter</button>
+                <div class="form-group col-12 col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
                 </div>
             </form>
         </section>
+        
+
 
         <section class="dashboard-widgets">
             <div class="row">
@@ -122,6 +138,8 @@
                 </div>
             </div>
         </section>
+
+        <hr style="border-radius: 5px; border-color: #6200ff;">
 
         <section class="alerts">
             <div class="row">
