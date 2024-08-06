@@ -109,7 +109,7 @@
                                         PostgreSQL
                                         <span class="badge badge-pill {% if db_type == 'postgres' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{postgres_count}}</span>
                                     </a>
-                                </li>
+                                </li> 
                                 <li class="nav-item">
                                     <a class="nav-link {% if db_type == 'mongodb' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'mongodb' %}">
                                         MongoDB
