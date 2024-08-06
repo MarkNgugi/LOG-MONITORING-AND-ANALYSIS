@@ -111,21 +111,9 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {% if db_type == 'mssql' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'mssql' %}">
-                                        MSSQL
-                                        <span class="badge badge-pill {% if db_type == 'mssql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{mssql_count}}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link {% if db_type == 'mongodb' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'mongodb' %}">
                                         MongoDB
                                         <span class="badge badge-pill {% if db_type == 'mongodb' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{mongodb_count}}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if db_type == 'cassandra' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'cassandra' %}">
-                                        Cassandra
-                                        <span class="badge badge-pill {% if db_type == 'cassandra' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{cassandra_count}}</span>
                                     </a>
                                 </li>
                             </ul>
