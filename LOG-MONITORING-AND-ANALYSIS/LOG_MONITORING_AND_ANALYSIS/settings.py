@@ -11,6 +11,19 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Now you can access environment variables using os.getenv()
+MONGODB_SETTINGS = {
+    'host': os.getenv('mongodb+srv://mark:markmark003@atlascluster.ogqxvgo.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster'),
+    'db': os.getenv('MONGODB_DB', 'windows')
+}
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -157,6 +170,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 MONGODB_SETTINGS = {
-    'host': 'mongodb+srv://mark:markmark003@atlascluster.ogqxvgo.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster',
-    'db': 'logs'
+    'host': os.getenv('MONGODB_HOST', 'mongodb+srv://mark:markmark003@atlascluster.ogqxvgo.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster'),
+    'db': os.getenv('MONGODB_DB', 'windows')
 }

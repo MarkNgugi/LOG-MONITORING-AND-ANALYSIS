@@ -1,59 +1,33 @@
 # utils.py
 from pymongo import MongoClient
 from django.conf import settings
-from .models import Alert
-import json
+from log_management_app.models import WindowsAlert
 
-# Load Event ID to Alert Level mapping from a JSON file
-def load_event_id_config():
-    with open('log_management_app/configs/windows/event_ids_config.json', 'r') as file:
-        return json.load(file)
 
 def get_mongo_client():
     return MongoClient(settings.MONGODB_SETTINGS['host'])
 
-def fetch_logs_from_mongo():
+def fetch_logs_from_collection(collection_name):
     client = get_mongo_client()
     db = client[settings.MONGODB_SETTINGS['db']]
-    collection = db['logstest']
+    collection = db[collection_name]
     return collection.find()
 
-def categorize_log(log_entry, event_id_config):
-    event_id = log_entry.get('event_id')
-    
-    # Determine the alert level based on the event_id_config
-    alert_level = event_id_config.get(event_id, 'Unknown')  # Default to 'Unknown' if not found
-    
-    return alert_level
-
 def process_and_store_logs():
-    logs = fetch_logs_from_mongo()
-    event_id_config = load_event_id_config()
+    collections = ['systemlogs', 'applicationlogs', 'securitylogs']
     
-    for log in logs:
-        event_id = log.get('event_id')
-        alert_level = categorize_log(log, event_id_config)
+    for collection_name in collections:
+        logs = fetch_logs_from_collection(collection_name)
         
-        # Debugging output
-        print(f"Event ID: {event_id}, Alert Level: {alert_level}")
-        
-        Alert.objects.create(
-            event_id=event_id,
-            description=log.get('description'),
-            alert_level=alert_level,
-            source_name=log.get('source_name'),
-            timestamp=log.get('timestamp'),
-        )
+        for log in logs:
+            WindowsAlert.objects.create(
+                event_id=log.get('Id'),
+                entry_type=log.get('LevelDisplayName'),
+                provider=log.get('ProviderName'),
+                message=log.get('Message'),
+                timestamp=log.get('Timecreated'),
+                source_name=collection_name  # Assuming source_name is the collection name
+            )
 
-    logs = fetch_logs_from_mongo()
-    event_id_config = load_event_id_config()
-    
-    for log in logs:
-        alert_level = categorize_log(log, event_id_config)
-        Alert.objects.create(
-            event_id=log.get('event_id'),
-            description=log.get('description'),
-            alert_level=alert_level,
-            source_name=log.get('source_name'),
-            timestamp=log.get('timestamp'),
-        )
+if __name__ == "__main__":
+    process_and_store_logs()

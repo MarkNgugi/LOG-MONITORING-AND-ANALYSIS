@@ -1,127 +1,76 @@
-{% extends 'mainhome.html' %}
 
-{% block content %}
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+              <h2 class="page-title">Form Wizard</h2>
+              <p>Using jQuery Steps as default wizard plugin. That is an extremely flexible, compact and feature-rich plugin.</p>
 
-<style>
-  .card-link .card {
-      border: 2px solid transparent; /* Default border thickness */
-      transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth transition for both shadow and border */
-  }
-
-  .card-link .card:hover {
-      border-color: #1b68ff; /* Change border color on hover */
-      border-width: 5px; /* Make the border thicker on hover */
-      box-shadow: 0 0 20px 5px #1b68ff; /* Blue glow effect */
-  }
-</style>
-
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <!-- <h2>Section title</h2> -->
-            <h1 class="h3 page-title">Select Your Web Server</h1>
-            <p class="text-muted">This primitive is meant to make it easy to display both user-centric or activity-centric actions in your app. Sometimes it makes sense to even blend both in a single timeline, which works perfectly.</p>
-            <br><br> <br>
-            <!-- info small box -->
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <a href="{% url 'apache_collection_options' %}" class="card-link">
-                      <div class="card shadow">
-                        <div class="card-body">
-                          <div class="row align-items-center">
-                            <div class="col">
-                              <span class="h2 mb-0">Apache HTTP Server</span>
-                              <!-- <p class="small text-muted mb-0">*64,*86</p> -->
-                              <span class="badge badge-pill badge-success">10,11</span>
-                            </div>
-                            <div class="col-auto">
-                              <img src="/static/assets/images/apache.png" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
-                            </div>
-                          </div>                   
-                        </div>
-                      </div>
-                    </a>
+              <div class="card my-4">
+                <div class="card-header">
+                  <strong>Validation</strong>
                 </div>
+                <div class="card-body">
 
-                <div class="col-md-4 mb-4">
-                    <a href="{% url 'nginx_collection_options' %}" class="card-link">
-                      <div class="card shadow">
-                        <div class="card-body">
-                          <div class="row align-items-center">
-                            <div class="col">
-                              <span class="h2 mb-0">Nginx</span>
-                              <p class="small text-muted mb-0">version</p>
-                              <span class="badge badge-pill badge-success">16</span>
-                            </div>
-                            <div class="col-auto">
-                              <img src="/static/assets/images/nginx.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
-                            </div>
+                  <form id="example-form" action="#">
+                    <div>
+                      <h3>Account</h3>
+                      <section>
+                        <div class="form-group">
+                          <label for="userName">User name *</label>
+                          <input id="userName" name="userName" type="text" class="form-control required">
+                        </div>
+                        <div class="form-group">
+                          <label for="password">Password *</label>
+                          <input id="password" name="password" type="text" class="form-control required">
+                        </div>
+                        <div class="form-group">
+                          <label for="confirm">Confirm Password *</label>
+                          <input id="confirm" name="confirm" type="text" class="form-control required">
+                        </div>
+                        <div class="help-text text-muted">(*) Mandatory</div>
+                      </section>
+
+                      <h3>Profile</h3>
+                      <section>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="name">First name *</label>
+                            <input id="name" name="name" type="text" class="form-control required">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="surname">Last name *</label>
+                            <input id="surname" name="surname" type="text" class="form-control required">
                           </div>
                         </div>
-                      </div>
-                    </a>
-                </div>
+                        <div class="form-group">
+                          <label for="email">Email *</label>
+                          <input id="email" name="email" type="text" class="form-control required email">
+                        </div>
+                        <div class="form-group">
+                          <label for="address">Address</label>
+                          <input id="address" name="address" class="form-control" type="text">
+                        </div>
+                        <div class="help-text text-muted">(*) Mandatory</div>
+                      </section>
+                      
+                      <h3>Hints</h3>
+                      <section>
+                        <ul class="ml-5">
+                          <li>Foo</li>
+                          <li>Bar</li>
+                          <li>Foobar</li>
+                        </ul>
+                      </section>
+                      <h3>Finish</h3>
+                      <section>
+                        <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+                      </section>
+                    </div>
+                  </form>
 
-                <div class="col-md-4 mb-4">
-                    <a href="{%url 'iis_collection_options'%}" class="card-link">
-                      <div class="card shadow">
-                        <div class="card-body">
-                          <div class="row align-items-center">
-                            <div class="col">
-                              <span class="h2 mb-0">IIS</span>
-                              <p class="small text-muted mb-0">version</p>
-                              <span class="badge badge-pill badge-warning">15</span>
-                            </div>
-                            <div class="col-auto">
-                              <img src="/static/assets/images/microsoft.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                </div>
-                <!-- Added empty columns for centering -->
-                <div class="col-md-2"></div>
-                <div class="col-md-4 mb-4">
-                    <a href="{%url 'tomcat_collection_options'%}" class="card-link">
-                      <div class="card shadow">
-                        <div class="card-body">
-                          <div class="row align-items-center">
-                            <div class="col">
-                              <span class="h2 mb-0">Tomcat</span>
-                              <p class="small text-muted mb-0">version</p>
-                              <span class="badge badge-pill badge-warning">15</span>
-                            </div>
-                            <div class="col-auto">
-                              <img src="/static/assets/images/tomcat.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <a href="{%url 'lighttpd_collection_options'%}" class="card-link">
-                      <div class="card shadow">
-                        <div class="card-body">
-                          <div class="row align-items-center">
-                            <div class="col">
-                              <span class="h2 mb-0">Lighttpd</span>
-                              <p class="small text-muted mb-0">version</p>
-                              <span class="badge badge-pill badge-warning">15</span>
-                            </div>
-                            <div class="col-auto">
-                              <img src="/static/assets/images/lighttpd.svg" alt="Clipboard Icon" class="fe fe-32 fe-clipboard text-muted mb-0">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                </div>
-                <div class="col-md-2"></div>
-            </div> <!-- end section -->
-        </div>
-    </div> <!-- .row -->
-</div> <!-- .container-fluid -->
-
-{% endblock %}
+                </div> <!-- .card-body -->
+              </div> <!-- .card -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        

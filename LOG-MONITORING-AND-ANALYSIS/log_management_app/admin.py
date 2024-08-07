@@ -59,7 +59,7 @@ admin.site.register(MongodbLogStream)
 admin.site.register(MongodbLogFileStream)
 admin.site.register(MongodbPerfLogs)
 
-admin.site.register(Alert)
+admin.site.register(WindowsAlert)
 
 
 

@@ -739,6 +739,22 @@ def mongodbperflogs(request):
 
 
 
+def alert_history(request): 
+
+    critical_alerts = WindowsAlert.objects.filter(entry_type='Critical')
+    high_alerts = WindowsAlert.objects.filter(entry_type__in=['Error', 'FailureAudit', 'Failure Audit'])
+    medium_alerts = WindowsAlert.objects.filter(entry_type='Warning')
+    low_alerts = WindowsAlert.objects.filter(entry_type__in=['Success Audit', 'SuccessAudit'])
+
+
+    context = {
+        'critical_alerts': critical_alerts,
+        'high_alerts': high_alerts,
+        'medium_alerts': medium_alerts,
+        'low_alerts': low_alerts,
+    }
+
+    return render(request, 'baseapp/alerts/alerts.html', context)
 
 
 
@@ -804,24 +820,6 @@ def logretention(request):
 
 
 
-#ALERTS
 
 
-def alert_list(request): 
-    # alerts = Alert.objects.all().order_by('-timestamp')
-
-    critical_alerts=Alert.objects.filter(alert_level='Critical')
-    print(critical_alerts)
-    high_alerts=Alert.objects.filter(alert_level='High')
-    medium_alerts=Alert.objects.filter(alert_level='Medium')
-    low_alerts=Alert.objects.filter(alert_level='Low')
-
-    context={
-        'critical_alerts': critical_alerts,
-        'high_alerts': high_alerts,
-        'medium_alerts': medium_alerts,
-        'low_alerts': low_alerts,
-    }
-    
-    return render(request, 'baseapp/alerts/alerts.html', context)
 

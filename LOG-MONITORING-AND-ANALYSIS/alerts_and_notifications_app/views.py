@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import *
 
 #ALERTS
 
@@ -6,10 +7,13 @@ def alertconfig(request):
     context={}
     return render(request,'baseapp/alertconfig/alertconfig.html',context)
 
-def alertspage(request):
-    context={}
-    return render(request,'baseapp/alerts/alerts.html',context)
     
+
+
+
+
+
+
 
 def scheduledreports(request):
     context={}

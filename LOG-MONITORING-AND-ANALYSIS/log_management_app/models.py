@@ -1956,17 +1956,16 @@ class MongoLogFileUploadForm(models.Model):
 
 #MONGODB END
 
-
-
-# ALERTS
-
-
-class Alert(models.Model):
+class WindowsAlert(models.Model):
     event_id = models.CharField(max_length=50)
-    description = models.TextField()
-    alert_level = models.CharField(max_length=20)
-    source_name = models.CharField(max_length=100)
+    entry_type=models.CharField(max_length=50)
+    provider = models.CharField(max_length=100)
+    alert_level = models.CharField(max_length=100)
+    message = models.TextField()
+    source_name = models.CharField(max_length=100,default="windows")
     timestamp = models.DateTimeField()
 
     def __str__(self):
-        return f"Alert {self.event_id}: {self.description[:50]}..."
+        return f"WindowsAlert {self.event_id}: {self.message[:50]}..."
+
+
