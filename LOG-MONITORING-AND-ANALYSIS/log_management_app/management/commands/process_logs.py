@@ -23,6 +23,13 @@ class Command(BaseCommand):
             logs = self.fetch_logs_from_collection(collection_name)
             
             for log in logs:
+                # Skip documents where LevelDisplayName, Message, or timestamp is null
+                if (log.get('LevelDisplayName') is None or 
+                    log.get('Message') is None or 
+                    log.get('Timecreated') is None):
+                    continue
+
+                # Create a WindowsAlert instance for valid documents
                 WindowsAlert.objects.create(
                     event_id=log.get('Id'),
                     entry_type=log.get('LevelDisplayName'),
