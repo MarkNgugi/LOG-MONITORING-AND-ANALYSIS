@@ -1,4 +1,6 @@
 from itertools import chain
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 from django.shortcuts import render,redirect
 from .forms import *
@@ -744,7 +746,7 @@ def alert_history(request):
     critical_alerts = WindowsAlert.objects.filter(entry_type='Critical')
     high_alerts = WindowsAlert.objects.filter(entry_type__in=['Error', 'FailureAudit', 'Failure Audit'])
     medium_alerts = WindowsAlert.objects.filter(entry_type='Warning')
-    low_alerts = WindowsAlert.objects.filter(entry_type__in=['Success Audit', 'SuccessAudit'])
+    low_alerts = WindowsAlert.objects.filter(entry_type__in=['Success Audit', 'SuccessAudit', 'Information'])
 
 
     context = {
