@@ -6,7 +6,8 @@ from .models import *
 
 
 def user_list(request):
-    context={}
+    users=User.objects.all()
+    context={'users':users}
     return render(request,'baseapp/useraccounts/useraccounts.html',context)
 
 @login_required

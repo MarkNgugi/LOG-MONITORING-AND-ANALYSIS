@@ -1,6 +1,4 @@
 from django.contrib import admin
-
-from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User
 
@@ -18,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('username', 'email', 'password')}),
         ('Personal info', {'fields': ('full_name', 'contact_number', 'date_of_birth', 'profile_picture', 'security_question', 'security_answer')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'role', 'department')}),
-        ('Important dates', {'fields': ('created_at', 'updated_at')}),
+        ('Important dates', {'fields': ('created_at',)}),  # Exclude 'updated_at'
     )
     add_fieldsets = (
         (None, {
@@ -30,4 +28,3 @@ class UserAdmin(BaseUserAdmin):
 
 # Register the custom User model with the custom UserAdmin
 admin.site.register(User, UserAdmin)
-

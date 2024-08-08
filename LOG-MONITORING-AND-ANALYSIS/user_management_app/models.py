@@ -32,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     security_question = models.CharField(max_length=255, blank=True)
     security_answer = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True,editable=False)
 
     objects = UserManager()
 
