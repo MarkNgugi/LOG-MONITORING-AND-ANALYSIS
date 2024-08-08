@@ -7,6 +7,7 @@ from .models import *
 
 def user_list(request):
     users=User.objects.all()
+    users=User.objects.exclude(role='Admin')
     context={'users':users}
     return render(request,'baseapp/useraccounts/useraccounts.html',context)
 
