@@ -2,9 +2,9 @@ from django.urls import path
 from . import views
 
 
-urlpatterns=[
+urlpatterns=[ 
 
-    path('useraccounts/',views.useraccounts,name='useraccounts'),
+    path('useraccounts/',views.user_list,name='useraccounts'),
 
 
     path('profile-settings',views.profilesettings,name='profilesettings'),
