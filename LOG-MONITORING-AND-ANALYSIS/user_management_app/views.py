@@ -20,10 +20,10 @@ def add_user(request):
             user.set_password(password)
             user.save()
             messages.success(request, 'User added successfully!')
-            return redirect('user_list')  # Redirect to a user list view or any other page
+            return redirect('useraccounts')  # Redirect to a user list view or any other page
     else:
         form = UserForm()
-    return render(request, 'baseapp/user/add_user.html', {'form': form})
+    return render(request, 'baseapp/useraccounts/add_user.html', {'form': form})
 
 def profilesettings(request):
     context={}
