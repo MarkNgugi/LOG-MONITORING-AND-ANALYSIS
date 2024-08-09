@@ -43,6 +43,17 @@ def edit_user(request, user_id):
     return render(request, 'baseapp/useraccounts/edit_user.html', {'form': form, 'user': user})
 
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)  # Only allow superusers to delete users
+def delete_user(request, user_id):
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, 'User deleted successfully!')
+        return redirect('useraccounts')  # Redirect to a user list view or any other page
+    return render(request, 'baseapp/useraccounts/delete_user.html', {'user': user})
+
+
 
 
 def profilesettings(request):
