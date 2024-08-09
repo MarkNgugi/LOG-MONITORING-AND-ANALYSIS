@@ -21,15 +21,26 @@
                                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                                         </div>
                                         <div class="col-md-4 mb-3">
-                                            <label for="{{ form.username.id_for_label }}">Username</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                                </div>
-                                                {{ form.username }}
-                                                <div class="invalid-feedback"> Please choose a username. </div>
-                                            </div>
-                                        </div>
+                                          <label for="{{ form.username.id_for_label }}">Username</label>
+                                          <div class="input-group">
+                                              <div class="input-group-prepend">
+                                                  <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                              </div>
+                                              {{ form.username }}
+                                              {% if form.username.errors %}
+                                                  <div class="invalid-feedback">
+                                                      {% for error in form.username.errors %}
+                                                          {{ error }}
+                                                      {% endfor %}
+                                                  </div>
+                                              {% else %}
+                                                  <div class="valid-feedback">
+                                                      Looks good!
+                                                  </div>
+                                              {% endif %}
+                                          </div>
+                                      </div>
+                                      
                                         <div class="col-md-6 mb-3">
                                             <label for="{{ form.first_name.id_for_label }}">First name</label>
                                             {{ form.first_name }}
@@ -42,10 +53,10 @@
                                         </div>
                                     </div>
 
-                                    <h5>Select a Role</h5>
-                                    <div class="form-group">
-                                        {{ form.role }}
-                                    </div>
+                                <h5>Select a Role</h5>
+                                <div class="form-group">
+                                    {{ form.role }}
+                                </div>
                                     
                                     <!-- <div class="form-row">
                                         <div class="col-md-12 mb-3">

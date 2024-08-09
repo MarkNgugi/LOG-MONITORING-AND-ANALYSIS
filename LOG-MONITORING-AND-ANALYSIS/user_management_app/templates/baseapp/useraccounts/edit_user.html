@@ -33,13 +33,34 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="{{ form.first_name.id_for_label }}">First name</label>
                                             {{ form.first_name }}
-                                            <div class="valid-feedback"> Looks good! </div>
+                                            {% if form.first_name.errors %}
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.first_name.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
+                                            {% endif %}
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="{{ form.last_name.id_for_label }}">Last name</label>
                                             {{ form.last_name }}
-                                            <div class="valid-feedback"> Looks good! </div>
+                                            {% if form.last_name.errors %}
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.last_name.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
+                                            {% endif %}
                                         </div>
+                                        
                                     </div>
 
                                     <h5>Select a Role</h5>

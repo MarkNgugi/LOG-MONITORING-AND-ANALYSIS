@@ -1,5 +1,6 @@
 from django import forms
 from .models import User
+from django.core.exceptions import ValidationError
 
 class UserForm(forms.ModelForm):
     # password = forms.CharField(widget=forms.PasswordInput(), min_length=8)
@@ -30,3 +31,9 @@ class UserForm(forms.ModelForm):
 
         if password != confirm_password:
             self.add_error('confirm_password', 'Passwords do not match')
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError('Username taken. Please choose another.')
+        return username            
