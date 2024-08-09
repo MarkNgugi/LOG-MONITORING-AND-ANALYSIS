@@ -1,0 +1,40 @@
+{% extends 'mainhome.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 mb-4">
+        <h2 class="h5 page-title">Delete User {{ user.username }}</h2> 
+        <br> <br> <br>       
+        <div class="row justify-content-center">
+          <div class="col-md-8 mb-4">
+            <div class="card shadow">
+              <div class="card-header">
+                <strong class="card-title">Confirm Deletion</strong>
+              </div>
+              <div class="card-body">                                
+                <p><strong>Warning:</strong> This action is <strong>irreversible</strong>. Once you delete this user, all their data will be permanently removed from the system. This includes:</p>
+                <ul>
+                  <li>All associated records and data</li>
+                  <li>Activity logs and history</li>
+                  <li>Any permissions or roles assigned to this user</li>
+                </ul>
+                <p>Are you sure you want to proceed with deleting this user?</p>                
+              </div>
+              <div class="card-footer text-center">
+                <div class="d-flex justify-content-center">
+                  <form method="post" action="{% url 'delete_user' user.id %}" class="mr-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Confirm Deletion</button>
+                  </form>
+                  <a href="{% url 'useraccounts' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+              </div>
+            </div>
+          </div>    
+        </div> <!-- end section -->
+      </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+
+{% endblock %}
