@@ -27,6 +27,23 @@ def add_user(request):
         form = UserForm()
     return render(request, 'baseapp/useraccounts/add_user.html', {'form': form})
 
+
+@login_required 
+@user_passes_test(lambda u: u.is_superuser)  # Only allow superusers to edit users
+def edit_user(request, user_id):
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'User updated successfully!')
+            return redirect('useraccounts')  # Redirect to a user list view or any other page
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'baseapp/useraccounts/edit_user.html', {'form': form, 'user': user})
+
+
+
 def profilesettings(request):
     context={}
     return render(request,'baseapp/profilesettings/profilesettings.html',context)
