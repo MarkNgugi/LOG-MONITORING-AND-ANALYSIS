@@ -7,7 +7,7 @@
       <div class="my-4">
         <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">Security</a>
@@ -15,11 +15,14 @@
           <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Notifications</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" id="activitylogs-tab" data-toggle="tab" href="#activitylogs" role="tab" aria-controls="activitylogs" aria-selected="false">Activity Logs</a>
+          </li>          
         </ul>
         
         <div class="tab-content" id="myTabContent">
           <!-- Profile Tab Pane -->
-          <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="home-tab">
+          <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <!-- Profile Content here -->
             <form>
               <div class="row mt-5 align-items-center">
@@ -88,7 +91,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="inputPassword4">Old Password</label>
-                    <input type="password" class="form-control" id="inputPassword5">
+                    <input type="password" class="form-control" id="inputPassword4">
                   </div>
                   <div class="form-group">
                     <label for="inputPassword5">New Password</label>
@@ -120,7 +123,7 @@
                 <button class="btn btn-danger">Delete Your Account</button>
               </div> <!-- .list-group-item -->
             </div> <!-- .list-group -->
-            
+          </div>
 
           <!-- Security Tab Pane -->
           <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
@@ -136,7 +139,7 @@
                   <div class="col-auto">
                     <div class="custom-control custom-switch">
                       <input type="checkbox" class="custom-control-input" id="activityLog" checked>
-                      <span class="custom-control-label"></span>
+                      <label class="custom-control-label" for="activityLog"></label>
                     </div>
                   </div> <!-- .col -->
                 </div> <!-- .row -->
@@ -166,7 +169,7 @@
               </div> <!-- .list-group-item -->              
             </div> <!-- .list-group -->
             <h5 class="mb-0">Web Sessions</h5>
-            <p>This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.</p>
+            <p>This is a list of all active web sessions.</p>
             <table class="table border bg-white">
               <thead>
                 <tr>
@@ -205,22 +208,19 @@
 
           <!-- Notifications Tab Pane -->
           <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
-            <h5 class="mb-0 mt-5">Notifications Settings</h5>
-            <p>Select notification you want to receive</p>
-            <hr class="my-4">
-            <strong class="mb-0">Security</strong>
-            <p>Control security alert you will be notified.</p>
+            <h5 class="mb-0 mt-5">Notification Settings</h5>
+            <p>Manage your notification preferences here.</p>
             <div class="list-group mb-5 shadow">
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div class="col">
-                    <strong class="mb-0">Unusual activity notifications</strong>
-                    <p class="text-muted mb-0">Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
+                    <strong class="mb-2">Email Notifications</strong>
+                    <p class="text-muted mb-0">Receive notifications via email.</p>
                   </div> <!-- .col -->
                   <div class="col-auto">
                     <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="alert1" checked>
-                      <span class="custom-control-label"></span>
+                      <input type="checkbox" class="custom-control-input" id="emailNotifications" checked>
+                      <label class="custom-control-label" for="emailNotifications"></label>
                     </div>
                   </div> <!-- .col -->
                 </div> <!-- .row -->
@@ -228,69 +228,120 @@
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div class="col">
-                    <strong class="mb-0">Unauthorized financial activity</strong>
-                    <p class="text-muted mb-0">Fusce lacinia elementum eros, sed vulputate urna eleifend nec.</p>
+                    <strong class="mb-2">Push Notifications</strong>
+                    <p class="text-muted mb-0">Receive notifications via push messages on your device.</p>
                   </div> <!-- .col -->
                   <div class="col-auto">
                     <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="alert2">
-                      <span class="custom-control-label"></span>
-                    </div>
-                  </div> <!-- .col -->
-                </div> <!-- .row -->
-              </div> <!-- .list-group-item -->
-            </div> <!-- .list-group -->
-            <hr class="my-4">
-            <strong class="mb-0">System</strong>
-            <p>Please enable system alert you will get.</p>
-            <div class="list-group mb-5 shadow">
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Notify me about new features and updates</strong>
-                    <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </div> <!-- .col -->
-                  <div class="col-auto">
-                    <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="alert3" checked>
-                      <span class="custom-control-label"></span>
-                    </div>
-                  </div> <!-- .col -->
-                </div> <!-- .row -->
-              </div> <!-- .list-group-item -->
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Notify me by email for latest news</strong>
-                    <p class="text-muted mb-0">Nulla et tincidunt sapien. Sed eleifend volutpat elementum.</p>
-                  </div> <!-- .col -->
-                  <div class="col-auto">
-                    <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="alert4" checked>
-                      <span class="custom-control-label"></span>
-                    </div>
-                  </div> <!-- .col -->
-                </div> <!-- .row -->
-              </div> <!-- .list-group-item -->
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Notify me about tips on using account</strong>
-                    <p class="text-muted mb-0">Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
-                  </div> <!-- .col -->
-                  <div class="col-auto">
-                    <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="alert5">
-                      <span class="custom-control-label"></span>
+                      <input type="checkbox" class="custom-control-input" id="pushNotifications" checked>
+                      <label class="custom-control-label" for="pushNotifications"></label>
                     </div>
                   </div> <!-- .col -->
                 </div> <!-- .row -->
               </div> <!-- .list-group-item -->
             </div> <!-- .list-group -->
           </div>
+
+          <!-- Recent Activity Pane -->  
+          <div class="tab-pane fade" id="activitylogs" role="tabpanel" aria-labelledby="activitylogs-tab">
+            <div class="card card-fill timeline col-md-14">
+              <div class="card-header">
+                <strong class="card-title">Recent Events</strong>
+                <a class="float-right small text-muted" href="#!">View all</a>
+              </div>
+              <div class="card-body">
+                <!-- <h6 class="text-uppercase text-muted mb-4">Today</h6> -->
+                <div class="pb-3 timeline-item item-primary">
+                  <div class="pl-5">
+                    <div class="mb-1"><strong>@Brown Asher</strong><span class="text-muted small mx-2">Just create new layout Index, form, table</span><strong>Tiny Admin</strong></div>
+                    <p class="small text-muted">Creative Design <span class="badge badge-light">1h ago</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="pb-3 timeline-item item-warning">
+                  <div class="pl-5">
+                    <div class="mb-3"><strong>@Hester Nissim</strong><span class="text-muted small mx-2">has upload new files to</span><strong>Tiny Admin</strong></div>
+                    <div class="row mb-3">
+                      <div class="col-1"><img src="/static/assets/products/p1.jpg" alt="..." class="img-fluid rounded"></div>
+                      <div class="col-1"><img src="/static/assets/products/p2.jpg" alt="..." class="img-fluid rounded"></div>
+                      <div class="col-1"><img src="/static/assets/products/p3.jpg" alt="..." class="img-fluid rounded"></div>
+                      <div class="col-1"><img src="/static/assets/products/p4.jpg" alt="..." class="img-fluid rounded"></div>
+                    </div>
+                    <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="pb-3 timeline-item item-success">
+                  <div class="pl-5">
+                    <div class="mb-3"><strong>@Kelley Sonya</strong><span class="text-muted small mx-2">has commented on</span><strong>Advanced table</strong></div>
+                    <div class="card d-inline-flex mb-2">
+                      <div class="card-body bg-light py-2 px-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim nulla eu quam cursus placerat. Vivamus non odio ullamcorper, lacinia ante nec, blandit leo. </div>
+                    </div>
+                    </p>
+                    <p class="small text-muted">Back-End Development <span class="badge badge-light">1h ago</span>
+                    </p>
+                  </div>
+                </div>
+                <!-- <h6 class="text-uppercase text-muted mb-4">Yesterday</h6> -->
+                <div class="pb-3 timeline-item item-warning">
+                  <div class="pl-5">
+                    <div class="mb-3"><strong>@Fletcher Everett</strong><span class="text-muted small mx-2">created new group for</span><strong>Tiny Admin</strong></div>
+                    <ul class="avatars-list mb-3">
+                      <li>
+                        <a href="#!" class="avatar avatar-sm">
+                          <img alt="..." class="avatar-img rounded-circle" src="/static/assets/avatars/face-1.jpg">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#!" class="avatar avatar-sm">
+                          <img alt="..." class="avatar-img rounded-circle" src="/static/assets/avatars/face-4.jpg">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#!" class="avatar avatar-sm">
+                          <img alt="..." class="avatar-img rounded-circle" src="/static/assets/avatars/face-3.jpg">
+                        </a>
+                      </li>
+                    </ul>
+                    <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="pb-3 timeline-item item-success">
+                  <div class="pl-5">
+                    <div class="mb-3"><strong>@Bertha Ball</strong><span class="text-muted small mx-2">has commented on</span><strong>Advanced table</strong></div>
+                    <div class="card d-inline-flex mb-2">
+                      <div class="card-body bg-light py-2 px-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim nulla eu quam cursus placerat. Vivamus non odio ullamcorper, lacinia ante nec, blandit leo. </div>
+                    </div>
+                    </p>
+                    <p class="small text-muted">Back-End Development <span class="badge badge-light">1h ago</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="pb-3 timeline-item item-danger">
+                  <div class="pl-5">
+                    <div class="mb-3"><strong>@Lillith Joseph</strong><span class="text-muted small mx-2">has upload new files to</span><strong>Tiny Admin</strong></div>
+                    <div class="row mb-3">
+                      <div class="col-1"><img src="/static/assets/products/p4.jpg" alt="..." class="img-fluid rounded"></div>
+                      <div class="col-1"><img src="/static/assets/products/p1.jpg" alt="..." class="img-fluid rounded"></div>
+                      <div class="col-1"><img src="/static/assets/products/p2.jpg" alt="..." class="img-fluid rounded"></div>
+                    </div>
+                    <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
+                    </p>
+                  </div>
+                </div>
+              </div> <!-- / .card-body -->
+            </div> <!-- / .card -->                               
+
+
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock %}
