@@ -10,7 +10,8 @@ urlpatterns=[
     path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
 
 
-    path('account-settings/',views.accountsettings,name='accountsettings'),
+    path('account-settings/', views.accountsettings, name='accountsettings'),
+    path('account-settings/<str:tab>/', views.accountsettings, name='accountsettings_tab'),
 
     path('iplist/',views.ip_page,name='ip_page'),
     path('test/',views.test,name='test'),

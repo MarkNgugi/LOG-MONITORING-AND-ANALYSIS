@@ -56,9 +56,9 @@ def delete_user(request, user_id):
 
 
 
-def accountsettings(request):
-    context={}
-    return render(request,'baseapp/accountsettings/accountsettings.html',context)
+def accountsettings(request, tab='profile'):
+    context = {'tab': tab}
+    return render(request, 'baseapp/accountsettings/accountsettings.html', context)
 
 
 def ip_page(request):
