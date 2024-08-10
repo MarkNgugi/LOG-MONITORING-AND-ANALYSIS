@@ -1,0 +1,291 @@
+{% extends 'mainhome.html' %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8">
+      <h2 class="h3 mb-4 page-title">Settings</h2>
+      <div class="my-4">
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">Security</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Notifications</a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <!-- Profile Tab Pane -->
+          <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <!-- Profile Content here -->
+            <form>
+              <div class="row mt-5 align-items-center">
+                <div class="col-md-3 text-center mb-5">
+                  <div class="avatar avatar-xl">
+                    <img src="./assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row align-items-center">
+                    <div class="col-md-7">
+                      <h4 class="mb-1">Brown, Asher</h4>
+                      <p class="small mb-3"><span class="badge badge-dark">New York, USA</span></p>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col-md-7">
+                      <p class="text-muted"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit nisl ullamcorper, rutrum metus in, congue lectus. In hac habitasse platea dictumst. Cras urna quam, malesuada vitae risus at, pretium blandit sapien. </p>
+                    </div>
+                    <div class="col">
+                      <p class="small mb-0 text-muted">Nec Urna Suscipit Ltd</p>
+                      <p class="small mb-0 text-muted">P.O. Box 464, 5975 Eget Avenue</p>
+                      <p class="small mb-0 text-muted">(537) 315-1481</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="firstname">Firstname</label>
+                  <input type="text" id="firstname" class="form-control" placeholder="Brown">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="lastname">Lastname</label>
+                  <input type="text" id="lastname" class="form-control" placeholder="Asher">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail4">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" placeholder="brown@asher.me">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress5">Address</label>
+                <input type="text" class="form-control" id="inputAddress5" placeholder="P.O. Box 464, 5975 Eget Avenue">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCompany5">Company</label>
+                  <input type="text" class="form-control" id="inputCompany5" placeholder="Nec Urna Suscipit Ltd">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputState5">State</label>
+                  <select id="inputState5" class="form-control">
+                    <option selected="">Choose...</option>
+                    <option>...</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="inputZip5">Zip</label>
+                  <input type="text" class="form-control" id="inputZip5" placeholder="98232">
+                </div>
+              </div>
+              <hr class="my-4">
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="inputPassword4">Old Password</label>
+                    <input type="password" class="form-control" id="inputPassword5">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword5">New Password</label>
+                    <input type="password" class="form-control" id="inputPassword5">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword6">Confirm Password</label>
+                    <input type="password" class="form-control" id="inputPassword6">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <p class="mb-2">Password requirements</p>
+                  <p class="small text-muted mb-2"> To create a new password, you have to meet all of the following requirements: </p>
+                  <ul class="small text-muted pl-4 mb-0">
+                    <li> Minimum 8 character </li>
+                    <li>At least one special character</li>
+                    <li>At least one number</li>
+                    <li>Can’t be the same as a previous password </li>
+                  </ul>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Change</button>
+            </form>
+          </div>
+
+          <!-- Security Tab Pane -->
+          <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+            <h5 class="mb-0 mt-5">Security Settings</h5>
+            <p>These settings are helps you keep your account secure.</p>
+            <div class="list-group mb-5 shadow">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-2">Enable Activity Logs</strong>
+                    <p class="text-muted mb-0">Donec id elit non mi porta gravida at eget metus.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="activityLog" checked>
+                      <span class="custom-control-label"></span>
+                    </div>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-2">2FA Authentication</strong>
+                    <span class="badge badge-pill badge-success">Enabled</span>
+                    <p class="text-muted mb-0">Maecenas sed diam eget risus varius blandit.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <button class="btn btn-primary btn-sm">Disable</button>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-2">Activate Pin Code</strong>
+                    <p class="text-muted mb-0">Donec id elit non mi porta gravida at eget metus.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="pinCode">
+                      <span class="custom-control-label"></span>
+                    </div>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+            </div> <!-- .list-group -->
+            <h5 class="mb-0">Recent Activity</h5>
+            <p>Last activities with your account.</p>
+            <table class="table border bg-white">
+              <thead>
+                <tr>
+                  <th>Device</th>
+                  <th>Location</th>
+                  <th>IP</th>
+                  <th>Time</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="col"><i class="fe fe-globe fe-12 text-muted mr-2"></i>Chrome - Windows 10</th>
+                  <td>Paris, France</td>
+                  <td>192.168.1.10</td>
+                  <td>Apr 24, 2019</td>
+                  <td><a hreff="#" class="text-muted"><i class="fe fe-x"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="col"><i class="fe fe-smartphone fe-12 text-muted mr-2"></i>App - Mac OS</th>
+                  <td>Newyork, USA</td>
+                  <td>10.0.0.10</td>
+                  <td>Apr 24, 2019</td>
+                  <td><a hreff="#" class="text-muted"><i class="fe fe-x"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="col"><i class="fe fe-globe fe-12 text-muted mr-2"></i>Chrome - iOS</th>
+                  <td>London, UK</td>
+                  <td>255.255.255.0</td>
+                  <td>Apr 24, 2019</td>
+                  <td><a hreff="#" class="text-muted"><i class="fe fe-x"></i></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Notifications Tab Pane -->
+          <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+            <h5 class="mb-0 mt-5">Notifications Settings</h5>
+            <p>Select notification you want to receive</p>
+            <hr class="my-4">
+            <strong class="mb-0">Security</strong>
+            <p>Control security alert you will be notified.</p>
+            <div class="list-group mb-5 shadow">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-0">Unusual activity notifications</strong>
+                    <p class="text-muted mb-0">Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="alert1" checked>
+                      <span class="custom-control-label"></span>
+                    </div>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-0">Unauthorized financial activity</strong>
+                    <p class="text-muted mb-0">Fusce lacinia elementum eros, sed vulputate urna eleifend nec.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="alert2">
+                      <span class="custom-control-label"></span>
+                    </div>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+            </div> <!-- .list-group -->
+            <hr class="my-4">
+            <strong class="mb-0">System</strong>
+            <p>Please enable system alert you will get.</p>
+            <div class="list-group mb-5 shadow">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-0">Notify me about new features and updates</strong>
+                    <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="alert3" checked>
+                      <span class="custom-control-label"></span>
+                    </div>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-0">Notify me by email for latest news</strong>
+                    <p class="text-muted mb-0">Nulla et tincidunt sapien. Sed eleifend volutpat elementum.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="alert4" checked>
+                      <span class="custom-control-label"></span>
+                    </div>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <strong class="mb-0">Notify me about tips on using account</strong>
+                    <p class="text-muted mb-0">Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
+                  </div> <!-- .col -->
+                  <div class="col-auto">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="alert5">
+                      <span class="custom-control-label"></span>
+                    </div>
+                  </div> <!-- .col -->
+                </div> <!-- .row -->
+              </div> <!-- .list-group-item -->
+            </div> <!-- .list-group -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

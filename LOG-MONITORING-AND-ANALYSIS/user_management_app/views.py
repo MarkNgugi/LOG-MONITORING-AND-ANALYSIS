@@ -43,7 +43,7 @@ def edit_user(request, user_id):
     return render(request, 'baseapp/useraccounts/edit_user.html', {'form': form, 'user': user})
 
 
-@login_required
+@login_required 
 @user_passes_test(lambda u: u.is_superuser)  # Only allow superusers to delete users
 def delete_user(request, user_id):
     user = User.objects.get(id=user_id)
@@ -56,21 +56,10 @@ def delete_user(request, user_id):
 
 
 
-def profilesettings(request):
+def accountsettings(request):
     context={}
-    return render(request,'baseapp/profilesettings/profilesettings.html',context)
+    return render(request,'baseapp/accountsettings/accountsettings.html',context)
 
-def accountsecurity(request):
-    context={}
-    return render(request,'baseapp/profilesettings/accountsettings.html',context)
-
-def profilesecurity(request):
-    context={}
-    return render(request,'baseapp/profilesettings/profilesecurity.html',context)
-
-def profilenotifications(request):
-    context={}
-    return render(request,'baseapp/profilesettings/profilenotifications.html',context)
 
 def ip_page(request):
     context={}

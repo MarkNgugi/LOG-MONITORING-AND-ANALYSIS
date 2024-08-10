@@ -10,10 +10,8 @@ urlpatterns=[
     path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
 
 
-    path('profile-settings',views.profilesettings,name='profilesettings'),
-    path('accountsecurity/',views.accountsecurity,name='accountsecurity'),
-    path('profilesecurity/',views.profilesecurity,name='profilesecurity'),
-    path('profilenotifications/',views.profilenotifications,name='profilenotifications'),
+    path('account-settings/',views.accountsettings,name='accountsettings'),
+
     path('iplist/',views.ip_page,name='ip_page'),
     path('test/',views.test,name='test'),
 
