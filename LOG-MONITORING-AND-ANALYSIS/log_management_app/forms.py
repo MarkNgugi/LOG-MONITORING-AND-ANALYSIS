@@ -54,28 +54,29 @@ class WindowsFileLogSourceForm(forms.ModelForm):
         }
 
 
+# forms.py
 class WindowsPerfLogsForm(forms.ModelForm):
-    performance_metrics = forms.ModelMultipleChoiceField(
+    metric_types = forms.ModelMultipleChoiceField(
         queryset=WindowsPerformanceMetric.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True,
-        help_text="Select the metrics to collect"
+        widget=forms.CheckboxSelectMultiple,  # Widget for rendering as checkboxes
+        required=False,
+        help_text="Select the types of metrics to include"
     )
 
-    class Meta: 
+    class Meta:
         model = WindowsPerfLogs
         fields = [
-            'log_source_name',  
-            'performance_metrics', 'collection_interval', 'retention_policy', 
-            
+            'log_source_name',
+            'metric_types',
+            'collection_interval',
+            'retention_policy',
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'performance_metrics': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-
         }
+
 
 class WindowsActiveDirectoryLogSourceForm(forms.ModelForm): 
     class Meta:

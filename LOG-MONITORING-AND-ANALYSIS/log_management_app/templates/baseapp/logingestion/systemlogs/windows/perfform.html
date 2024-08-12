@@ -1,4 +1,3 @@
-
 {% extends 'mainhome.html' %}
 
 {% block content %}
@@ -17,11 +16,22 @@
                     {{ logperf.log_source_name.help_text }}
                 </div>
 
+                <h5>Select the types of metrics to include:</h5>
                 <div class="form-group">
-                    <h5>{{ logperf.performance_metrics.help_text }}</h5> <br> 
-                    {{ logperf.performance_metrics }}
-                    
+                    {% for checkbox in logperf.metric_types %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input"
+                                   id="customCheck{{ forloop.counter }}"
+                                   name="{{ checkbox.name }}"
+                                   value="{{ checkbox.choice_value }}"
+                                   {% if checkbox.choice_value in logperf.metric_types.value %}checked{% endif %}>
+                            <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
+                                {{ checkbox.choice_label }}
+                            </label>
+                        </div>
+                    {% endfor %}
                 </div>
+
                 <div class="form-group">
                     {{ logperf.collection_interval.label_tag }}
                     {{ logperf.collection_interval }}

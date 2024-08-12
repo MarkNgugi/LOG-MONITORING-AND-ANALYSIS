@@ -125,7 +125,7 @@ class WindowsFileLogSource(models.Model):
     # Event IDs: Specific event IDs to filter for.
 
     def __str__(self):
-        return self.log_source_name
+        return self.log_source_name 
 
 
 class WindowsPerfLogs(models.Model):
@@ -175,11 +175,59 @@ class WindowsPerfLogs(models.Model):
         return self.log_source_name
 
 
-class WindowsPerformanceMetric(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Metric Name")
+class WindowsPerformanceMetric(models.Model):   
 
+    METRIC_CHOICES = [
+        ('cpu', 'CPU'),
+        ('memory', 'Memory'),
+        ('disk', 'Disk'),
+        ('network', 'Network'),
+        ('system', 'System'),
+        ('process', 'Process'),
+        ('application', 'Application'),
+    ]
+    
+    # Fields for performance metrics
+    name = models.CharField(max_length=100, verbose_name="Metric Name")
+    # metric_type = models.CharField(max_length=20, choices=METRIC_CHOICES, verbose_name="Metric Type")
+    
+    # # CPU Metrics
+    # processor_time = models.FloatField(null=True, blank=True, verbose_name="Processor Time (%)")
+    # processor_queue_length = models.FloatField(null=True, blank=True, verbose_name="Processor Queue Length")
+    # context_switches_per_sec = models.FloatField(null=True, blank=True, verbose_name="Context Switches/sec")
+    
+    # # Memory Metrics
+    # available_mbytes = models.FloatField(null=True, blank=True, verbose_name="Available MBytes")
+    # committed_bytes = models.FloatField(null=True, blank=True, verbose_name="Committed Bytes")
+    # page_faults_per_sec = models.FloatField(null=True, blank=True, verbose_name="Page Faults/sec")
+    
+    # # Disk Metrics
+    # disk_read_bytes_per_sec = models.FloatField(null=True, blank=True, verbose_name="Disk Read Bytes/sec")
+    # disk_write_bytes_per_sec = models.FloatField(null=True, blank=True, verbose_name="Disk Write Bytes/sec")
+    # disk_queue_length = models.FloatField(null=True, blank=True, verbose_name="Disk Queue Length")
+    
+    # # Network Metrics
+    # network_interface_bytes_total_per_sec = models.FloatField(null=True, blank=True, verbose_name="Network Interface Bytes Total/sec")
+    # packets_per_sec = models.FloatField(null=True, blank=True, verbose_name="Packets/sec")
+    # network_interface_output_queue_length = models.FloatField(null=True, blank=True, verbose_name="Network Interface Output Queue Length")
+    
+    # # System Metrics
+    # system_up_time = models.FloatField(null=True, blank=True, verbose_name="System Up Time")
+    # system_calls_per_sec = models.FloatField(null=True, blank=True, verbose_name="System Calls/sec")
+    # interrupts_per_sec = models.FloatField(null=True, blank=True, verbose_name="Interrupts/sec")
+    
+    # # Process Metrics
+    # process_private_bytes = models.FloatField(null=True, blank=True, verbose_name="Process Private Bytes")
+    # process_virtual_bytes = models.FloatField(null=True, blank=True, verbose_name="Process Virtual Bytes")
+    # process_cpu_time = models.FloatField(null=True, blank=True, verbose_name="Process CPU Time")
+    
+    # # Application Metrics
+    # application_response_time = models.FloatField(null=True, blank=True, verbose_name="Application Response Time")
+    # application_errors = models.IntegerField(null=True, blank=True, verbose_name="Application Errors")
+    
     def __str__(self):
         return self.name
+
 
 
 class WindowsActiveDirectoryLogSource(models.Model):
