@@ -27,7 +27,7 @@
                                     {{ log_source_form.description.label_tag }}
                                     {{ log_source_form.description }}
                                 </div>
-                                <h3>Select log types to collect:</h3>
+                                <h5>Select log types to collect:</h5>
                                 <div class="form-group">
                                     {% for checkbox in log_source_form.log_type %}
                                         <div class="custom-control custom-checkbox">
@@ -52,11 +52,8 @@
                                 <div class="form-group">
                                     {{ log_source_form.ingestion_mtd.label_tag }}(*)
                                     {{ log_source_form.ingestion_mtd }}
-                                </div>
-                                <div class="form-group">
-                                    {{ log_source_form.comments.label_tag }}
-                                    {{ log_source_form.comments }}
-                                </div><br>
+                                </div> <br>
+
                                 <div>
                                     <button type="submit" class="btn btn-primary">Next</button>
                                 </div>

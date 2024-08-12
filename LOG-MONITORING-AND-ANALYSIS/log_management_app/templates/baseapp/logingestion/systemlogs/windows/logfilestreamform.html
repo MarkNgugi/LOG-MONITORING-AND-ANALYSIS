@@ -1,4 +1,3 @@
-
 {% extends 'mainhome.html' %}
 
 {% block content %}
@@ -15,13 +14,61 @@
                     <strong>Add Log Source</strong>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="">
+                    <form method="post" action="{% url 'streamlogfiles' %}">
                         {% csrf_token %}
-                        {{ logfileform.as_p }}
-                        <form method="post" action="{%url 'streamlogfiles'%}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Next</button>
-                        </form>
+                        
+                        <div class="form-group">
+                            {{ logfileform.log_source_name.label_tag }}
+                            {{ logfileform.log_source_name }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ logfileform.log_file_path.label_tag }}
+                            {{ logfileform.log_file_path }}
+                        </div>
+                    
+                        <h5>Select log types to collect:</h5>
+                        <div class="form-group">
+                            {% for checkbox in logfileform.log_type %}
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" 
+                                        id="customCheck{{ forloop.counter }}" 
+                                        name="log_type" 
+                                        value="{{ checkbox.data.value }}">
+                                    <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
+                                        {{ checkbox.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ logfileform.collection_interval.label_tag }}
+                            {{ logfileform.collection_interval }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ logfileform.retention_policy.label_tag }}
+                            {{ logfileform.retention_policy }}
+                        </div>                        
+                    
+                        <div class="form-group">
+                            {{ logfileform.log_format.label_tag }}
+                            {{ logfileform.log_format }}
+                        </div>                         
+                        
+                        <div class="form-group">
+                            {{ logfileform.rotation_policy.label_tag }}
+                            {{ logfileform.rotation_policy }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ logfileform.ingestion_mtd.label_tag }}(*)
+                            {{ logfileform.ingestion_mtd }}
+                        </div> <br>                        
+                                           
+                        
+                        <button type="submit" class="btn btn-primary">Next</button>
                     </form>
                 </div> <!-- .card-body -->
             </div> <!-- .card -->

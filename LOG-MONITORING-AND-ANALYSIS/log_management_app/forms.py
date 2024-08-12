@@ -13,40 +13,44 @@ class WindowsLogSourceForm(forms.ModelForm):
         model = WindowsLogSource
         fields = [
             'log_source_name', 'description', 'log_type', 'collection_interval',
-            'retention_policy', 'ingestion_mtd', 'comments'
+            'retention_policy', 'ingestion_mtd'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
-            'comments': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter comments', 'rows': 3}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),            
+            'ingestion_mtd': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly', 'disabled': 'disabled'}),         
         }
 
-
+ 
 
 class WindowsFileLogSourceForm(forms.ModelForm):
+    log_type = forms.ModelMultipleChoiceField(
+        queryset=WindowsLogType.objects.all()
+    )    
     class Meta:
         model = WindowsFileLogSource
         fields = [
             'log_source_name',
             'log_file_path',
-            'log_file_type',
-            'collection_interval',
-            'file_size_limit',
+            'log_type',
+            'collection_interval',            
+            'retention_policy',
+            'log_format',
             'rotation_policy',
-            'retention_policy'
+            'ingestion_mtd'
+            
 
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),
-            'log_file_type': forms.Select(attrs={'class': 'form-control'}),
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),            
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),            
+            'log_format': forms.Select(attrs={'class': 'form-control'}),                       
             'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
+            'ingestion_mtd': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly', 'disabled': 'disabled'}),         
         }
 
 

@@ -57,8 +57,7 @@ class WindowsLogSource(models.Model):
     collection_mtd = models.CharField(max_length=50, default='Log streaming')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
-    ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='powershell')
-    comments = models.TextField(blank=True, null=True)
+    ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='powershell')    
     activate = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -68,7 +67,7 @@ class WindowsLogSource(models.Model):
 
 
 class WindowsFileLogSource(models.Model):
-    LogFileType = [
+    LogFormat = [
         ('text', 'Text'),
         ('csv', 'CSV'),
         ('json', 'JSON'),
@@ -111,16 +110,19 @@ class WindowsFileLogSource(models.Model):
     ingestion_mtd = models.CharField(max_length=30, default='powershell')
     log_file_path = models.CharField(max_length=255)
     os_type=models.CharField(max_length=50,default='Windows')
-    log_file_type = models.CharField(max_length=10, choices=LogFileType)
+    log_type = models.ManyToManyField(WindowsLogType)
+    log_format = models.CharField(max_length=10, choices=LogFormat)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     collection_mtd = models.CharField(max_length=50, default='Files streaming')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    file_size_limit = models.PositiveIntegerField()  # in MB
+    ingestion_mtd = models.CharField(max_length=30, default='powershell')
+    # file_size_limit = models.PositiveIntegerField()  # in MB
     activate = models.BooleanField(default=True)
     rotation_policy = models.CharField(max_length=15, choices=ROTATION_POLICY_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    # Event IDs: Specific event IDs to filter for.
 
     def __str__(self):
         return self.log_source_name
