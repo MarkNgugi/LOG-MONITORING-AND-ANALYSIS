@@ -54,11 +54,10 @@ class WindowsFileLogSourceForm(forms.ModelForm):
         }
 
 
-# forms.py
 class WindowsPerfLogsForm(forms.ModelForm):
     metric_types = forms.ModelMultipleChoiceField(
         queryset=WindowsPerformanceMetric.objects.all(),
-        widget=forms.CheckboxSelectMultiple,  # Widget for rendering as checkboxes
+        widget=forms.CheckboxSelectMultiple,  
         required=False,
         help_text="Select the types of metrics to include"
     )

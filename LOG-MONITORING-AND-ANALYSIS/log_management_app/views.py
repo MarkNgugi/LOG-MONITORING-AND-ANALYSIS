@@ -579,11 +579,6 @@ def lighttpdfileupload(request):
 
 
 
-
-
-
-
-
     #database
 
 def database_collection_options(request):
@@ -609,6 +604,7 @@ def dblogfileuploadwizard(request):
 
 #DATABASE FORMS START
 
+#MYSQL
 def mysqllogstream(request):
     if request.method=='POST':
         mysqlform=MysqlLogStreamForm(request.POST)
@@ -737,7 +733,7 @@ def mongodbperflogs(request):
     return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbperflogs.html',context)
 
 
-#DATABASE FORMS END
+#=========================================DATABASE FORMS END=========================================================
 
 
 
