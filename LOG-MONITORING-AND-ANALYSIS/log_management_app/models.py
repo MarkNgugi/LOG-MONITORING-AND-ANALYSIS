@@ -4,10 +4,18 @@ from django.utils import timezone
 #====================WINDOWS LOGS MODELS START=======================
 
 class WindowsLogType(models.Model):
-    name = models.CharField(max_length=20, unique=True)
+    LOG_TYPE_CHOICES = [
+        ('system', 'System'),
+        ('security', 'Security'),
+        ('setup', 'Setup'),
+        ('application', 'Application'),
+    ]
+
+    name = models.CharField(max_length=20, choices=LOG_TYPE_CHOICES, unique=True)
 
     def __str__(self):
         return self.name
+
 
 
 class WindowsLogSource(models.Model):

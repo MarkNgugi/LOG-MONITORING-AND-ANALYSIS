@@ -6,8 +6,7 @@ from .models import *
 
 class WindowsLogSourceForm(forms.ModelForm):
     log_type = forms.ModelMultipleChoiceField(
-        queryset=WindowsLogType.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        queryset=WindowsLogType.objects.all()
     )
 
     class Meta:
@@ -19,13 +18,13 @@ class WindowsLogSourceForm(forms.ModelForm):
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),
-            'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
             'ingestion_mtd': forms.Select(attrs={'class': 'form-control'}),
             'comments': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter comments', 'rows': 3}),
-
         }
+
+
 
 class WindowsFileLogSourceForm(forms.ModelForm):
     class Meta:
@@ -768,7 +767,7 @@ class MongodbLogFileStreamForm(forms.ModelForm):
             'retention_policy': forms.Select(attrs={'class': 'form-select'}),
 
             
-        }
+        } 
 
 class MongodbPerfLogForm(forms.ModelForm):
     class Meta:
