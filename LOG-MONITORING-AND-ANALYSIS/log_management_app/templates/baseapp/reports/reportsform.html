@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Log Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card-header-custom {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        .form-control-custom {
+            border-radius: 0.25rem;
+        }
+        .btn-custom {
+            margin-top: 10px;
+        }
+        .report-section {
+            margin-top: 20px;
+        }
+        .preview-section, .download-section, .historical-section, .template-section {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card shadow mb-4">
+            <div class="card-header card-header-custom">
+                <h5 class="mb-0">Generate Report</h5>
+            </div>
+            <div class="card-body">
+                <!-- Report Type Selection -->
+                <div class="report-section">
+                    <h6>Select Report Type</h6>
+                    <form>
+                        <div class="form-row mb-3">
+                            <div class="form-group col-md-4">
+                                <label for="reportType">Report Type</label>
+                                <select id="reportType" class="form-control form-control-custom">
+                                    <option>System Logs</option>
+                                    <option>Application Logs</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Custom Report Generation -->
+                        <h6 class="mb-3">Custom Report Generation</h6>
+                        <div class="form-row mb-3">
+                            <div class="form-group col-md-3">
+                                <label for="dateRangeStart">Start Date</label>
+                                <input type="date" id="dateRangeStart" class="form-control form-control-custom">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="dateRangeEnd">End Date</label>
+                                <input type="date" id="dateRangeEnd" class="form-control form-control-custom">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="logSource">Log Source</label>
+                                <select id="logSource" class="form-control form-control-custom">
+                                    <option>All Sources</option>
+                                    <option>Windows</option>
+                                    <option>Linux</option>
+                                    <option>MacOS</option>
+                                    <option>Web Server</option>
+                                    <option>Database</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="logSeverity">Severity</label>
+                                <select id="logSeverity" class="form-control form-control-custom">
+                                    <option>All</option>
+                                    <option>Critical</option>
+                                    <option>High</option>
+                                    <option>Medium</option>
+                                    <option>Low</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Run Report -->
+                        <h6 class="mb-3">Run Report</h6>
+                        <button type="button" class="btn btn-primary btn-custom" onclick="generateReport()">Generate Report</button>
+                    </form>
+                </div>
+
+                <!-- Preview Option -->
+                <div class="preview-section">
+                    <h6>Report Preview</h6>
+                    <button type="button" class="btn btn-info btn-custom" onclick="previewReport()">Preview Report</button>
+                </div>
+
+                <!-- Download/Export Options -->
+                <div class="download-section">
+                    <h6>Download/Export</h6>
+                    <button type="button" class="btn btn-success btn-custom" onclick="downloadReport('pdf')">Download as PDF</button>
+                    <button type="button" class="btn btn-success btn-custom" onclick="downloadReport('csv')">Download as CSV</button>
+                    <button type="button" class="btn btn-success btn-custom" onclick="downloadReport('excel')">Download as Excel</button>
+                </div>
+
+                <!-- Historical Reports -->
+                <div class="historical-section">
+                    <h6>Historical Reports</h6>
+                    <p>No reports have been generated yet.</p>
+                </div>
+
+                <!-- Report Templates -->
+                <div class="template-section">
+                    <h6>Save Report Template</h6>
+                    <button type="button" class="btn btn-secondary btn-custom" onclick="saveTemplate()">Save Template</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function generateReport() {
+            alert("Report has been generated!");
+        }
+
+        function previewReport() {
+            alert("Preview of the report.");
+        }
+
+        function downloadReport(format) {
+            alert("Downloading report as " + format.toUpperCase());
+        }
+
+        function saveTemplate() {
+            alert("Template has been saved!");
+        }
+    </script>
+</body>
+</html>

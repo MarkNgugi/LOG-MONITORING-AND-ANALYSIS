@@ -1,146 +1,365 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alert Configuration</title>
+{%extends 'mainhome.html'%}
+{%block content%}
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
+            background-color: #212529;
+            font-family: 'Arial', sans-serif;
         }
         .container {
-            width: 90%;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .section {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fafafa;
-        }
-        .section h2 {
-            color: #007bff;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
+        .card {
             margin-bottom: 20px;
+            border: 1px solid #e3e6f0;
+            border-radius: 10px;
         }
-        .section label {
-            display: block;
-            margin-bottom: 5px;
+        .card-body {
+            padding: 30px;
+        }
+        .section-title {
             font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            color: #4e73df;
+            text-transform: uppercase;
         }
-        .section input[type="text"], .section input[type="number"], .section select, .section textarea {
-            width: calc(100% - 22px);
+        .form-group label {
+            font-weight: 600;
+        }
+        .form-control,
+        .custom-select {
+            border-radius: 5px;
             padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
         }
-        .section input[type="submit"] {
-            background-color: #007bff;
+        .custom-button {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+        }
+        .custom-button-primary {
+            background-color: #4e73df;
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
         }
-        .section input[type="submit"]:hover {
-            background-color: #0056b3;
+        .custom-button-secondary {
+            background-color: #858796;
+            color: #fff;
+            border: none;
+        }
+        .custom-button-primary:hover {
+            background-color: #2e59d9;
+        }
+        .custom-button-secondary:hover {
+            background-color: #6c757d;
+        }
+        .save-button {
+            margin-top: 20px;
+        }
+        .footer-text {
+            font-size: 14px;
+            color: #5a5c69;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .btn-outline-custom {
+            border-color: #4e73df;
+            color: #4e73df;
+        }
+        .btn-outline-custom:hover {
+            background-color: #4e73df;
+            color: #fff;
+        }
+        .table thead th {
+            border-bottom: 2px solid #e3e6f0;
+            text-transform: uppercase;
+            color: #4e73df;
+            font-weight: 600;
+        }
+        .table tbody td {
+            border-top: 1px solid #e3e6f0;
+            color: #5a5c69;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .popover-body {
+            color: #5a5c69;
+            font-size: 14px;
         }
     </style>
-</head>
-<body>
 
-    <div class="container">
-        <h1>Alert Configuration</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2 class="text-center mb-4">Alert Configuration</h2>
 
-        <div class="section">
-            <h2>Alert Details</h2>
-            <label for="alert-name">Alert Name:</label>
-            <input type="text" id="alert-name" name="alert-name" placeholder="Enter alert name" required>
+            <!-- Log Source Selection -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">1. Log Source Selection</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="logSourceType">Select Log Source Type:</label>
+                                <select id="logSourceType" class="custom-select">
+                                    <option>Operating System</option>
+                                    <option>Web Server</option>
+                                    <option>Database</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="specificLogSource">Specific Log Source:</label>
+                                <select id="specificLogSource" class="custom-select">
+                                    <option>Windows</option>
+                                    <option>Linux</option>
+                                    <option>macOS</option>
+                                    <option>Apache</option>
+                                    <option>Nginx</option>
+                                    <option>IIS</option>
+                                    <option>MySQL</option>
+                                    <option>PostgreSQL</option>
+                                    <option>MongoDB</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            <label for="alert-description">Description:</label>
-            <textarea id="alert-description" name="alert-description" placeholder="Enter alert description" rows="4" required></textarea>
-        </div>
+            <!-- Alert Types and Triggers -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">2. Alert Types and Triggers</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="eventIdMatching">Event ID Matching (Windows):</label>
+                                <input type="text" id="eventIdMatching" class="form-control" placeholder="Enter Event IDs (comma-separated)">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="logLevelTrigger">Log Level Triggers (Linux/macOS):</label>
+                                <select id="logLevelTrigger" class="custom-select">
+                                    <option>Error</option>
+                                    <option>Warning</option>
+                                    <option>Critical</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="httpStatusCode">HTTP Status Code Monitoring (Web Server):</label>
+                                <input type="text" id="httpStatusCode" class="form-control" placeholder="e.g., 500, 404">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="queryPerformance">Query Performance Alerts (Database):</label>
+                                <input type="text" id="queryPerformance" class="form-control" placeholder="e.g., Execution Time > 2s">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="customRegex">Custom Regex Matching:</label>
+                                <input type="text" id="customRegex" class="form-control" placeholder="e.g., /error|fail|exception/i">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="alertThreshold">Threshold-based Alerts:</label>
+                                <input type="text" id="alertThreshold" class="form-control" placeholder="e.g., CPU Usage > 90%">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-        <div class="section">
-            <h2>Alert Conditions</h2>
-            <label for="alert-type">Alert Type:</label>
-            <select id="alert-type" name="alert-type">
-                <option value="threshold">Threshold-based</option>
-                <option value="anomaly">Anomaly Detection</option>
-                <option value="error">Error-specific</option>
-            </select>
+            <!-- Alert Severity Levels -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">3. Alert Severity Levels</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="severityCritical">Critical:</label>
+                                <input type="text" id="severityCritical" class="form-control" placeholder="e.g., CPU Usage > 90%">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="severityHigh">High:</label>
+                                <input type="text" id="severityHigh" class="form-control" placeholder="e.g., Memory Usage > 80%">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="severityMedium">Medium:</label>
+                                <input type="text" id="severityMedium" class="form-control" placeholder="e.g., Disk Space > 70%">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            <label for="condition">Condition:</label>
-            <input type="text" id="condition" name="condition" placeholder="e.g., CPU usage > 90%" required>
-        </div>
+            <!-- Notification Methods -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">4. Notification Methods</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="emailNotification">Email Notification:</label>
+                                <input type="email" id="emailNotification" class="form-control" placeholder="Enter email address">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="smsNotification">SMS Notification:</label>
+                                <input type="text" id="smsNotification" class="form-control" placeholder="Enter phone number">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="notificationFrequency">Notification Frequency:</label>
+                                <select id="notificationFrequency" class="custom-select">
+                                    <option>Immediate</option>
+                                    <option>Hourly</option>
+                                    <option>Daily Summary</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="webhookNotification">Webhook Notification:</label>
+                                <input type="text" id="webhookNotification" class="form-control" placeholder="Enter Webhook URL">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="notificationFormat">Notification Format:</label>
+                                <select id="notificationFormat" class="custom-select">
+                                    <option>Email Template</option>
+                                    <option>SMS Template</option>
+                                    <option>Webhook JSON</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-        <div class="section">
-            <h2>Severity and Frequency</h2>
-            <label for="severity">Severity Level:</label>
-            <select id="severity" name="severity">
-                <option value="critical">Critical</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-            </select>
+            <!-- Alert Escalation Policy -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">5. Alert Escalation Policy</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="escalationPolicy">Assign Escalation Policy:</label>
+                                <select id="escalationPolicy" class="custom-select">
+                                    <option>Team A - 15 mins</option>
+                                    <option>Team B - 30 mins</option>
+                                    <option>Team C - 1 hour</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="assignTeams">Assign to Teams:</label>
+                                <select id="assignTeams" class="custom-select">
+                                    <option>Network Team</option>
+                                    <option>Database Team</option>
+                                    <option>Application Team</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="additionalNotes">Additional Notes:</label>
+                                <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Any additional details..."></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            <label for="frequency">Alert Frequency (minutes):</label>
-            <input type="number" id="frequency" name="frequency" min="1" value="5" required>
-        </div>
+            <!-- Alert Scheduling -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">6. Alert Scheduling</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="scheduleActivePeriod">Active Period:</label>
+                                <input type="text" id="scheduleActivePeriod" class="form-control" placeholder="e.g., 9 AM - 5 PM">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customSchedule">Custom Schedule:</label>
+                                <input type="text" id="customSchedule" class="form-control" placeholder="e.g., Every Monday, 12 PM">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="holidaysExceptions">Holidays & Exceptions:</label>
+                                <input type="text" id="holidaysExceptions" class="form-control" placeholder="e.g., Exclude Christmas">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-        <div class="section">
-            <h2>Notification and Actions</h2>
-            <label for="notification-channel">Notification Channel:</label>
-            <select id="notification-channel" name="notification-channel">
-                <option value="email">Email</option>
-                <option value="sms">SMS</option>
-                <option value="slack">Slack</option>
-                <option value="webhook">Webhook</option>
-            </select>
+            <!-- Alert Templates -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">7. Alert Templates</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="predefinedTemplate">Predefined Templates:</label>
+                                <select id="predefinedTemplate" class="custom-select">
+                                    <option>Select Template</option>
+                                    <option>CPU Alert Template</option>
+                                    <option>Memory Alert Template</option>
+                                    <option>Disk Space Alert Template</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customTemplate">Create Custom Template:</label>
+                                <input type="text" id="customTemplate" class="form-control" placeholder="Enter Template Name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="templateDescription">Template Description:</label>
+                                <textarea id="templateDescription" class="form-control" rows="3" placeholder="Enter a brief description..."></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            <label for="recipients">Alert Recipients:</label>
-            <input type="text" id="recipients" name="recipients" placeholder="Enter recipient emails, separated by commas" required>
+            <!-- Alert Preview and Testing -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="section-title">8. Alert Preview and Testing</h4>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="simulateAlert">Simulate Alert:</label>
+                                <button type="button" class="btn btn-primary custom-button custom-button-primary" id="simulateAlert">Run Simulation</button>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="previewAlert">Preview Alert:</label>
+                                <button type="button" class="btn btn-secondary custom-button custom-button-secondary" id="previewAlert">View Preview</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            <label for="actions">Alert Actions:</label>
-            <input type="text" id="actions" name="actions" placeholder="e.g., Run script, Restart service" required>
-        </div>
+            <!-- Save Configuration -->
+            <div class="card shadow save-button">
+                <div class="card-body text-center">
+                    <button type="button" class="btn btn-success btn-lg custom-button">Save Alert Configuration</button>
+                </div>
+            </div>
 
-        <div class="section">
-            <h2>Escalation Policy</h2>
-            <label for="escalation-time">Escalation Time (minutes):</label>
-            <input type="number" id="escalation-time" name="escalation-time" min="1" value="10" required>
+            <!-- Footer -->
+            <div class="footer-text">
+                <p>&copy; 2024 Log Monitoring & Analysis. All rights reserved.</p>
+            </div>
 
-            <label for="escalation-action">Escalation Action:</label>
-            <input type="text" id="escalation-action" name="escalation-action" placeholder="e.g., Notify admin" required>
-        </div>
-
-        <div class="section">
-            <h2>Alert History</h2>
-            <p>View and manage past alerts and their resolutions.</p>
-            <a href="#" class="button">View Alert History</a>
-        </div>
-
-        <div class="section">
-            <input type="submit" value="Save Alert Configuration">
         </div>
     </div>
+</div>
 
-</body>
-</html>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{%endblock%}
+
