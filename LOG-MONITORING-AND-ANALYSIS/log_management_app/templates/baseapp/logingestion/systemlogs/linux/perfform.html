@@ -17,11 +17,21 @@
                     {{ logperf.log_source_name.help_text }}
                 </div>
 
+                    <h5>Select log types to collect:</h5>
                 <div class="form-group">
-                    <h5>{{ logperf.performance_metrics.help_text }}</h5> <br> 
-                    {{ logperf.performance_metrics }}
-                    
+                    {% for checkbox in logperf.performance_metrics %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" 
+                                id="customCheck{{ forloop.counter }}" 
+                                name="log_type" 
+                                value="{{ checkbox.data.value }}">
+                            <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
+                                {{ checkbox.choice_label }}
+                            </label>
+                        </div>
+                        {% endfor %}
                 </div>
+          
                 <div class="form-group">
                     {{ logperf.collection_interval.label_tag }}
                     {{ logperf.collection_interval }}

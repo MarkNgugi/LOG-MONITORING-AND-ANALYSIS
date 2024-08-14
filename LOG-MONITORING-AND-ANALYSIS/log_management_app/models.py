@@ -8,7 +8,7 @@ class WindowsLogType(models.Model):
         ('system', 'System'),
         ('security', 'Security'),
         ('setup', 'Setup'),
-        ('application', 'Application'),
+        ('application', 'Application'), 
     ]
 
     name = models.CharField(max_length=20, choices=LOG_TYPE_CHOICES, unique=True)
@@ -67,6 +67,11 @@ class WindowsLogSource(models.Model):
 
 
 class WindowsFileLogSource(models.Model):
+
+    INGESTION_MTD = [
+        ('powershell', 'Powershell'),
+    ]
+
     LogFormat = [
         ('text', 'Text'),
         ('csv', 'CSV'),
@@ -109,14 +114,14 @@ class WindowsFileLogSource(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     ingestion_mtd = models.CharField(max_length=30, default='powershell')
     log_file_path = models.CharField(max_length=255)
-    os_type=models.CharField(max_length=50,default='Windows')
+    os_type=models.CharField(max_length=50,default='Windows') 
     log_type = models.ManyToManyField(WindowsLogType)
     log_format = models.CharField(max_length=10, choices=LogFormat)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     collection_mtd = models.CharField(max_length=50, default='Files streaming')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    ingestion_mtd = models.CharField(max_length=30, default='powershell')
+    ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='powershell')   
     # file_size_limit = models.PositiveIntegerField()  # in MB
     activate = models.BooleanField(default=True)
     rotation_policy = models.CharField(max_length=15, choices=ROTATION_POLICY_CHOICES)
@@ -126,7 +131,7 @@ class WindowsFileLogSource(models.Model):
 
     def __str__(self):
         return self.log_source_name 
-
+ 
 
 class WindowsPerfLogs(models.Model):
     SOURCE_STATUS_CHOICES = [
@@ -277,6 +282,14 @@ class WindowsActiveDirectoryLogSource(models.Model):
 #====================LINUX LOGS MODELS START=========================
 
 class LinuxLogType(models.Model):
+
+    # LOG_TYPE_CHOICES = [
+    #     ('system', 'System'),
+    #     ('security', 'Security'),
+    #     ('setup', 'Setup'),
+    #     ('application', 'Application'), 
+    # ]
+
     name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):

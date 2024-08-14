@@ -14,7 +14,7 @@
                     <strong>Add Log Source</strong>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{% url 'streamlogfiles' %}">
+                    <form method="post" action="">
                         {% csrf_token %}
                         
                         <div class="form-group">
@@ -40,7 +40,7 @@
                                     </label>
                                 </div>
                             {% endfor %}
-                        </div>
+                        </div> 
                         
                         <div class="form-group">
                             {{ logfileform.collection_interval.label_tag }}

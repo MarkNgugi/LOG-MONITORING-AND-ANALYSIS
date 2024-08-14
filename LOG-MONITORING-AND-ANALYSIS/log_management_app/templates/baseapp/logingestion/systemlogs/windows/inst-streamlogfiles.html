@@ -139,7 +139,7 @@ try {
               <br>
               <div class="d-flex justify-content-between">
                 <button class="btn btn-secondary" onclick="$('#bash-tab').tab('show')">Previous</button>
-                <form action="{% url 'system_windows_logs_table' %}" method="get">
+                <form action="{% url 'logsources' %}" method="get">
                   <button type="submit" class="btn btn-primary">Done</button>
                 </form>
               </div>
@@ -147,7 +147,7 @@ try {
           </div>
         </div>
       </div>
-    </div> <!-- .col-12 -->
+    </div> <!-- .col-12 --> 
   </div> <!-- .row -->
 </div> <!-- .container-fluid -->
 {% endblock %}

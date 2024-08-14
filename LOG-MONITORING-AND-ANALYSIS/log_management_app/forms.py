@@ -39,7 +39,7 @@ class WindowsFileLogSourceForm(forms.ModelForm):
             'retention_policy',
             'log_format',
             'rotation_policy',
-            'ingestion_mtd'
+            # 'ingestion_mtd'
             
 
         ]
@@ -50,7 +50,7 @@ class WindowsFileLogSourceForm(forms.ModelForm):
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
             'log_format': forms.Select(attrs={'class': 'form-control'}),                       
             'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
-            'ingestion_mtd': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly', 'disabled': 'disabled'}),         
+            # 'ingestion_mtd': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly', 'disabled': 'disabled'}),         
         }
 
 

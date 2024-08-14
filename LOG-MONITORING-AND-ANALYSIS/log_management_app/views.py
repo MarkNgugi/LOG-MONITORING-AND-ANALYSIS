@@ -101,7 +101,7 @@ def stream_windows_host_logs(request):
         
         }
     return render(request,'baseapp/logingestion/systemlogs/windows/stream_win_logsform.html',context)
-
+ 
 
 def windowslogfilestreams(request):
     if request.method=='POST':
@@ -109,7 +109,7 @@ def windowslogfilestreams(request):
         if logfileform.is_valid():
             logfileform=logfileform.save()
             return redirect('logsources')
-    else:
+    else: 
         logfileform=WindowsFileLogSourceForm() 
     context={'logfileform':logfileform}
     return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
