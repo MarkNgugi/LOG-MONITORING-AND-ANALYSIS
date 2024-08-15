@@ -3,7 +3,7 @@ from django.utils import timezone
 
 #====================WINDOWS LOGS MODELS START=======================
 
-class WindowsLogType(models.Model):
+class WindowsLogType(models.Model): 
     LOG_TYPE_CHOICES = [
         ('system', 'System'),
         ('security', 'Security'),
@@ -283,12 +283,12 @@ class WindowsActiveDirectoryLogSource(models.Model):
 
 class LinuxLogType(models.Model):
 
-    # LOG_TYPE_CHOICES = [
-    #     ('system', 'System'),
-    #     ('security', 'Security'),
-    #     ('setup', 'Setup'),
-    #     ('application', 'Application'), 
-    # ] 
+    LOG_TYPE_CHOICES = [
+        ('system', 'System'),
+        ('security', 'Security'),
+        ('setup', 'Setup'),
+        ('application', 'Application'), 
+    ] 
 
     name = models.CharField(max_length=20, unique=True)
 

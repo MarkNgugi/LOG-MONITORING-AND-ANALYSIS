@@ -171,6 +171,9 @@ def stream_linux_host_logs(request):
             log_source_form=log_source_form.save()
             return redirect('logsources')
         
+        else:
+            print(log_source_form.errors)
+        
     else: 
         log_source_form=LinuxLogSourceForm() 
     context={
@@ -179,25 +182,45 @@ def stream_linux_host_logs(request):
         }
     return render(request,'baseapp/logingestion/systemlogs/linux/stream_linux_logsform.html',context)
 
-
+ 
 def linuxlogfilestreams(request):
-    if request.method=='POST':
-        logfileform=LinuxFileLogSourceForm(request.POST)
+    if request.method == 'POST':
+        logfileform = LinuxFileLogSourceForm(request.POST)
         if logfileform.is_valid():
-            logfileform=logfileform.save()
+            log_source = logfileform.save(commit=False)
+            log_source.save()
+            logfileform.save_m2m()
             return redirect('logsources')
     else:
-        logfileform=LinuxFileLogSourceForm() 
-    context={'logfileform':logfileform}
-    return render(request,'baseapp/logingestion/systemlogs/linux/logfilestreamform.html',context)
+        logfileform = LinuxFileLogSourceForm()
+    
+    
+    all_log_types = LinuxLogType.objects.all()
+    
+    selected_log_type_ids = logfileform.instance.log_type.values_list('id', flat=True) if logfileform.instance.pk else []
+
+    context = {
+        'logfileform': logfileform,
+        'selected_log_type_ids': selected_log_type_ids,
+        'all_log_types': all_log_types
+    }
+    
+    return render(request, 'baseapp/logingestion/systemlogs/linux/logfilestreamform.html', context)
+
+
+
+
 
 
 def linuxperformancelogs(request):
-    if request.method=='POST':
+    if request.method=='POST': 
         logperf=LinuxPerfLogsForm(request.POST)
         if logperf.is_valid():
             logperf=logperf.save()
             return redirect('logsources')
+        
+        else:
+            print(logperf.errors)
     else:
         logperf=LinuxPerfLogsForm()
     context={'logperf':logperf}

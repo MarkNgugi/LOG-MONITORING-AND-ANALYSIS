@@ -103,17 +103,17 @@ class LinuxLogSourceForm(forms.ModelForm):
     )
 
     class Meta:
-        model = LinuxLogSource
+        model = LinuxLogSource 
         fields = [
             'log_source_name', 'log_type', 'collection_interval',
-            'retention_policy', 'collection_mtd'
+            'retention_policy'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'collection_mtd': forms.Select(attrs={'class': 'form-control'}),
+            
             
         }
 
@@ -130,7 +130,6 @@ class LinuxFileLogSourceForm(forms.ModelForm):
             'file_size_limit',
             'rotation_policy',
             'retention_policy'
-
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
@@ -138,15 +137,13 @@ class LinuxFileLogSourceForm(forms.ModelForm):
             'log_file_type': forms.Select(attrs={'class': 'form-control'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),            
+            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),
             'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
         }
-
 
 class LinuxPerfLogsForm(forms.ModelForm):
     performance_metrics = forms.ModelMultipleChoiceField(
         queryset=LinuxPerformanceMetric.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
         required=True,
         help_text="Select the metrics to collect"
     )
@@ -155,16 +152,16 @@ class LinuxPerfLogsForm(forms.ModelForm):
         model = LinuxPerfLogs
         fields = [
             'log_source_name',  
-            'performance_metrics', 'collection_interval', 'retention_policy', 
-            
+            'performance_metrics', 
+            'collection_interval', 
+            'retention_policy',
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'performance_metrics': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-
         }
+
 
 
 class LdapLogSourceForm(forms.ModelForm): 

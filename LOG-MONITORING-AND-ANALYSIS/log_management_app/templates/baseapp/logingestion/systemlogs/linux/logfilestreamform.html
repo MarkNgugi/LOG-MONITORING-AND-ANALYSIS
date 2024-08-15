@@ -1,7 +1,7 @@
 {% extends 'mainhome.html' %}
 
 {% block content %}
-<div class="container-fluid"> 
+<div class="container-fluid">  
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
             <h2 class="page-title">Add Linux Log Files Source</h2>
@@ -32,19 +32,18 @@
                                     {{ logfileform.log_file_type }}
                                 </div>
                                 <h5>Select log types to collect:</h5>
-                                <div class="form-group">
-                                    {% for checkbox in logfileform.log_type %}
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" 
-                                                id="customCheck{{ forloop.counter }}" 
-                                                name="log_type" 
-                                                value="{{ checkbox.choice_value }}">
-                                            <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
-                                                {{ checkbox.choice_label }}
-                                            </label>
-                                        </div>
-                                    {% endfor %}
+                                {% for log_type in all_log_types %}
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" 
+                                        id="customCheck{{ forloop.counter }}" 
+                                        name="log_type" 
+                                        value="{{ log_type.id }}" 
+                                        {% if log_type.id in selected_log_type_ids %}checked{% endif %}>
+                                    <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
+                                        {{ log_type.name }}
+                                    </label>
                                 </div>
+                                {% endfor %}
                                 <div class="form-group">
                                     {{ logfileform.collection_interval.label_tag }}(*)
                                     {{ logfileform.collection_interval }}

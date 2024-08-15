@@ -1,4 +1,3 @@
-
 {% extends 'mainhome.html' %}
 
 {% block content %}
@@ -8,7 +7,7 @@
         {% csrf_token %}
         <div class="card my-4">
             <div class="card-header">
-                <strong>Windows Log Source Form</strong>
+                <strong>Linux Performance Log Source Form</strong>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -17,21 +16,22 @@
                     {{ logperf.log_source_name.help_text }}
                 </div>
 
-                    <h5>Select log types to collect:</h5>
+                <h5>Select metrics to collect:</h5>
                 <div class="form-group">
-                    {% for checkbox in logperf.performance_metrics %}
+                    {% for checkbox in logperf.fields.performance_metrics.queryset %}
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" 
-                                id="customCheck{{ forloop.counter }}" 
-                                name="log_type" 
-                                value="{{ checkbox.data.value }}">
+                            <input type="checkbox" class="custom-control-input"
+                                   id="customCheck{{ forloop.counter }}"
+                                   name="performance_metrics"
+                                   value="{{ checkbox.id }}"
+                                   {% if checkbox in logperf.cleaned_data.performance_metrics %}checked{% endif %}>
                             <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
-                                {{ checkbox.choice_label }}
+                                {{ checkbox.name }}
                             </label>
                         </div>
-                        {% endfor %}
+                    {% endfor %}
                 </div>
-          
+
                 <div class="form-group">
                     {{ logperf.collection_interval.label_tag }}
                     {{ logperf.collection_interval }}
