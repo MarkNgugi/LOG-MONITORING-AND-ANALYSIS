@@ -694,13 +694,21 @@ class OpenDirLogSource(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return self.log_source_name
+        return self.log_source_name 
 
 #====================MACOS LOGS MODELS END=========================
 
 
 
 #===========================APPLICATION LOGS MODELS START================================
+
+class WebServer(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.name 
+
 
     #=======WEBSERVERS=======
 

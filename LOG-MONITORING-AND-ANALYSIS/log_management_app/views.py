@@ -337,7 +337,8 @@ def webserver_collection_options(request):
     return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionopts.html',context)
 
 def logstreamingwizard(request):
-    context={}
+    webservers = WebServer.objects.all()
+    context={'webservers':webservers}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/logstreamwizard.html',context)
 
 def logfilestreamingwizard(request):
@@ -363,6 +364,8 @@ def apacheserverlogstream(request):
         if apacheform.is_valid():
             apacheform.save()
             return redirect('logsources')
+        else:
+            print(apacheform.errors)
         
     else:
         apacheform=ApacheserverLogStreamForm()
