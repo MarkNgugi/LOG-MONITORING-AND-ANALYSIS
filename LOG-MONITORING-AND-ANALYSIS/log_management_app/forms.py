@@ -120,6 +120,7 @@ class LinuxFileLogSourceForm(forms.ModelForm):
         fields = [
             'log_source_name',
             'log_file_path',
+            'log_type',
             'log_file_type',
             'collection_interval',
             'file_size_limit',

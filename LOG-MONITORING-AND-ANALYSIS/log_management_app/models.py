@@ -288,7 +288,7 @@ class LinuxLogType(models.Model):
     #     ('security', 'Security'),
     #     ('setup', 'Setup'),
     #     ('application', 'Application'), 
-    # ]
+    # ] 
 
     name = models.CharField(max_length=20, unique=True)
 
@@ -380,6 +380,7 @@ class LinuxFileLogSource(models.Model):
     log_source_name = models.CharField(max_length=100, default='log_source')
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     log_file_path = models.CharField(max_length=255)
+    log_type = models.ManyToManyField(LinuxLogType)
     log_file_type = models.CharField(max_length=10, choices=LOG_FILE_TYPE)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     os_type=models.CharField(max_length=50,default='Linux')
