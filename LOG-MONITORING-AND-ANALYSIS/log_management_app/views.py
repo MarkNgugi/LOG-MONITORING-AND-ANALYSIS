@@ -95,7 +95,7 @@ def stream_windows_host_logs(request):
             log_source = log_source_form.save(commit=False)
             log_source.save()
             log_source_form.save_m2m()  # Save the many-to-many relationships
-            return redirect('logsources')
+            return redirect('streamsyslogs')
         else:
             print(log_source_form.errors)  # Debug: Print form errors
     else:
