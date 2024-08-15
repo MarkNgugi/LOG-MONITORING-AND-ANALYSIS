@@ -1,6 +1,6 @@
 {% extends 'mainhome.html' %}
 
-{% block content %} 
+{% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <form method="post" action="{% url 'stream_windows_host_logs' %}">
                         {% csrf_token %}
-                        <div> 
+                        <div>
                             <h3>Source Info</h3>
                             <section>
                                 <div class="form-group">
@@ -26,21 +26,24 @@
                                 <div class="form-group">
                                     {{ log_source_form.description.label_tag }}
                                     {{ log_source_form.description }}
-                                </div> 
-                                <h5>Select log types to collect:</h5>
+                                </div>
+
                                 <div class="form-group">
-                                    {% for checkbox in log_source_form.log_type %}
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" 
-                                                id="customCheck{{ forloop.counter }}" 
-                                                name="log_type" 
-                                                value="{{ checkbox.data.value }}">
-                                            <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
-                                                {{ checkbox.choice_label }}
-                                            </label>
-                                        </div>
+                                    <label for="{{ log_source_form.log_type.id_for_label }}">Log Type:</label>
+                                    {% for checkbox in log_source_form.fields.log_type.queryset %}
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" 
+                                            id="customCheck{{ forloop.counter }}" 
+                                            name="log_type" 
+                                            value="{{ checkbox.pk }}" 
+                                            {% if checkbox.pk in log_source_form.cleaned_data.log_type %}checked{% endif %}>
+                                        <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
+                                            {{ checkbox.name }}
+                                        </label>
+                                    </div>
                                     {% endfor %}
                                 </div>
+
                                 <div class="form-group">
                                     {{ log_source_form.collection_interval.label_tag }}(*)
                                     {{ log_source_form.collection_interval }}
@@ -49,16 +52,11 @@
                                     {{ log_source_form.retention_policy.label_tag }}(*)
                                     {{ log_source_form.retention_policy }}
                                 </div>
-                                <div class="form-group">
-                                    {{ log_source_form.ingestion_mtd.label_tag }}(*)
-                                    {{ log_source_form.ingestion_mtd }}
-                                </div> <br>
 
                                 <div>
                                     <button type="submit" class="btn btn-primary">Next</button>
                                 </div>
                             </section>
-                            <!-- <div class="help-text text-muted">(*) Mandatory</div> -->
                         </div>
                     </form>
                 </div> <!-- .card-body -->

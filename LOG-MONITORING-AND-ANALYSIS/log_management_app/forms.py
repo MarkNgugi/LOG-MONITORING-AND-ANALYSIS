@@ -6,22 +6,24 @@ from .models import *
 
 class WindowsLogSourceForm(forms.ModelForm):
     log_type = forms.ModelMultipleChoiceField(
-        queryset=WindowsLogType.objects.all()
+        queryset=WindowsLogType.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
     )
 
     class Meta:
         model = WindowsLogSource
         fields = [
             'log_source_name', 'description', 'log_type', 'collection_interval',
-            'retention_policy', 'ingestion_mtd'
+            'retention_policy'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),            
-            'ingestion_mtd': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly', 'disabled': 'disabled'}),         
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
         }
+
+
 
  
 
@@ -55,18 +57,17 @@ class WindowsFileLogSourceForm(forms.ModelForm):
 
 
 class WindowsPerfLogsForm(forms.ModelForm):
-    metric_types = forms.ModelMultipleChoiceField(
+    performance_metrics = forms.ModelMultipleChoiceField(
         queryset=WindowsPerformanceMetric.objects.all(),
-        widget=forms.CheckboxSelectMultiple,  
-        required=False,
-        help_text="Select the types of metrics to include"
+        widget=forms.CheckboxSelectMultiple,
+        required=False
     )
-
+    
     class Meta:
         model = WindowsPerfLogs
         fields = [
             'log_source_name',
-            'metric_types',
+            'performance_metrics',
             'collection_interval',
             'retention_policy',
         ]
@@ -74,6 +75,9 @@ class WindowsPerfLogsForm(forms.ModelForm):
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+        }
+        help_texts = {
+            'performance_metrics': 'Select the types of metrics to include',
         }
 
 

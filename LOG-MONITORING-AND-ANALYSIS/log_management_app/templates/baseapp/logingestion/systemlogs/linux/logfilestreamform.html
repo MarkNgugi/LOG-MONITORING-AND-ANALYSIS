@@ -1,7 +1,7 @@
 {% extends 'mainhome.html' %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid"> 
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
             <h2 class="page-title">Add Linux Log Files Source</h2>
@@ -12,7 +12,7 @@
             <div class="card my-4">
                 <div class="card-header">
                     <strong>Add Log Source</strong>
-                </div>
+                </div> 
                 <div class="card-body">
                     <form method="post" action="{% url 'linuxlogfilestreams' %}">
                         {% csrf_token %}

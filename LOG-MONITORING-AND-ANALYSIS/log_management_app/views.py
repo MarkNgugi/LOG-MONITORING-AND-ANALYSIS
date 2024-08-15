@@ -88,19 +88,26 @@ def macos_collection_options(request):
 
 #WINDOWS FORMS START
 def stream_windows_host_logs(request):
-    if request.method=='POST':
-        log_source_form=WindowsLogSourceForm(request.POST)
+    if request.method == 'POST':
+        print(request.POST)  # Print POST data for debugging
+        log_source_form = WindowsLogSourceForm(request.POST)
         if log_source_form.is_valid():
-            log_source_form=log_source_form.save()
+            log_source = log_source_form.save(commit=False)
+            log_source.save()
+            log_source_form.save_m2m()  # Save the many-to-many relationships
             return redirect('logsources')
-        
-    else: 
-        log_source_form=WindowsLogSourceForm() 
-    context={
-        'log_source_form':log_source_form,
-        
-        }
-    return render(request,'baseapp/logingestion/systemlogs/windows/stream_win_logsform.html',context)
+        else:
+            print(log_source_form.errors)  # Debug: Print form errors
+    else:
+        log_source_form = WindowsLogSourceForm()
+
+    context = {
+        'log_source_form': log_source_form,
+    }
+    return render(request, 'baseapp/logingestion/systemlogs/windows/stream_win_logsform.html', context)
+
+
+
  
 
 def windowslogfilestreams(request):
@@ -115,19 +122,28 @@ def windowslogfilestreams(request):
     return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
 
 def windowsperformancelogs(request):
-    if request.method=='POST':
-        logperf=WindowsPerfLogsForm(request.POST)
+    if request.method == 'POST':
+        print(request.POST)  # Print the submitted data to check if performance_metrics is included
+        logperf = WindowsPerfLogsForm(request.POST)
         if logperf.is_valid():
-            logperf=logperf.save()
+            instance = logperf.save(commit=False)            
+            instance.save()            
+            performance_metrics_ids = logperf.cleaned_data['performance_metrics']            
+            performance_metrics = WindowsPerformanceMetric.objects.filter(pk__in=performance_metrics_ids)            
+            instance.performance_metrics.set(performance_metrics)            
+            instance.save()
             return redirect('logsources')
+        else:
+            print(logperf.errors)  # Print form errors to see if there's an issue
     else:
-        logperf=WindowsPerfLogsForm()
-    context={'logperf':logperf}
-    return render(request,'baseapp/logingestion/systemlogs/windows/perfform.html',context)
+        logperf = WindowsPerfLogsForm()
+    context = {'logperf': logperf}
+    return render(request, 'baseapp/logingestion/systemlogs/windows/perfform.html', context)
+
 
 
 def activedirectoryform(request):
-    if request.method == 'POST':
+    if request.method == 'POST': 
         activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
         if activedirectoryform.is_valid():
             activedirectoryform.save()
@@ -137,6 +153,12 @@ def activedirectoryform(request):
     
     context = {'activedirectoryform': activedirectoryform}
     return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
+
+
+def fileuploadform(request):
+    context={}
+    return render(request, 'baseapp/logingestion/systemlogs/windows/logfileupload.html', context)
+
 
 #WINDOWS FORMS END
 

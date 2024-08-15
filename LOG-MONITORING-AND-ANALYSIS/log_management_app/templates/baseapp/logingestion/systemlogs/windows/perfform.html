@@ -18,18 +18,20 @@
 
                 <h5>Select the types of metrics to include:</h5>
                 <div class="form-group">
-                    {% for checkbox in logperf.metric_types %}
+                    <label>{{ logperf.performance_metrics.label }}</label>
+                    {% for checkbox in logperf.performance_metrics.field.queryset %}
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input"
-                                   id="customCheck{{ forloop.counter }}"
-                                   name="{{ checkbox.name }}"
-                                   value="{{ checkbox.choice_value }}"
-                                   {% if checkbox.choice_value in logperf.metric_types.value %}checked{% endif %}>
-                            <label class="custom-control-label" for="customCheck{{ forloop.counter }}">
-                                {{ checkbox.choice_label }}
+                                   id="customCheck{{ checkbox.pk }}"
+                                   name="performance_metrics"
+                                   value="{{ checkbox.pk }}"
+                                   {% if checkbox.pk in logperf.performance_metrics.value %}checked{% endif %}>
+                            <label class="custom-control-label" for="customCheck{{ checkbox.pk }}">
+                                {{ checkbox.name }}
                             </label>
                         </div>
                     {% endfor %}
+                    <small class="form-text text-muted">{{ logperf.performance_metrics.help_text }}</small>
                 </div>
 
                 <div class="form-group">

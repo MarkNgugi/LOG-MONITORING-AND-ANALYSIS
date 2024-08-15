@@ -31,9 +31,10 @@ urlpatterns = [
     path('home/windows/logfilestreams/',views.windowslogfilestreams,name='windowslogfilestreams'),
     path('home/windows/performancelogs/',views.windowsperformancelogs,name='windowsperformancelogs'),
     path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
+    path('home/fileuploag/',views.fileuploadform,name='fileuploadform'),
+ 
 
-
-        #linux collection forms
+        #linux collection forms 
     path('home/linux/form/',views.stream_linux_host_logs,name='stream_linux_host_logs'),
     path('home/linux/logfilestreams/',views.linuxlogfilestreams,name='linuxlogfilestreams'),
     path('home/linux/performancelogs/',views.linuxperformancelogs,name='linuxperformancelogs'),
