@@ -359,6 +359,7 @@ def logfileuploadwizard(request):
     #webserver forms
 
 def apacheserverlogstream(request):
+    webservers = WebServer.objects.all()
     if request.method=='POST':
         apacheform=ApacheserverLogStreamForm(request.POST)
         if apacheform.is_valid():
@@ -369,7 +370,10 @@ def apacheserverlogstream(request):
         
     else:
         apacheform=ApacheserverLogStreamForm()
-    context={'apacheform':apacheform}
+    context={
+        'apacheform':apacheform,
+        'webservers':webservers
+        }
     return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apachestream.html',context)
 
 def apacheserverlogfilestream(request):
