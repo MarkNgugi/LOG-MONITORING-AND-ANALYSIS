@@ -10,9 +10,9 @@
               <br>
 
               <div class="row justify-content-center">
-                {% for webserver in webservers %}
+
                 <div class="col-md-4 col-xl-2 mb-4">                  
-                  <a href="" class="card-link">
+                  <a href="{%url 'apacheserverlogfilestream'%}" class="card-link">
                     <div class="card shadow border-0">
                       <div class="card-body">
                         <div class="row align-items-center">
@@ -22,16 +22,54 @@
                             </span>
                           </div>
                           <div class="col">
-                            <span class="h4 mb-0 text-white">{{ webserver.name }}</span>
+                            <span class="h4 mb-0 text-white">Apache</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </a>
                 </div>
-                {% endfor %}
+
+                <div class="col-md-4 col-xl-2 mb-4">                  
+                    <a href="{%url 'nginxserverlogfilestream'%}" class="card-link">
+                      <div class="card shadow border-0">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-3 text-center">
+                              <span class="circle circle-sm bg-primary">
+                                <i class="fe fe-16 fe-server text-white mb-0"></i>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <span class="h4 mb-0 text-white">Nginx</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                  <div class="col-md-4 col-xl-2 mb-4">                  
+                    <a href="{%url 'iisserverlogfilestream'%}" class="card-link">
+                      <div class="card shadow border-0">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-3 text-center">
+                              <span class="circle circle-sm bg-primary">
+                                <i class="fe fe-16 fe-server text-white mb-0"></i>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <span class="h4 mb-0 text-white">IIS</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>                                  
               </div>
               <br>
+
               
               
               <div class="row justify-content-center">

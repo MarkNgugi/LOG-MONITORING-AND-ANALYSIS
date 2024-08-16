@@ -292,8 +292,8 @@ class ApacheserverLogStreamForm(forms.ModelForm):
 
 
 class ApacheserverLogFileStreamForm(forms.ModelForm):
-    class Meta:
-        model = ApacheserverLogStream
+    class Meta: 
+        model = ApacheserverLogFileStream
         fields = [
             'log_source_name', 'log_file_path',
             'log_level', 'filter_keyword', 'log_rotation_interval', 
@@ -313,7 +313,7 @@ class ApacheserverLogFileStreamForm(forms.ModelForm):
 
 class ApacheserverPerfLogForm(forms.ModelForm):
     class Meta:
-        model = ApacheserverLogStream
+        model = ApacheserverPerfLogs
         fields = [
             'log_source_name', 'log_file_path',
             'log_level', 'filter_keyword', 'log_rotation_interval', 
@@ -357,7 +357,7 @@ class NginxserverLogStreamForm(forms.ModelForm):
 
 class NginxserverLogFileStreamForm(forms.ModelForm):
     class Meta:
-        model = NginxserverLogStream
+        model = NginxserverLogFileStream
         fields = [
             'log_source_name', 'log_file_path',
             'log_level', 'filter_keyword', 'log_rotation_interval', 
@@ -377,7 +377,7 @@ class NginxserverLogFileStreamForm(forms.ModelForm):
 
 class NginxserverPerfLogForm(forms.ModelForm):
     class Meta:
-        model = NginxserverLogStream
+        model = NginxserverPerfLogs
         fields = [
             'log_source_name', 'log_file_path',
             'log_level', 'filter_keyword', 'log_rotation_interval', 
@@ -423,7 +423,7 @@ class IISserverLogStreamForm(forms.ModelForm):
 
 class IISserverLogFileStreamForm(forms.ModelForm):
     class Meta:
-        model = IISserverLogStream
+        model = IISserverLogFileStream
         fields = [
             'log_source_name', 'log_file_path',
             'log_level', 'filter_keyword', 'log_rotation_interval', 
@@ -443,7 +443,7 @@ class IISserverLogFileStreamForm(forms.ModelForm):
 
 class IISserverPerfLogForm(forms.ModelForm):
     class Meta:
-        model = IISserverLogStream
+        model = IISserverPerfLogs
         fields = [
             'log_source_name', 'log_file_path',
             'log_level', 'filter_keyword', 'log_rotation_interval', 

@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('home/log-sources/',views.logsources,name='logsources'),
     path('logsources/<str:os_type>/', views.logsources, name='logsources'),
+    path('logsources/webservers/<str:server_type>/', views.webserver_logsources, name='webserver_logsources'),
 
 #SEARCH
 
@@ -77,7 +78,7 @@ urlpatterns = [
     
     
     # path('home/webcollection-agent/',views.webserver_collection_agents,name='webserver_collection_agents'),
-
+ 
         #collection forms
     # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
     path('home/webserver/apache',views.apacheserverlogstream,name='apacheserverlogstream'),

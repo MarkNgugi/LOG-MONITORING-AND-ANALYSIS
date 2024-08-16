@@ -57,49 +57,38 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> 
                 
                         <!-- Web Servers Tab -->
                         <div class="tab-pane fade" id="web-servers" role="tabpanel" aria-labelledby="web-servers-tab">
-                            <ul class="nav nav-pills">
+                          <ul class="nav nav-pills">
                               <li class="nav-item">
-                                <a class="nav-link {% if app_type == 'apache' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'apache' %}">
-                                    All
-                                    <span class="badge badge-pill {% if app_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{apache_count}}</span>
-                                </a>
-                            </li>                              
-                                <li class="nav-item">
-                                    <a class="nav-link {% if app_type == 'apache' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'apache' %}">
-                                        Apache
-                                        <span class="badge badge-pill {% if app_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{apache_count}}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if app_type == 'nginx' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'nginx' %}">
-                                        Nginx
-                                        <span class="badge badge-pill {% if app_type == 'nginx' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{nginx_count}}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if app_type == 'iis' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'iis' %}">
-                                        IIS
-                                        <span class="badge badge-pill {% if app_type == 'iis' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{iis_count}}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if app_type == 'tomcat' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'tomcat' %}">
-                                        Tomcat
-                                        <span class="badge badge-pill {% if app_type == 'tomcat' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{tomcat_count}}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if app_type == 'lighttpd' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'lighttpd' %}">
-                                        Lighttpd
-                                        <span class="badge badge-pill {% if app_type == 'lighttpd' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{lighttpd_count}}</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                                  <a class="nav-link {% if not server_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
+                                      All
+                                      <span class="badge badge-pill {% if not server_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ all_count }}</span>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link {% if server_type == 'apache' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'apache' %}">
+                                      Apache
+                                      <span class="badge badge-pill {% if server_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ apache_count }}</span>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link {% if server_type == 'nginx' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'nginx' %}">
+                                      Nginx
+                                      <span class="badge badge-pill {% if server_type == 'nginx' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ nginx_count }}</span>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link {% if server_type == 'iis' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources' 'iis' %}">
+                                      IIS
+                                      <span class="badge badge-pill {% if server_type == 'iis' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ iis_count }}</span>
+                                  </a>
+                              </li>                              
+                          </ul>
+                      </div>
+                      
                 
                         <!-- Databases Tab -->
                         <div class="tab-pane fade" id="databases" role="tabpanel" aria-labelledby="databases-tab">
@@ -166,99 +155,7 @@
                 </div>
               </div>
               <!-- Slide Modal -->
-              <div class="modal fade modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="defaultModalLabel">Filters</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="fe fe-x fe-12"></i>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="p-2">
-                        <div class="form-group my-4">
-                          <p class="mb-2"><strong>Regions</strong></p>
-                          <label for="multi-select2" class="sr-only"></label>
-                          <select class="form-control select2-multi" id="multi-select2">
-                            <optgroup label="Mountain Time Zone">
-                              <option value="AZ">Arizona</option>
-                              <option value="CO">Colorado</option>
-                              <option value="ID">Idaho</option>
-                              <option value="MT">Montana</option>
-                              <option value="NE">Nebraska</option>
-                              <option value="NM">New Mexico</option>
-                              <option value="ND">North Dakota</option>
-                              <option value="UT">Utah</option>
-                              <option value="WY">Wyoming</option>
-                            </optgroup>
-                            <optgroup label="Central Time Zone">
-                              <option value="AL">Alabama</option>
-                              <option value="AR">Arkansas</option>
-                              <option value="IL">Illinois</option>
-                              <option value="IA">Iowa</option>
-                              <option value="KS">Kansas</option>
-                              <option value="KY">Kentucky</option>
-                              <option value="LA">Louisiana</option>
-                              <option value="MN">Minnesota</option>
-                              <option value="MS">Mississippi</option>
-                              <option value="MO">Missouri</option>
-                              <option value="OK">Oklahoma</option>
-                              <option value="SD">South Dakota</option>
-                              <option value="TX">Texas</option>
-                              <option value="TN">Tennessee</option>
-                              <option value="WI">Wisconsin</option>
-                            </optgroup>
-                          </select>
-                        </div> <!-- form-group -->
-                        <div class="form-group my-4">
-                          <p class="mb-2">
-                            <strong>Payment</strong>
-                          </p>
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" for="customCheck1">Paypal</label>
-                          </div>
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2">
-                            <label class="custom-control-label" for="customCheck2">Credit Card</label>
-                          </div>
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1-1" checked>
-                            <label class="custom-control-label" for="customCheck1">Wire Transfer</label>
-                          </div>
-                        </div> <!-- form-group -->
-                        <div class="form-group my-4">
-                          <p class="mb-2">
-                            <strong>Types</strong>
-                          </p>
-                          <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio1">End users</label>
-                          </div>
-                          <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="customRadio2">Whole Sales</label>
-                          </div>
-                        </div> <!-- form-group -->
-                        <div class="form-group my-4">
-                          <p class="mb-2">
-                            <strong>Completed</strong>
-                          </p>
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1">Include</label>
-                          </div>
-                        </div> <!-- form-group -->
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn mb-2 btn-primary btn-block">Apply</button>
-                      <button type="button" class="btn mb-2 btn-secondary btn-block">Reset</button>
-                    </div>
-                  </div>
-                </div> 
-              </div>
+
               
               <table class="table border table-hover bg-white">
                 <thead>
@@ -327,6 +224,7 @@
                 </tbody>
                 {%endfor%}
               </table>
+                    
 
               <nav aria-label="Table Paging" class="my-3">
                 <ul class="pagination justify-content-end mb-0">

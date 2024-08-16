@@ -754,6 +754,7 @@ class ApacheserverLogStream(models.Model):
     log_file_path = models.CharField(max_length=255)  # Path to the log file
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
+    server_type=models.CharField(max_length=50,default='Apache')
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
     web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
@@ -804,6 +805,7 @@ class ApacheserverLogFileStream(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='Apache')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
@@ -857,6 +859,7 @@ class ApacheserverPerfLogs(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='Apache')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
@@ -919,6 +922,7 @@ class NginxserverLogStream(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='Nginx')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
@@ -971,6 +975,7 @@ class NginxserverLogFileStream(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='Nginx')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
@@ -1024,6 +1029,7 @@ class NginxserverPerfLogs(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='Nginx')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
@@ -1085,6 +1091,7 @@ class IISserverLogStream(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='IIS')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
@@ -1137,6 +1144,7 @@ class IISserverLogFileStream(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='IIS')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
@@ -1190,6 +1198,7 @@ class IISserverPerfLogs(models.Model):
     hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     log_file_path = models.CharField(max_length=255)  # Path to the log file
+    server_type=models.CharField(max_length=50,default='IIS')
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
