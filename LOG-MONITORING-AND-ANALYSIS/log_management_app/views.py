@@ -436,10 +436,10 @@ def nginxserverlogfilestream(request):
             nginxform.save()
             return redirect('logsources')
         
-    else:
+    else: 
         nginxform=NginxserverLogFileStreamForm()
     context={'nginxform':nginxform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxperflogs.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxfilestream.html',context)
 
 
 def nginxserverperflogs(request):
@@ -452,7 +452,7 @@ def nginxserverperflogs(request):
     else:
         nginxform=NginxserverPerfLogForm()
     context={'nginxform':nginxform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxfilestream.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxperflogs.html',context)
 
 def nginxfileupload(request):
     if request.method == 'POST':
@@ -492,7 +492,7 @@ def iisserverlogfilestream(request):
     else:
         iisform=NginxserverLogFileStreamForm()
     context={'iisform':iisform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisperflogs.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisfilestream.html',context)
 
 
 def iisserverperflogs(request):
@@ -505,7 +505,7 @@ def iisserverperflogs(request):
     else:
         iisform=IISserverPerfLogForm()
     context={'iisform':iisform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisfilestream.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisperflogs.html',context)
 
 def iisfileupload(request):
     if request.method == 'POST':

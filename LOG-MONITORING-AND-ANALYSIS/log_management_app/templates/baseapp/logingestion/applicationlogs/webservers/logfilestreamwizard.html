@@ -1,225 +1,112 @@
 {% extends 'mainhome.html' %}
 
-{% block content %}
-<div class="container-fluid"> 
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-11"> 
-            <h2 class="page-title">Log File Streaming</h2>
-            <h4 style="text-align: center;">Select a webserver</h4> <br>
+{% block content %} 
 
-            <div class="row justify-content-center">
-                <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="apache">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-3 text-center">
-                                    <span class="circle circle-sm bg-primary">
-                                        <i class="fe fe-16 fe-server text-white mb-0"></i>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4 mb-0 text-white">Apache</span>
-                                </div>
-                            </div>
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="page-title">Log File Streaming</h2>
+              <p class="lead text-muted">Select a webserver</p>
+              <br>
+
+              <div class="row justify-content-center">
+
+                <div class="col-md-4 col-xl-2 mb-4">                  
+                  <a href="{%url 'apacheserverlogfilestream'%}" class="card-link">
+                    <div class="card shadow border-0">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-3 text-center">
+                            <span class="circle circle-sm bg-primary">
+                              <i class="fe fe-16 fe-server text-white mb-0"></i>
+                            </span>
+                          </div>
+                          <div class="col">
+                            <span class="h4 mb-0 text-white">Apache</span>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                  </a>
                 </div>
 
-                <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="nginx">
+                <div class="col-md-4 col-xl-2 mb-4">                  
+                    <a href="{%url 'nginxserverlogfilestream'%}" class="card-link">
+                      <div class="card shadow border-0">
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-3 text-center">
-                                    <span class="circle circle-sm bg-primary">
-                                        <i class="fe fe-16 fe-server text-white mb-0"></i>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4 mb-0 text-white">Nginx</span>
-                                </div>
+                          <div class="row align-items-center">
+                            <div class="col-3 text-center">
+                              <span class="circle circle-sm bg-primary">
+                                <i class="fe fe-16 fe-server text-white mb-0"></i>
+                              </span>
                             </div>
+                            <div class="col">
+                              <span class="h4 mb-0 text-white">Nginx</span>
+                            </div>
+                          </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="iis">
+                      </div>
+                    </a>
+                  </div>
+
+                  <div class="col-md-4 col-xl-2 mb-4">                  
+                    <a href="{%url 'iisserverlogfilestream'%}" class="card-link">
+                      <div class="card shadow border-0">
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-3 text-center">
-                                    <span class="circle circle-sm bg-primary">
-                                        <i class="fe fe-16 fe-server text-white mb-0"></i>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4 mb-0 text-white">IIS</span>
-                                </div>
+                          <div class="row align-items-center">
+                            <div class="col-3 text-center">
+                              <span class="circle circle-sm bg-primary">
+                                <i class="fe fe-16 fe-server text-white mb-0"></i>
+                              </span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="tomcat">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-3 text-center">
-                                    <span class="circle circle-sm bg-primary">
-                                        <i class="fe fe-16 fe-server text-white mb-0"></i>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4 mb-0 text-white">Tomcat</span>
-                                </div>
+                            <div class="col">
+                              <span class="h4 mb-0 text-white">IIS</span>
                             </div>
+                          </div>
                         </div>
+                      </div>
+                    </a>
+                  </div>                                  
+              </div>
+              <br>
+
+              <div class="row justify-content-center">
+                <div class="col-md-10 mb-4">                    
+                  <div class="card shadow">
+                    <div class="card-header">
+                        <strong>Validation</strong>
+                    </div>                     
+                    <div class="card-body">
+                      <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Add Log Source</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
+                        </li>                        
+                      </ul>
+                      <div class="tab-content mb-1" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </div>
+                      </div> <br>
+                      <div> 
+                        <button type="submit" class="btn btn-primary">Next</button>
+                    </div>                      
                     </div>
+
+                  </div>
                 </div>
-                
-                <div class="col-md-4 col-xl-2 mb-4">
-                    <div class="card shadow border-0" data-webserver="lighttpd">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-3 text-center">
-                                    <span class="circle circle-sm bg-primary">
-                                        <i class="fe fe-16 fe-server text-white mb-0"></i>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4 mb-0 text-white">Lighttpd</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>          
-            </div>
+              </div> <!-- end section -->
 
-            <div class="card my-4">
-                <div class="card-header">
-                    <strong id="selected-webserver">APACHE </strong><strong> FILE STREAMING</strong>
-                </div>
-                <div class="card-body">
-                    <form id="example-form" action="#">
-                        <div>
-                            <h3>Add Log Source</h3>
-                            <section>
-                                <div id="form-container">
-                                    <!-- The dynamic form will be loaded here -->
-                                </div>
-                            </section>
-                            <!-- End of Account Section -->
-                            <h3>Info</h3>
-                            <section>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="name">First name *</label>
-                                        <input id="name" name="name" type="text" class="form-control required">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="surname">Last name *</label>
-                                        <input id="surname" name="surname" type="text" class="form-control required">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email *</label>
-                                    <input id="email" name="email" type="text" class="form-control required email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <input id="address" name="address" class="form-control" type="text">
-                                </div>
-                                <div class="help-text text-muted">(*) Mandatory</div>
-                            </section>
-                            <!-- End of Profile Section -->
-
-                            <h3>Instructions</h3>
-                            <section>
-                                <ul class="ml-5">
-                                    <li>Foo</li>
-                                    <li>Bar</li>
-                                    <li>Foobar</li>
-                                </ul>
-                            </section>
-                            <!-- End of Hints Section -->
-
-                            <h3>Test & Finish</h3>
-                            <section>
-                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> 
-                                <label for="acceptTerms">I agree with the Terms and Conditions.</label>
-                            </section>
-                            <!-- End of Finish Section -->
-                        </div>
-                    </form>
-                </div> <!-- .card-body -->
-            </div> <!-- .card -->
-        </div> <!-- .col-12 -->
-    </div> <!-- .row -->
-</div> <!-- .container-fluid -->
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var cards = document.querySelectorAll('.card');
-      var selectedWebserver = 'apache'; // Default selected web server
-
-      function selectCard(webserver) {
-          // Remove the background color from all cards
-          cards.forEach(function(c) {
-              c.querySelector('.card-body').style.backgroundColor = '';
-          });
-
-          // Add background color to the selected card
-          var card = document.querySelector('.card[data-webserver="' + webserver + '"]');
-          card.querySelector('.card-body').style.backgroundColor = '#1b68ff';
-
-          // Update the header text
-          document.getElementById('selected-webserver').textContent = webserver.toUpperCase();
-
-          // Load the form for the selected web server
-          var url = '';
-          switch (webserver) {
-              case 'apache':
-                  url = '{% url "apacheserverlogstream" %}';
-                  break;
-              case 'nginx':
-                  url = '{% url "nginxserverlogstream" %}';
-                  break;
-              case 'iis':
-                  url = '{% url "iisserverlogstream" %}';
-                  break;
-              case 'tomcat':
-                  url = '{% url "tomcatserverlogstream" %}';
-                  break;
-              case 'lighttpd':
-                  url = '{% url "lighttpdserverlogstream" %}';
-                  break;
-              // Add other cases as needed
-          }
-
-          if (url) {
-              fetch(url)
-                  .then(response => response.text())
-                  .then(html => {
-                      document.getElementById('form-container').innerHTML = html;
-                  })
-                  .catch(error => console.error('Error loading the form:', error));
-          }
-      }
-
-      // Set default selection to Apache on page load
-      selectCard(selectedWebserver);
-
-      cards.forEach(function(card) {
-          card.addEventListener('click', function(event) {
-              // Check if the clicked element is a form element or its child
-              if (event.target.closest('form')) {
-                  return; // Do nothing if the click is inside a form
-              }
-
-              selectedWebserver = this.getAttribute('data-webserver');
-              selectCard(selectedWebserver);
-          });
-      });
-  });
-</script>
-
-{% endblock %}
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        
+        {% endblock %}        
