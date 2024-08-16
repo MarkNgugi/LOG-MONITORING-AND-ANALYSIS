@@ -96,26 +96,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var cards = document.querySelectorAll('.card');
-        var selectedWebserver = 'apache'; // Default selected web server
-
+        var formContainer = document.getElementById('form-container');
+    
         function selectCard(webserver) {
-            // Remove the background color from all cards
-            cards.forEach(function(c) {
-                c.querySelector('.card-body').style.backgroundColor = '';
-            });
-
-            // Add background color to the selected card
-            var card = document.querySelector('.card[data-webserver="' + webserver + '"]');
-            if (card) {
-                card.querySelector('.card-body').style.backgroundColor = '#1b68ff';
-
-                // Update the header text
-                document.getElementById('selected-webserver').textContent = webserver.toUpperCase();
-
-                // Update URL in the address bar
-                history.pushState({}, '', '?webserver=' + webserver);
-
-                // Load the form for the selected web server
+            // Highlight the selected card
+            cards.forEach(card => {
+                card.querySelector('.card-body').style.backgroundColor = '';
+            }); 
+    
+            var selectedCard = document.querySelector('.card[data-webserver="' + webserver + '"]');
+            if (selectedCard) {
+                selectedCard.querySelector('.card-body').style.backgroundColor = '#1b68ff';
+                document.getElementById('selected-webserver').textContent = webserver.toUpperCase() + ' LOG STREAMING';
+    
+                // Fetch form based on selected webserver
                 var url = '';
                 switch (webserver) {
                     case 'apache':
@@ -133,42 +127,38 @@
                     case 'lighttpd':
                         url = '{% url "lighttpdserverlogstream" %}';
                         break;
-                    // Add other cases as needed
                 }
-
+    
                 if (url) {
                     fetch(url)
                         .then(response => response.text())
                         .then(html => {
-                            document.getElementById('form-container').innerHTML = html;
+                            formContainer.innerHTML = html;
                         })
-                        .catch(error => console.error('Error loading the form:', error));
+                        .catch(error => console.error('Error loading form:', error));
                 }
-            } else {
-                console.error('No card found for webserver:', webserver);
             }
         }
-
-        // Set default selection to Apache on page load
-        selectCard(selectedWebserver);
-
-        cards.forEach(function(card) {
-            card.addEventListener('click', function(event) {
-                // Prevent event propagation if clicking inside a form
-                if (event.target.closest('form')) {
-                    return; // Do nothing if the click is inside a form
-                }
-
-                // Log the clicked card for debugging
-                console.log('Card clicked:', this);
-
-                // Change the selected webserver and update the UI
-                selectedWebserver = this.getAttribute('data-webserver');
-                selectCard(selectedWebserver);
+    
+        // Add click event listeners to cards
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                var webserver = this.getAttribute('data-webserver');
+                selectCard(webserver);
             });
         });
+    
+        // Initialize with the default selection
+        var defaultWebserver = 'apache';
+        selectCard(defaultWebserver);
     });
-</script>
+    </script>
+    
+    
+    
+    
+    
+
 
   
 

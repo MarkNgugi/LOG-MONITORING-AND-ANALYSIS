@@ -1,50 +1,9 @@
-    
-        <form method="post" action="{%url 'apacheserverlogstream'%}">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ apacheform.log_source_name.label_tag }}
-                {{ apacheform.log_source_name }}
-                {{ apacheform.log_source_name.help_text }}
-            </div>
-            <div class="form-group">
-                {{ apacheform.log_file_path.label_tag }} 
-                {{ apacheform.log_file_path }}
-                {{ apacheform.log_file_path.help_text }}
-            </div>
-
-            <div class="form-group">
-                {{ apacheform.log_level.label_tag }}
-                {{ apacheform.log_level }}
-                {{ apacheform.log_level.help_text }}
-            </div>
-            <div class="form-group">
-                {{ apacheform.filter_keyword.label_tag }}
-                {{ apacheform.filter_keyword }}
-                {{ apacheform.filter_keyword.help_text }}
-            </div>
-
-            <div class="form-group">
-                {{ apacheform.log_rotation_interval.label_tag }}
-                {{ apacheform.log_rotation_interval }}
-                {{ apacheform.log_rotation_interval.help_text }}
-            </div>
-            
-            <div class="form-group">
-                {{ apacheform.collection_interval.label_tag }}
-                {{ apacheform.collection_interval }}
-                {{ apacheform.collection_interval.help_text }}
-            </div>
-            
-            <div class="form-group">
-                {{ apacheform.retention_policy.label_tag }}
-                {{ apacheform.retention_policy }}
-                {{ apacheform.retention_policy.help_text }}
-            </div>
-
-            <div class="form-group">            
-                <button type="submit" class="btn btn-primary">Next</button>
-            </div>
-            
-        </form>
-    
-
+<form id="apache-form" method="post" action="{% url 'apacheserverlogstream' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="log_source_name">Log Source Name:</label>
+        <input id="log_source_name" name="log_source_name" type="text" class="form-control">
+    </div>
+    <!-- Add other form fields as necessary -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
