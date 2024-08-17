@@ -12,7 +12,7 @@
               <div class="row justify-content-center">
 
                 <div class="col-md-4 col-xl-2 mb-4">                  
-                  <a href="{%url 'apacheserverperflogs'%}" class="card-link">
+                  <a href="{%url 'mysqlperflogs'%}" class="card-link">
                     <div class="card shadow border-0">
                       <div class="card-body">
                         <div class="row align-items-center">
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-md-4 col-xl-2 mb-4">                  
-                    <a href="{%url 'nginxserverperflogs'%}" class="card-link">
+                    <a href="{%url 'postgresperflogs'%}" class="card-link">
                       <div class="card shadow border-0">
                         <div class="card-body">
                           <div class="row align-items-center">
@@ -50,7 +50,7 @@
                   </div>
 
                   <div class="col-md-4 col-xl-2 mb-4">                  
-                    <a href="{%url 'iisserverperflogs'%}" class="card-link">
+                    <a href="{%url 'mongodbperflogs'%}" class="card-link">
                       <div class="card shadow border-0">
                         <div class="card-body">
                           <div class="row align-items-center">
@@ -68,7 +68,7 @@
                     </a>
                   </div>                                  
               </div>
-              <br>
+              <br> 
               
               
               <div class="row justify-content-center">
@@ -99,43 +99,43 @@
                                 <div class="card my-4">
                                     <div class="card-body">
                                         <div class="form-group">
-                                            {{ apacheform.log_source_name.label_tag }}
-                                            {{ apacheform.log_source_name }}
-                                            {{ apacheform.log_source_name.help_text }}
+                                            {{ mysqlform.log_source_name.label_tag }}
+                                            {{ mysqlform.log_source_name }}
+                                            {{ mysqlform.log_source_name.help_text }}
                                         </div>
                                         <div class="form-group">
-                                            {{ apacheform.log_file_path.label_tag }}
-                                            {{ apacheform.log_file_path }}
-                                            {{ apacheform.log_file_path.help_text }}
-                                        </div>
-                        
-                                        <div class="form-group">
-                                            {{ apacheform.log_level.label_tag }}
-                                            {{ apacheform.log_level }}
-                                            {{ apacheform.log_level.help_text }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ apacheform.filter_keyword.label_tag }}
-                                            {{ apacheform.filter_keyword }}
-                                            {{ apacheform.filter_keyword.help_text }}
+                                            {{ mysqlform.log_file_path.label_tag }}
+                                            {{ mysqlform.log_file_path }}
+                                            {{ mysqlform.log_file_path.help_text }}
                                         </div>
                         
                                         <div class="form-group">
-                                            {{ apacheform.log_rotation_interval.label_tag }}
-                                            {{ apacheform.log_rotation_interval }}
-                                            {{ apacheform.log_rotation_interval.help_text }}
+                                            {{ mysqlform.log_level.label_tag }}
+                                            {{ mysqlform.log_level }}
+                                            {{ mysqlform.log_level.help_text }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ mysqlform.filter_keyword.label_tag }}
+                                            {{ mysqlform.filter_keyword }}
+                                            {{ mysqlform.filter_keyword.help_text }}
+                                        </div>
+                        
+                                        <div class="form-group">
+                                            {{ mysqlform.log_rotation_interval.label_tag }}
+                                            {{ mysqlform.log_rotation_interval }}
+                                            {{ mysqlform.log_rotation_interval.help_text }}
                                         </div>
                                         
                                         <div class="form-group">
-                                            {{ apacheform.collection_interval.label_tag }}
-                                            {{ apacheform.collection_interval }}
-                                            {{ apacheform.collection_interval.help_text }}
+                                            {{ mysqlform.collection_interval.label_tag }}
+                                            {{ mysqlform.collection_interval }}
+                                            {{ mysqlform.collection_interval.help_text }}
                                         </div>
                                         
                                         <div class="form-group">
-                                            {{ apacheform.retention_policy.label_tag }}
-                                            {{ apacheform.retention_policy }}
-                                            {{ apacheform.retention_policy.help_text }}
+                                            {{ mysqlform.retention_policy.label_tag }}
+                                            {{ mysqlform.retention_policy }}
+                                            {{ mysqlform.retention_policy.help_text }}
                                         </div>  
                                                       
                                         <br> 

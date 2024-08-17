@@ -786,7 +786,7 @@ def postgreslogfilestream(request):
     else:
         postgresform=PostgresLogFileStreamForm()
     context={'postgresform':postgresform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresfilestream.html',context)
+    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postresfilestream.html',context)
 
 
 def postgresperflogs(request):

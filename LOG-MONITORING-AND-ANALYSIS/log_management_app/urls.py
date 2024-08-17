@@ -120,18 +120,18 @@ urlpatterns = [
 
         #collection forms
     # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
-    path('home/webserver/mysql',views.mysqllogstream,name='mysqllogstream'),
-    path('home/webserver/mysqlfile',views.mysqllogfilestream,name='mysqllogfilestream'),
-    path('home/webserver/mysqlperf',views.mysqlperflogs,name='mysqlperflogs'),
+    path('home/db/mysql',views.mysqllogstream,name='mysqllogstream'),
+    path('home/db/mysqlfile',views.mysqllogfilestream,name='mysqllogfilestream'),
+    path('home/db/mysqlperf',views.mysqlperflogs,name='mysqlperflogs'),
 
 
-    path('home/webserver/postgres',views.postgreslogstream,name='postgreslogstream'),
-    path('home/webserver/postgresfile',views.postgreslogfilestream,name='postgreslogfilestream'),
-    path('home/webserver/postgresperf',views.postgresperflogs,name='postgresperflogs'),
-
-    path('home/webserver/mongo',views.mongodblogstream,name='mongodblogstream'),
-    path('home/webserver/mongofile',views.mongodblogfilestream,name='mongodblogfilestream'),
-    path('home/webserver/mongoperf',views.mongodbperflogs,name='mongodbperflogs'),
+    path('home/db/postgres',views.postgreslogstream,name='postgreslogstream'),
+    path('home/db/postgresfile',views.postgreslogfilestream,name='postgreslogfilestream'),
+    path('home/db/postgresperf',views.postgresperflogs,name='postgresperflogs'),
+ 
+    path('home/db/mongo',views.mongodblogstream,name='mongodblogstream'),
+    path('home/db/mongofile',views.mongodblogfilestream,name='mongodblogfilestream'),
+    path('home/db/mongoperf',views.mongodbperflogs,name='mongodbperflogs'),
 
         #CACHING SYSTEMS
 

@@ -423,7 +423,7 @@ class IISserverLogStreamForm(forms.ModelForm):
 
 class IISserverLogFileStreamForm(forms.ModelForm):
     class Meta:
-        model = IISserverLogFileStream
+        model = IISserverLogFileStream 
         fields = [
             'log_source_name', 'log_file_path',
             'log_level', 'filter_keyword', 'log_rotation_interval', 
