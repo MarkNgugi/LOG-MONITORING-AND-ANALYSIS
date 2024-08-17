@@ -9,9 +9,13 @@ urlpatterns = [
 
 #LOG SOURCES
 
-    path('home/log-sources/',views.logsources,name='logsources'),
-    path('logsources/<str:os_type>/', views.logsources, name='logsources'),
-    path('logsources/webservers/<str:server_type>/', views.webserver_logsources, name='webserver_logsources'),
+    path('log-sources/', views.logsources, name='logsources'),
+    path('log-sources/os/<str:os_type>/', views.logsources, name='logsources_os'),
+    path('log-sources/server/<str:server_type>/', views.logsources, name='logsources_server'),
+    path('log-sources/db/<str:db_type>/', views.logsources, name='logsources_db'),
+    path('log-sources/network/<str:network_type>/', views.logsources, name='logsources_network'),
+
+    
 
 #SEARCH
 

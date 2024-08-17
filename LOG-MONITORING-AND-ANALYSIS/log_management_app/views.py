@@ -13,112 +13,109 @@ def home(request):
     context={}
     return render(request,'baseapp/home.html',context)
 
-def logsources(request, os_type=None):
-    log_sources_1 = WindowsLogSource.objects.all()
-    log_sources_2 = WindowsFileLogSource.objects.all()
-    log_sources_3 = WindowsPerfLogs.objects.all()
-    log_sources_4 = WindowsActiveDirectoryLogSource.objects.all()
 
-    log_sources_5 = LinuxLogSource.objects.all()
-    log_sources_6 = LinuxFileLogSource.objects.all()
-    log_sources_7 = LinuxPerfLogs.objects.all()
-    log_sources_8 = LDAPLogSource.objects.all()
+def logsources(request, os_type=None, server_type=None, db_type=None, network_type=None):
+    # Initialize log sources
+    system_logs = []
+    webserver_logs = []
+    database_logs = []
+    network_logs = []
 
-    log_sources_9 = MacLogSource.objects.all()
-    log_sources_10 = MacFileLogSource.objects.all()
-    log_sources_11 = MacPerfLogs.objects.all()
-    log_sources_12 = OpenDirLogSource.objects.all() 
-
-    # Chain all log sources
-    all_log_sources = list(chain( 
-        log_sources_1, log_sources_2, log_sources_3, log_sources_4, 
-        log_sources_5, log_sources_6, log_sources_7, log_sources_8,
-        log_sources_9, log_sources_10, log_sources_11, log_sources_12
+    # Querysets
+    log_sources_windows = list(chain(
+        WindowsLogSource.objects.all(),
+        WindowsFileLogSource.objects.all(),
+        WindowsPerfLogs.objects.all(),
+        WindowsActiveDirectoryLogSource.objects.all()
     ))
 
-    # Count each OS type before filtering
-    windows_count = len(list(chain(log_sources_1, log_sources_2, log_sources_3, log_sources_4)))
-    linux_count = len(list(chain(log_sources_5, log_sources_6, log_sources_7, log_sources_8)))
-    mac_count = len(list(chain(log_sources_9, log_sources_10, log_sources_11, log_sources_12)))
-    all_count = len(all_log_sources)  # Total count of all log sources
+    log_sources_linux = list(chain(
+        LinuxLogSource.objects.all(),
+        LinuxFileLogSource.objects.all(),
+        LinuxPerfLogs.objects.all(),
+        LDAPLogSource.objects.all()
+    ))
 
-    # Filtering based on os_type
-    if os_type == "windows":
-        log_sources = list(chain(log_sources_1, log_sources_2, log_sources_3, log_sources_4))
-    elif os_type == "linux":
-        log_sources = list(chain(log_sources_5, log_sources_6, log_sources_7, log_sources_8))
-    elif os_type == "macos":
-        log_sources = list(chain(log_sources_9, log_sources_10, log_sources_11, log_sources_12))
+    log_sources_macos = list(chain(
+        MacLogSource.objects.all(),
+        MacFileLogSource.objects.all(),
+        MacPerfLogs.objects.all(),
+        OpenDirLogSource.objects.all()
+    ))
+
+    apache_logs = list(chain(
+        ApacheserverLogStream.objects.all(),
+        ApacheserverLogFileStream.objects.all(),
+        ApacheserverPerfLogs.objects.all()
+    ))
+
+    nginx_logs = list(chain(
+        NginxserverLogStream.objects.all(),
+        NginxserverLogFileStream.objects.all(),
+        NginxserverPerfLogs.objects.all()
+    ))
+
+    iis_logs = list(chain(
+        IISserverLogStream.objects.all(),
+        IISserverLogFileStream.objects.all(),
+        IISserverPerfLogs.objects.all()
+    ))
+
+    # Filtering based on parameters
+    if os_type:
+        if os_type == 'windows':
+            system_logs = log_sources_windows
+        elif os_type == 'linux':
+            system_logs = log_sources_linux
+        elif os_type == 'macos':
+            system_logs = log_sources_macos
     else:
-        log_sources = all_log_sources
+        system_logs = list(chain(log_sources_windows, log_sources_linux, log_sources_macos))
 
-    active_tab = request.GET.get('tab', 'system_logs')        
+    if server_type:
+        if server_type == 'apache':
+            webserver_logs = apache_logs
+        elif server_type == 'nginx':
+            webserver_logs = nginx_logs
+        elif server_type == 'iis':
+            webserver_logs = iis_logs
+    else:
+        webserver_logs = list(chain(apache_logs, nginx_logs, iis_logs))
+
+    # Counts
+    all_count = len(webserver_logs)
+    apache_count = len(apache_logs)
+    nginx_count = len(nginx_logs)
+    iis_count = len(iis_logs)
+
+    windows_count = len(log_sources_windows)
+    linux_count = len(log_sources_linux)
+    mac_count = len(log_sources_macos)
+    total_system_logs_count = windows_count + linux_count + mac_count
 
     context = {
-        'log_sources': log_sources,
-        'windows_count': windows_count,
-        'linux_count': linux_count,
-        'mac_count': mac_count,
         'all_count': all_count,
-        'os_type': os_type,  # Pass os_type to the template for active tab
-        'active_tab':active_tab,
-    }
-
-    return render(request, 'baseapp/logsources/logsources.html', context)
-
-
-def webserver_logsources(request, server_type=None):
-    
-    apache_logs_1 = ApacheserverLogStream.objects.all()
-    apache_logs_2 = ApacheserverLogFileStream.objects.all()
-    apache_logs_3 = ApacheserverPerfLogs.objects.all()
-    
-    nginx_logs_1 = NginxserverLogStream.objects.all()
-    nginx_logs_2 = NginxserverLogFileStream.objects.all()
-    nginx_logs_3 = NginxserverPerfLogs.objects.all()
-    
-    iis_logs_1 = IISserverLogStream.objects.all()
-    iis_logs_2 = IISserverLogFileStream.objects.all()
-    iis_logs_3 = IISserverPerfLogs.objects.all()
-    
-
-    all_webserver_logs = list(chain(
-        apache_logs_1, apache_logs_2, apache_logs_3,
-        nginx_logs_1, nginx_logs_2, nginx_logs_3,
-        iis_logs_1, iis_logs_2, iis_logs_3,
-        
-    ))
-
-    # Count each web server type before filtering
-    apache_count = len(list(chain(apache_logs_1, apache_logs_2, apache_logs_3)))
-    nginx_count = len(list(chain(nginx_logs_1, nginx_logs_2, nginx_logs_3)))
-    iis_count = len(list(chain(iis_logs_1, iis_logs_2, iis_logs_3)))
-
-    # Total count of all webserver log sources
-    all_count = len(all_webserver_logs)
-
-    # Filtering based on app_type
-    if server_type == "apache":
-        webserver_logs = list(chain(apache_logs_1, apache_logs_2, apache_logs_3))
-    elif server_type == "nginx":
-        webserver_logs = list(chain(nginx_logs_1, nginx_logs_2, nginx_logs_3))
-    elif server_type == "iis":
-        webserver_logs = list(chain(iis_logs_1, iis_logs_2, iis_logs_3))
-    
-    else:
-        webserver_logs = all_webserver_logs
-
-    context = {
-        'webserver_logs': webserver_logs,
         'apache_count': apache_count,
         'nginx_count': nginx_count,
         'iis_count': iis_count,
-        
-        'all_count': all_count,
-        'server_type': server_type,  # Pass app_type to the template for active tab
+        'windows_count': windows_count,
+        'linux_count': linux_count,
+        'mac_count': mac_count,
+        'total_system_logs_count': total_system_logs_count,
+        'log_sources': system_logs,
+        'webserver_logs': webserver_logs,
+        'os_type': os_type,
+        'server_type': server_type,
     }
 
     return render(request, 'baseapp/logsources/logsources.html', context)
+
+
+
+
+
+
+
 
 
 
