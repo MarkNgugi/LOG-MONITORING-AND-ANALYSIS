@@ -200,34 +200,34 @@
 </div>
 
 
-            <!-- Databases Tab -->
-            <div class="tab-pane fade" id="databases" role="tabpanel" aria-labelledby="databases-tab">
-              <ul class="nav nav-pills">
-                <li class="nav-item">
-                  <a class="nav-link {% if not db_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="">
-                    All
-                    <span class="badge badge-pill {% if not db_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ all_count }}</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if db_type == 'mysql' %}active{% else %}text-muted{% endif %}" href="">
-                    MySQL
-                    <span class="badge badge-pill {% if db_type == 'mysql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mysql_count }}</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if db_type == 'postgresql' %}active{% else %}text-muted{% endif %}" href="">
-                    PostgreSQL
-                    <span class="badge badge-pill {% if db_type == 'postgresql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ postgresql_count }}</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if db_type == 'mssql' %}active{% else %}text-muted{% endif %}" href="">
-                    MSSQL
-                    <span class="badge badge-pill {% if db_type == 'mssql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mssql_count }}</span>
-                  </a>
-                </li>
-              </ul>
+<!-- Databases Tab -->
+<div class="tab-pane fade {% if db_type %}show active{% endif %}" id="databases" role="tabpanel" aria-labelledby="databases-tab">
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link {% if not db_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
+        All
+        <span class="badge badge-pill {% if not db_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ total_db_logs_count }}</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if db_type == 'mysql' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mysql' %}">
+        MySQL
+        <span class="badge badge-pill {% if db_type == 'mysql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mysql_count }}</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if db_type == 'postgres' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='postgres' %}">
+        PostgreSQL
+        <span class="badge badge-pill {% if db_type == 'postgres' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ postgres_count }}</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if db_type == 'mongo' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mongo' %}">
+        MongoDB
+        <span class="badge badge-pill {% if db_type == 'mongo' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mongo_count }}</span>
+      </a>
+    </li>
+  </ul>
 
               <!-- Table for Database Logs -->
               <table class="table border table-hover bg-white">

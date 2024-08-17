@@ -1594,7 +1594,7 @@ class MysqlLogStream(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Mysql')  # Type of web server
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -1646,7 +1646,7 @@ class MysqlLogFileStream(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Mysql')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -1699,7 +1699,7 @@ class MysqlPerfLogs(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Mysql')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -1759,7 +1759,7 @@ class PostgresLogStream(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Postgres')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -1811,7 +1811,7 @@ class PostgresLogFileStream(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Postgres')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -1864,7 +1864,7 @@ class PostgresPerfLogs(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Postgres')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -1924,7 +1924,7 @@ class MongodbLogStream(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Mongodb')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -1976,7 +1976,7 @@ class MongodbLogFileStream(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Mongodb')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection
@@ -2029,7 +2029,7 @@ class MongodbPerfLogs(models.Model):
     log_level = models.CharField(max_length=10, choices=LOG_LEVEL_CHOICES, default='INFO')  # Level of logs to be collected
     filter_keyword = models.CharField(max_length=100, blank=True, null=True)  # Optional keyword for filtering logs
     log_rotation_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')  # Interval for log rotation
-    web_server_type = models.CharField(max_length=50, default='Apache')  # Type of web server
+    db_type = models.CharField(max_length=50, default='Mongodb')
     collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')  # Method of log collection

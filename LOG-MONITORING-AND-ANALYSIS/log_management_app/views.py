@@ -61,6 +61,24 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         IISserverPerfLogs.objects.all()
     ))
 
+    mysql_logs = list(chain(
+        MysqlLogStream.objects.all(),
+        MysqlLogFileStream.objects.all(),
+        MysqlPerfLogs.objects.all()
+    ))
+
+    postgres_logs = list(chain(
+        PostgresLogStream.objects.all(),
+        PostgresLogFileStream.objects.all(),
+        PostgresPerfLogs.objects.all()
+    ))
+
+    mongodb_logs = list(chain(
+        MongodbLogStream.objects.all(),
+        MongodbLogFileStream.objects.all(),
+        MongodbPerfLogs.objects.all()
+    ))
+
     # Filtering based on parameters
     if os_type:
         if os_type == 'windows':
@@ -82,7 +100,17 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     else:
         webserver_logs = list(chain(apache_logs, nginx_logs, iis_logs))
 
-    # Counts
+    if db_type:
+        if db_type == 'mysql':
+            database_logs = mysql_logs
+        elif db_type == 'postgres':
+            database_logs = postgres_logs
+        elif db_type == 'mongo':
+            database_logs = mongodb_logs
+    else:
+        database_logs = list(chain(mysql_logs, postgres_logs, mongodb_logs))
+
+    # Counts 
     all_count = len(webserver_logs)
     apache_count = len(apache_logs)
     nginx_count = len(nginx_logs)
@@ -93,6 +121,11 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     mac_count = len(log_sources_macos)
     total_system_logs_count = windows_count + linux_count + mac_count
 
+    mysql_count = len(mysql_logs)
+    postgres_count = len(postgres_logs)
+    mongo_count = len(mongodb_logs)
+    total_db_logs_count = mysql_count + postgres_count + mongo_count
+
     context = {
         'all_count': all_count,
         'apache_count': apache_count,
@@ -102,13 +135,20 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         'linux_count': linux_count,
         'mac_count': mac_count,
         'total_system_logs_count': total_system_logs_count,
+        'mysql_count': mysql_count,
+        'postgres_count': postgres_count,
+        'mongo_count': mongo_count,
+        'total_db_logs_count': total_db_logs_count,
         'log_sources': system_logs,
         'webserver_logs': webserver_logs,
+        'database_logs': database_logs,  # Add database_logs to context
         'os_type': os_type,
         'server_type': server_type,
+        'db_type': db_type,  # Include db_type in context
     }
 
     return render(request, 'baseapp/logsources/logsources.html', context)
+
 
 
 
@@ -775,7 +815,7 @@ def postgreslogstream(request):
         postgresform=PostgresLogStreamForm()
     context={'postgresform':postgresform}
     return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresstream.html',context)
-
+ 
 def postgreslogfilestream(request):
     if request.method=='POST':
         postgresform=PostgresLogFileStreamForm(request.POST) 
