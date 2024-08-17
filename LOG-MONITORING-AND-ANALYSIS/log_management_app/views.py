@@ -14,6 +14,9 @@ def home(request):
     return render(request,'baseapp/home.html',context)
 
 
+from itertools import chain
+from django.shortcuts import render
+
 def logsources(request, os_type=None, server_type=None, db_type=None, network_type=None):
     # Initialize log sources
     system_logs = []
@@ -21,7 +24,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     database_logs = []
     network_logs = []
 
-    # Querysets
+    # Querysets for system logs
     log_sources_windows = list(chain(
         WindowsLogSource.objects.all(),
         WindowsFileLogSource.objects.all(),
@@ -43,6 +46,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         OpenDirLogSource.objects.all()
     ))
 
+    # Querysets for web server logs
     apache_logs = list(chain(
         ApacheserverLogStream.objects.all(),
         ApacheserverLogFileStream.objects.all(),
@@ -61,6 +65,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         IISserverPerfLogs.objects.all()
     ))
 
+    # Querysets for database logs
     mysql_logs = list(chain(
         MysqlLogStream.objects.all(),
         MysqlLogFileStream.objects.all(),
@@ -77,6 +82,19 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         MongodbLogStream.objects.all(),
         MongodbLogFileStream.objects.all(),
         MongodbPerfLogs.objects.all()
+    ))
+
+    # Querysets for network logs
+    firewall_logs = list(chain(
+
+    ))
+
+    switch_logs = list(chain(
+
+    ))
+
+    router_logs = list(chain(
+
     ))
 
     # Filtering based on parameters
@@ -110,7 +128,13 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     else:
         database_logs = list(chain(mysql_logs, postgres_logs, mongodb_logs))
 
-    # Counts 
+    if network_type:
+        pass
+
+    else:
+        pass
+
+    # Counts for each category
     all_count = len(webserver_logs)
     apache_count = len(apache_logs)
     nginx_count = len(nginx_logs)
@@ -126,6 +150,11 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     mongo_count = len(mongodb_logs)
     total_db_logs_count = mysql_count + postgres_count + mongo_count
 
+    firewall_count = len(firewall_logs)
+    switch_count = len(switch_logs)
+    router_count = len(router_logs)
+    total_network_logs_count = firewall_count + switch_count + router_count
+
     context = {
         'all_count': all_count,
         'apache_count': apache_count,
@@ -139,15 +168,22 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         'postgres_count': postgres_count,
         'mongo_count': mongo_count,
         'total_db_logs_count': total_db_logs_count,
+        'firewall_count': firewall_count,
+        'switch_count': switch_count,
+        'router_count': router_count,
+        'total_network_logs_count': total_network_logs_count,
         'log_sources': system_logs,
         'webserver_logs': webserver_logs,
-        'database_logs': database_logs,  # Add database_logs to context
+        'database_logs': database_logs,
+        'network_logs': network_logs,  # Add network logs to context
         'os_type': os_type,
         'server_type': server_type,
-        'db_type': db_type,  # Include db_type in context
+        'db_type': db_type,
+        'network_type': network_type,  # Include network_type in context
     }
 
     return render(request, 'baseapp/logsources/logsources.html', context)
+
 
 
 
