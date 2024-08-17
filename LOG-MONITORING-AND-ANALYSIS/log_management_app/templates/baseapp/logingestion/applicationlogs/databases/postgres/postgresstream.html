@@ -1,51 +1,168 @@
+{% extends 'mainhome.html' %}
 
-    <form method="post" action="">
-        {% csrf_token %}
+{% block content %} 
 
-                <div class="form-group">
-                    {{ postgresform.log_source_name.label_tag }}
-                    {{ postgresform.log_source_name }}
-                    {{ postgresform.log_source_name.help_text }}
+        <div class="container-fluid"> 
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="page-title">Postgres Logs stream </h2>
+              <p class="lead text-muted">Adds the .nav-tabs class to generate a tabbed interface.</p>
+              <br>
+
+              <div class="row justify-content-center">
+
+                <div class="col-md-4 col-xl-2 mb-4">                  
+                  <a href="{%url 'apacheserverperflogs'%}" class="card-link">
+                    <div class="card shadow border-0">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-3 text-center">
+                            <span class="circle circle-sm bg-primary">
+                              <i class="fe fe-16 fe-server text-white mb-0"></i>
+                            </span>
+                          </div>
+                          <div class="col">
+                            <span class="h4 mb-0 text-white">Mysql</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
                 </div>
-                <div class="form-group">
-                    {{ postgresform.log_file_path.label_tag }}
-                    {{ postgresform.log_file_path }}
-                    {{ postgresform.log_file_path.help_text }}
-                </div>
 
-                <div class="form-group">
-                    {{ postgresform.log_level.label_tag }}
-                    {{ postgresform.log_level }}
-                    {{ postgresform.log_level.help_text }}
-                </div>
-                <div class="form-group">
-                    {{ postgresform.filter_keyword.label_tag }}
-                    {{ postgresform.filter_keyword }}
-                    {{ postgresform.filter_keyword.help_text }}
-                </div>
+                <div class="col-md-4 col-xl-2 mb-4">                  
+                    <a href="{%url 'nginxserverperflogs'%}" class="card-link">
+                      <div class="card shadow border-0">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-3 text-center">
+                              <span class="circle circle-sm bg-primary">
+                                <i class="fe fe-16 fe-server text-white mb-0"></i>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <span class="h4 mb-0 text-white">Postgres</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
 
-                <div class="form-group">
-                    {{ postgresform.log_rotation_interval.label_tag }}
-                    {{ postgresform.log_rotation_interval }}
-                    {{ postgresform.log_rotation_interval.help_text }}
+                  <div class="col-md-4 col-xl-2 mb-4">                  
+                    <a href="{%url 'iisserverperflogs'%}" class="card-link">
+                      <div class="card shadow border-0">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-3 text-center">
+                              <span class="circle circle-sm bg-primary">
+                                <i class="fe fe-16 fe-server text-white mb-0"></i>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <span class="h4 mb-0 text-white">Mongo</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>                                  
+              </div>
+              <br>
+              
+              
+              <div class="row justify-content-center">
+                <div class="col-md-10 mb-4">                    
+                  <div class="card shadow">
+                    <div class="card-header">
+                        <strong>Apache Log Source Form</strong>
+                    </div>                    
+                    <div class="card-body">
+                      <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Add Log Source</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
+                        </li>                        
+                      </ul>
+                      <div class="tab-content mb-1" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <div class="card my-4">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            {{ apacheform.log_source_name.label_tag }}
+                                            {{ apacheform.log_source_name }}
+                                            {{ apacheform.log_source_name.help_text }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ apacheform.log_file_path.label_tag }}
+                                            {{ apacheform.log_file_path }}
+                                            {{ apacheform.log_file_path.help_text }}
+                                        </div>
+                        
+                                        <div class="form-group">
+                                            {{ apacheform.log_level.label_tag }}
+                                            {{ apacheform.log_level }}
+                                            {{ apacheform.log_level.help_text }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ apacheform.filter_keyword.label_tag }}
+                                            {{ apacheform.filter_keyword }}
+                                            {{ apacheform.filter_keyword.help_text }}
+                                        </div>
+                        
+                                        <div class="form-group">
+                                            {{ apacheform.log_rotation_interval.label_tag }}
+                                            {{ apacheform.log_rotation_interval }}
+                                            {{ apacheform.log_rotation_interval.help_text }}
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            {{ apacheform.collection_interval.label_tag }}
+                                            {{ apacheform.collection_interval }}
+                                            {{ apacheform.collection_interval.help_text }}
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            {{ apacheform.retention_policy.label_tag }}
+                                            {{ apacheform.retention_policy }}
+                                            {{ apacheform.retention_policy.help_text }}
+                                        </div>  
+                                                      
+                                        <br> 
+                                        <button type="submit" class="btn btn-primary">Next</button>
+                                        
+                                    </div> <!-- .card-body -->
+                                </div> <!-- .card -->
+                            </form>                              
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                        </div>
+
+                      </div> 
+                    </div>
+
+                  </div>
                 </div>
-                
-                <div class="form-group">
-                    {{ postgresform.collection_interval.label_tag }}
-                    {{ postgresform.collection_interval }}
-                    {{ postgresform.collection_interval.help_text }}
-                </div>
-                
-                <div class="form-group">
-                    {{ postgresform.retention_policy.label_tag }}
-                    {{ postgresform.retention_policy }}
-                    {{ postgresform.retention_policy.help_text }}
-                </div>                
+              </div> <!-- end section -->
 
-                <!-- <form method="post" action="">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">Next</button>
-                </form> -->
-    </form>
-
-
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        
+        {% endblock %}   
