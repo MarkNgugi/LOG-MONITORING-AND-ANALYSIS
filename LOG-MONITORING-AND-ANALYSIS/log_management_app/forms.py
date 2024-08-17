@@ -631,11 +631,11 @@ class MysqlLogFileStreamForm(forms.ModelForm):
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
             'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'log_level': forms.Select(attrs={'class': 'form-control'}),
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
 
             
         }
@@ -651,11 +651,11 @@ class MysqlPerfLogForm(forms.ModelForm):
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
             'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'log_level': forms.Select(attrs={'class': 'form-control'}),
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
 
             
         }   
@@ -700,11 +700,11 @@ class PostgresLogFileStreamForm(forms.ModelForm):
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
             'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'log_level': forms.Select(attrs={'class': 'form-control'}),
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
 
             
         }
@@ -720,11 +720,11 @@ class PostgresPerfLogForm(forms.ModelForm):
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
             'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'log_level': forms.Select(attrs={'class': 'form-control'}),
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
 
             
         } 
@@ -766,11 +766,11 @@ class MongodbLogFileStreamForm(forms.ModelForm):
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
             'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'log_level': forms.Select(attrs={'class': 'form-control'}),
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
 
             
         } 
@@ -786,11 +786,11 @@ class MongodbPerfLogForm(forms.ModelForm):
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
             'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-select'}),
+            'log_level': forms.Select(attrs={'class': 'form-control'}),
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-select'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-select'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-select'}),
+            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
+            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
 
             
         } 
