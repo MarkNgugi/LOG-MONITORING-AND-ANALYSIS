@@ -288,7 +288,7 @@ def stream_linux_host_logs(request):
         log_source_form=LinuxLogSourceForm(request.POST)
         if log_source_form.is_valid():
             log_source_form=log_source_form.save()
-            return redirect('lin_streamsyslogs')
+            return redirect('logsources')
         
         else:
             print(log_source_form.errors)
@@ -309,7 +309,7 @@ def linuxlogfilestreams(request):
             log_source = logfileform.save(commit=False)
             log_source.save()
             logfileform.save_m2m()
-            return redirect('lin_streamlogfiles')
+            return redirect('logsources')
     else:
         logfileform = LinuxFileLogSourceForm()
     
@@ -328,12 +328,15 @@ def linuxlogfilestreams(request):
 
 
 
+
+
+
 def linuxperformancelogs(request):
     if request.method=='POST': 
         logperf=LinuxPerfLogsForm(request.POST)
         if logperf.is_valid():
             logperf=logperf.save()
-            return redirect('lin_collectperflogs')
+            return redirect('logsources')
         
         else:
             print(logperf.errors)
@@ -418,8 +421,6 @@ def opendirlogs(request):
 
 #===========================INSTRUCTIONS START==================================
 #syslogs instructions start
-
-    #windows
 def win_streamsyslogs(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/inst-streamsyslogs.html',context)
@@ -430,28 +431,28 @@ def win_streamlogfiles(request):
 
 def win_collectperflogs(request):
     context={}
-    return render(request,'baseapp/logingestion/systemlogs/windows/inst-perflogs.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/collectperflogs.html',context)
 
 def activedirectorylogs(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/inst-activedirectorylogs.html',context)
 
-    #linux
+
 def lin_streamsyslogs(request):
     context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-streamsyslogs.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/inst-streamsyslogs.html',context)
 
 def lin_streamlogfiles(request):
     context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-streamlogfiles.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/inst-streamlogfiles.html',context)
 
 def lin_collectperflogs(request):
     context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-perflogs.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/collectperflogs.html',context)
 
 def ldaplogs(request):
     context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-ldaplogs.html',context)
+    return render(request,'baseapp/logingestion/systemlogs/windows/inst-activedirectorylogs.html',context)
 
 #syslogs instructions end
 

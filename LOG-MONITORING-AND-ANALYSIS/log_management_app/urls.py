@@ -55,10 +55,17 @@ urlpatterns = [
 
 
         #instructions
-    path('home/syslogs-instructions/',views.streamsyslogs,name='streamsyslogs'),
-    path('home/syslogsfiles-instructions/',views.streamlogfiles,name='streamlogfiles'),
-    path('home/performance-instructions/',views.collectperflogs,name='collectperflogs'),
+            #windows
+    path('home/syslogs-instructions/',views.win_streamsyslogs,name='streamsyslogs'),
+    path('home/syslogsfiles-instructions/',views.win_streamlogfiles,name='streamlogfiles'),
+    path('home/performance-instructions/',views.win_collectperflogs,name='collectperflogs'),
     path('home/activedirectory-instructions/',views.activedirectorylogs,name='activedirectorylogs'),
+
+            #linux
+    path('home/linuxlogs-instructions/',views.lin_streamsyslogs,name='lin_streamsyslogs'),
+    path('home/linuxlogsfiles-instructions/',views.lin_streamlogfiles,name='lin_streamlogfiles'),
+    path('home/linuxperformance-instructions/',views.lin_collectperflogs,name='lin_collectperflogs'),
+    # path('home/activedirectory-instructions/',views.ldaplogs,name='activedirectorylogs'),    
 
 
 
