@@ -23,6 +23,7 @@
             </li>
           </ul>
 
+          
           <!-- Tab Content -->
           <div class="tab-content" id="myTabContent">
             <!-- System Logs Tab -->
@@ -33,28 +34,28 @@
                       All
                       <span class="badge badge-pill {% if not os_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{total_system_logs_count}}</span>
                   </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link {% if os_type == 'windows' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='windows' %}">
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if os_type == 'windows' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='windows' %}">
                       Windows
                       <span class="badge badge-pill {% if os_type == 'windows' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{windows_count}}</span>
                   </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link {% if os_type == 'linux' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='linux' %}">
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if os_type == 'linux' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='linux' %}">
                       Linux
                       <span class="badge badge-pill {% if os_type == 'linux' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{linux_count}}</span>
                   </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link {% if os_type == 'macos' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='macos' %}">
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if os_type == 'macos' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='macos' %}">
                       Mac OS
                       <span class="badge badge-pill {% if os_type == 'macos' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{mac_count}}</span>
                   </a>
-              </li>
-              
+                </li>
               </ul>
-
+                   
+  
               <!-- Table for System Logs -->
               <table class="table border table-hover bg-white">
                 <thead>
@@ -111,123 +112,122 @@
                 </tbody>
               </table>
             </div>
+            
+            <!-- Web Servers Tab -->
+            <div class="tab-pane fade {% if server_type %}show active{% endif %}" id="web-servers" role="tabpanel" aria-labelledby="web-servers-tab">
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link {% if not server_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
+                      All
+                      <span class="badge badge-pill {% if not server_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ all_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if server_type == 'apache' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='apache' %}">
+                      Apache
+                      <span class="badge badge-pill {% if server_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ apache_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if server_type == 'nginx' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='nginx' %}">
+                      Nginx
+                      <span class="badge badge-pill {% if server_type == 'nginx' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ nginx_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if server_type == 'iis' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='iis' %}">
+                      IIS
+                      <span class="badge badge-pill {% if server_type == 'iis' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ iis_count }}</span>
+                  </a>
+                </li>
+              </ul>
 
-<!-- Web Servers Tab -->
-<div class="tab-pane fade {% if server_type %}show active{% endif %}" id="web-servers" role="tabpanel" aria-labelledby="web-servers-tab">
-  <ul class="nav nav-pills">
-    <li class="nav-item">
-      <a class="nav-link {% if not server_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
-          All
-          <span class="badge badge-pill {% if not server_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ all_count }}</span>
-      </a>
-  </li>
-  <li class="nav-item">
-      <a class="nav-link {% if server_type == 'apache' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='apache' %}">
-          Apache
-          <span class="badge badge-pill {% if server_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ apache_count }}</span>
-      </a>
-  </li>
-  <li class="nav-item">
-      <a class="nav-link {% if server_type == 'nginx' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='nginx' %}">
-          Nginx
-          <span class="badge badge-pill {% if server_type == 'nginx' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ nginx_count }}</span>
-      </a>
-  </li>
-  <li class="nav-item">
-      <a class="nav-link {% if server_type == 'iis' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='iis' %}">
-          IIS
-          <span class="badge badge-pill {% if server_type == 'iis' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ iis_count }}</span>
-      </a>
-  </li>
-  
-  </ul>
+              <!-- Table for Web Server Logs -->
+              <table class="table border table-hover bg-white">
+                <thead>
+                  <tr role="row">
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Source Name</th>
+                    <th class="text-center">Hostname/IP Address</th>
+                    <th class="text-center">Server Type</th>
+                    <th class="text-center">Timestamp</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Collection Mtd</th>
+                    <th class="text-center">Collection Interval</th>
+                    <th class="text-center">Activate</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for log_source in webserver_logs %}
+                  <tr>
+                    <td class="text-center">{{log_source.id}}</td>
+                    <td class="text-center">{{log_source.log_source_name}}</td>
+                    <td class="text-center">{{log_source.hostname_ip_address}}</td>
+                    <td class="text-center">{{log_source.server_type}}</td>
+                    <td class="text-center">{{log_source.created_at}}</td>
 
-  <!-- Table for Web Server Logs -->
-  <table class="table border table-hover bg-white">
-    <thead>
-      <tr role="row">
-        <th class="text-center">ID</th>
-        <th class="text-center">Source Name</th>
-        <th class="text-center">Hostname/IP Address</th>
-        <th class="text-center">Server Type</th>
-        <th class="text-center">Timestamp</th>
-        <th class="text-center">Status</th>
-        <th class="text-center">Collection Mtd</th>
-        <th class="text-center">Collection Interval</th>
-        <th class="text-center">Activate</th>
-        <th class="text-center">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for log_source in webserver_logs %}
-      <tr>
-        <td class="text-center">{{log_source.id}}</td>
-        <td class="text-center">{{log_source.log_source_name}}</td>
-        <td class="text-center">{{log_source.hostname_ip_address}}</td>
-        <td class="text-center">{{log_source.server_type}}</td>
-        <td class="text-center">{{log_source.created_at}}</td>
+                    {% if log_source.status == 'Online' %}
+                    <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span>Online</td>
+                    {% else %}
+                    <td class="text-center"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
+                    {% endif %}
 
-        {% if log_source.status == 'Online' %}
-        <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span>Online</td>
-        {% else %}
-        <td class="text-center"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
-        {% endif %}
-
-        <td class="text-center">{{log_source.collection_mtd}}</td>
-        <td class="text-center">{{log_source.collection_interval}}</td>
-        <td class="text-center">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.activate %}checked{% endif %}>
-            <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
-          </div>
-        </td>
-        <td class="text-center">
-          <div class="dropdown">
-            <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="text-muted sr-only">Action</span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#">More details</a>
-              <a class="dropdown-item" href="#">Edit</a>
-              <a class="dropdown-item text-danger" href="#">Delete</a>
+                    <td class="text-center">{{log_source.collection_mtd}}</td>
+                    <td class="text-center">{{log_source.collection_interval}}</td>
+                    <td class="text-center">
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.activate %}checked{% endif %}>
+                        <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#">More details</a>
+                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item text-danger" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
 
 
-<!-- Databases Tab -->
-<div class="tab-pane fade {% if db_type %}show active{% endif %}" id="databases" role="tabpanel" aria-labelledby="databases-tab">
-  <ul class="nav nav-pills">
-    <li class="nav-item">
-      <a class="nav-link {% if not db_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
-        All
-        <span class="badge badge-pill {% if not db_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ total_db_logs_count }}</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link {% if db_type == 'mysql' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mysql' %}">
-        MySQL
-        <span class="badge badge-pill {% if db_type == 'mysql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mysql_count }}</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link {% if db_type == 'postgres' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='postgres' %}">
-        PostgreSQL
-        <span class="badge badge-pill {% if db_type == 'postgres' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ postgres_count }}</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link {% if db_type == 'mongo' %}active{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mongo' %}">
-        MongoDB
-        <span class="badge badge-pill {% if db_type == 'mongo' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mongo_count }}</span>
-      </a>
-    </li>
-  </ul>
+            <!-- Databases Tab -->
+            <div class="tab-pane fade {% if db_type %}show active{% endif %}" id="databases" role="tabpanel" aria-labelledby="databases-tab">
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link {% if not db_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
+                    All
+                    <span class="badge badge-pill {% if not db_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ total_db_logs_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if db_type == 'mysql' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mysql' %}">
+                    MySQL
+                    <span class="badge badge-pill {% if db_type == 'mysql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mysql_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if db_type == 'postgres' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='postgres' %}">
+                    PostgreSQL
+                    <span class="badge badge-pill {% if db_type == 'postgres' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ postgres_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if db_type == 'mongo' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mongo' %}">
+                    MongoDB
+                    <span class="badge badge-pill {% if db_type == 'mongo' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mongo_count }}</span>
+                  </a>
+                </li>
+              </ul>
 
               <!-- Table for Database Logs -->
               <table class="table border table-hover bg-white">
@@ -314,6 +314,7 @@
                   </a>
                 </li>
               </ul>
+           
 
               <!-- Table for Network Logs -->
               <table class="table border table-hover bg-white">
@@ -370,7 +371,7 @@
                   {% endfor %}
                 </tbody>
               </table>
-            </div>
+            </div>            
           </div>
         </div>
       </div>
