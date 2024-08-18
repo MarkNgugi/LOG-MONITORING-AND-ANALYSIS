@@ -23,16 +23,6 @@ class WindowsLogSource(models.Model):
         ('powershell', 'Powershell'),
     ]
 
-    COLLECTION_INTERVAL_CHOICES = [ 
-        ('5m', 'Every 5 minutes'),
-        ('15m', 'Every 15 minutes'),
-        ('30m', 'Every 30 minutes'),
-        ('1h', 'Every 1 hour'),
-        ('6h', 'Every 6 hours'),
-        ('12h', 'Every 12 hours'),
-        ('24h', 'Every 24 hours'),
-    ]
-
     RETENTION_POLICY_CHOICES = [
         ('7d', '7 days'),
         ('14d', '14 days'),
@@ -44,7 +34,7 @@ class WindowsLogSource(models.Model):
     ]
 
     SOURCE_STATUS_CHOICES = [
-        ('Online', 'Active'),
+        ('Online', 'Active'), 
         ('Offline', 'Inactive'),
     ]
 
@@ -55,7 +45,7 @@ class WindowsLogSource(models.Model):
     os_type=models.CharField(max_length=50,default='Windows')
     status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
     collection_mtd = models.CharField(max_length=50, default='Log streaming')
-    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
+    collection_interval = models.CharField(max_length=10, default='Real-time')
     retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
     ingestion_mtd = models.CharField(max_length=30, choices=INGESTION_MTD, default='powershell')    
     activate = models.BooleanField(default=True)

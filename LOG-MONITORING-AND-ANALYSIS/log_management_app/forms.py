@@ -13,13 +13,12 @@ class WindowsLogSourceForm(forms.ModelForm):
     class Meta:
         model = WindowsLogSource
         fields = [
-            'log_source_name', 'description', 'log_type', 'collection_interval',
-            'retention_policy'
+            'log_source_name', 'description', 'log_type', 'retention_policy',
+            
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),            
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
         }
 
