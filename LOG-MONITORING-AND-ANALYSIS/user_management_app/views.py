@@ -16,7 +16,7 @@ def custom_login(request):
             user = authenticate(request, username=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Redirect to the home page or any other page
+                return redirect('home')  
             else:
                 messages.error(request, "Invalid email or password.")
         else:
@@ -27,6 +27,21 @@ def custom_login(request):
     context={'form':form}
     return render(request, 'baseapp/MAINauth/loginform.html', context)
 
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home') 
+        else:        
+            print(form.errors) 
+    else:
+        form = RegistrationForm()        
+
+    context = {'form': form}
+    return render(request, 'baseapp/MAINauth/register.html', context)
 
 def user_list(request):
     users=User.objects.all()
