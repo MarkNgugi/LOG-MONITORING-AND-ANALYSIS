@@ -1,8 +1,30 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from .forms import *
 from .models import *
+ 
+ 
+def custom_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('username')  # Email is used as the username
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')  # Redirect to the home page or any other page
+            else:
+                messages.error(request, "Invalid email or password.")
+        else:
+            messages.error(request, "Invalid email or password.")
+    else:
+        form = LoginForm()
+    
+    context={'form':form}
+    return render(request, 'baseapp/MAINauth/loginform.html', context)
 
 
 def user_list(request):
