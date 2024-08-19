@@ -17,7 +17,7 @@ class WindowsLogSourceForm(forms.ModelForm):
             
         ]
         widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name', 'required':True}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),            
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
         }
