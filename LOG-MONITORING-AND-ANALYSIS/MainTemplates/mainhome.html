@@ -29,6 +29,38 @@
 
     <!--os icons-->
 
+<!-- CSS for Modal Centering -->
+<style>
+  .logout-icon-container {
+    width: 80px; /* Adjust size as needed */
+    height: 80px; /* Adjust size as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000; /* Light red background */
+    border-radius: 50%;
+    margin: 0 auto; /* Center horizontally */
+  }
+  
+  .logout-icon-container i {
+    font-size: 48px; /* Increase icon size */
+    color: #ff0a22; /* Red color for the icon */
+  }
+
+  .modal-header {
+    border-bottom: none; /* Remove border line if needed */
+  }
+
+  .modal-title {
+    margin-top: 10px; /* Adjust spacing between icon and text */
+    margin-bottom: 0; /* Remove bottom margin if needed */
+  }
+
+  .modal-footer {
+    border-top: none; /* Remove the border line if needed */
+  }
+</style>
+
   </head>
   <body class="vertical  dark  ">
     
@@ -67,7 +99,11 @@
               <a class="dropdown-item" href="#">Profile</a>
               <a class="dropdown-item" href="#">Settings</a>
               <a class="dropdown-item" href="#">Activities</a>
+              <a class="dropdown-item" href="{%url 'login'%}">Login</a>
               <a class="dropdown-item" href="{%url 'login'%}">Logout</a>
+              <button type="button" class="btn mb-2 btn-outline-danger" data-toggle="modal" data-target="#logoutModal">
+                <i class="feather-icon" data-feather="log-out"></i> Logout
+              </button>
             </div>
           </li>
         </ul>
@@ -884,6 +920,37 @@
       }
       gtag('js', new Date());
       gtag('config', 'UA-56159088-1');
-    </script>
+    </script>    
+
+<!-- Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- Logout Icon Container with Circle Background -->
+        <div class="logout-icon-container mx-auto mb-3">
+          <i class="feather-icon" data-feather="log-out"></i>
+        </div>
+        <h5 class="modal-title">Logout</h5>
+        <p>Are you sure you want to log out?</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <a href="{% url 'logout' %}" class="btn btn-danger btn-lg">Yes, Logout</a>
+        <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+  feather.replace();
+</script>
+
   </body>
 </html>

@@ -171,6 +171,8 @@ MEDIA_ROOT = BASE_DIR / 'static/assets/files'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
+
 MONGODB_SETTINGS = {
     'host': os.getenv('MONGODB_HOST', 'mongodb+srv://mark:markmark003@atlascluster.ogqxvgo.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster'),
     'db': os.getenv('MONGODB_DB', 'windows')

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from log_management_app.views import home
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import *
 from .models import *
  
@@ -35,13 +35,17 @@ def register(request):
             user = form.save()
             login(request, user)
             return redirect('home') 
-        else:        
+        else:         
             print(form.errors) 
     else:
         form = RegistrationForm()        
 
     context = {'form': form}
     return render(request, 'baseapp/MAINauth/register.html', context)
+
+def custom_logout(request):
+    logout(request)
+    return redirect('login')
 
 def user_list(request):
     users=User.objects.all()
@@ -98,7 +102,7 @@ def user_profile(request,user_id):
     return render(request, 'baseapp/useraccounts/userprofile.html',context)
 
 
-
+ 
 
 
 
