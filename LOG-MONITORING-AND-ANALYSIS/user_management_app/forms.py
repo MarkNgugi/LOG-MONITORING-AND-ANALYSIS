@@ -7,7 +7,17 @@ from django.core.exceptions import ValidationError
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
+
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),            
+            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
+        }        
 
 
 class LoginForm(AuthenticationForm):
@@ -15,7 +25,17 @@ class LoginForm(AuthenticationForm):
 
     class Meta: 
         model = User
-        fields = ['username', 'password']        
+        fields = ['username', 'password']    
+
+    username = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Email',
+        'autofocus': True
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Password'
+    }))            
 
 class UserForm(forms.ModelForm):
     # password = forms.CharField(widget=forms.PasswordInput(), min_length=8)
