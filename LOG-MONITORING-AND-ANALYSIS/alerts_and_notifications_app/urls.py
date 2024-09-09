@@ -4,7 +4,8 @@ from . import views
 urlpatterns=[
 
     #ALERTS
-    path('alerts-config/',views.alertconfig,name='alertconfig'),
+    path('alerts-config-list/',views.alertconfig,name='alertconfig'),
+    path('new-alert-rule/',views.alertconfigpage,name='alertconfigpage'),
     # path('alerts-history/',views.alert_history,name='alert_history'),
 
 

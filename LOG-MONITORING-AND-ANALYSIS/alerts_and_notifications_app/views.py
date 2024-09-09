@@ -7,6 +7,10 @@ def alertconfig(request):
     context={}
     return render(request,'baseapp/alertconfig/alertconfig.html',context)
 
+def alertconfigpage(request):
+    context={}
+    return render(request,'baseapp/alertconfig/configpage.html',context)
+
     
 
 

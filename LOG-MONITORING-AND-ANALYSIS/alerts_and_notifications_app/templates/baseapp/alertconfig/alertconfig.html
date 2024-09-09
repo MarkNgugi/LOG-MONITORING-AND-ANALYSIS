@@ -1,365 +1,151 @@
-{%extends 'mainhome.html'%}
-{%block content%}
-    <style>
-        body {
-            background-color: #212529;
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            max-width: 1200px;
-        }
-        .card {
-            margin-bottom: 20px;
-            border: 1px solid #e3e6f0;
-            border-radius: 10px;
-        }
-        .card-body {
-            padding: 30px;
-        }
-        .section-title {
-            font-weight: bold;
-            margin-top: 20px;
-            margin-bottom: 15px;
-            color: #4e73df;
-            text-transform: uppercase;
-        }
-        .form-group label {
-            font-weight: 600;
-        }
-        .form-control,
-        .custom-select {
-            border-radius: 5px;
-            padding: 10px;
-        }
-        .custom-button {
-            width: 100%;
-            padding: 10px 0;
-            font-size: 16px;
-        }
-        .custom-button-primary {
-            background-color: #4e73df;
-            color: #fff;
-            border: none;
-        }
-        .custom-button-secondary {
-            background-color: #858796;
-            color: #fff;
-            border: none;
-        }
-        .custom-button-primary:hover {
-            background-color: #2e59d9;
-        }
-        .custom-button-secondary:hover {
-            background-color: #6c757d;
-        }
-        .save-button {
-            margin-top: 20px;
-        }
-        .footer-text {
-            font-size: 14px;
-            color: #5a5c69;
-            margin-top: 30px;
-            text-align: center;
-        }
-        .btn-outline-custom {
-            border-color: #4e73df;
-            color: #4e73df;
-        }
-        .btn-outline-custom:hover {
-            background-color: #4e73df;
-            color: #fff;
-        }
-        .table thead th {
-            border-bottom: 2px solid #e3e6f0;
-            text-transform: uppercase;
-            color: #4e73df;
-            font-weight: 600;
-        }
-        .table tbody td {
-            border-top: 1px solid #e3e6f0;
-            color: #5a5c69;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .popover-body {
-            color: #5a5c69;
-            font-size: 14px;
-        }
-    </style>
+{% extends 'mainhome.html' %}
 
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <h2 class="text-center mb-4">Alert Configuration</h2>
+{% block content %}
 
-            <!-- Log Source Selection -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">1. Log Source Selection</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="logSourceType">Select Log Source Type:</label>
-                                <select id="logSourceType" class="custom-select">
-                                    <option>Operating System</option>
-                                    <option>Web Server</option>
-                                    <option>Database</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="specificLogSource">Specific Log Source:</label>
-                                <select id="specificLogSource" class="custom-select">
-                                    <option>Windows</option>
-                                    <option>Linux</option>
-                                    <option>macOS</option>
-                                    <option>Apache</option>
-                                    <option>Nginx</option>
-                                    <option>IIS</option>
-                                    <option>MySQL</option>
-                                    <option>PostgreSQL</option>
-                                    <option>MongoDB</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="row align-items-center mb-2">
+                <div class="col">
+                  <h2 class="h5 page-title">Alert List</h2>
                 </div>
-            </div>
 
-            <!-- Alert Types and Triggers -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">2. Alert Types and Triggers</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="eventIdMatching">Event ID Matching (Windows):</label>
-                                <input type="text" id="eventIdMatching" class="form-control" placeholder="Enter Event IDs (comma-separated)">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="logLevelTrigger">Log Level Triggers (Linux/macOS):</label>
-                                <select id="logLevelTrigger" class="custom-select">
-                                    <option>Error</option>
-                                    <option>Warning</option>
-                                    <option>Critical</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="httpStatusCode">HTTP Status Code Monitoring (Web Server):</label>
-                                <input type="text" id="httpStatusCode" class="form-control" placeholder="e.g., 500, 404">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="queryPerformance">Query Performance Alerts (Database):</label>
-                                <input type="text" id="queryPerformance" class="form-control" placeholder="e.g., Execution Time > 2s">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="customRegex">Custom Regex Matching:</label>
-                                <input type="text" id="customRegex" class="form-control" placeholder="e.g., /error|fail|exception/i">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="alertThreshold">Threshold-based Alerts:</label>
-                                <input type="text" id="alertThreshold" class="form-control" placeholder="e.g., CPU Usage > 90%">
-                            </div>
-                        </div>
-                    </form>
+                <div class="col-auto">
+                    <a href="{% url 'alertconfigpage' %}" class="btn btn-primary">+ Add Alert rule</a>
                 </div>
-            </div>
+                  
+              </div>
+              <br>
+              <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-10">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title">Available Rules</strong>
+                      <!-- <a class="float-right small text-muted" href="#!">View all</a> -->
+                    </div>
+                    <div class="card-body my-n2">
+                      <table class="table table-striped table-hover table-borderless">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Policy Name</th>
+                            <th>Source</th>
+                            <th>Retention Duration</th> 
+                            <th>Created By</th>
+                            <th>Created At</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>2474</td>
+                            <th scope="col">Brown, Asher D.</th>
+                            <td>Ap #331-7123 Lobortis Avenue</td>
+                            <td>13/09/2020</td>
+                            <td>Ap #331-7123 Lobortis Avenue</td>
+                            <td>13/09/2020</td>
+                            <td>
+                              <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span class="text-muted sr-only">Action</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr1">
+                                  <a class="dropdown-item" href="#">Edit</a>
+                                  <a class="dropdown-item" href="#">Remove</a>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
 
-            <!-- Alert Severity Levels -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">3. Alert Severity Levels</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="severityCritical">Critical:</label>
-                                <input type="text" id="severityCritical" class="form-control" placeholder="e.g., CPU Usage > 90%">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="severityHigh">High:</label>
-                                <input type="text" id="severityHigh" class="form-control" placeholder="e.g., Memory Usage > 80%">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="severityMedium">Medium:</label>
-                                <input type="text" id="severityMedium" class="form-control" placeholder="e.g., Disk Space > 70%">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                          <tr>
+                            <td>2786</td>
+                            <th scope="col">Leblanc, Yoshio V.</th>
+                            <td>287-8300 Nisl. St.</td>
+                            <td>04/05/2019</td>
+                            <td>Ap #331-7123 Lobortis Avenue</td>
+                            <td>13/09/2020</td>
+                            <td>
+                              <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span class="text-muted sr-only">Action</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr2">
+                                  <a class="dropdown-item" href="#">Edit</a>
+                                  <a class="dropdown-item" href="#">Remove</a>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
 
-            <!-- Notification Methods -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">4. Notification Methods</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="emailNotification">Email Notification:</label>
-                                <input type="email" id="emailNotification" class="form-control" placeholder="Enter email address">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="smsNotification">SMS Notification:</label>
-                                <input type="text" id="smsNotification" class="form-control" placeholder="Enter phone number">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="notificationFrequency">Notification Frequency:</label>
-                                <select id="notificationFrequency" class="custom-select">
-                                    <option>Immediate</option>
-                                    <option>Hourly</option>
-                                    <option>Daily Summary</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="webhookNotification">Webhook Notification:</label>
-                                <input type="text" id="webhookNotification" class="form-control" placeholder="Enter Webhook URL">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="notificationFormat">Notification Format:</label>
-                                <select id="notificationFormat" class="custom-select">
-                                    <option>Email Template</option>
-                                    <option>SMS Template</option>
-                                    <option>Webhook JSON</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                          <tr>
+                            <td>2747</td>
+                            <th scope="col">Hester, Nissim L.</th>
+                            <td>4577 Cras St.</td>
+                            <td>04/06/2019</td>
+                            <td>Ap #331-7123 Lobortis Avenue</td>
+                            <td>13/09/2020</td>
+                            <td>
+                              <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span class="text-muted sr-only">Action</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                  <a class="dropdown-item" href="#">Edit</a>
+                                  <a class="dropdown-item" href="#">Remove</a>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
 
-            <!-- Alert Escalation Policy -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">5. Alert Escalation Policy</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="escalationPolicy">Assign Escalation Policy:</label>
-                                <select id="escalationPolicy" class="custom-select">
-                                    <option>Team A - 15 mins</option>
-                                    <option>Team B - 30 mins</option>
-                                    <option>Team C - 1 hour</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="assignTeams">Assign to Teams:</label>
-                                <select id="assignTeams" class="custom-select">
-                                    <option>Network Team</option>
-                                    <option>Database Team</option>
-                                    <option>Application Team</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="additionalNotes">Additional Notes:</label>
-                                <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Any additional details..."></textarea>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                          <tr>
+                            <td>2639</td>
+                            <th scope="col">Gardner, Leigh S.</th>
+                            <td>P.O. Box 228, 7512 Lectus Ave</td>
+                            <td>04/08/2019</td>
+                            <td>Ap #331-7123 Lobortis Avenue</td>
+                            <td>13/09/2020</td>
+                            <td>
+                              <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span class="text-muted sr-only">Action</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr4">
+                                  <a class="dropdown-item" href="#">Edit</a>
+                                  <a class="dropdown-item" href="#">Remove</a>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
 
-            <!-- Alert Scheduling -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">6. Alert Scheduling</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="scheduleActivePeriod">Active Period:</label>
-                                <input type="text" id="scheduleActivePeriod" class="form-control" placeholder="e.g., 9 AM - 5 PM">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="customSchedule">Custom Schedule:</label>
-                                <input type="text" id="customSchedule" class="form-control" placeholder="e.g., Every Monday, 12 PM">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="holidaysExceptions">Holidays & Exceptions:</label>
-                                <input type="text" id="holidaysExceptions" class="form-control" placeholder="e.g., Exclude Christmas">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                          <tr>
+                            <td>2238</td>
+                            <th scope="col">Higgins, Uriah L.</th>
+                            <td>Ap #377-5357 Sed Road</td>
+                            <td>04/01/2019</td>
+                            <td>Ap #331-7123 Lobortis Avenue</td>
+                            <td>13/09/2020</td>
+                            <td>
+                              <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span class="text-muted sr-only">Action</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr5">
+                                  <a class="dropdown-item" href="#">Edit</a>
+                                  <a class="dropdown-item" href="#">Remove</a>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
 
-            <!-- Alert Templates -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">7. Alert Templates</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="predefinedTemplate">Predefined Templates:</label>
-                                <select id="predefinedTemplate" class="custom-select">
-                                    <option>Select Template</option>
-                                    <option>CPU Alert Template</option>
-                                    <option>Memory Alert Template</option>
-                                    <option>Disk Space Alert Template</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="customTemplate">Create Custom Template:</label>
-                                <input type="text" id="customTemplate" class="form-control" placeholder="Enter Template Name">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="templateDescription">Template Description:</label>
-                                <textarea id="templateDescription" class="form-control" rows="3" placeholder="Enter a brief description..."></textarea>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- Striped rows -->
 
-            <!-- Alert Preview and Testing -->
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="section-title">8. Alert Preview and Testing</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="simulateAlert">Simulate Alert:</label>
-                                <button type="button" class="btn btn-primary custom-button custom-button-primary" id="simulateAlert">Run Simulation</button>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="previewAlert">Preview Alert:</label>
-                                <button type="button" class="btn btn-secondary custom-button custom-button-secondary" id="previewAlert">View Preview</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+              </div> <!-- .row-->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
 
-            <!-- Save Configuration -->
-            <div class="card shadow save-button">
-                <div class="card-body text-center">
-                    <button type="button" class="btn btn-success btn-lg custom-button">Save Alert Configuration</button>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="footer-text">
-                <p>&copy; 2024 Log Monitoring & Analysis. All rights reserved.</p>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-{%endblock%}
-
+        {% endblock %}        
