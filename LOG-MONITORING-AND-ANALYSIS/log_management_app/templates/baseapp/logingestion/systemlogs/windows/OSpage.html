@@ -151,7 +151,7 @@
                 </div> <!-- .card -->
               </div>
             </div> <!-- end section -->
-            <br>
+            
 
             <h1 class="h3 page-title">Webservers</h1>    
             <hr class="my-2">    
@@ -261,8 +261,8 @@
                 <div class="card shadow mb-4">
                   <div class="card-body file-list">
                     <div class="d-flex align-items-center">
-                      <div class="circle circle-md bg-secondary">
-                        <span class="fe fe-folder fe-16 text-white"></span>
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/mysql.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
                       </div>
                       <div class="flex-fill ml-4 fname">
                         <strong>MySQL</strong><br />
@@ -287,12 +287,12 @@
                 </div> <!-- .card -->
               </div>
 
-              <div class="col-md-4 mb-4">
+              <div class="col-md-4 mb-4"> 
                 <div class="card shadow mb-4">
                   <div class="card-body file-list">
                     <div class="d-flex align-items-center">
-                      <div class="circle circle-md bg-secondary">
-                        <span class="fe fe-folder fe-16 text-white"></span>
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/postgres01.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
                       </div>
                       <div class="flex-fill ml-4 fname">
                         <strong>PostgreSQL</strong><br />
@@ -321,8 +321,8 @@
                 <div class="card shadow mb-4">
                   <div class="card-body file-list">
                     <div class="d-flex align-items-center">
-                      <div class="circle circle-md bg-secondary">
-                        <span class="fe fe-folder fe-16 text-white"></span>
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/mongo-db.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
                       </div>
                       <div class="flex-fill ml-4 fname">
                         <strong>MongoDB</strong><br />
@@ -347,8 +347,7 @@
                 </div> <!-- .card -->
               </div>
             </div> <!-- end section -->  
-            <br>          
-
+                     
 
         </div>
     </div> <!-- .row -->
