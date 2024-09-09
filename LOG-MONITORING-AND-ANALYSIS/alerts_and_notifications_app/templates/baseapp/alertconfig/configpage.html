@@ -1,130 +1,26 @@
 {%extends 'mainhome.html'%}
 {%block content%}
-    <style>
-        body {
-            background-color: #212529;
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            max-width: 1200px;
-        }
-        .card {
-            margin-bottom: 20px;
-            border: 1px solid #e3e6f0;
-            border-radius: 10px;
-        }
-        .card-body {
-            padding: 30px;
-        }
-        .section-title {
-            font-weight: bold;
-            margin-top: 20px;
-            margin-bottom: 15px;
-            color: #4e73df;
-            text-transform: uppercase;
-        }
-        .form-group label {
-            font-weight: 600;
-        }
-        .form-control,
-        .custom-select {
-            border-radius: 5px;
-            padding: 10px;
-        }
-        .custom-button {
-            width: 100%;
-            padding: 10px 0;
-            font-size: 16px;
-        }
-        .custom-button-primary {
-            background-color: #4e73df;
-            color: #fff;
-            border: none;
-        }
-        .custom-button-secondary {
-            background-color: #858796;
-            color: #fff;
-            border: none; 
-        }
-        .custom-button-primary:hover {
-            background-color: #2e59d9;
-        }
-        .custom-button-secondary:hover {
-            background-color: #6c757d;
-        }
-        .save-button {
-            margin-top: 20px;
-        }
-        .footer-text {
-            font-size: 14px;
-            color: #5a5c69;
-            margin-top: 30px;
-            text-align: center;
-        }
-        .btn-outline-custom {
-            border-color: #4e73df;
-            color: #4e73df;
-        }
-        .btn-outline-custom:hover {
-            background-color: #4e73df;
-            color: #fff;
-        }
-        .table thead th {
-            border-bottom: 2px solid #e3e6f0;
-            text-transform: uppercase;
-            color: #4e73df;
-            font-weight: 600;
-        }
-        .table tbody td {
-            border-top: 1px solid #e3e6f0;
-            color: #5a5c69;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .popover-body {
-            color: #5a5c69;
-            font-size: 14px;
-        }
-    </style>
+
 
 <div class="container">
-    <div class="row mt-5">
+    <div class="row">
         <div class="col-md-12">
-            <h2 class="text-center mb-4">Alert Configuration</h2>
+            <h1 class="h3 page-title">New alert rule</h1><br>
 
             <!-- Log Source Selection -->
-            <div class="card shadow">
+            <div class="card shadow mb-4">
                 <div class="card-body">
-                    <h4 class="section-title">1. Log Source Selection</h4>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="logSourceType">Select Log Source Type:</label>
-                                <select id="logSourceType" class="custom-select">
-                                    <option>Operating System</option>
-                                    <option>Web Server</option>
-                                    <option>Database</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="specificLogSource">Specific Log Source:</label>
-                                <select id="specificLogSource" class="custom-select">
-                                    <option>Windows</option>
-                                    <option>Linux</option>
-                                    <option>macOS</option>
-                                    <option>Apache</option>
-                                    <option>Nginx</option>
-                                    <option>IIS</option>
-                                    <option>MySQL</option>
-                                    <option>PostgreSQL</option>
-                                    <option>MongoDB</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    <h4>1. Enter alert rule name</h4>
+                    <p class="mb-2"><strong>Enter a name to identify your alert rule.</strong></p>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="alert-rule-input">Rule Name</label>
+                            <input type="text" class="form-control" id="alert-rule-input" placeholder="Add alert rule" />
+                        </div> <!-- form-group -->
+                    </div> <!-- form-row -->
+                </div> <!-- /.card-body -->
+            </div> <!-- /.card -->
+            
 
             <!-- Alert Types and Triggers -->
             <div class="card shadow">
