@@ -328,7 +328,7 @@
           </ul>                   
 
           <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Alerts and Notifications</span> 
+            <span>Alerts & IRM</span> 
           </p>
 
           <ul class="navbar-nav flex-fill w-100 mb-2">
@@ -462,13 +462,23 @@
           </p>
           <ul class="navbar-nav flex-fill w-100 mb-2">
 
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'useraccounts'%}">
-                <i class="fe fe-calendar fe-16"></i>
-                <span class="ml-3 item-text">User Accounts</span>
-                <!-- create view edit delete user -->
+            <li class="nav-item dropdown">
+              <a href="#usersAccessDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-user fe-16"></i>
+                <span class="ml-3 item-text">Users and Access</span>
               </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="usersAccessDropdown">
+                <a class="nav-link pl-3" href="{% url 'useraccounts' %}">
+                  <span class="ml-1">User Accounts</span>
+                </a>                
+              </ul>
+              <ul class="collapse list-unstyled pl-4 w-100" id="usersAccessDropdown">
+                <a class="nav-link pl-3" href="">
+                  <span class="ml-1">Teams</span>
+                </a>                
+              </ul>              
             </li>
+            
           
             <!-- <li class="nav-item w-100">
               <a class="nav-link" href="calendar.html">
