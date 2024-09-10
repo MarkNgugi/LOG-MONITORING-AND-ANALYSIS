@@ -193,9 +193,17 @@ def windows(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/windows.html',context)
 
+def windowsAD(request):
+    context={}
+    return render(request,'baseapp/logingestion/systemlogs/activedirectory/activedirectory.html',context)
+
 def linux(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/linux/linux.html',context)
+
+def macos(request):
+    context={}
+    return render(request,'baseapp/logingestion/systemlogs/macos/macos.html',context)
 
 
 #syslogs collectin mtds START

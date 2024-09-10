@@ -29,6 +29,8 @@ urlpatterns = [
 
     path('home/system-logs/os-types/windows-explorer/',views.windows,name='windows'),
     path('home/system-logs/os-types/linux-explorer/',views.linux,name='linux'),
+    path('home/system-logs/os-types/macos-explorer/',views.macos,name='macos'),
+    path('home/system-logs/os-types/ad-explorer/',views.windowsAD,name='activedirectory'),
 
     path('home/windows/collection-options/',views.windows_collection_options,name='windows_collection_options'),
     path('home/unixlinux/collection-options/',views.linux_collection_options,name='linux_collection_options'),
