@@ -15,6 +15,10 @@ def contactpoint(request):
     context={}
     return render(request,'baseapp/contactpoints/contactpoint.html',context)
 
+def notification_policy(request):
+    context={}
+    return render(request,'baseapp/notificationpolicy/notificationpolicies.html',context)
+
     
  
 

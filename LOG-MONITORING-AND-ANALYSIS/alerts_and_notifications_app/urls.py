@@ -8,6 +8,8 @@ urlpatterns=[
     path('new-alert-rule/',views.alertconfigpage,name='alertconfigpage'),
     # path('alerts-history/',views.alert_history,name='alert_history'),
     path('alerting/contact-points/',views.contactpoint,name='contactpoint'),
+    path('alerting/notification-policies/',views.notification_policy,name='notification-policies'),
+
 
 
     path('scheduled-reports/',views.scheduledreports,name='scheduledreports'), 
