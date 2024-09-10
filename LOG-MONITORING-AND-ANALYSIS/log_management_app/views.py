@@ -189,6 +189,14 @@ def system_os_types(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
 
+def windows(request):
+    context={}
+    return render(request,'baseapp/logingestion/systemlogs/windows/windows.html',context)
+
+def linux(request):
+    context={}
+    return render(request,'baseapp/logingestion/systemlogs/linux/linux.html',context)
+
 
 #syslogs collectin mtds START
 def windows_collection_options(request):

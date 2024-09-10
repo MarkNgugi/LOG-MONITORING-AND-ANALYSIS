@@ -31,22 +31,26 @@
               of your infrastructure services.</p>             
             <div class="row">
               <div class="col-md-4 mb-4">
-                <div class="card shadow mb-4">
-                  <div class="card-body file-list">
-                    <div class="d-flex align-items-center">                      
-                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                        <img src="{% static 'assets/images/windows.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                <a href="{% url 'windows' %}" class="text-decoration-none">
+                  
+                  <div class="card shadow mb-4">
+                    <div class="card-body file-list">
+                      <div class="d-flex align-items-center">                      
+                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                          <img src="{% static 'assets/images/windows.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                        </div>
+                                                      
+                        <div class="flex-fill ml-4 fname">
+                          <strong>Windows</strong><br />
+                          <span class="badge badge-light text-muted">3 files</span>
+                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
+                        </div>
                       </div>
-                                            
-                      <div class="flex-fill ml-4 fname">
-                        <strong>Windows</strong><br />
-                        <span class="badge badge-light text-muted">3 files</span>
-                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                      </div>
-                    </div>
-                  </div> <!-- .card-body -->
-                </div> <!-- .card -->
+                    </div> <!-- .card-body -->
+                  </div> <!-- .card -->
+                </a>
               </div>
+              
 
               <div class="col-md-4 mb-4">
                 <div class="card shadow mb-4">
@@ -66,20 +70,24 @@
               </div>
 
               <div class="col-md-4 mb-4">
-                <div class="card shadow mb-4">
-                  <div class="card-body file-list">
-                    <div class="d-flex align-items-center">
-                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                        <img src="{% static 'assets/images/linux.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                <a href="{% url 'linux' %}" class="text-decoration-none">
+                  
+                  <div class="card shadow mb-4">
+                    <div class="card-body file-list">
+                      <div class="d-flex align-items-center">                      
+                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                          <img src="{% static 'assets/images/linux.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                        </div>
+                                                      
+                        <div class="flex-fill ml-4 fname">
+                          <strong>Linux Server</strong><br />
+                          <span class="badge badge-light text-muted">3 files</span>
+                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
+                        </div>
                       </div>
-                      <div class="flex-fill ml-4 fname">
-                        <strong>Linux server</strong><br />
-                        <span class="badge badge-light text-muted">3 files</span>
-                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                      </div>
-                    </div>
-                  </div> <!-- .card-body -->
-                </div> <!-- .card -->
+                    </div> <!-- .card-body -->
+                  </div> <!-- .card -->
+                </a>
               </div>
 
               <div class="col-md-4 mb-4">
