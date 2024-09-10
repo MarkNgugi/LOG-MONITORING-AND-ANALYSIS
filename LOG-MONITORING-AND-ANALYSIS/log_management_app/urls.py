@@ -32,6 +32,12 @@ urlpatterns = [
     path('home/system-logs/os-types/macos-explorer/',views.macos,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD,name='activedirectory'),
 
+    path('home/system-logs/os-types/apache-explorer/',views.apache,name='apache'),
+    path('home/system-logs/os-types/nginx-explorer/',views.nginx,name='nginx'),
+    path('home/system-logs/os-types/iis-explorer/',views.iis,name='iis'),
+
+
+
     path('home/windows/collection-options/',views.windows_collection_options,name='windows_collection_options'),
     path('home/unixlinux/collection-options/',views.linux_collection_options,name='linux_collection_options'),
     path('home/macos/unixlinux/collection-options/',views.macos_collection_options,name='macos_collection_options'),

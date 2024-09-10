@@ -206,6 +206,19 @@ def macos(request):
     return render(request,'baseapp/logingestion/systemlogs/macos/macos.html',context)
 
 
+def apache(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apache.html',context)
+
+def nginx(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginx.html',context)
+
+def iis(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iis.html',context)
+
+
 #syslogs collectin mtds START
 def windows_collection_options(request):
     context={}

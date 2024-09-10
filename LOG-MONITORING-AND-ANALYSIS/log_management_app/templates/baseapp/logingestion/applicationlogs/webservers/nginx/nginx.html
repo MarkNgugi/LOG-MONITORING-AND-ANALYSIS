@@ -1,0 +1,61 @@
+{% extends 'mainhome.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="h3 mb-4 page-title">Nginx</h2>
+
+            <div class="my-4">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="config-tab" data-toggle="tab" href="#config" role="tab" aria-controls="config" aria-selected="false">Configuration Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="metrics-tab" data-toggle="tab" href="#metrics" role="tab" aria-controls="metrics" aria-selected="false">Metrics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Overview Tab Content -->
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                        <h1 class="h3 page-title">About Nginx Integration</h1>
+                        <hr class="my-2">
+                        <!-- Add more content related to Overview here -->
+                    </div>
+
+                    <!-- Configuration Details Tab Content -->
+                    <div class="tab-pane fade" id="config" role="tabpanel" aria-labelledby="config-tab">
+                        <h1 class="h3 page-title">Configuration Details</h1>
+                        <hr class="my-2">
+                        <!-- Add more content related to Configuration Details here -->
+                    </div>
+
+                    <!-- Metrics Tab Content -->
+                    <div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
+                        <h1 class="h3 page-title">Metrics</h1>
+                        <hr class="my-2">
+                        <!-- Add more content related to Metrics here -->
+                    </div>
+
+                    <!-- Alerts Tab Content -->
+                    <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
+                        <h1 class="h3 page-title">Alerts</h1>
+                        <hr class="my-2">
+                        <!-- Add more content related to Alerts here -->
+                    </div>
+                </div>
+            </div> <!-- /.my-4 -->
+        </div> <!-- /.col-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->
+
+{% endblock %}
