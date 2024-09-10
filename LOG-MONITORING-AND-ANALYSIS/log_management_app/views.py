@@ -219,6 +219,20 @@ def iis(request):
     return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iis.html',context)
 
 
+def mysql(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysql.html',context)
+
+def postgresql(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresql.html',context)
+
+def mongodb(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodb.html',context)
+
+
+
 #syslogs collectin mtds START
 def windows_collection_options(request):
     context={}

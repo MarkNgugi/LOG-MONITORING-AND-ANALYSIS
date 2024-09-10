@@ -193,58 +193,68 @@
             <p>Use integrations to collect data in Grafana Cloud to monitor the health and performance 
               of your infrastructure services.</p>             
             
-            <div class="row">
-              <div class="col-md-4 mb-4">
-                <div class="card shadow mb-4">
-                  <div class="card-body file-list">
-                    <div class="d-flex align-items-center">
-                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                        <img src="{% static 'assets/images/mysql.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                      </div>
-                      <div class="flex-fill ml-4 fname">
-                        <strong>MySQL</strong><br />
-                        <span class="badge badge-light text-muted">3 files</span>
-                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                      </div>
-                    </div>
-                  </div> <!-- .card-body -->
-                </div> <!-- .card -->
-              </div>
-
-              <div class="col-md-4 mb-4"> 
-                <div class="card shadow mb-4">
-                  <div class="card-body file-list">
-                    <div class="d-flex align-items-center">
-                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                        <img src="{% static 'assets/images/postgres01.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                      </div>
-                      <div class="flex-fill ml-4 fname">
-                        <strong>PostgreSQL</strong><br />
-                        <span class="badge badge-light text-muted">3 files</span>
-                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                      </div>
-                    </div>
-                  </div> <!-- .card-body -->
-                </div> <!-- .card -->
-              </div>
-
-              <div class="col-md-4 mb-4">
-                <div class="card shadow mb-4">
-                  <div class="card-body file-list">
-                    <div class="d-flex align-items-center">
-                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                        <img src="{% static 'assets/images/mongo-db.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                      </div>
-                      <div class="flex-fill ml-4 fname">
-                        <strong>MongoDB</strong><br />
-                        <span class="badge badge-light text-muted">3 files</span>
-                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                      </div>
-                    </div>
-                  </div> <!-- .card-body -->
-                </div> <!-- .card -->
-              </div>
-            </div> <!-- end section -->  
+              <div class="row">
+                <!-- MySQL Section -->
+                <div class="col-md-4 mb-4">
+                    <a href="{%url 'mysql'%}" class="text-decoration-none">
+                        <div class="card shadow mb-4">
+                            <div class="card-body file-list">
+                                <div class="d-flex align-items-center">
+                                    <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                                        <img src="{% static 'assets/images/mysql.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                                    </div>
+                                    <div class="flex-fill ml-4 fname">
+                                        <strong>MySQL</strong><br />
+                                        <span class="badge badge-light text-muted">3 files</span>
+                                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
+                                    </div>
+                                </div>
+                            </div> <!-- .card-body -->
+                        </div> <!-- .card -->
+                    </a>
+                </div>
+            
+                <!-- PostgreSQL Section -->
+                <div class="col-md-4 mb-4">
+                    <a href="{%url 'postgresql'%}" class="text-decoration-none">
+                        <div class="card shadow mb-4">
+                            <div class="card-body file-list">
+                                <div class="d-flex align-items-center">
+                                    <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                                        <img src="{% static 'assets/images/postgres01.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                                    </div>
+                                    <div class="flex-fill ml-4 fname">
+                                        <strong>PostgreSQL</strong><br />
+                                        <span class="badge badge-light text-muted">3 files</span>
+                                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
+                                    </div>
+                                </div>
+                            </div> <!-- .card-body -->
+                        </div> <!-- .card -->
+                    </a>
+                </div>
+            
+                <!-- MongoDB Section -->
+                <div class="col-md-4 mb-4">
+                    <a href="{%url 'mongodb'%}" class="text-decoration-none">
+                        <div class="card shadow mb-4">
+                            <div class="card-body file-list">
+                                <div class="d-flex align-items-center">
+                                    <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                                        <img src="{% static 'assets/images/mongo-db.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                                    </div>
+                                    <div class="flex-fill ml-4 fname">
+                                        <strong>MongoDB</strong><br />
+                                        <span class="badge badge-light text-muted">3 files</span>
+                                        <i class="fe fe-users fe-12 ml-2 text-muted"></i>
+                                    </div>
+                                </div>
+                            </div> <!-- .card-body -->
+                        </div> <!-- .card -->
+                    </a>
+                </div>
+            </div> <!-- end section -->
+            
                      
 
         </div>

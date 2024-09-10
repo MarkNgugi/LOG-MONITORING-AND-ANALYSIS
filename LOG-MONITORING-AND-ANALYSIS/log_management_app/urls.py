@@ -36,6 +36,10 @@ urlpatterns = [
     path('home/system-logs/os-types/nginx-explorer/',views.nginx,name='nginx'),
     path('home/system-logs/os-types/iis-explorer/',views.iis,name='iis'),
 
+    path('home/system-logs/os-types/mysql-explorer/',views.mysql,name='mysql'),
+    path('home/system-logs/os-types/postgresql-explorer/',views.postgresql,name='postgresql'),
+    path('home/system-logs/os-types/mongodb-explorer/',views.mongodb,name='mongodb'),    
+
 
 
     path('home/windows/collection-options/',views.windows_collection_options,name='windows_collection_options'),
