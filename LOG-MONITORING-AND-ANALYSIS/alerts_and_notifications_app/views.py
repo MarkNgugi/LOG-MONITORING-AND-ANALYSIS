@@ -11,8 +11,12 @@ def alertconfigpage(request):
     context={}
     return render(request,'baseapp/alertconfig/configpage.html',context)
 
-    
+def contactpoint(request):
+    context={}
+    return render(request,'baseapp/contactpoints/contactpoint.html',context)
 
+    
+ 
 
 
 
