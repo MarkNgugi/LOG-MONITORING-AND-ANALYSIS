@@ -34,10 +34,257 @@
 
                     <!-- Configuration Details Tab Content -->
                     <div class="tab-pane fade" id="config" role="tabpanel" aria-labelledby="config-tab">
-                        <h1 class="h3 page-title">Configuration Details</h1>
-                        <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>                       
+                        <!-- <h1 class="h3 page-title">Configuration Details</h1> -->
+                        <!-- <hr class="my-2"> -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- <h1 class="h3 page-title">New Alert Rule</h1><br> -->
+                    
+                                    <!-- Step 1: Enter Alert Rule Name -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>1. Enter Alert Rule Name</h4>
+                                            <p class="mb-2"><strong>Enter a name to identify your alert rule.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="alert-rule-input">Rule Name</label>
+                                                    <input type="text" class="form-control" id="alert-rule-input" placeholder="Add alert rule" />
+                                                </div> <!-- form-group -->
+                                            </div> <!-- form-row -->
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Step 2: Alert Types and Triggers -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>2. Alert Types and Triggers</h4>
+                                            <p class="mb-2"><strong>Specify the conditions that will trigger the alert.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="eventIdMatching">Event ID Matching (Windows):</label>
+                                                    <input type="text" id="eventIdMatching" class="form-control" placeholder="Enter Event IDs (comma-separated)">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="logLevelTrigger">Log Level Triggers (Linux/macOS):</label>
+                                                    <select id="logLevelTrigger" class="custom-select">
+                                                        <option>Error</option>
+                                                        <option>Warning</option>
+                                                        <option>Critical</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="httpStatusCode">HTTP Status Code Monitoring (Web Server):</label>
+                                                    <input type="text" id="httpStatusCode" class="form-control" placeholder="e.g., 500, 404">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="queryPerformance">Query Performance Alerts (Database):</label>
+                                                    <input type="text" id="queryPerformance" class="form-control" placeholder="e.g., Execution Time > 2s">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="customRegex">Custom Regex Matching:</label>
+                                                    <input type="text" id="customRegex" class="form-control" placeholder="e.g., /error|fail|exception/i">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="alertThreshold">Threshold-based Alerts:</label>
+                                                    <input type="text" id="alertThreshold" class="form-control" placeholder="e.g., CPU Usage > 90%">
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Step 3: Alert Severity Levels -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>3. Alert Severity Levels</h4>
+                                            <p class="mb-2"><strong>Define the severity levels for alerts.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="severityCritical">Critical:</label>
+                                                    <input type="text" id="severityCritical" class="form-control" placeholder="e.g., CPU Usage > 90%">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="severityHigh">High:</label>
+                                                    <input type="text" id="severityHigh" class="form-control" placeholder="e.g., Memory Usage > 80%">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="severityMedium">Medium:</label>
+                                                    <input type="text" id="severityMedium" class="form-control" placeholder="e.g., Disk Space > 70%">
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Step 4: Notification Methods -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>4. Notification Methods</h4>
+                                            <p class="mb-2"><strong>Select how you want to be notified about the alerts.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="emailNotification">Email Notification:</label>
+                                                    <input type="email" id="emailNotification" class="form-control" placeholder="Enter email address">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="smsNotification">SMS Notification:</label>
+                                                    <input type="text" id="smsNotification" class="form-control" placeholder="Enter phone number">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="notificationFrequency">Notification Frequency:</label>
+                                                    <select id="notificationFrequency" class="custom-select">
+                                                        <option>Immediate</option>
+                                                        <option>Hourly</option>
+                                                        <option>Daily Summary</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="webhookNotification">Webhook Notification:</label>
+                                                    <input type="text" id="webhookNotification" class="form-control" placeholder="Enter Webhook URL">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="notificationFormat">Notification Format:</label>
+                                                    <select id="notificationFormat" class="custom-select">
+                                                        <option>Email Template</option>
+                                                        <option>SMS Template</option>
+                                                        <option>Webhook JSON</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Step 5: Alert Escalation Policy -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>5. Alert Escalation Policy</h4>
+                                            <p class="mb-2"><strong>Set up escalation policies and assign teams.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="escalationPolicy">Assign Escalation Policy:</label>
+                                                    <select id="escalationPolicy" class="custom-select">
+                                                        <option>Team A - 15 mins</option>
+                                                        <option>Team B - 30 mins</option>
+                                                        <option>Team C - 1 hour</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="assignTeams">Assign to Teams:</label>
+                                                    <select id="assignTeams" class="custom-select">
+                                                        <option>Network Team</option>
+                                                        <option>Database Team</option>
+                                                        <option>Application Team</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="additionalNotes">Additional Notes:</label>
+                                                    <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Any additional details..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Step 6: Alert Scheduling -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>6. Alert Scheduling</h4>
+                                            <p class="mb-2"><strong>Define when the alert should be active and any exceptions.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="scheduleActivePeriod">Active Period:</label>
+                                                    <input type="text" id="scheduleActivePeriod" class="form-control" placeholder="e.g., 9 AM - 5 PM">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="customSchedule">Custom Schedule:</label>
+                                                    <input type="text" id="customSchedule" class="form-control" placeholder="e.g., Every Monday, 12 PM">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="holidaysExceptions">Holidays & Exceptions:</label>
+                                                    <input type="text" id="holidaysExceptions" class="form-control" placeholder="e.g., Exclude Christmas">
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Step 7: Alert Templates -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>7. Alert Templates</h4>
+                                            <p class="mb-2"><strong>Select or create alert templates for quick setup.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="predefinedTemplate">Predefined Templates:</label>
+                                                    <select id="predefinedTemplate" class="custom-select">
+                                                        <option>Select Template</option>
+                                                        <option>CPU Alert Template</option>
+                                                        <option>Memory Alert Template</option>
+                                                        <option>Disk Space Alert Template</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="customTemplate">Create Custom Template:</label>
+                                                    <input type="text" id="customTemplate" class="form-control" placeholder="Enter Template Name">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="templateDescription">Template Description:</label>
+                                                    <textarea id="templateDescription" class="form-control" rows="3" placeholder="Enter a brief description..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Step 8: Alert Preview and Testing -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>8. Alert Preview and Testing</h4>
+                                            <p class="mb-2"><strong>Preview and simulate the alert before saving.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="simulateAlert">Simulate Alert:</label>
+                                                    <button type="button" class="btn btn-primary custom-button custom-button-primary" id="simulateAlert">Run Simulation</button>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="previewAlert">Preview Alert:</label>
+                                                    <button type="button" class="btn btn-secondary custom-button custom-button-secondary" id="previewAlert">View Preview</button>
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                    
+                                    <!-- Save Configuration -->
+                                    <div class="card shadow mb-4 save-button">
+                                        <div class="card-body text-center">
+                                            <button type="button" class="btn btn-success btn-lg custom-button">Save Alert Configuration</button>
+                                        </div>
+                                    </div>
+                    
+                                    <!-- Footer -->
+                                    <div class="footer-text">
+                                        <p>&copy; 2024 Log Monitoring & Analysis. All rights reserved.</p>
+                                    </div>
+                    
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
                     </div>
+                    
 
                     <!-- Metrics Tab Content -->
                     <div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
