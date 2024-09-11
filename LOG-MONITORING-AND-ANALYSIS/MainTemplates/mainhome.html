@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <!-- Icons CSS -->
     <link rel="stylesheet" href="/static/css/mystyles.css">
+    
 
     <link rel="stylesheet" href="/static/css/feather.css">
     <link rel="stylesheet" href="/static/css/select2.css">
@@ -151,110 +152,140 @@
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>Log Management</span>
           </p>
-
-
+          
           <ul class="navbar-nav flex-fill w-100 mb-2">
-
+          
+            <!-- Log Sources -->
             <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'logsources'%}">
-                <i class="fe fe-layers fe-16"></i>
+              <a class="nav-link" href="{% url 'logsources' %}">
+                <i class="fe fe-database fe-16"></i> 
                 <span class="ml-3 item-text">Log Sources</span>
               </a>
             </li>
-
+          
+            <!-- Log Ingestion Dropdown -->
             <li class="nav-item dropdown">
-              <a href="#logSources" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-box fe-16"></i>
+              <a href="#logIngestionDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-upload-cloud fe-16"></i>
                 <span class="ml-3 item-text">Log Ingestion</span>
               </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="logSources">
+              <ul class="collapse list-unstyled pl-4 w-100" id="logIngestionDropdown">
                 
+                <!-- Add Log Source -->
                 <li class="nav-item w-100">
-                  <a class="nav-link" href="{%url 'system_os_types'%}">                    
+                  <a class="nav-link" href="{% url 'system_os_types' %}">
+                    <i class="fe fe-plus-circle fe-14"></i> 
                     <span class="ml-3 item-text">+ Add Log Source</span>
                   </a>
                 </li>
-
-                <!-- <li class="nav-item dropdown">
-                  <a href="#applicationLogs" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link pl-3">
+          
+                <!-- Application Logs Dropdown -->
+                <li class="nav-item dropdown">
+                  <a href="#applicationLogsDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link pl-3">
+                    <i class="fe fe-file-text fe-14"></i> 
                     <span class="ml-1 item-text">Application Logs</span>
-                  </a> 
-                  <ul class="collapse list-unstyled pl-4 w-100" id="applicationLogs">
+                  </a>
+                  <ul class="collapse list-unstyled pl-4 w-100" id="applicationLogsDropdown">
                     <li class="nav-item">
                       <a class="nav-link pl-3" href="{% url 'webserver_collection_options' %}">
+                        <i class="fe fe-server fe-12"></i> 
                         <span class="ml-1 item-text">Web Servers</span>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link pl-3" href="{% url 'database_collection_options' %}">
+                        <i class="fe fe-database fe-12"></i> 
                         <span class="ml-1 item-text">Database</span>
                       </a>
                     </li>            
                   </ul>
                 </li>
-
+          
+                <!-- Network Logs Dropdown -->
                 <li class="nav-item dropdown">
-                  <a href="#middleware" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link pl-3">
+                  <a href="#networkLogsDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link pl-3">
+                    <i class="fe fe-wifi fe-14"></i> 
                     <span class="ml-1 item-text">Network Logs</span>
                   </a>
-                  <ul class="collapse list-unstyled pl-4 w-100" id="middleware">
+                  <ul class="collapse list-unstyled pl-4 w-100" id="networkLogsDropdown">
                     <li class="nav-item">
-                      <a class="nav-link pl-3" href="{%url 'cachingsystems_types'%}">
-                        <span class="ml-1 item-text">Firewall logs</span>
+                      <a class="nav-link pl-3" href="{% url 'cachingsystems_types' %}">
+                        <i class="fe fe-shield fe-12"></i> 
+                        <span class="ml-1 item-text">Firewall Logs</span>
                       </a>
                     </li>
                   </ul>
-                </li>                 -->
-      
+                </li>
+          
               </ul>
             </li>
-
-
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'search'%}">
+          
+            <!-- Log Exploration Dropdown -->
+            <li class="nav-item dropdown">
+              <a href="#logExplorationDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                 <i class="fe fe-search fe-16"></i>
-                <span class="ml-3 item-text">Search Logs</span>
-                <span class="badge badge-pill badge-primary">New</span>
+                <span class="ml-3 item-text">Log Exploration</span>
               </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="logExplorationDropdown">
+          
+                <!-- Search Logs -->
+                <li class="nav-item w-100">
+                  <a class="nav-link" href="{% url 'search' %}">
+                    <i class="fe fe-search fe-16"></i> 
+                    <span class="ml-3 item-text">Search Logs</span>
+                    <span class="badge badge-pill badge-primary">New</span>
+                  </a>
+                </li>
+          
+                <!-- Log Streams -->
+                <li class="nav-item w-100">
+                  <a class="nav-link" href="{% url 'logstreams' %}">
+                    <i class="fe fe-database fe-16"></i>
+                    <span class="ml-3 item-text">Log Streams</span>
+                  </a>
+                </li>
+          
+              </ul>
             </li>
-
-
+          
+            <!-- Anomalies -->
             <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'logstreams'%}">
-                <i class="fe fe-layers fe-16"></i>
-                <span class="ml-3 item-text">Log Streams</span>
-              </a>
-            </li>          
-
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'anomaliespage'%}">
-                <i class="fe fe-16 fe-alert-triangle"></i>
+              <a class="nav-link" href="{% url 'anomaliespage' %}">
+                <i class="fe fe-alert-triangle fe-16"></i> 
                 <span class="ml-3 item-text">Anomalies</span>
               </a>
-            </li> 
-
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'reportspage'%}">
-                <i class="fe fe-layers fe-16"></i>
+            </li>
+          
+            <!-- Reports Dropdown -->
+            <li class="nav-item dropdown">
+              <a href="#reportsDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-bar-chart fe-16"></i>
                 <span class="ml-3 item-text">Reports</span>
               </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="reportsDropdown">
+          
+                <!-- Generate Report -->
+                <li class="nav-item w-100">
+                  <a class="nav-link" href="">
+                    <i class="fe fe-file-text fe-14"></i>
+                    <span class="ml-3 item-text">Generate Report</span>
+                  </a>
+                </li>
+          
+                <!-- Scheduled Reports -->
+                <li class="nav-item w-100">
+                  <a class="nav-link" href="">
+                    <i class="fe fe-calendar fe-14"></i>
+                    <span class="ml-3 item-text">Scheduled Reports</span>
+                  </a>
+                </li>
+          
+              </ul>
             </li>
-
-            <!-- <li class="nav-item w-100"> 
-              <a class="nav-link" href="{%url 'incidences'%}">
-                <i class="fe fe-layers fe-16"></i>
-                <span class="ml-3 item-text">Incident Response</span>
-              </a>
-            </li> -->
-
-            <!-- <li class="nav-item w-100"> 
-              <a class="nav-link" href="{%url 'logretention'%}">
-                <i class="fe fe-layers fe-16"></i>
-                <span class="ml-3 item-text">Log Retention Policies</span>
-              </a>
-            </li>             -->
-
+          
           </ul>
+          
+          
 
           
           <p class="text-muted nav-heading mt-4 mb-1">
@@ -333,25 +364,25 @@
               <ul class="collapse list-unstyled pl-4 w-100" id="alertingDropdown">
                 <li class="nav-item w-100">
                   <a class="nav-link" href="{% url 'alertconfig' %}">
-                    <i class="fe fe-bell fe-16"></i> <!-- Icon for Alerts -->
+                    <i class="fe fe-bell fe-16"></i>
                     <span class="ml-3 item-text">Alert Rules</span>
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link" href="{% url 'contactpoint' %}">
-                    <i class="fe fe-user-plus fe-16"></i> <!-- Icon for Contact Points -->
+                    <i class="fe fe-user-plus fe-16"></i> 
                     <span class="ml-3 item-text">Contact Points</span>
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link" href="{% url 'notification-policies' %}">
-                    <i class="fe fe-settings fe-16"></i> <!-- Icon for Settings -->
+                    <i class="fe fe-settings fe-16"></i> 
                     <span class="ml-3 item-text">Notification Settings</span>
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link" href="{% url 'alert_history' %}">
-                    <i class="fe fe-archive fe-16"></i> <!-- Icon for History -->
+                    <i class="fe fe-archive fe-16"></i>
                     <span class="ml-3 item-text">Alert History</span>
                   </a>
                 </li>
@@ -366,7 +397,7 @@
                 
                 <li class="nav-item w-100">
                   <a class="nav-link" href="{% url 'scheduledreports' %}">
-                    <i class="fe fe-calendar fe-16"></i> <!-- Icon for Reports -->
+                    <i class="fe fe-calendar fe-16"></i> 
                     <span class="ml-3 item-text">Scheduled Reports</span>
                   </a>
                 </li>
@@ -404,100 +435,106 @@
           
 
           <p class="text-muted nav-heading mt-4 mb-1">
-            <span>AI and Machine Learning</span> 
+            <span>AI and Machine Learning</span>
           </p>
           <ul class="navbar-nav flex-fill w-100 mb-2">
-
+            <!-- Auto Incident Response -->
             <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'predictiveanalysis'%}">
-                <i class="fe fe-calendar fe-16"></i>
-                <span class="ml-3 item-text">Predictive Analysis</span>
-              </a>
-            </li>
-
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'autoincidentresponse'%}">
-                <i class="fe fe-calendar fe-16"></i>
+              <a class="nav-link" href="">
+                <i class="fe fe-shield fe-16"></i> 
                 <span class="ml-3 item-text">Auto Incident Response</span>
               </a>
             </li>
-
+          
+            <!-- Log Classification -->
             <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'logclassification'%}">
-                <i class="fe fe-calendar fe-16"></i>
+              <a class="nav-link" href="">
+                <i class="fe fe-layers fe-16"></i> 
                 <span class="ml-3 item-text">Log Classification</span>
               </a>
             </li>
-            
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'AImodels'%}">
-                <i class="fe fe-calendar fe-16"></i>
-                <span class="ml-3 item-text">AI Models</span>
+          
+            <!-- Model Management Dropdown -->
+            <li class="nav-item dropdown">
+              <a href="#modelManagementDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <i class="fe fe-cpu fe-16"></i> 
+                <span class="ml-3 item-text">Model Management</span>
               </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="modelManagementDropdown">
+                <!-- AI Models -->
+                <li class="nav-item w-100">
+                  <a class="nav-link" href="">
+                    <i class="fe fe-box fe-16"></i> 
+                    <span class="ml-3 item-text">AI Models</span>
+                  </a>
+                </li>
+                <!-- Model Training -->
+                <li class="nav-item w-100">
+                  <a class="nav-link" href="">
+                    <i class="fe fe-activity fe-16"></i> 
+                    <span class="ml-3 item-text">Model Training</span>
+                  </a>
+                </li>
+                <!-- Model Performance -->
+                <li class="nav-item w-100">
+                  <a class="nav-link" href="">
+                    <i class="fe fe-bar-chart-2 fe-16"></i> 
+                    <span class="ml-3 item-text">Model Performance</span>
+                  </a>
+                </li>
+              </ul>
             </li>
-            
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'modeltraining'%}">
-                <i class="fe fe-calendar fe-16"></i>
-                <span class="ml-3 item-text">Model Training</span>
-              </a>
-            </li>
-            
-            <li class="nav-item w-100">
-              <a class="nav-link" href="{%url 'modelperformance'%}">
-                <i class="fe fe-calendar fe-16"></i>
-                <span class="ml-3 item-text">Model Performance</span>
-              </a>
-            </li>
-            
-          </ul>          
+          </ul>
+                   
 
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>User Management & Settings</span>
           </p>
           
           <ul class="navbar-nav flex-fill w-100 mb-2">
-            
+          
             <!-- Account Settings -->
             <li class="nav-item w-100">
               <a class="nav-link" href="{% url 'accountsettings' %}">
-                <i class="fe fe-calendar fe-16"></i>
+                <i class="fe fe-settings fe-16"></i> 
                 <span class="ml-3 item-text">Account Settings</span>
               </a>
             </li>
-            
+          
             <!-- User Access Management Dropdown -->
             <li class="nav-item dropdown">
               <a href="#userAccessManagementDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-user fe-16"></i>
+                <i class="fe fe-users fe-16"></i> 
                 <span class="ml-3 item-text">User Access</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="userAccessManagementDropdown">
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="{% url 'useraccounts' %}">
+                    <i class="fe fe-user fe-14"></i> 
                     <span class="ml-1">Users and Teams</span>
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="{% url 'ip_page' %}">
-                    <span class="ml-1">Access Control Policies </span>
-                    <!-- (IP Whitelisting, Time-Based Access Control) -->
+                    <i class="fe fe-shield fe-14"></i> 
+                    <span class="ml-1">Access Control Policies</span>
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="">
+                    <i class="fe fe-lock fe-14"></i> <!-- Icon for Role-Based Access Control -->
                     <span class="ml-1">Role-Based Access Control</span>
-                    <!-- (RBAC) -->
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="">
+                    <i class="fe fe-shield fe-14"></i> 
                     <span class="ml-1">Two-Factor Authentication</span>
-                    <!-- (2FA) Settings -->
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="">
+                    <i class="fe fe-key fe-14"></i>
                     <span class="ml-1">Password Policies</span>
                   </a>
                 </li>
@@ -507,22 +544,25 @@
             <!-- Security & Activity Dropdown -->
             <li class="nav-item dropdown">
               <a href="#securityActivityDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-folder fe-16"></i>
+                <i class="fe fe-shield fe-16"></i> 
                 <span class="ml-3 item-text">Security and Activity</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="securityActivityDropdown">
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="./files-list.html">
+                    <i class="fe fe-file-text fe-14"></i> 
                     <span class="ml-1">Audit Logs</span>
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="./files-grid.html">
+                    <i class="fe fe-activity fe-14"></i> 
                     <span class="ml-1">User Activity Dashboard</span>
                   </a>
                 </li>
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="./files-list.html">
+                    <i class="fe fe-clock fe-14"></i> 
                     <span class="ml-1">Session Management</span>
                   </a>
                 </li>
@@ -532,17 +572,20 @@
             <!-- API and Integration Dropdown -->
             <li class="nav-item dropdown">
               <a href="#apiIntegrationDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-compass fe-16"></i>
+                <i class="fe fe-code fe-16"></i> 
                 <span class="ml-3 item-text">API and Integration</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="apiIntegrationDropdown">
                 <li class="nav-item w-100">
                   <a class="nav-link pl-3" href="">
+                    <i class="fe fe-link fe-14"></i> 
                     <span class="ml-1">API Access Management</span>
                   </a>
                 </li>
               </ul>
             </li>
+          </ul>
+          
                   
           
 
@@ -550,32 +593,37 @@
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>Help and Support</span>
           </p>
-
+          
           <ul class="navbar-nav flex-fill w-100 mb-2">
+            <!-- Help and Support Dropdown -->
             <li class="nav-item dropdown">
               <a href="#help" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-compass fe-16"></i>
+                <i class="fe fe-help-circle fe-16"></i> 
                 <span class="ml-3 item-text">Help and Support</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="help">
                 <li>
                   <a class="nav-link pl-3" href="./support-center.html">
+                    <i class="fe fe-book fe-14"></i> 
                     <span class="ml-1">User Documentation</span>
                   </a>
                 </li>
                 <li>
                   <a class="nav-link pl-3" href="./support-tickets.html">
+                    <i class="fe fe-headphones fe-14"></i> 
                     <span class="ml-1">Contact Support</span>
                   </a>
                 </li>
                 <li>
                   <a class="nav-link pl-3" href="./support-tickets.html">
+                    <i class="fe fe-alert-triangle fe-14"></i>
                     <span class="ml-1">Report an Issue</span>
                   </a>
                 </li>
               </ul>
             </li>
           </ul>
+          
 
 
           <div class="btn-box w-100 mt-4 mb-1">
