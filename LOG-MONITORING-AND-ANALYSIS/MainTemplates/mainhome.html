@@ -274,7 +274,7 @@
           
                 <!-- Scheduled Reports -->
                 <li class="nav-item w-100">
-                  <a class="nav-link" href="">
+                  <a class="nav-link" href="{% url 'scheduledreports' %}">
                     <i class="fe fe-calendar fe-14"></i>
                     <span class="ml-3 item-text">Scheduled Reports</span>
                   </a>
@@ -297,7 +297,7 @@
             <li class="nav-item dropdown w-100">
               <a href="#performanceMonitoringDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                 <i class="fe fe-activity fe-16"></i>
-                <span class="ml-3 item-text">Performance Monitoring</span>
+                <span class="ml-3 item-text">Performance Tracking</span>
               </a>
               <!-- Collapsible List for Dropdown Items -->
               <ul class="collapse list-unstyled pl-4 w-100" id="performanceMonitoringDropdown">
@@ -386,21 +386,7 @@
                     <span class="ml-3 item-text">Alert History</span>
                   </a>
                 </li>
-                
-                
-                <!-- <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'customalerts' %}">
-                    <i class="fe fe-sliders fe-16"></i> 
-                    <span class="ml-3 item-text">Custom Alerts</span>
-                  </a>
-                </li> -->
-                
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'scheduledreports' %}">
-                    <i class="fe fe-calendar fe-16"></i> 
-                    <span class="ml-3 item-text">Scheduled Reports</span>
-                  </a>
-                </li>
+                                
               </ul>
               
             </li>

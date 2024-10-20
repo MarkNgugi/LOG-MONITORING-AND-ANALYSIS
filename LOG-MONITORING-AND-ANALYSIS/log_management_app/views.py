@@ -266,7 +266,7 @@ def stream_windows_host_logs(request):
     context = {
         'log_source_form': log_source_form,
     }
-    return render(request, 'baseapp/logingestion/systemlogs/windows/stream_win_logsform.html', context)
+    return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', context)
 
 
 
