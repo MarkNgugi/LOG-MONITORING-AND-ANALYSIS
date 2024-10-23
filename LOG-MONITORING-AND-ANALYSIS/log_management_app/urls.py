@@ -47,10 +47,10 @@ urlpatterns = [
     path('home/macos/unixlinux/collection-options/',views.macos_collection_options,name='macos_collection_options'),
    
         #windows collection forms
-    path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
+    # path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
     path('home/windows/logfilestreams/',views.windowslogfilestreams,name='windowslogfilestreams'),
     path('home/windows/performancelogs/',views.windowsperformancelogs,name='windowsperformancelogs'),
-    path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
+    # path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
     path('home/fileuploag/',views.fileuploadform,name='fileuploadform'),
  
 

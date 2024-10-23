@@ -11,7 +11,7 @@ class WindowsLogSourceForm(forms.ModelForm):
     )
 
     class Meta:
-        model = WindowsLogSource
+        model = WindowsLogSource 
         fields = [
             'log_source_name', 'description', 'log_type', 'retention_policy',
             
@@ -22,10 +22,7 @@ class WindowsLogSourceForm(forms.ModelForm):
             'retention_policy': forms.Select(attrs={'class': 'form-control'}),
         }
 
-
-
  
-
 class WindowsFileLogSourceForm(forms.ModelForm):
     log_type = forms.ModelMultipleChoiceField(
         queryset=WindowsLogType.objects.all()

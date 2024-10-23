@@ -185,16 +185,42 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
 
 
 #LOG INGESTION 
-def system_os_types(request): 
+def system_os_types(request):  
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
 
 def windows(request):
-    context={}
+
+    if request.method == 'POST':    
+        print(request.POST) 
+        log_source_form = WindowsLogSourceForm(request.POST)
+        if log_source_form.is_valid():
+            log_source = log_source_form.save(commit=False)
+            log_source.save()
+            log_source_form.save_m2m() 
+            return redirect('logsources')
+        else:
+            print(log_source_form.errors)
+ 
+    else:
+        log_source_form = WindowsLogSourceForm()
+
+    context = {
+        'log_source_form': log_source_form,
+    }    
+    
     return render(request,'baseapp/logingestion/systemlogs/windows/windows.html',context)
 
 def windowsAD(request):
-    context={}
+    if request.method == 'POST': 
+        activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
+        if activedirectoryform.is_valid():
+            activedirectoryform.save()
+            return redirect('activedirectorylogs') 
+    else:
+        activedirectoryform = WindowsActiveDirectoryLogSourceForm()
+    
+    context = {'activedirectoryform': activedirectoryform}        
     return render(request,'baseapp/logingestion/systemlogs/activedirectory/activedirectory.html',context)
 
 def linux(request):
@@ -249,26 +275,22 @@ def macos_collection_options(request):
 #syslogs collectin mtds END
 
 #WINDOWS FORMS START
-def stream_windows_host_logs(request):
-    if request.method == 'POST':
-        print(request.POST)  # Print POST data for debugging
-        log_source_form = WindowsLogSourceForm(request.POST)
-        if log_source_form.is_valid():
-            log_source = log_source_form.save(commit=False)
-            log_source.save()
-            log_source_form.save_m2m()  # Save the many-to-many relationships
-            return redirect('streamsyslogs')
-        else:
-            print(log_source_form.errors)  # Debug: Print form errors
-    else:
-        log_source_form = WindowsLogSourceForm()
+# def stream_windows_host_logs(request):
+#     if request.method == 'POST':    
+#         log_source_form = WindowsLogSourceForm(request.POST) 
+#         if log_source_form.is_valid():
+#             log_source = log_source_form.save(commit=False)
+#             log_source.save()
+#             log_source_form.save_m2m() 
+#             return redirect('streamsyslogs')
 
-    context = {
-        'log_source_form': log_source_form,
-    }
-    return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', context)
+#     else:
+#         log_source_form = WindowsLogSourceForm()
 
-
+#     context = {
+#         'log_source_form': log_source_form,
+#     }
+#     return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', context)
 
  
 
@@ -304,17 +326,17 @@ def windowsperformancelogs(request):
 
 
 
-def activedirectoryform(request):
-    if request.method == 'POST': 
-        activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
-        if activedirectoryform.is_valid():
-            activedirectoryform.save()
-            return redirect('activedirectorylogs') 
-    else:
-        activedirectoryform = WindowsActiveDirectoryLogSourceForm()
+# def activedirectoryform(request):
+#     if request.method == 'POST': 
+#         activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
+#         if activedirectoryform.is_valid():
+#             activedirectoryform.save()
+#             return redirect('activedirectorylogs') 
+#     else:
+#         activedirectoryform = WindowsActiveDirectoryLogSourceForm()
     
-    context = {'activedirectoryform': activedirectoryform}
-    return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
+#     context = {'activedirectoryform': activedirectoryform}
+#     return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
 
 
 def fileuploadform(request):

@@ -24,7 +24,7 @@ class WindowsLogSource(models.Model):
     ]
 
     RETENTION_POLICY_CHOICES = [
-        ('7d', '7 days'),
+        ('7d', '7 days'), 
         ('14d', '14 days'),
         ('30d', '30 days'),
         ('60d', '60 days'),
