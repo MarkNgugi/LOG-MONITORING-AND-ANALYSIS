@@ -260,15 +260,44 @@ def macos(request):
 
 
 def apache(request):
-    context={}
+    if request.method=='POST':
+        apacheform=ApacheserverLogStreamForm(request.POST)
+        if apacheform.is_valid():
+            apacheform.save()
+            return redirect('logsources')
+        else:
+            print(apacheform.errors)
+        
+    else:
+        apacheform=ApacheserverLogStreamForm()
+    context={
+        'apacheform':apacheform,        
+        }    
+    
     return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apache.html',context)
 
 def nginx(request):
-    context={}
+    if request.method=='POST':
+        nginxform=NginxserverLogStreamForm(request.POST)
+        if nginxform.is_valid():
+            nginxform.save()
+            return redirect('logsources')
+        
+    else:
+        nginxform=NginxserverLogStreamForm()
+    context={'nginxform':nginxform}        
     return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginx.html',context)
 
 def iis(request):
-    context={}
+    if request.method=='POST':
+        iisform=IISserverLogStreamForm(request.POST)
+        if iisform.is_valid():
+            iisform.save()
+            return redirect('logsources')
+        
+    else:
+        iisform=IISserverLogStreamForm()
+    context={'iisform':iisform}        
     return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iis.html',context)
 
 
@@ -589,7 +618,7 @@ def logfileuploadwizard(request):
     #webserver forms
 
 def apacheserverlogstream(request):
-    webservers = WebServer.objects.all()
+    # webservers = WebServer.objects.all()
     if request.method=='POST':
         apacheform=ApacheserverLogStreamForm(request.POST)
         if apacheform.is_valid():
@@ -602,7 +631,7 @@ def apacheserverlogstream(request):
         apacheform=ApacheserverLogStreamForm()
     context={
         'apacheform':apacheform,
-        'webservers':webservers
+        # 'webservers':webservers
         }
     return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apachestream.html',context)
 
@@ -649,17 +678,17 @@ def apachefileupload(request):
 #APACHE FORMS END
 
 
-def nginxserverlogstream(request):
-    if request.method=='POST':
-        nginxform=NginxserverLogStreamForm(request.POST)
-        if nginxform.is_valid():
-            nginxform.save()
-            return redirect('logsources')
+# def nginxserverlogstream(request):
+#     if request.method=='POST':
+#         nginxform=NginxserverLogStreamForm(request.POST)
+#         if nginxform.is_valid():
+#             nginxform.save()
+#             return redirect('logsources')
         
-    else:
-        nginxform=NginxserverLogStreamForm()
-    context={'nginxform':nginxform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxstream.html',context)
+#     else:
+#         nginxform=NginxserverLogStreamForm()
+#     context={'nginxform':nginxform}
+#     return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxstream.html',context)
 
 def nginxserverlogfilestream(request):
     if request.method=='POST':
@@ -702,17 +731,17 @@ def nginxfileupload(request):
 #NGINX FORMS END
 
 
-def iisserverlogstream(request):
-    if request.method=='POST':
-        iisform=IISserverLogStreamForm(request.POST)
-        if iisform.is_valid():
-            iisform.save()
-            return redirect('logsources')
+# def iisserverlogstream(request):
+#     if request.method=='POST':
+#         iisform=IISserverLogStreamForm(request.POST)
+#         if iisform.is_valid():
+#             iisform.save()
+#             return redirect('logsources')
         
-    else:
-        iisform=IISserverLogStreamForm()
-    context={'iisform':iisform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisstream.html',context)
+#     else:
+#         iisform=IISserverLogStreamForm()
+#     context={'iisform':iisform}
+#     return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisstream.html',context)
 
 def iisserverlogfilestream(request):
     if request.method=='POST':

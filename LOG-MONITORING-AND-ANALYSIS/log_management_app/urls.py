@@ -111,11 +111,11 @@ urlpatterns = [
     path('home/webserver/apachefile',views.apacheserverlogfilestream,name='apacheserverlogfilestream'),
     path('home/webserver/apacheperf',views.apacheserverperflogs,name='apacheserverperflogs'),
 
-    path('home/webserver/nginx',views.nginxserverlogstream,name='nginxserverlogstream'),
+    # path('home/webserver/nginx',views.nginxserverlogstream,name='nginxserverlogstream'),
     path('home/webserver/nginxfile',views.nginxserverlogfilestream,name='nginxserverlogfilestream'),
     path('home/webserver/nginxperf',views.nginxserverperflogs,name='nginxserverperflogs'),
 
-    path('home/webserver/iis',views.iisserverlogstream,name='iisserverlogstream'),
+    # path('home/webserver/iis',views.iisserverlogstream,name='iisserverlogstream'),
     path('home/webserver/iisfile',views.iisserverlogfilestream,name='iisserverlogfilestream'),
     path('home/webserver/iisperf',views.iisserverperflogs,name='iisserverperflogs'),
 

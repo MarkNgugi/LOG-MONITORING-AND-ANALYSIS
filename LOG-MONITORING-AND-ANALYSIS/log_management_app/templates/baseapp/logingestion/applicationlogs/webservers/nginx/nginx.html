@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container">
-    <div class="row">
+    <div class="row"> 
         <div class="col-md-12">
             <h2 class="h3 mb-4 page-title">Nginx</h2>
 
@@ -49,104 +49,83 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <!-- Step 1: Add Log Source Information -->
-                                    <h4>1. Add Log Source Information</h4>
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
+                                            <h4>1. Add Log Source Information</h4>
+                                            <p class="mb-2"><strong>Provide fields for the user to enter information about the log source, such as its name, type, and specific logs to collect.</strong></p>
                                             
-                                            <!-- <p class="mb-2"><strong>Provide fields for the user to enter information about the log source, such as its name, type, and specific logs to collect.</strong></p> -->
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="logSourceName">Log Source Name:</label>
-                                                    <input type="text" class="form-control" id="logSourceName" placeholder="Enter Log Source Name" />
+                                            <form method="post">
+                                                {%csrf_token%}
+                                                <!-- Remove form-row and col-md-* to arrange fields vertically -->
+                                                <div class="form-group">
+                                                    {{ nginxform.log_source_name.label_tag }}
+                                                    {{ nginxform.log_source_name }}
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="logSourceType">Log Source Type:</label>
-                                                    <select id="logSourceType" class="custom-select">
-                                                        <option>Windows Event Logs</option>
-                                                        <option>Linux Syslogs</option>
-                                                        <option>Web Server Logs</option>
-                                                        <!-- Add more options as needed -->
-                                                    </select>
+                                                
+                                                <div class="form-group">
+                                                    {{ nginxform.log_file_path.label_tag }}
+                                                    {{ nginxform.log_file_path }}
                                                 </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-12">
-                                                    <label for="specificLogs">Specific Logs to Collect:</label>
-                                                    <input type="text" class="form-control" id="specificLogs" placeholder="Enter specific logs (comma-separated)" />
+
+                                                <div class="form-group">
+                                                    {{ nginxform.filter_keyword.label_tag }}
+                                                    {{ nginxform.filter_keyword }}
                                                 </div>
-                                            </div>
+                                    
+                                                <div class="form-group">
+                                                    {{ nginxform.log_rotation_interval.label_tag }}
+                                                    {{ nginxform.log_rotation_interval }}
+                                                </div>
+
+                                                <div class="form-group">
+                                                    {{ nginxform.collection_interval.label_tag }}
+                                                    {{ nginxform.collection_interval }}
+                                                </div>     
+                                                
+                                                <div class="form-group">
+                                                    {{ nginxform.retention_policy.label_tag }}
+                                                    {{ nginxform.retention_policy }}
+                                                </div>                                                   
+
+                                                <div class="form-group">
+                                                    
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+
+                                            </form>
+                                    
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
+                                    
 
                                     <!-- Step 2: Download Script File -->
-                                    <h4>2. Download Script File</h4>
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
-                                            
+                                            <h4>2. Download Script File</h4>
                                             <p class="mb-2"><strong>Offer a button that allows the user to download a script for setting up log collection on the target system.</strong></p>
                                             <button type="button" class="btn btn-primary">Download Script</button>
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
 
                                     <!-- Step 3: Running the Script on Windows -->
-                                    <h4>3. Running the Script on Windows</h4>
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
-                                            
+                                            <h4>3. Running the Script on Windows</h4>
                                             <p class="mb-2"><strong>Provide detailed instructions on how to run the downloaded script on the user's Windows machine and set it up as a service to ensure it starts on boot.</strong></p>
                                             <ol>
                                                 <li>Download the script using the button above.</li>
                                                 <li>Open Command Prompt as Administrator.</li>
                                                 <li>Navigate to the location where the script was downloaded.</li>
                                                 <li>Run the script with the following command: <code>powershell -ExecutionPolicy Bypass -File setup-log-collection.ps1</code></li>
-                                                <li>Ensure the script runs successfully.</li>
-                                                <li>To set up the script as a service, follow these steps:</li>
-                                                <ol>
-                                                    <li>**Create a Wrapper Batch File:**
-                                                        <ul>
-                                                            <li>Create a new batch file in the same directory as the PowerShell script or another appropriate location (e.g., `C:\Scripts\log-collection-service.bat`).</li>
-                                                            <li>Add the following content to the batch file:</li>
-                                                            <pre><code>@echo off
-                                    powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Scripts\setup-log-collection.ps1"</code></pre>
-                                                        </ul>
-                                                    </li>
-                                                    <li>**Create the Service Using `sc.exe`:**
-                                                        <ul>
-                                                            <li>In the Command Prompt (still running as Administrator), run the following command:</li>
-                                                            <pre><code>sc create LogCollectionService binPath= "C:\Scripts\log-collection-service.bat" start= auto</code></pre>
-                                                            <li>This command creates a new service named `LogCollectionService` that will run the batch file at startup.</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>**Configure Service Properties (Optional):**
-                                                        <ul>
-                                                            <li>Press `Win + R`, type `services.msc`, and press Enter to open the Services management console.</li>
-                                                            <li>Find **LogCollectionService** in the list, right-click, and select **Properties**.</li>
-                                                            <li>Adjust the **Startup type** and **Recovery** options as needed.</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>**Start the Service:**
-                                                        <ul>
-                                                            <li>Start the service by running the following command in the Command Prompt:</li>
-                                                            <pre><code>net start LogCollectionService</code></pre>
-                                                        </ul>
-                                                    </li>
-                                                    <li>**Verify the Service is Running:**
-                                                        <ul>
-                                                            <li>Ensure the service is running correctly by checking the **Services** management console or running the following command:</li>
-                                                            <pre><code>sc query LogCollectionService</code></pre>
-                                                        </ul>
-                                                    </li>
-                                                </ol>
+                                                <li>Ensure the script runs successfully and sets up as a service.</li>
                                             </ol>
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
-                                    
 
                                     <!-- Step 4: Test Connection -->
-                                    <h4>4. Test Connection</h4>
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
-                                            
+                                            <h4>4. Test Connection</h4>
                                             <p class="mb-2"><strong>Allow the user to test the connection between the log source and the log monitoring system to ensure everything is working correctly.</strong></p>
                                             <button type="button" class="btn btn-success">Test Connection</button>
                                             <p class="mt-2">Connection Status: <span id="connectionStatus">Not Tested</span></p>
@@ -154,10 +133,9 @@
                                     </div> <!-- /.card -->
 
                                     <!-- Step 5: Configure Alerts and Notifications -->
-                                    <h4>5. Configure Alerts and Notifications</h4>
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
-                                            
+                                            <h4>5. Configure Alerts and Notifications</h4>
                                             <p class="mb-2"><strong>Guide the user through configuring alerts and notifications based on specific events or thresholds.</strong></p>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -178,10 +156,9 @@
                                     </div> <!-- /.card -->
 
                                     <!-- Step 6: Review and Save Configuration -->
-                                    <h4>6. Review and Save Configuration</h4>
                                     <div class="card shadow mb-4">
                                         <div class="card-body" style="background-color: #343a40; color: #ffffff;"> <!-- Updated background and text color -->
-                                            
+                                            <h4>6. Review and Save Configuration</h4>
                                             <p class="mb-2"><strong>Provide a summary of all the configured settings, allowing the user to review and save the configuration.</strong></p>
                                             <!-- Updated background color for the alert -->
                                             <div class="alert" style="background-color: #343a40; border-color: #343a40; color: #ffffff;" role="alert">
