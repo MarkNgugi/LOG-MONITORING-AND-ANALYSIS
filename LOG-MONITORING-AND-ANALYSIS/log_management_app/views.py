@@ -224,11 +224,38 @@ def windowsAD(request):
     return render(request,'baseapp/logingestion/systemlogs/activedirectory/activedirectory.html',context)
 
 def linux(request):
-    context={}
+    if request.method=='POST':
+        log_source_form=LinuxLogSourceForm(request.POST)
+        if log_source_form.is_valid():
+            log_source_form=log_source_form.save()
+            return redirect('logsources')
+        
+        else:
+            print(log_source_form.errors)
+        
+    else: 
+        log_source_form=LinuxLogSourceForm() 
+        
+    context={
+        'log_source_form':log_source_form,
+        
+        }    
     return render(request,'baseapp/logingestion/systemlogs/linux/linux.html',context)
 
+
 def macos(request):
-    context={}
+    if request.method=='POST':
+        log_source_form=MacLogSourceForm(request.POST)
+        if log_source_form.is_valid():
+            log_source_form=log_source_form.save()
+            return redirect('logsources')
+        
+    else: 
+        log_source_form=MacLogSourceForm() 
+    context={
+        'log_source_form':log_source_form,
+        
+        }
     return render(request,'baseapp/logingestion/systemlogs/macos/macos.html',context)
 
 
@@ -348,23 +375,24 @@ def fileuploadform(request):
 
 #====================LINUX FORMS START============================
 
-def stream_linux_host_logs(request):
-    if request.method=='POST':
-        log_source_form=LinuxLogSourceForm(request.POST)
-        if log_source_form.is_valid():
-            log_source_form=log_source_form.save()
-            return redirect('lin_streamsyslogs')
+# def stream_linux_host_logs(request):
+#     if request.method=='POST':
+#         log_source_form=LinuxLogSourceForm(request.POST)
+#         if log_source_form.is_valid():
+#             log_source_form=log_source_form.save()
+#             return redirect('lin_streamsyslogs')
         
-        else:
-            print(log_source_form.errors)
+#         else:
+#             print(log_source_form.errors)
         
-    else: 
-        log_source_form=LinuxLogSourceForm() 
-    context={
-        'log_source_form':log_source_form,
+#     else: 
+#         log_source_form=LinuxLogSourceForm() 
+
+#     context={
+#         'log_source_form':log_source_form,
         
-        }
-    return render(request,'baseapp/logingestion/systemlogs/linux/stream_linux_logsform.html',context)
+#         }
+#     return render(request,'baseapp/logingestion/systemlogs/linux/stream_linux_logsform.html',context)
 
  
 def linuxlogfilestreams(request):
@@ -427,20 +455,20 @@ def ldaplogs(request):
 
 #===============================MACOS FORM START========================================
 
-def stream_mac_host_logs(request):
-    if request.method=='POST':
-        log_source_form=MacLogSourceForm(request.POST)
-        if log_source_form.is_valid():
-            log_source_form=log_source_form.save()
-            return redirect('logsources')
+# def stream_mac_host_logs(request):
+#     if request.method=='POST':
+#         log_source_form=MacLogSourceForm(request.POST)
+#         if log_source_form.is_valid():
+#             log_source_form=log_source_form.save()
+#             return redirect('logsources')
         
-    else: 
-        log_source_form=MacLogSourceForm() 
-    context={
-        'log_source_form':log_source_form,
+#     else: 
+#         log_source_form=MacLogSourceForm() 
+#     context={
+#         'log_source_form':log_source_form,
         
-        }
-    return render(request,'baseapp/logingestion/systemlogs/macos/stream_mac_logsform.html',context)
+#         }
+#     return render(request,'baseapp/logingestion/systemlogs/macos/stream_mac_logsform.html',context)
 
 
 def maclogfilestreams(request):

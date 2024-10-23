@@ -55,13 +55,13 @@ urlpatterns = [
  
 
         #linux collection forms 
-    path('home/linux/form/',views.stream_linux_host_logs,name='stream_linux_host_logs'),
+    # path('home/linux/form/',views.stream_linux_host_logs,name='stream_linux_host_logs'),
     path('home/linux/logfilestreams/',views.linuxlogfilestreams,name='linuxlogfilestreams'),
     path('home/linux/performancelogs/',views.linuxperformancelogs,name='linuxperformancelogs'),
     path('home/ldap/',views.ldaplogs,name='ldaplogs'),    
 
         #macos collection forms
-    path('home/mac/form/',views.stream_mac_host_logs,name='stream_mac_host_logs'),
+    # path('home/mac/form/',views.stream_mac_host_logs,name='stream_mac_host_logs'),
     path('home/mac/logfilestreams/',views.maclogfilestreams,name='maclogfilestreams'),
     path('home/mac/performancelogs/',views.macperformancelogs,name='macperformancelogs'),
     path('home/opendir/',views.opendirlogs,name='opendirlogs'), 

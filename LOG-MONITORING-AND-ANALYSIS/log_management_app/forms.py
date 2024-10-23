@@ -101,8 +101,7 @@ class LinuxLogSourceForm(forms.ModelForm):
     class Meta:
         model = LinuxLogSource 
         fields = [
-            'log_source_name', 'log_type', 'collection_interval',
-            'retention_policy'
+            'log_source_name', 'log_type', 'collection_interval', 'retention_policy'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
@@ -186,14 +185,13 @@ class MacLogSourceForm(forms.ModelForm):
         model = MacLogSource
         fields = [
             'log_source_name', 'log_type', 'collection_interval',
-            'retention_policy', 'collection_mtd'
+            'retention_policy'
         ]
         widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
+            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),            
             'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'collection_mtd': forms.Select(attrs={'class': 'form-control'}),
+            'retention_policy': forms.Select(attrs={'class': 'form-control'}),            
             
         }
 

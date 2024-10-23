@@ -53,29 +53,40 @@
                                         <div class="card-body">
                                             <h4>1. Add Log Source Information</h4>
                                             <p class="mb-2"><strong>Provide fields for the user to enter information about the log source, such as its name, type, and specific logs to collect.</strong></p>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="logSourceName">Log Source Name:</label>
-                                                    <input type="text" class="form-control" id="logSourceName" placeholder="Enter Log Source Name" />
+                                            
+                                            <form method="post">
+                                                {%csrf_token%}
+                                                <!-- Remove form-row and col-md-* to arrange fields vertically -->
+                                                <div class="form-group">
+                                                    {{ log_source_form.log_source_name.label_tag }}
+                                                    {{ log_source_form.log_source_name }}
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="logSourceType">Log Source Type:</label>
-                                                    <select id="logSourceType" class="custom-select">
-                                                        <option>Windows Event Logs</option>
-                                                        <option>Linux Syslogs</option>
-                                                        <option>Web Server Logs</option>
-                                                        <!-- Add more options as needed -->
-                                                    </select>
+                                                
+                                                <div class="form-group">
+                                                    {{ log_source_form.log_type.label_tag }}
+                                                    {{ log_source_form.log_type }}
                                                 </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-12">
-                                                    <label for="specificLogs">Specific Logs to Collect:</label>
-                                                    <input type="text" class="form-control" id="specificLogs" placeholder="Enter specific logs (comma-separated)" />
+
+                                                <div class="form-group">
+                                                    {{ log_source_form.collection_interval.label_tag }}
+                                                    {{ log_source_form.collection_interval }}
                                                 </div>
-                                            </div>
+                                    
+                                                <div class="form-group">
+                                                    {{ log_source_form.retention_policy.label_tag }}
+                                                    {{ log_source_form.retention_policy }}
+                                                </div>
+
+                                                <div class="form-group">
+                                                    
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+
+                                            </form>
+                                    
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
+                                    
 
                                     <!-- Step 2: Download Script File -->
                                     <div class="card shadow mb-4">
