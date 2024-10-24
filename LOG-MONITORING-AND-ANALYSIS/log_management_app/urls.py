@@ -142,16 +142,16 @@ urlpatterns = [
 
         #collection forms
     # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
-    path('home/db/mysql',views.mysqllogstream,name='mysqllogstream'),
+    # path('home/db/mysql',views.mysqllogstream,name='mysqllogstream'),
     path('home/db/mysqlfile',views.mysqllogfilestream,name='mysqllogfilestream'),
     path('home/db/mysqlperf',views.mysqlperflogs,name='mysqlperflogs'),
 
 
-    path('home/db/postgres',views.postgreslogstream,name='postgreslogstream'),
+    # path('home/db/postgres',views.postgreslogstream,name='postgreslogstream'),
     path('home/db/postgresfile',views.postgreslogfilestream,name='postgreslogfilestream'),
     path('home/db/postgresperf',views.postgresperflogs,name='postgresperflogs'),
  
-    path('home/db/mongo',views.mongodblogstream,name='mongodblogstream'),
+    # path('home/db/mongo',views.mongodblogstream,name='mongodblogstream'),
     path('home/db/mongofile',views.mongodblogfilestream,name='mongodblogfilestream'),
     path('home/db/mongoperf',views.mongodbperflogs,name='mongodbperflogs'),
 

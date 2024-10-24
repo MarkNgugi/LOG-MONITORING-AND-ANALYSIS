@@ -588,14 +588,12 @@ class MysqlLogStreamForm(forms.ModelForm):
     class Meta:
         model = MysqlLogStream
         fields = [
-            'log_source_name', 'log_file_path',
-            'log_level', 'filter_keyword', 'log_rotation_interval', 
+            'log_source_name', 'log_file_path', 'filter_keyword', 'log_rotation_interval', 
             'collection_interval', 'retention_policy'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-control'}),
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),            
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
             'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
@@ -657,14 +655,12 @@ class PostgresLogStreamForm(forms.ModelForm):
     class Meta:
         model = PostgresLogStream
         fields = [
-            'log_source_name', 'log_file_path',
-            'log_level', 'filter_keyword', 'log_rotation_interval', 
+            'log_source_name', 'log_file_path', 'filter_keyword', 'log_rotation_interval', 
             'collection_interval', 'retention_policy'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-control'}),
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),            
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
             'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),
@@ -723,14 +719,12 @@ class MongodbLogStreamForm(forms.ModelForm):
     class Meta:
         model = MongodbLogStream
         fields = [
-            'log_source_name', 'log_file_path',
-            'log_level', 'filter_keyword', 'log_rotation_interval', 
+            'log_source_name', 'log_file_path','filter_keyword', 'log_rotation_interval', 
             'collection_interval', 'retention_policy'
         ]
         widgets = {
             'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-control'}),
+            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),            
             'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
             'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
             'collection_interval': forms.Select(attrs={'class': 'form-control'}),

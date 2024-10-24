@@ -302,15 +302,42 @@ def iis(request):
 
 
 def mysql(request):
-    context={}
+    if request.method=='POST':
+        print(request.POST)
+        mysqlform=MysqlLogStreamForm(request.POST)
+        if mysqlform.is_valid():
+            mysqlform.save()
+            return redirect('logsources')
+        else:
+            print(mysqlform.errors)
+        
+    else:
+        mysqlform=MysqlLogStreamForm()
+    context={'mysqlform':mysqlform}        
     return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysql.html',context)
 
 def postgresql(request):
-    context={}
+    if request.method=='POST':
+        postgresform=PostgresLogStreamForm(request.POST)
+        if postgresform.is_valid():
+            postgresform.save()
+            return redirect('logsources')
+        
+    else:
+        postgresform=PostgresLogStreamForm()
+    context={'postgresform':postgresform}        
     return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresql.html',context)
 
 def mongodb(request):
-    context={}
+    if request.method=='POST':
+        mongodbform=MongodbLogStreamForm(request.POST)
+        if mongodbform.is_valid():
+            mongodbform.save()
+            return redirect('logsources')
+        
+    else:
+        mongodbform=MongodbLogStreamForm()
+    context={'mongodbform':mongodbform}        
     return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodb.html',context)
 
 
@@ -918,17 +945,17 @@ def dblogfileuploadwizard(request):
 #DATABASE FORMS START
 
 #MYSQL
-def mysqllogstream(request):
-    if request.method=='POST':
-        mysqlform=MysqlLogStreamForm(request.POST)
-        if mysqlform.is_valid():
-            mysqlform.save()
-            return redirect('logsources')
+# def mysqllogstream(request):
+#     if request.method=='POST':
+#         mysqlform=MysqlLogStreamForm(request.POST)
+#         if mysqlform.is_valid():
+#             mysqlform.save()
+#             return redirect('logsources')
         
-    else:
-        mysqlform=MysqlLogStreamForm()
-    context={'mysqlform':mysqlform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlstream.html',context)
+#     else:
+#         mysqlform=MysqlLogStreamForm()
+#     context={'mysqlform':mysqlform}
+#     return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlstream.html',context)
 
 def mysqllogfilestream(request):
     if request.method=='POST':
@@ -969,17 +996,17 @@ def mysqlfileupload(request):
 
 
 #POSTGRES
-def postgreslogstream(request):
-    if request.method=='POST':
-        postgresform=PostgresLogStreamForm(request.POST)
-        if postgresform.is_valid():
-            postgresform.save()
-            return redirect('logsources')
+# def postgreslogstream(request):
+#     if request.method=='POST':
+#         postgresform=PostgresLogStreamForm(request.POST)
+#         if postgresform.is_valid():
+#             postgresform.save()
+#             return redirect('logsources')
         
-    else:
-        postgresform=PostgresLogStreamForm()
-    context={'postgresform':postgresform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresstream.html',context)
+#     else:
+#         postgresform=PostgresLogStreamForm()
+#     context={'postgresform':postgresform}
+#     return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresstream.html',context)
  
 def postgreslogfilestream(request):
     if request.method=='POST':
@@ -1008,17 +1035,17 @@ def postgresperflogs(request):
 
 
 #MONGO
-def mongodblogstream(request):
-    if request.method=='POST':
-        mongodbform=MongodbLogStreamForm(request.POST)
-        if mongodbform.is_valid():
-            mongodbform.save()
-            return redirect('logsources')
+# def mongodblogstream(request):
+#     if request.method=='POST':
+#         mongodbform=MongodbLogStreamForm(request.POST)
+#         if mongodbform.is_valid():
+#             mongodbform.save()
+#             return redirect('logsources')
         
-    else:
-        mongodbform=MongodbLogStreamForm()
-    context={'mongodbform':mongodbform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbstream.html',context)
+#     else:
+#         mongodbform=MongodbLogStreamForm()
+#     context={'mongodbform':mongodbform}
+#     return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbstream.html',context)
 
 def mongodblogfilestream(request):
     if request.method=='POST':
