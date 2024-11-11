@@ -2,6 +2,9 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
+admin.site.register(UploadedLog)
+admin.site.register(LogEntry)
+# admin.site.register(Anomaly)
 
 
 admin.site.register(WindowsLogType)

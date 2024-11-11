@@ -177,3 +177,7 @@ MONGODB_SETTINGS = {
     'host': os.getenv('MONGODB_HOST', 'mongodb+srv://mark:markmark003@atlascluster.ogqxvgo.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster'),
     'db': os.getenv('MONGODB_DB', 'windows')
 }
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'

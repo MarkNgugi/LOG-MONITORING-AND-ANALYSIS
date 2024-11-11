@@ -4,6 +4,8 @@ from . import views
 
 urlpatterns = [
 
+    path('upload/', views.upload_log, name='upload_log'),
+
     path('home/',views.home,name='home'),
 
 

@@ -2,6 +2,13 @@
 from django import forms
 from .models import *
 
+
+class LogUploadForm(forms.ModelForm):
+    class Meta:
+        model = UploadedLog
+        fields = ['file']
+
+
 #====================WINDOWS LOGS FORMS START=======================
 
 class WindowsLogSourceForm(forms.ModelForm):

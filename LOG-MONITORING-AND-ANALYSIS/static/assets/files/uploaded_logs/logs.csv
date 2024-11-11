@@ -1,0 +1,11 @@
+timestamp,log_level,message,source
+2024-11-01 10:00:00,INFO,Application started successfully,app_server
+2024-11-01 10:05:15,ERROR,Failed to connect to database,db_server
+2024-11-01 10:10:30,WARNING,Disk space is running low,storage_server
+2024-11-01 10:15:45,INFO,User login successful,auth_service
+2024-11-01 10:20:00,ERROR,Failed password attempt,auth_service
+2024-11-01 10:25:15,INFO,New user registration,web_service
+2024-11-01 10:30:30,CRITICAL,System overload detected,monitoring_service
+2024-11-01 10:35:45,INFO,Daily backup completed,backup_service
+2024-11-01 10:40:00,DEBUG,User session started,session_manager
+2024-11-01 10:45:15,ERROR,Payment processing failed,payment_gateway

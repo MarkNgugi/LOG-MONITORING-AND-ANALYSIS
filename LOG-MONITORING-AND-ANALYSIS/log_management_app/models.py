@@ -1,7 +1,27 @@
 from django.db import models
 from django.utils import timezone 
+from user_management_app.models import User
 
-#====================WINDOWS LOGS MODELS START=======================
+ 
+
+class UploadedLog(models.Model):
+    file = models.FileField(upload_to='uploaded_logs/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class LogEntry(models.Model):
+    timestamp = models.DateTimeField()
+    log_level = models.CharField(max_length=50)
+    message = models.TextField()
+    source = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+# class Anomaly(models.Model):
+#     severity = models.CharField(max_length=50)
+#     description = models.TextField()
+#     log_entry = models.ForeignKey(LogEntry, on_delete=models.CASCADE)
+#     detected_at = models.DateTimeField(auto_now_add=True)
+
+#====================WINDOWS LOGS MODELS START=======================    
 
 class WindowsLogType(models.Model): 
     LOG_TYPE_CHOICES = [

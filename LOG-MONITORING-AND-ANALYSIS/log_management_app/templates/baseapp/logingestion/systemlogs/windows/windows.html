@@ -88,14 +88,32 @@
                                     </div> <!-- /.card -->
                                     
 
-                                    <!-- Step 2: Download Script File -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>2. Download Script File</h4>
-                                            <p class="mb-2"><strong>Offer a button that allows the user to download a script for setting up log collection on the target system.</strong></p>
-                                            <button type="button" class="btn btn-primary">Download Script</button>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
+<!-- Step 2: Setup Script for Log Collection -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>2. Setup Script for Log Collection</h4>
+        <p class="mb-2"><strong>Below is a PowerShell script for setting up log collection on a Windows system.</strong></p>
+        <pre id="scriptContent" style="background-color: #111111; color: white; padding: 15px; border-radius: 5px; text-align: left; overflow-x: auto;">
+# PowerShell Script to Extract System Logs
+$logsPath = "C:\Logs"
+If (!(Test-Path -Path $logsPath)) {
+    New-Item -ItemType Directory -Path $logsPath
+}
+Get-EventLog -LogName System -Newest 1000 |
+    Export-Csv -Path "$logsPath\system_logs.csv" -NoTypeInformation
+Write-Output "System logs have been saved to $logsPath\system_logs.csv"
+        </pre>
+        <!-- Copy to Clipboard Button -->
+        <button type="button" class="btn btn-secondary mt-2" onclick="copyToClipboard()">
+            <i class="fas fa-copy"></i> Copy to Clipboard
+        </button>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
+
+
+
+
 
                                     <!-- Step 3: Running the Script on Windows -->
                                     <div class="card shadow mb-4">
@@ -122,33 +140,11 @@
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
 
-                                    <!-- Step 5: Configure Alerts and Notifications -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>5. Configure Alerts and Notifications</h4>
-                                            <p class="mb-2"><strong>Guide the user through configuring alerts and notifications based on specific events or thresholds.</strong></p>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="alertEventIds">Alert Event IDs (Windows):</label>
-                                                    <input type="text" class="form-control" id="alertEventIds" placeholder="Enter Event IDs (comma-separated)" />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="notificationMethod">Notification Method:</label>
-                                                    <select id="notificationMethod" class="custom-select">
-                                                        <option>Email</option>
-                                                        <option>SMS</option>
-                                                        <option>Webhook</option>
-                                                        <!-- Add more options as needed -->
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
 
-                                    <!-- Step 6: Review and Save Configuration -->
+                                    <!-- Step 5: Review and Save Configuration -->
                                     <div class="card shadow mb-4">
                                         <div class="card-body" style="background-color: #343a40; color: #ffffff;"> <!-- Updated background and text color -->
-                                            <h4>6. Review and Save Configuration</h4>
+                                            <h4>5. Review and Save Configuration</h4>
                                             <p class="mb-2"><strong>Provide a summary of all the configured settings, allowing the user to review and save the configuration.</strong></p>
                                             <!-- Updated background color for the alert -->
                                             <div class="alert" style="background-color: #343a40; border-color: #343a40; color: #ffffff;" role="alert">
@@ -156,11 +152,10 @@
                                                 <ul>
                                                     <li><strong>Log Source:</strong> <span id="summaryLogSource">Not Configured</span></li>
                                                     <li><strong>Script Download:</strong> <span id="summaryScriptDownload">Not Downloaded</span></li>
-                                                    <li><strong>Connection Test:</strong> <span id="summaryConnectionTest">Not Tested</span></li>
-                                                    <li><strong>Alerts:</strong> <span id="summaryAlerts">Not Configured</span></li>
+                                                    <li><strong>Connection Test:</strong> <span id="summaryConnectionTest">Not Tested</span></li>                                                    
                                                 </ul>
                                             </div>
-                                            <button type="button" class="btn btn-success">Save Configuration</button>
+                                            <button type="button" class="btn btn-success">View Log Source</button>
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
 

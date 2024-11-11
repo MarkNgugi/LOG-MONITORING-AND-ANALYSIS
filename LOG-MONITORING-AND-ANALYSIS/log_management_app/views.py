@@ -7,6 +7,17 @@ from .forms import *
 from .models import *
 from django.urls import reverse
 
+from .tasks import process_uploaded_log
+def upload_log(request):
+    if request.method == 'POST':
+        form = LogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_log.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
+    else:
+        form = LogUploadForm()
+    return render(request, 'baseapp/upload_log.html', {'form': form})
 
 #LOG SOURCES
 def home(request):
