@@ -40,15 +40,13 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     ))
 
     nginx_logs = list(chain(
-        NginxserverLogStream.objects.all(),
-        NginxserverLogFileStream.objects.all(),
-        NginxserverPerfLogs.objects.all()
+        NginxLogFile.objects.all(),
+
     ))
 
     iis_logs = list(chain(
-        IISserverLogStream.objects.all(),
-        IISserverLogFileStream.objects.all(),
-        IISserverPerfLogs.objects.all()
+        IISLogFile.objects.all(),
+
     ))
 
     # Querysets for database logs
@@ -225,29 +223,31 @@ def apache_log_upload(request):
     context={'form':form}        
     return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', context)
 
-def nginx(request):
-    if request.method=='POST':
-        nginxform=NginxserverLogStreamForm(request.POST)
-        if nginxform.is_valid():
-            nginxform.save()
-            return redirect('logsources')
-        
+def nginx_log_upload(request):
+    if request.method == 'POST':
+        form = NginxLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_nginx_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
     else:
-        nginxform=NginxserverLogStreamForm()
-    context={'nginxform':nginxform}        
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginx.html',context)
+        form = NginxLogUploadForm()
 
-def iis(request):
-    if request.method=='POST':
-        iisform=IISserverLogStreamForm(request.POST)
-        if iisform.is_valid():
-            iisform.save()
-            return redirect('logsources')
-        
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/applicationlogs/webservers/nginx/nginx.html', context)
+
+def iis_log_upload(request):
+    if request.method == 'POST':
+        form = IISLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_iis_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
     else:
-        iisform=IISserverLogStreamForm()
-    context={'iisform':iisform}        
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iis.html',context)
+        form = IISLogUploadForm()
+
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/applicationlogs/webservers/iis/iis.html', context)
 
 
 def mysql(request):
@@ -290,295 +290,6 @@ def mongodb(request):
     return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodb.html',context)
 
 
-
-
-
-
-#===========================APPLICATION LOGS START===============================
-    #webserver
-
-
-
-def application_webserver_form(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverform.html',context)
-
-
-def webserver_collection_options(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionopts.html',context)
-
-
-
-def logfilestreamingwizard(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/logfilestreamwizard.html',context)
-
-def perflogwizard(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/perflogsstreamwizard.html',context)
-
-def logfileuploadwizard(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/logfileuploadwizard.html',context)
-
-
-
-
-#APACHE FORMS END
-
-
-# def nginxserverlogstream(request):
-#     if request.method=='POST':
-#         nginxform=NginxserverLogStreamForm(request.POST)
-#         if nginxform.is_valid():
-#             nginxform.save()
-#             return redirect('logsources')
-        
-#     else:
-#         nginxform=NginxserverLogStreamForm()
-#     context={'nginxform':nginxform}
-#     return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxstream.html',context)
-
-def nginxserverlogfilestream(request):
-    if request.method=='POST':
-        nginxform=NginxserverLogFileStreamForm(request.POST) 
-        if nginxform.is_valid():
-            nginxform.save()
-            return redirect('logsources')
-        
-    else: 
-        nginxform=NginxserverLogFileStreamForm()
-    context={'nginxform':nginxform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxfilestream.html',context)
-
-
-def nginxserverperflogs(request):
-    if request.method=='POST':
-        nginxform=NginxserverPerfLogForm(request.POST)
-        if nginxform.is_valid():
-            nginxform.save()
-            return redirect('logsources')
-        
-    else:
-        nginxform=NginxserverPerfLogForm()
-    context={'nginxform':nginxform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxperflogs.html',context)
-
-def nginxfileupload(request):
-    if request.method == 'POST':
-        webserverfileuploadform=NginxLogFileUploadForm(request.POST,request.FILES)
-        if webserverfileuploadform.is_valid():
-            webserverfileuploadform.save()
-            return redirect(reverse('home'))
-    else:
-        webserverfileuploadform=NginxLogFileUploadForm()
-    
-    context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
-
-
-#NGINX FORMS END
-
-
-# def iisserverlogstream(request):
-#     if request.method=='POST':
-#         iisform=IISserverLogStreamForm(request.POST)
-#         if iisform.is_valid():
-#             iisform.save()
-#             return redirect('logsources')
-        
-#     else:
-#         iisform=IISserverLogStreamForm()
-#     context={'iisform':iisform}
-#     return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisstream.html',context)
-
-def iisserverlogfilestream(request):
-    if request.method=='POST':
-        iisform=IISserverLogFileStreamForm(request.POST) 
-        if iisform.is_valid():
-            iisform.save()
-            return redirect('logsources')
-        
-    else:
-        iisform=NginxserverLogFileStreamForm()
-    context={'iisform':iisform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisfilestream.html',context)
-
-
-def iisserverperflogs(request):
-    if request.method=='POST':
-        iisform=IISserverPerfLogForm(request.POST)
-        if iisform.is_valid():
-            iisform.save()
-            return redirect('logsources')
-        
-    else:
-        iisform=IISserverPerfLogForm()
-    context={'iisform':iisform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/iis/iisperflogs.html',context)
-
-def iisfileupload(request):
-    if request.method == 'POST':
-        webserverfileuploadform=IISLogFileUploadForm(request.POST,request.FILES)
-        if webserverfileuploadform.is_valid():
-            webserverfileuploadform.save()
-            return redirect(reverse('home'))
-    else:
-        webserverfileuploadform=IISLogFileUploadForm()
-    
-    context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
-
-
-#IIS FORMS END
-
-
-
-def tomcatserverlogstream(request):
-    if request.method=='POST':
-        tomcatform=TomcatserverLogStreamForm(request.POST)
-        if tomcatform.is_valid():
-            tomcatform.save()
-            return redirect('logsources')
-        
-    else:
-        tomcatform=TomcatserverLogStreamForm()
-    context={'tomcatform':tomcatform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/tomcatstream.html',context)
-
-def tomcatserverlogfilestream(request):
-    if request.method=='POST':
-        tomcatform=TomcatserverLogFileStreamForm(request.POST) 
-        if tomcatform.is_valid():
-            tomcatform.save()
-            return redirect('logsources')
-        
-    else:
-        tomcatform=TomcatserverLogFileStreamForm()
-    context={'tomcatform':tomcatform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/tomcatfilestream.html',context)
-
-
-def tomcatserverperflogs(request):
-    if request.method=='POST':
-        tomcatform=TomcatserverPerfLogForm(request.POST)
-        if tomcatform.is_valid():
-            tomcatform.save()
-            return redirect('logsources')
-        
-    else:
-        tomcatform=TomcatserverPerfLogForm()
-    context={'tomcatform':tomcatform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/tomcat/tomcatperflogs.html',context)
-
-def tomcatfileupload(request):
-    if request.method == 'POST':
-        webserverfileuploadform=TomcatLogFileUploadForm(request.POST,request.FILES)
-        if webserverfileuploadform.is_valid():
-            webserverfileuploadform.save()
-            return redirect(reverse('home'))
-    else:
-        webserverfileuploadform=TomcatLogFileUploadForm()
-    
-    context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
-
-
-#TOMCAT FORMS END
-
-
-def lighttpdserverlogstream(request):
-    if request.method=='POST':
-        lighttpdform=LighttpdserverLogStreamForm(request.POST)
-        if lighttpdform.is_valid():
-            lighttpdform.save()
-            return redirect('logsources')
-        
-    else:
-        lighttpdform=LighttpdserverLogStreamForm()
-    context={'lighttpdform':lighttpdform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/lighttpdstream.html',context)
-
-def lighttpdserverlogfilestream(request):
-    if request.method=='POST':
-        lighttpdform=LighttpdserverLogFileStreamForm(request.POST) 
-        if lighttpdform.is_valid():
-            lighttpdform.save()
-            return redirect('logsources')
-        
-    else:
-        lighttpdform=LighttpdserverLogFileStreamForm()
-    context={'lighttpdform':lighttpdform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/lighttpdfilestream.html',context)
-
-
-def lighttpdserverperflogs(request):
-    if request.method=='POST':
-        lighttpdform=LighttpdserverPerfLogForm(request.POST)
-        if lighttpdform.is_valid():
-            lighttpdform.save()
-            return redirect('logsources')
-        
-    else:
-        lighttpdform=LighttpdserverPerfLogForm()
-    context={'lighttpdform':lighttpdform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/lighttpd/lighttpdperflogs.html',context)
-
-def lighttpdfileupload(request):
-    if request.method == 'POST':
-        webserverfileuploadform=LighttpdLogFileUploadForm(request.POST,request.FILES)
-        if webserverfileuploadform.is_valid():
-            webserverfileuploadform.save()
-            return redirect(reverse('home'))
-    else:
-        webserverfileuploadform=LighttpdLogFileUploadForm()
-    
-    context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
-
-
-#LIGHTTPD FORMS END
-
-
-
-    #database
-
-def database_collection_options(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/collectionopts.html',context)
-
-def dblogstreamingwizard(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/logstreamwizard.html',context)
-
-def dblogfilestreamingwizard(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/logfilestreamwizard.html',context)
-
-def dbperflogwizard(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/perflogsstreamwizard.html',context)
-
-def dblogfileuploadwizard(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/logfileuploadwizard.html',context)
-
-
-#DATABASE FORMS START
-
-#MYSQL
-# def mysqllogstream(request):
-#     if request.method=='POST':
-#         mysqlform=MysqlLogStreamForm(request.POST)
-#         if mysqlform.is_valid():
-#             mysqlform.save()
-#             return redirect('logsources')
-        
-#     else:
-#         mysqlform=MysqlLogStreamForm()
-#     context={'mysqlform':mysqlform}
-#     return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlstream.html',context)
 
 def mysqllogfilestream(request):
     if request.method=='POST':

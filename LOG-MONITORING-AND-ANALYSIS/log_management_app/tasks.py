@@ -66,3 +66,29 @@ def process_uploaded_apache_logs(log_id):
                 message=row['message'],
                 source=row.get('source', 'unknown')
             )                           
+
+@shared_task
+def process_uploaded_nginx_logs(log_id):
+    uploaded_log = NginxLogFile.objects.get(id=log_id)
+    with open(uploaded_log.file.path, 'r') as log_file:
+        reader = csv.DictReader(log_file)
+        for row in reader:
+            LogEntry.objects.create(
+                timestamp=row['timestamp'],
+                log_level=row['log_level'],
+                message=row['message'],
+                source=row.get('source', 'unknown')
+            )             
+
+@shared_task
+def process_uploaded_iis_logs(log_id):
+    uploaded_log = IISLogFile.objects.get(id=log_id)
+    with open(uploaded_log.file.path, 'r') as log_file:
+        reader = csv.DictReader(log_file)
+        for row in reader:
+            LogEntry.objects.create(
+                timestamp=row['timestamp'],
+                log_level=row['log_level'],
+                message=row['message'],
+                source=row.get('source', 'unknown')
+            )                         

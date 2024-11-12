@@ -9,26 +9,12 @@ admin.site.register(LogEntry)
 
 
 admin.site.register(LinuxLogFile)
-
 admin.site.register(MacLogFile) 
 
 admin.site.register(ApacheLogFile)
+admin.site.register(NginxLogFile)
+admin.site.register(IISLogFile)
 
-admin.site.register(NginxserverLogStream)
-admin.site.register(NginxserverLogFileStream)
-admin.site.register(NginxserverPerfLogs)
-
-admin.site.register(IISserverLogStream)
-admin.site.register(IISserverLogFileStream)
-admin.site.register(IISserverPerfLogs)
-
-admin.site.register(TomcatserverLogStream)
-admin.site.register(TomcatserverLogFileStream)
-admin.site.register(TomcatserverPerfLogs)
-
-admin.site.register(LighttpdserverLogStream)
-admin.site.register(LighttpdserverLogFileStream)
-admin.site.register(LighttpdserverPerfLogs)
 
 admin.site.register(MysqlLogStream)
 admin.site.register(MysqlLogFileStream)
