@@ -35,9 +35,8 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
 
     # Querysets for web server logs
     apache_logs = list(chain(
-        ApacheserverLogStream.objects.all(),
-        ApacheserverLogFileStream.objects.all(),
-        ApacheserverPerfLogs.objects.all()
+        ApacheLogFile.objects.all(),
+
     ))
 
     nginx_logs = list(chain(
@@ -212,23 +211,19 @@ def mac_log_upload(request):
     context={'form':form}        
     return render(request, 'baseapp/logingestion/systemlogs/macos/macos.html', context)
 
-
-def apache(request):
-    if request.method=='POST':
-        apacheform=ApacheserverLogStreamForm(request.POST)
-        if apacheform.is_valid():
-            apacheform.save()
-            return redirect('logsources')
-        else:
-            print(apacheform.errors)
-        
+ 
+def apache_log_upload(request):
+    if request.method == 'POST':
+        form = ApacheLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_apache_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
     else:
-        apacheform=ApacheserverLogStreamForm()
-    context={
-        'apacheform':apacheform,        
-        }    
-    
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apache.html',context)
+        form = ApacheLogUploadForm()
+
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', context)
 
 def nginx(request):
     if request.method=='POST':
@@ -313,10 +308,7 @@ def webserver_collection_options(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/collectionopts.html',context)
 
-def logstreamingwizard(request):
-    webservers = WebServer.objects.all()
-    context={'webservers':webservers}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/logstreamwizard.html',context)
+
 
 def logfilestreamingwizard(request):
     context={}
@@ -331,66 +323,6 @@ def logfileuploadwizard(request):
     return render(request,'baseapp/logingestion/applicationlogs/webservers/logfileuploadwizard.html',context)
 
 
-
-#APPLICATION LOGS FORMS
-    #webserver forms
-
-def apacheserverlogstream(request):
-    # webservers = WebServer.objects.all()
-    if request.method=='POST':
-        apacheform=ApacheserverLogStreamForm(request.POST)
-        if apacheform.is_valid():
-            apacheform.save()
-            return redirect('logsources')
-        else:
-            print(apacheform.errors)
-        
-    else:
-        apacheform=ApacheserverLogStreamForm()
-    context={
-        'apacheform':apacheform,
-        # 'webservers':webservers
-        }
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apachestream.html',context)
-
-def apacheserverlogfilestream(request):
-    if request.method=='POST':
-        apachefileform=ApacheserverLogFileStreamForm(request.POST) 
-        if apachefileform.is_valid():
-            apachefileform.save()
-            return redirect('logsources')
-        else:
-            print(apachefileform.errors)        
-        
-    else:
-        apachefileform=ApacheserverLogFileStreamForm()
-    context={'apachefileform':apachefileform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apachefilestream.html',context)
-
-
-def apacheserverperflogs(request):
-    if request.method=='POST':
-        apacheform=ApacheserverPerfLogForm(request.POST)
-        if apacheform.is_valid():
-            apacheform.save()
-            return redirect('logsources')
-        
-    else:
-        apacheform=ApacheserverPerfLogForm()
-    context={'apacheform':apacheform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apacheperflogs.html',context)
-
-def apachefileupload(request):
-    if request.method == 'POST':
-        webserverfileuploadform=ApacheLogFileUploadForm(request.POST,request.FILES)
-        if webserverfileuploadform.is_valid():
-            webserverfileuploadform.save()
-            return redirect(reverse('home'))
-    else:
-        webserverfileuploadform=ApacheLogFileUploadForm()
-    
-    context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
 
 
 #APACHE FORMS END

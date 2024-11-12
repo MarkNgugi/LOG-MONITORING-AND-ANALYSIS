@@ -80,70 +80,23 @@ class MacLogUploadForm(forms.ModelForm):
 #=================================MACOS LOGS FORMS END============================================
 
 
-
-
-#APPLICATION LOGS FORMS
- 
-#APACHE LOGS FORMS START
-class ApacheserverLogStreamForm(forms.ModelForm):
+class ApacheLogUploadForm(forms.ModelForm):
     class Meta:
-        model = ApacheserverLogStream
-        fields = [
-            'log_source_name', 'log_file_path', 'filter_keyword', 'log_rotation_interval', 
-            'collection_interval', 'retention_policy'
-        ]
+        model = ApacheLogFile
+        fields = ['source_name', 'file']
         widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),        
-            'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-                        
+            'source_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter log source'
+            }),
+            'file': forms.ClearableFileInput(attrs={
+                'class': 'form-control-file',
+                'style': 'display:none;', 
+                'id': 'fileInput',         
+            }),
         }
 
 
-class ApacheserverLogFileStreamForm(forms.ModelForm):
-    class Meta: 
-        model = ApacheserverLogFileStream
-        fields = [
-            'log_source_name', 'log_file_path',
-            'log_level', 'filter_keyword', 'log_rotation_interval', 
-            'collection_interval', 'retention_policy'
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-control'}),
-            'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-
-            
-        }
-
-class ApacheserverPerfLogForm(forms.ModelForm):
-    class Meta:
-        model = ApacheserverPerfLogs
-        fields = [
-            'log_source_name', 'log_file_path',
-            'log_level', 'filter_keyword', 'log_rotation_interval', 
-            'collection_interval', 'retention_policy'
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter source name'}),     
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log file path'}),
-            'log_level': forms.Select(attrs={'class': 'form-control'}),
-            'filter_keyword': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter filter keyword (optional)'}),
-            'log_rotation_interval': forms.Select(attrs={'class': 'form-control'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-
-            
-        }        
-
-#APACHE LOGS FORMS END        
 
 #NGINX LOGS FORMS START
 class NginxserverLogStreamForm(forms.ModelForm):

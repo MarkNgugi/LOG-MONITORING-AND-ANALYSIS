@@ -31,7 +31,7 @@ urlpatterns = [
     path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
 
-    path('home/system-logs/os-types/apache-explorer/',views.apache,name='apache'),
+    path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
     path('home/system-logs/os-types/nginx-explorer/',views.nginx,name='nginx'),
     path('home/system-logs/os-types/iis-explorer/',views.iis,name='iis'),
 
@@ -50,7 +50,7 @@ urlpatterns = [
 
     path('home/webcollection-options/',views.webserver_collection_options,name='webserver_collection_options'), 
 
-    path('home/webcollection-options/logstreaming/',views.logstreamingwizard,name='logstreamingwizard'),        
+     
     path('home/webcollection-options/Logfilestreaming/',views.logfilestreamingwizard,name='logfilestreamingwizard'),  
     path('home/webcollection-options/perflogs/',views.perflogwizard,name='perflogwizard'),
     path('home/webcollection-options/fileupload/',views.logfileuploadwizard,name='logfileuploadwizard'),
@@ -60,13 +60,6 @@ urlpatterns = [
 
     
     
-    # path('home/webcollection-agent/',views.webserver_collection_agents,name='webserver_collection_agents'),
- 
-        #collection forms
-    # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
-    path('home/webserver/apache',views.apacheserverlogstream,name='apacheserverlogstream'),
-    path('home/webserver/apachefile',views.apacheserverlogfilestream,name='apacheserverlogfilestream'),
-    path('home/webserver/apacheperf',views.apacheserverperflogs,name='apacheserverperflogs'),
 
     # path('home/webserver/nginx',views.nginxserverlogstream,name='nginxserverlogstream'),
     path('home/webserver/nginxfile',views.nginxserverlogfilestream,name='nginxserverlogfilestream'),

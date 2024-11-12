@@ -12,11 +12,7 @@ admin.site.register(LinuxLogFile)
 
 admin.site.register(MacLogFile) 
 
-
-admin.site.register(WebServer)
-admin.site.register(ApacheserverLogStream)
-admin.site.register(ApacheserverLogFileStream)
-admin.site.register(ApacheserverPerfLogs)
+admin.site.register(ApacheLogFile)
 
 admin.site.register(NginxserverLogStream)
 admin.site.register(NginxserverLogFileStream)
