@@ -8,23 +8,10 @@ admin.site.register(LogEntry)
 # admin.site.register(Anomaly)
 
 
-admin.site.register(WindowsLogType)
-admin.site.register(WindowsActiveDirectoryLogSource)
+admin.site.register(LinuxLogFile)
 
+admin.site.register(MacLogFile) 
 
-admin.site.register(LinuxLogType) 
-admin.site.register(LinuxLogSource)
-admin.site.register(LinuxFileLogSource)
-admin.site.register(LinuxPerformanceMetric)
-admin.site.register(LinuxPerfLogs)
-admin.site.register(LDAPLogSource)
-
-admin.site.register(MacLogType) 
-admin.site.register(MacLogSource)
-admin.site.register(MacFileLogSource)
-admin.site.register(MacPerfLogs)
-admin.site.register(MacPerformanceMetric)
-admin.site.register(OpenDirLogSource)
 
 admin.site.register(WebServer)
 admin.site.register(ApacheserverLogStream)

@@ -27,8 +27,8 @@ urlpatterns = [
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
 
     path('home/system-logs/os-types/windows-explorer/',views.windows_log_upload,name='windows'),
-    path('home/system-logs/os-types/linux-explorer/',views.linux,name='linux'),
-    path('home/system-logs/os-types/macos-explorer/',views.macos,name='macos'),
+    path('home/system-logs/os-types/linux-explorer/',views.linux_log_upload,name='linux'),
+    path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
 
     path('home/system-logs/os-types/apache-explorer/',views.apache,name='apache'),
@@ -40,24 +40,8 @@ urlpatterns = [
     path('home/system-logs/os-types/mongodb-explorer/',views.mongodb,name='mongodb'),    
 
 
-   
-        #windows collection forms
-    # path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
-    # path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
-    path('home/fileuploag/',views.fileuploadform,name='fileuploadform'),
- 
 
-        #linux collection forms 
-    # path('home/linux/form/',views.stream_linux_host_logs,name='stream_linux_host_logs'),
-    path('home/linux/logfilestreams/',views.linuxlogfilestreams,name='linuxlogfilestreams'),
-    path('home/linux/performancelogs/',views.linuxperformancelogs,name='linuxperformancelogs'),
-    path('home/ldap/',views.ldaplogs,name='ldaplogs'),    
 
-        #macos collection forms
-    # path('home/mac/form/',views.stream_mac_host_logs,name='stream_mac_host_logs'),
-    path('home/mac/logfilestreams/',views.maclogfilestreams,name='maclogfilestreams'),
-    path('home/mac/performancelogs/',views.macperformancelogs,name='macperformancelogs'),
-    path('home/opendir/',views.opendirlogs,name='opendirlogs'), 
  
 
     #APPLICATION LOGS

@@ -21,6 +21,24 @@ class WindowsADLogFile(models.Model):
 
     def __str__(self):
         return self.source_name
+    
+class LinuxLogFile(models.Model):
+    source_name=models.CharField(max_length=20, blank=True, null=True)
+    os_type=models.CharField(max_length=50,default='Linux')
+    file = models.FileField(upload_to='uploaded_logs/linux/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.source_name    
+    
+class MacLogFile(models.Model):
+    source_name=models.CharField(max_length=20, blank=True, null=True)
+    os_type=models.CharField(max_length=50,default='mac')
+    file = models.FileField(upload_to='uploaded_logs/mac/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.source_name     
 
 
 class LogEntry(models.Model):
@@ -36,281 +54,8 @@ class LogEntry(models.Model):
 #     log_entry = models.ForeignKey(LogEntry, on_delete=models.CASCADE)
 #     detected_at = models.DateTimeField(auto_now_add=True)
 
-#====================WINDOWS LOGS MODELS START=======================    
-
-class WindowsLogType(models.Model): 
-    LOG_TYPE_CHOICES = [
-        ('system', 'System'),
-        ('security', 'Security'),
-        ('setup', 'Setup'),
-        ('application', 'Application'), 
-    ]
-
-    name = models.CharField(max_length=20, choices=LOG_TYPE_CHOICES, unique=True)
-
-    def __str__(self):
-        return self.name
 
 
- 
-
-class WindowsActiveDirectoryLogSource(models.Model):
-    SOURCE_STATUS_CHOICES = [
-        ('Online', 'Active'),
-        ('Offline', 'Inactive'),
-    ]
-
-    COLLECTION_INTERVAL_CHOICES = [
-        ('5m', 'Every 5 minutes'),
-        ('15m', 'Every 15 minutes'),
-        ('30m', 'Every 30 minutes'),
-        ('1h', 'Every 1 hour'),
-        ('6h', 'Every 6 hours'),
-        ('12h', 'Every 12 hours'),
-        ('24h', 'Every 24 hours'),
-    ]
-
-    RETENTION_POLICY_CHOICES = [
-        ('7d', '7 days'),
-        ('14d', '14 days'),
-        ('30d', '30 days'),
-        ('60d', '60 days'),
-        ('90d', '90 days'),
-        ('180d', '180 days'),
-        ('365d', '365 days'),
-    ]
-
-    log_source_name = models.CharField(max_length=100, default='log_source')
-    hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
-    domain_name=models.CharField(max_length=200)
-    ingestion_mtd = models.CharField(max_length=30, default='powershell')
-    os_type=models.CharField(max_length=50,default='Windows')
-    status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
-    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
-    collection_mtd = models.CharField(max_length=50, default='AD logs')
-    activate = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    def __str__(self):
-        return self.log_source_name
-
-#====================WINDOWS LOGS MODELS END============================================
-
-#====================LINUX LOGS MODELS START=========================
-
-class LinuxLogType(models.Model):
-
-    LOG_TYPE_CHOICES = [
-        ('system', 'System'),
-        ('security', 'Security'),
-        ('setup', 'Setup'),
-        ('application', 'Application'), 
-    ] 
-
-    name = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class LinuxLogSource(models.Model):
-    COLLECTION_INTERVAL_CHOICES = [
-        ('5m', 'Every 5 minutes'),
-        ('15m', 'Every 15 minutes'),
-        ('30m', 'Every 30 minutes'),
-        ('1h', 'Every 1 hour'),
-        ('6h', 'Every 6 hours'),
-        ('12h', 'Every 12 hours'),
-        ('24h', 'Every 24 hours'),
-    ]
-
-    RETENTION_POLICY_CHOICES = [
-        ('7d', '7 days'),
-        ('14d', '14 days'),
-        ('30d', '30 days'),
-        ('60d', '60 days'),
-        ('90d', '90 days'),
-        ('180d', '180 days'),
-        ('365d', '365 days'),
-    ]
-
-    SOURCE_STATUS_CHOICES = [
-        ('Online', 'Active'),
-        ('Offline', 'Inactive'),
-    ]
-
-    log_source_name = models.CharField(max_length=100, default='log_source')
-    hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
-    log_type = models.ManyToManyField(LinuxLogType)
-    status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
-    os_type=models.CharField(max_length=50,default='Linux')
-    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
-    collection_mtd = models.CharField(max_length=50, default='log streaming')
-    activate = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    def __str__(self):
-        return self.log_source_name
-
-
-class LinuxFileLogSource(models.Model):
-    LOG_FILE_TYPE = [
-        ('text', 'Text'),
-        ('csv', 'CSV'),
-        ('json', 'JSON'),
-        ('xml', 'XML'),
-    ]
-
-    RETENTION_POLICY_CHOICES = [
-        ('7d', '7 days'),
-        ('14d', '14 days'),
-        ('30d', '30 days'),
-        ('60d', '60 days'),
-        ('90d', '90 days'),
-        ('180d', '180 days'),
-        ('365d', '365 days'),
-    ]
-
-    COLLECTION_INTERVAL_CHOICES = [
-        ('5m', 'Every 5 minutes'),
-        ('15m', 'Every 15 minutes'),
-        ('30m', 'Every 30 minutes'),
-        ('1h', 'Every 1 hour'),
-        ('6h', 'Every 6 hours'),
-        ('12h', 'Every 12 hours'),
-        ('24h', 'Every 24 hours'),
-    ]
-
-    SOURCE_STATUS_CHOICES = [
-        ('Online', 'Active'),
-        ('Offline', 'Inactive'),
-    ]
-
-    ROTATION_POLICY_CHOICES = [
-        ('size', 'By Size'),
-        ('date', 'By Date'),
-        ('size_date', 'By Size and Date'),
-    ]
-
-    log_source_name = models.CharField(max_length=100, default='log_source')
-    hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
-    log_file_path = models.CharField(max_length=255)
-    log_type = models.ManyToManyField(LinuxLogType)
-    log_file_type = models.CharField(max_length=10, choices=LOG_FILE_TYPE)
-    status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
-    os_type=models.CharField(max_length=50,default='Linux')
-    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
-    file_size_limit = models.PositiveIntegerField()  # in MB
-    collection_mtd = models.CharField(max_length=50, default='file streaming')
-    activate = models.BooleanField(default=True)
-    rotation_policy = models.CharField(max_length=15, choices=ROTATION_POLICY_CHOICES)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    def __str__(self):
-        return self.log_source_name
-
-
-class LinuxPerfLogs(models.Model):
-    SOURCE_STATUS_CHOICES = [
-        ('Online', 'Active'),
-        ('Offline', 'Inactive'),
-    ]
-
-    COLLECTION_INTERVAL_CHOICES = [
-        ('5m', 'Every 5 minutes'),
-        ('15m', 'Every 15 minutes'),
-        ('30m', 'Every 30 minutes'),
-        ('1h', 'Every 1 hour'),
-        ('6h', 'Every 6 hours'),
-        ('12h', 'Every 12 hours'),
-        ('24h', 'Every 24 hours'),
-    ]
-
-    RETENTION_POLICY_CHOICES = [
-        ('7d', '7 days'),
-        ('14d', '14 days'),
-        ('30d', '30 days'),
-        ('60d', '60 days'),
-        ('90d', '90 days'),
-        ('180d', '180 days'),
-        ('365d', '365 days'),
-    ]
-
-    log_source_name = models.CharField(max_length=100, default='log_source')
-    hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
-    performance_metrics = models.ManyToManyField(
-        'LinuxPerformanceMetric',
-        verbose_name="Performance Metrics",
-        help_text="Select the metrics to collect",
-    )
-    status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
-    os_type=models.CharField(max_length=50,default='Linux')
-    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
-    collection_mtd = models.CharField(max_length=50, default='perf logs')
-    activate = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    def __str__(self):
-        return self.log_source_name
-
-
-class LinuxPerformanceMetric(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Metric Name")
-
-    def __str__(self):
-        return self.name
-
-
-class LDAPLogSource(models.Model):
-    SOURCE_STATUS_CHOICES = [
-        ('Online', 'Active'),
-        ('Offline', 'Inactive'),
-    ]
-
-    COLLECTION_INTERVAL_CHOICES = [
-        ('5m', 'Every 5 minutes'),
-        ('15m', 'Every 15 minutes'),
-        ('30m', 'Every 30 minutes'),
-        ('1h', 'Every 1 hour'),
-        ('6h', 'Every 6 hours'),
-        ('12h', 'Every 12 hours'),
-        ('24h', 'Every 24 hours'),
-    ]
-
-    RETENTION_POLICY_CHOICES = [
-        ('7d', '7 days'),
-        ('14d', '14 days'),
-        ('30d', '30 days'),
-        ('60d', '60 days'),
-        ('90d', '90 days'),
-        ('180d', '180 days'),
-        ('365d', '365 days'),
-    ]
-
-    log_source_name = models.CharField(max_length=100, default='log_source')
-    hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
-    domain_name=models.CharField(max_length=200)
-    os_type=models.CharField(max_length=50,default='Linux')
-    status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
-    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
-    collection_mtd = models.CharField(max_length=50, default='AD logs')
-    activate = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    def __str__(self):
-        return self.log_source_name
-
-#====================LINUX LOGS MODELS END=========================
 
 #====================MACOS LOGS MODELS START===============================================
 
@@ -421,50 +166,7 @@ class MacFileLogSource(models.Model):
         return self.log_source_name
 
 
-class MacPerfLogs(models.Model):
-    SOURCE_STATUS_CHOICES = [
-        ('Online', 'Active'),
-        ('Offline', 'Inactive'),
-    ]
 
-    COLLECTION_INTERVAL_CHOICES = [
-        ('5m', 'Every 5 minutes'),
-        ('15m', 'Every 15 minutes'),
-        ('30m', 'Every 30 minutes'),
-        ('1h', 'Every 1 hour'),
-        ('6h', 'Every 6 hours'),
-        ('12h', 'Every 12 hours'),
-        ('24h', 'Every 24 hours'),
-    ]
-
-    RETENTION_POLICY_CHOICES = [
-        ('7d', '7 days'),
-        ('14d', '14 days'),
-        ('30d', '30 days'),
-        ('60d', '60 days'),
-        ('90d', '90 days'),
-        ('180d', '180 days'),
-        ('365d', '365 days'),
-    ]
-
-    log_source_name = models.CharField(max_length=100, default='log_source')
-    hostname_ip_address = models.CharField(max_length=255, default='localhost', null=True)
-    performance_metrics = models.ManyToManyField(
-        'LinuxPerformanceMetric',
-        verbose_name="Performance Metrics",
-        help_text="Select the metrics to collect",
-    )
-    status = models.CharField(max_length=10, choices=SOURCE_STATUS_CHOICES, default='Offline')
-    os_type=models.CharField(max_length=50,default='Mac')
-    collection_interval = models.CharField(max_length=10, choices=COLLECTION_INTERVAL_CHOICES, default='24h')
-    retention_policy = models.CharField(max_length=10, choices=RETENTION_POLICY_CHOICES, default='30d')
-    collection_mtd = models.CharField(max_length=50, default='perf logs')
-    activate = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    def __str__(self):
-        return self.log_source_name
 
 
 class MacPerformanceMetric(models.Model):

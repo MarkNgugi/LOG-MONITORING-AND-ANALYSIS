@@ -40,82 +40,20 @@ class WindowsADLogUploadForm(forms.ModelForm):
 
 #================LINUX LOGS FORMS START============================================
 
-class LinuxLogSourceForm(forms.ModelForm):
-    log_type = forms.ModelMultipleChoiceField(
-        queryset=LinuxLogType.objects.all(),
-        widget=forms.CheckboxSelectMultiple
-    )
-
+class LinuxLogUploadForm(forms.ModelForm):
     class Meta:
-        model = LinuxLogSource 
-        fields = [
-            'log_source_name', 'log_type', 'collection_interval', 'retention_policy'
-        ]
+        model = LinuxLogFile
+        fields = ['source_name', 'file']
         widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            
-            
-        }
-
-
-class LinuxFileLogSourceForm(forms.ModelForm):
-    class Meta:
-        model = LinuxFileLogSource
-        fields = [
-            'log_source_name',
-            'log_file_path',
-            'log_type',
-            'log_file_type',
-            'collection_interval',
-            'file_size_limit',
-            'rotation_policy',
-            'retention_policy'
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),
-            'log_file_type': forms.Select(attrs={'class': 'form-control'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),
-            'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
-        }
-
-class LinuxPerfLogsForm(forms.ModelForm):
-    performance_metrics = forms.ModelMultipleChoiceField(
-        queryset=LinuxPerformanceMetric.objects.all(),
-        required=True,
-        help_text="Select the metrics to collect"
-    )
-
-    class Meta: 
-        model = LinuxPerfLogs
-        fields = [
-            'log_source_name',  
-            'performance_metrics', 
-            'collection_interval', 
-            'retention_policy',
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-        }
-
-
-
-class LdapLogSourceForm(forms.ModelForm): 
-    class Meta:
-        model = LDAPLogSource
-        fields = ['log_source_name', 'domain_name', 'collection_interval', 'retention_policy']
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'domain_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter domain name'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+            'source_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter log source'
+            }),
+            'file': forms.ClearableFileInput(attrs={
+                'class': 'form-control-file',
+                'style': 'display:none;', 
+                'id': 'fileInput',         
+            }),
         }
 
 #================LINUX LOGS FORMS END============================================
@@ -123,84 +61,20 @@ class LdapLogSourceForm(forms.ModelForm):
 
 #================MACOS LOGS FORMS START============================================
 
-class MacLogSourceForm(forms.ModelForm):
-    log_type = forms.ModelMultipleChoiceField(
-        queryset=MacLogType.objects.all(),
-        widget=forms.CheckboxSelectMultiple
-    )
-
+class MacLogUploadForm(forms.ModelForm):
     class Meta:
-        model = MacLogSource
-        fields = [
-            'log_source_name', 'log_type', 'collection_interval',
-            'retention_policy'
-        ]
+        model = MacLogFile
+        fields = ['source_name', 'file']
         widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),            
-            'log_type': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),            
-            
-        }
-
-
-class MacFileLogSourceForm(forms.ModelForm):
-    class Meta:
-        model = MacFileLogSource
-        fields = [
-            'log_source_name',
-            'log_file_path',
-            'log_file_type',
-            'collection_interval',
-            'file_size_limit',
-            'rotation_policy',
-            'retention_policy'
-
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),
-            'log_file_type': forms.Select(attrs={'class': 'form-control'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'file_size_limit': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter size limit in MB'}),            
-            'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
-        }
-
-
-class MacPerfLogsForm(forms.ModelForm):
-    performance_metrics = forms.ModelMultipleChoiceField(
-        queryset=MacPerformanceMetric.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True,
-        help_text="Select the metrics to collect"
-    )
-
-    class Meta: 
-        model = MacPerfLogs
-        fields = [
-            'log_source_name',  
-            'performance_metrics', 'collection_interval', 'retention_policy', 
-            
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'performance_metrics': forms.CheckboxSelectMultiple(attrs={'class': 'form-check'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-
-        }
-
-
-class OpenDirLogSourceForm(forms.ModelForm): 
-    class Meta:
-        model = OpenDirLogSource
-        fields = ['log_source_name', 'domain_name', 'collection_interval', 'retention_policy']
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'domain_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter domain name'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+            'source_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter log source'
+            }),
+            'file': forms.ClearableFileInput(attrs={
+                'class': 'form-control-file',
+                'style': 'display:none;', 
+                'id': 'fileInput',         
+            }),
         }
 
 #=================================MACOS LOGS FORMS END============================================

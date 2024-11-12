@@ -5,7 +5,7 @@ from .forms import *
 from .models import *
 from django.urls import reverse
 from .tasks import *
-
+ 
 
 #LOG SOURCES
 def home(request):
@@ -21,22 +21,16 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
 
     # Querysets for system logs
     log_sources_windows = list(chain(
-        WindowsLogFile.objects.all(),
-        WindowsActiveDirectoryLogSource.objects.all()
+        WindowsLogFile.objects.all(),        
     ))
 
     log_sources_linux = list(chain(
-        LinuxLogSource.objects.all(),
-        LinuxFileLogSource.objects.all(),
-        LinuxPerfLogs.objects.all(),
-        LDAPLogSource.objects.all()
+        LinuxLogFile.objects.all(),
+
     ))
 
     log_sources_macos = list(chain(
-        MacLogSource.objects.all(),
-        MacFileLogSource.objects.all(),
-        MacPerfLogs.objects.all(),
-        OpenDirLogSource.objects.all()
+        MacLogFile.objects.all(),
     ))
 
     # Querysets for web server logs
@@ -191,40 +185,32 @@ def windowsAD_log_upload(request):
     return render(request, 'baseapp/logingestion/systemlogs/activedirectory/activedirectory.html', context)
     
 
-def linux(request):
-    if request.method=='POST':
-        log_source_form=LinuxLogSourceForm(request.POST)
-        if log_source_form.is_valid():
-            log_source_form=log_source_form.save()
-            return redirect('logsources')
-        
-        else:
-            print(log_source_form.errors)
-        
-    else: 
-        log_source_form=LinuxLogSourceForm() 
-        
-    context={
-        'log_source_form':log_source_form,
-        
-        }    
-    return render(request,'baseapp/logingestion/systemlogs/linux/linux.html',context)
+def linux_log_upload(request):
+    if request.method == 'POST':
+        form = LinuxLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_linux_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
+    else:
+        form = LinuxLogUploadForm()
+
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/systemlogs/linux/linux.html', context)
 
 
-def macos(request):
-    if request.method=='POST':
-        log_source_form=MacLogSourceForm(request.POST)
-        if log_source_form.is_valid():
-            log_source_form=log_source_form.save()
-            return redirect('logsources')
-        
-    else: 
-        log_source_form=MacLogSourceForm() 
-    context={
-        'log_source_form':log_source_form,
-        
-        }
-    return render(request,'baseapp/logingestion/systemlogs/macos/macos.html',context)
+def mac_log_upload(request):
+    if request.method == 'POST':
+        form = MacLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_mac_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
+    else:
+        form = MacLogUploadForm()
+
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/systemlogs/macos/macos.html', context)
 
 
 def apache(request):
@@ -310,186 +296,6 @@ def mongodb(request):
 
 
 
-
-#syslogs collectin mtds END
-
-#WINDOWS FORMS START
-# def stream_windows_host_logs(request):
-#     if request.method == 'POST':    
-#         log_source_form = WindowsLogSourceForm(request.POST) 
-#         if log_source_form.is_valid():
-#             log_source = log_source_form.save(commit=False)
-#             log_source.save()
-#             log_source_form.save_m2m() 
-#             return redirect('streamsyslogs')
-
-#     else:
-#         log_source_form = WindowsLogSourceForm()
-
-#     context = {
-#         'log_source_form': log_source_form,
-#     }
-#     return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', context)
-
- 
-
-
-
-# def activedirectoryform(request):
-#     if request.method == 'POST': 
-#         activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
-#         if activedirectoryform.is_valid():
-#             activedirectoryform.save()
-#             return redirect('activedirectorylogs') 
-#     else:
-#         activedirectoryform = WindowsActiveDirectoryLogSourceForm()
-    
-#     context = {'activedirectoryform': activedirectoryform}
-#     return render(request, 'baseapp/logingestion/systemlogs/windows/activedirectoryform.html', context)
-
-
-def fileuploadform(request):
-    context={}
-    return render(request, 'baseapp/logingestion/systemlogs/windows/logfileupload.html', context)
-
-
-#WINDOWS FORMS END
-
-#====================LINUX FORMS START============================
-
-# def stream_linux_host_logs(request):
-#     if request.method=='POST':
-#         log_source_form=LinuxLogSourceForm(request.POST)
-#         if log_source_form.is_valid():
-#             log_source_form=log_source_form.save()
-#             return redirect('lin_streamsyslogs')
-        
-#         else:
-#             print(log_source_form.errors)
-        
-#     else: 
-#         log_source_form=LinuxLogSourceForm() 
-
-#     context={
-#         'log_source_form':log_source_form,
-        
-#         }
-#     return render(request,'baseapp/logingestion/systemlogs/linux/stream_linux_logsform.html',context)
-
- 
-def linuxlogfilestreams(request):
-    if request.method == 'POST':
-        logfileform = LinuxFileLogSourceForm(request.POST)
-        if logfileform.is_valid():
-            log_source = logfileform.save(commit=False)
-            log_source.save()
-            logfileform.save_m2m()
-            return redirect('lin_streamlogfiles')
-    else:
-        logfileform = LinuxFileLogSourceForm()
-    
-    
-    all_log_types = LinuxLogType.objects.all()
-    
-    selected_log_type_ids = logfileform.instance.log_type.values_list('id', flat=True) if logfileform.instance.pk else []
-
-    context = {
-        'logfileform': logfileform,
-        'selected_log_type_ids': selected_log_type_ids,
-        'all_log_types': all_log_types
-    }
-    
-    return render(request, 'baseapp/logingestion/systemlogs/linux/logfilestreamform.html', context)
-
-
-
-def linuxperformancelogs(request):
-    if request.method=='POST': 
-        logperf=LinuxPerfLogsForm(request.POST)
-        if logperf.is_valid():
-            logperf=logperf.save()
-            return redirect('lin_collectperflogs')
-        
-        else:
-            print(logperf.errors)
-    else:
-        logperf=LinuxPerfLogsForm()
-    context={'logperf':logperf}
-    return render(request,'baseapp/logingestion/systemlogs/linux/perfform.html',context)
-
-
-def ldaplogs(request):
-    if request.method == 'POST':
-        ldapform = LdapLogSourceForm(request.POST)
-        if ldapform.is_valid():
-            ldapform.save()
-            return redirect('logsources') 
-    else:
-        ldapform = LdapLogSourceForm()
-    
-    context = {'ldapform': ldapform}
-    return render(request, 'baseapp/logingestion/systemlogs/linux/ldapform.html', context)
-
-
-
-#===============================LINUX FORM END========================================
-
-
-#===============================MACOS FORM START========================================
-
-# def stream_mac_host_logs(request):
-#     if request.method=='POST':
-#         log_source_form=MacLogSourceForm(request.POST)
-#         if log_source_form.is_valid():
-#             log_source_form=log_source_form.save()
-#             return redirect('logsources')
-        
-#     else: 
-#         log_source_form=MacLogSourceForm() 
-#     context={
-#         'log_source_form':log_source_form,
-        
-#         }
-#     return render(request,'baseapp/logingestion/systemlogs/macos/stream_mac_logsform.html',context)
-
-
-def maclogfilestreams(request):
-    if request.method=='POST':
-        logfileform=MacFileLogSourceForm(request.POST)
-        if logfileform.is_valid():
-            logfileform=logfileform.save()
-            return redirect('logsources')
-    else:
-        logfileform=MacFileLogSourceForm() 
-    context={'logfileform':logfileform}
-    return render(request,'baseapp/logingestion/systemlogs/macos/logfilestreamform.html',context)
-
-
-def macperformancelogs(request):
-    if request.method=='POST':
-        logperf=MacPerfLogsForm(request.POST)
-        if logperf.is_valid():
-            logperf=logperf.save()
-            return redirect('logsources')
-    else:
-        logperf=MacPerfLogsForm()
-    context={'logperf':logperf}
-    return render(request,'baseapp/logingestion/systemlogs/macos/perfform.html',context)
-
-
-def opendirlogs(request):
-    if request.method == 'POST':
-        opendirform = OpenDirLogSourceForm(request.POST)
-        if opendirform.is_valid():
-            opendirform.save()
-            return redirect('logsources') 
-    else:
-        opendirform = OpenDirLogSourceForm()
-    
-    context = {'opendirform': opendirform}
-    return render(request, 'baseapp/logingestion/systemlogs/macos/opendirform.html', context)
-
-#===============================MACOS FORM END========================================
 
 
 
