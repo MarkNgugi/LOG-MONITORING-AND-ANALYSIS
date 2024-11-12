@@ -1,0 +1,1 @@
+am developing an ai log analysis model in a modular format to be able to identify anomalies from windows event logs and i want you to give me a code for the module that will be able to identify the anomaly:"Group Membership Changes: Unexpected changes in user group memberships." and also give me sample logs to test out the module and the module name

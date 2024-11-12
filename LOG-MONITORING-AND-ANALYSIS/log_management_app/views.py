@@ -1,23 +1,11 @@
 from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
 from django.shortcuts import render,redirect
 from .forms import *
 from .models import *
 from django.urls import reverse
-
 from .tasks import *
-def upload_log(request):
-    if request.method == 'POST':
-        form = LogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_log.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
-    else:
-        form = LogUploadForm()
-    return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', {'form': form})
+
 
 #LOG SOURCES
 def home(request):
@@ -33,9 +21,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
 
     # Querysets for system logs
     log_sources_windows = list(chain(
-        WindowsLogSource.objects.all(),
-        WindowsFileLogSource.objects.all(),
-        WindowsPerfLogs.objects.all(),
+        WindowsLogFile.objects.all(),
         WindowsActiveDirectoryLogSource.objects.all()
     ))
 
@@ -91,18 +77,6 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         MongodbPerfLogs.objects.all()
     ))
 
-    # Querysets for network logs
-    firewall_logs = list(chain(
-
-    ))
-
-    switch_logs = list(chain(
-
-    ))
-
-    router_logs = list(chain(
-
-    ))
 
     # Filtering based on parameters
     if os_type:
@@ -157,10 +131,6 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     mongo_count = len(mongodb_logs)
     total_db_logs_count = mysql_count + postgres_count + mongo_count
 
-    firewall_count = len(firewall_logs)
-    switch_count = len(switch_logs)
-    router_count = len(router_logs)
-    total_network_logs_count = firewall_count + switch_count + router_count
 
     context = {
         'all_count': all_count,
@@ -175,10 +145,6 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         'postgres_count': postgres_count,
         'mongo_count': mongo_count,
         'total_db_logs_count': total_db_logs_count,
-        'firewall_count': firewall_count,
-        'switch_count': switch_count,
-        'router_count': router_count,
-        'total_network_logs_count': total_network_logs_count,
         'log_sources': system_logs,
         'webserver_logs': webserver_logs,
         'database_logs': database_logs,
@@ -191,48 +157,39 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
 
     return render(request, 'baseapp/logsources/logsources.html', context)
 
-
+ 
 
 
 
 #LOG INGESTION 
 def system_os_types(request):  
     context={}
-    return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
+    return render(request,'baseapp/logingestion/OSpage.html',context)
 
-# def windows(request):
-
-#     # if request.method == 'POST':    
-#     #     print(request.POST) 
-#     #     log_source_form = WindowsLogSourceForm(request.POST)
-#     #     if log_source_form.is_valid():
-#     #         log_source = log_source_form.save(commit=False)
-#     #         log_source.save()
-#     #         log_source_form.save_m2m() 
-#     #         return redirect('logsources')
-#     #     else:
-#     #         print(log_source_form.errors)
- 
-#     # else:
-#     #     log_source_form = WindowsLogSourceForm()
-
-#     # context = {
-#     #     'log_source_form': log_source_form,
-#     # }    
-    
-#     # return render(request,'baseapp/logingestion/systemlogs/windows/windows.html',context)
-
-def windowsAD(request):
-    if request.method == 'POST': 
-        activedirectoryform = WindowsActiveDirectoryLogSourceForm(request.POST)
-        if activedirectoryform.is_valid():
-            activedirectoryform.save()
-            return redirect('activedirectorylogs') 
+def windows_log_upload(request):
+    if request.method == 'POST':
+        form = WindowsLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_windows_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
     else:
-        activedirectoryform = WindowsActiveDirectoryLogSourceForm()
+        form = WindowsLogUploadForm()
+    return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', {'form': form})
+
+def windowsAD_log_upload(request):
+    if request.method == 'POST':
+        form = WindowsADLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_AD_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
+    else:
+        form = WindowsADLogUploadForm()
+
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/systemlogs/activedirectory/activedirectory.html', context)
     
-    context = {'activedirectoryform': activedirectoryform}        
-    return render(request,'baseapp/logingestion/systemlogs/activedirectory/activedirectory.html',context)
 
 def linux(request):
     if request.method=='POST':
@@ -353,18 +310,6 @@ def mongodb(request):
 
 
 
-#syslogs collectin mtds START
-def windows_collection_options(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/windows/collectionopts.html',context)
-
-def linux_collection_options(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/collectionopts.html',context)
-
-def macos_collection_options(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/macos/collectionopts.html',context)
 
 #syslogs collectin mtds END
 
@@ -387,36 +332,6 @@ def macos_collection_options(request):
 #     return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', context)
 
  
-
-def windowslogfilestreams(request):
-    if request.method=='POST':
-        logfileform=WindowsFileLogSourceForm(request.POST)
-        if logfileform.is_valid():
-            logfileform=logfileform.save()
-            return redirect('streamlogfiles')
-    else: 
-        logfileform=WindowsFileLogSourceForm() 
-    context={'logfileform':logfileform}
-    return render(request,'baseapp/logingestion/systemlogs/windows/logfilestreamform.html',context)
-
-def windowsperformancelogs(request):
-    if request.method == 'POST':
-        print(request.POST)  # Print the submitted data to check if performance_metrics is included
-        logperf = WindowsPerfLogsForm(request.POST)
-        if logperf.is_valid():
-            instance = logperf.save(commit=False)            
-            instance.save()            
-            performance_metrics_ids = logperf.cleaned_data['performance_metrics']            
-            performance_metrics = WindowsPerformanceMetric.objects.filter(pk__in=performance_metrics_ids)            
-            instance.performance_metrics.set(performance_metrics)            
-            instance.save()
-            return redirect('collectperflogs')
-        else:
-            print(logperf.errors)  # Print form errors to see if there's an issue
-    else:
-        logperf = WindowsPerfLogsForm()
-    context = {'logperf': logperf}
-    return render(request, 'baseapp/logingestion/systemlogs/windows/perfform.html', context)
 
 
 
@@ -576,47 +491,6 @@ def opendirlogs(request):
 
 #===============================MACOS FORM END========================================
 
-#===========================INSTRUCTIONS START==================================
-#syslogs instructions start
-
-    #windows
-def win_streamsyslogs(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/windows/inst-streamsyslogs.html',context)
-
-def win_streamlogfiles(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/windows/inst-streamlogfiles.html',context)
-
-def win_collectperflogs(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/windows/inst-perflogs.html',context)
-
-def activedirectorylogs(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/windows/inst-activedirectorylogs.html',context)
-
-    #linux
-def lin_streamsyslogs(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-streamsyslogs.html',context)
-
-def lin_streamlogfiles(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-streamlogfiles.html',context)
-
-def lin_collectperflogs(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-perflogs.html',context)
-
-def ldaplogs(request):
-    context={}
-    return render(request,'baseapp/logingestion/systemlogs/linux/inst-ldaplogs.html',context)
-
-#syslogs instructions end
-
-
-#=========================INSTRUCTIONS START==================================
 
 
 #===========================APPLICATION LOGS START===============================

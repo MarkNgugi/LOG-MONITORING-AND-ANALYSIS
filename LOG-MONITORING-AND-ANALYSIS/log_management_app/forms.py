@@ -1,10 +1,11 @@
-
 from django import forms
 from .models import *
 
-class LogUploadForm(forms.ModelForm):
+#====================WINDOWS LOGS FORMS START=======================
+
+class WindowsLogUploadForm(forms.ModelForm):
     class Meta:
-        model = UploadedLog
+        model = WindowsLogFile
         fields = ['source_name', 'file']
         widgets = {
             'source_name': forms.TextInput(attrs={
@@ -19,90 +20,20 @@ class LogUploadForm(forms.ModelForm):
         }
 
 
-#====================WINDOWS LOGS FORMS START=======================
-
-class WindowsLogSourceForm(forms.ModelForm):
-    log_type = forms.ModelMultipleChoiceField(
-        queryset=WindowsLogType.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-    )
-
+class WindowsADLogUploadForm(forms.ModelForm):
     class Meta:
-        model = WindowsLogSource 
-        fields = [
-            'log_source_name', 'description', 'log_type', 'retention_policy',
-            
-        ]
+        model = WindowsADLogFile
+        fields = ['source_name', 'file']
         widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name', 'required':True}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description', 'rows': 3}),            
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-        }
-
- 
-class WindowsFileLogSourceForm(forms.ModelForm):
-    log_type = forms.ModelMultipleChoiceField(
-        queryset=WindowsLogType.objects.all()
-    )    
-    class Meta:
-        model = WindowsFileLogSource
-        fields = [
-            'log_source_name',
-            'log_file_path',
-            'log_type',
-            'collection_interval',            
-            'retention_policy',
-            'log_format',
-            'rotation_policy',
-            # 'ingestion_mtd'
-            
-
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'log_file_path': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the path to the log file'}),            
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-            'log_format': forms.Select(attrs={'class': 'form-control'}),                       
-            'rotation_policy': forms.Select(attrs={'class': 'form-control'}),
-            # 'ingestion_mtd': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly', 'disabled': 'disabled'}),         
-        }
-
-
-class WindowsPerfLogsForm(forms.ModelForm):
-    performance_metrics = forms.ModelMultipleChoiceField(
-        queryset=WindowsPerformanceMetric.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    
-    class Meta:
-        model = WindowsPerfLogs
-        fields = [
-            'log_source_name',
-            'performance_metrics',
-            'collection_interval',
-            'retention_policy',
-        ]
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
-        }
-        help_texts = {
-            'performance_metrics': 'Select the types of metrics to include',
-        }
-
-
-class WindowsActiveDirectoryLogSourceForm(forms.ModelForm): 
-    class Meta:
-        model = WindowsActiveDirectoryLogSource
-        fields = ['log_source_name', 'domain_name', 'collection_interval', 'retention_policy']
-        widgets = {
-            'log_source_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter log source name'}),
-            'domain_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter domain name'}),
-            'collection_interval': forms.Select(attrs={'class': 'form-control'}),
-            'retention_policy': forms.Select(attrs={'class': 'form-control'}),
+            'source_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter log source'
+            }),
+            'file': forms.ClearableFileInput(attrs={
+                'class': 'form-control-file',
+                'style': 'display:none;', 
+                'id': 'fileInput',         
+            }),
         }
 
 #=================================WINDOWS LOGS FORMS END============================================

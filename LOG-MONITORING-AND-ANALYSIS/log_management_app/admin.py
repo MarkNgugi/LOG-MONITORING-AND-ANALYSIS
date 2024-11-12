@@ -2,16 +2,13 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-admin.site.register(UploadedLog)
+admin.site.register(WindowsLogFile)
+admin.site.register(WindowsADLogFile)
 admin.site.register(LogEntry)
 # admin.site.register(Anomaly)
 
 
 admin.site.register(WindowsLogType)
-admin.site.register(WindowsLogSource) 
-admin.site.register(WindowsFileLogSource)
-admin.site.register(WindowsPerfLogs)
-admin.site.register(WindowsPerformanceMetric)
 admin.site.register(WindowsActiveDirectoryLogSource)
 
 

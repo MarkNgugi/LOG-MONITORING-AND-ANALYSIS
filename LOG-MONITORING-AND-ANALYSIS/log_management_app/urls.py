@@ -2,9 +2,7 @@ from django.urls import path
 from . import views
 
 
-urlpatterns = [
-
-    # path('upload/', views.upload_log, name='upload_log'),
+urlpatterns = [    
 
     path('home/',views.home,name='home'),
 
@@ -25,14 +23,13 @@ urlpatterns = [
 
 #LOG INGESTION 
 
-    #SYSTEM LOGS
-        #Windows 
+    #SYSTEM LOGS        
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
 
-    path('home/system-logs/os-types/windows-explorer/',views.upload_log,name='windows'),
+    path('home/system-logs/os-types/windows-explorer/',views.windows_log_upload,name='windows'),
     path('home/system-logs/os-types/linux-explorer/',views.linux,name='linux'),
     path('home/system-logs/os-types/macos-explorer/',views.macos,name='macos'),
-    path('home/system-logs/os-types/ad-explorer/',views.windowsAD,name='activedirectory'),
+    path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
 
     path('home/system-logs/os-types/apache-explorer/',views.apache,name='apache'),
     path('home/system-logs/os-types/nginx-explorer/',views.nginx,name='nginx'),
@@ -43,15 +40,9 @@ urlpatterns = [
     path('home/system-logs/os-types/mongodb-explorer/',views.mongodb,name='mongodb'),    
 
 
-
-    path('home/windows/collection-options/',views.windows_collection_options,name='windows_collection_options'),
-    path('home/unixlinux/collection-options/',views.linux_collection_options,name='linux_collection_options'),
-    path('home/macos/unixlinux/collection-options/',views.macos_collection_options,name='macos_collection_options'),
    
         #windows collection forms
     # path('home/logs-source/system/windows/streamlogs/', views.stream_windows_host_logs, name='stream_windows_host_logs'),
-    path('home/windows/logfilestreams/',views.windowslogfilestreams,name='windowslogfilestreams'),
-    path('home/windows/performancelogs/',views.windowsperformancelogs,name='windowsperformancelogs'),
     # path('home/activedirectory/',views.activedirectoryform,name='activedirectoryform'),
     path('home/fileuploag/',views.fileuploadform,name='fileuploadform'),
  
@@ -67,27 +58,7 @@ urlpatterns = [
     path('home/mac/logfilestreams/',views.maclogfilestreams,name='maclogfilestreams'),
     path('home/mac/performancelogs/',views.macperformancelogs,name='macperformancelogs'),
     path('home/opendir/',views.opendirlogs,name='opendirlogs'), 
-
-
-
-
-        #instructions
-            #windows
-    path('home/syslogs-instructions/',views.win_streamsyslogs,name='streamsyslogs'),
-    path('home/syslogsfiles-instructions/',views.win_streamlogfiles,name='streamlogfiles'),
-    path('home/performance-instructions/',views.win_collectperflogs,name='collectperflogs'),
-    path('home/activedirectory-instructions/',views.activedirectorylogs,name='activedirectorylogs'),
-
-            #linux
-    path('home/linuxlogs-instructions/',views.lin_streamsyslogs,name='lin_streamsyslogs'),
-    path('home/linuxlogsfiles-instructions/',views.lin_streamlogfiles,name='lin_streamlogfiles'),
-    path('home/linuxperformance-instructions/',views.lin_collectperflogs,name='lin_collectperflogs'),
-    # path('home/activedirectory-instructions/',views.ldaplogs,name='activedirectorylogs'),    
-
-
-
-
-
+ 
 
     #APPLICATION LOGS
 
