@@ -51,21 +51,18 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
 
     # Querysets for database logs
     mysql_logs = list(chain(
-        MysqlLogStream.objects.all(),
-        MysqlLogFileStream.objects.all(),
-        MysqlPerfLogs.objects.all()
+        MysqlLogFile.objects.all(),
+
     ))
 
     postgres_logs = list(chain(
-        PostgresLogStream.objects.all(),
-        PostgresLogFileStream.objects.all(),
-        PostgresPerfLogs.objects.all()
+        PostgresLogFile.objects.all(),
+
     ))
 
     mongodb_logs = list(chain(
-        MongodbLogStream.objects.all(),
-        MongodbLogFileStream.objects.all(),
-        MongodbPerfLogs.objects.all()
+        MongoLogFile.objects.all(),
+
     ))
 
 
@@ -250,161 +247,48 @@ def iis_log_upload(request):
     return render(request, 'baseapp/logingestion/applicationlogs/webservers/iis/iis.html', context)
 
 
-def mysql(request):
-    if request.method=='POST':
-        print(request.POST)
-        mysqlform=MysqlLogStreamForm(request.POST)
-        if mysqlform.is_valid():
-            mysqlform.save()
-            return redirect('logsources')
-        else:
-            print(mysqlform.errors)
-        
-    else:
-        mysqlform=MysqlLogStreamForm()
-    context={'mysqlform':mysqlform}        
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysql.html',context)
 
-def postgresql(request):
-    if request.method=='POST':
-        postgresform=PostgresLogStreamForm(request.POST)
-        if postgresform.is_valid():
-            postgresform.save()
-            return redirect('logsources')
-        
-    else:
-        postgresform=PostgresLogStreamForm()
-    context={'postgresform':postgresform}        
-    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresql.html',context)
-
-def mongodb(request):
-    if request.method=='POST':
-        mongodbform=MongodbLogStreamForm(request.POST)
-        if mongodbform.is_valid():
-            mongodbform.save()
-            return redirect('logsources')
-        
-    else:
-        mongodbform=MongodbLogStreamForm()
-    context={'mongodbform':mongodbform}        
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodb.html',context)
-
-
-
-def mysqllogfilestream(request):
-    if request.method=='POST':
-        mysqlform=MysqlLogFileStreamForm(request.POST) 
-        if mysqlform.is_valid():
-            mysqlform.save()
-            return redirect('logsources')
-        
-    else:
-        mysqlform=MysqlLogFileStreamForm()
-    context={'mysqlform':mysqlform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlfilestream.html',context)
-
-
-def mysqlperflogs(request):
-    if request.method=='POST':
-        mysqlform=MysqlPerfLogForm(request.POST)
-        if mysqlform.is_valid():
-            mysqlform.save()
-            return redirect('logsources')
-        
-    else:
-        mysqlform=MysqlPerfLogForm()
-    context={'mysqlform':mysqlform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mysql/mysqlperflogs.html',context)
-
-def mysqlfileupload(request):
+def mysql_log_upload(request):
     if request.method == 'POST':
-        webserverfileuploadform=MysqlLogFileUploadForm(request.POST,request.FILES)
-        if webserverfileuploadform.is_valid():
-            webserverfileuploadform.save()
-            return redirect(reverse('home'))
+        form = MysqlLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_mysql_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
     else:
-        webserverfileuploadform=MysqlLogFileUploadForm()
-    
-    context={'webserverfileuploadform':webserverfileuploadform}
-    return render(request,'baseapp/logingestion/applicationlogs/webservers/webserverfileupload.html',context)
+        form = MysqlLogUploadForm()
 
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/applicationlogs/databases/mysql/mysql.html', context)
 
-#POSTGRES
-# def postgreslogstream(request):
-#     if request.method=='POST':
-#         postgresform=PostgresLogStreamForm(request.POST)
-#         if postgresform.is_valid():
-#             postgresform.save()
-#             return redirect('logsources')
-        
-#     else:
-#         postgresform=PostgresLogStreamForm()
-#     context={'postgresform':postgresform}
-#     return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresstream.html',context)
- 
-def postgreslogfilestream(request):
-    if request.method=='POST':
-        postgresform=PostgresLogFileStreamForm(request.POST) 
-        if postgresform.is_valid():
-            postgresform.save()
-            return redirect('logsources')
-        
+def postgres_log_upload(request):
+    if request.method == 'POST':
+        form = PostgresLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_postgres_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
     else:
-        postgresform=PostgresLogFileStreamForm()
-    context={'postgresform':postgresform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postresfilestream.html',context)
+        form = PostgresLogUploadForm()
 
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/applicationlogs/databases/postgres/postgresql.html', context)
 
-def postgresperflogs(request):
-    if request.method=='POST':
-        postgresform=PostgresPerfLogForm(request.POST)
-        if postgresform.is_valid():
-            postgresform.save()
-            return redirect('logsources')
-        
+def mongo_log_upload(request):
+    if request.method == 'POST':
+        form = MongoLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_mongo_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('home')
     else:
-        postgresform=PostgresPerfLogForm()
-    context={'postgresform':postgresform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/postgres/postgresperflogs.html',context)
+        form = MongoLogUploadForm()
+
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/applicationlogs/databases/mongodb/mongodb.html', context)
 
 
-#MONGO
-# def mongodblogstream(request):
-#     if request.method=='POST':
-#         mongodbform=MongodbLogStreamForm(request.POST)
-#         if mongodbform.is_valid():
-#             mongodbform.save()
-#             return redirect('logsources')
-        
-#     else:
-#         mongodbform=MongodbLogStreamForm()
-#     context={'mongodbform':mongodbform}
-#     return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbstream.html',context)
 
-def mongodblogfilestream(request):
-    if request.method=='POST':
-        mongodbform=MongodbLogFileStreamForm(request.POST) 
-        if mongodbform.is_valid():
-            mongodbform.save()
-            return redirect('logsources')
-        
-    else:
-        mongodbform=MongodbLogFileStreamForm()
-    context={'mongodbform':mongodbform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbfilestream.html',context)
-
-
-def mongodbperflogs(request):
-    if request.method=='POST':
-        mongodbform=MongodbPerfLogForm(request.POST)
-        if mongodbform.is_valid():
-            mongodbform.save()
-            return redirect('logsources')
-        
-    else:
-        mongodbform=MongodbPerfLogForm()
-    context={'mongodbform':mongodbform}
-    return render(request,'baseapp/logingestion/applicationlogs/databases/mongodb/mongodbperflogs.html',context)
 
 
 #=========================================DATABASE FORMS END=========================================================
@@ -428,22 +312,6 @@ def alert_history(request):
 
     return render(request, 'baseapp/alerts/alerts.html', context)
 
-
-
-
-
-
-
-
-
-
-
-
-    #caching systems
-
-def cachingsystems_types(request):
-    context={}
-    return render(request,'baseapp/logingestion/applicationlogs/middleware/cachingsystems.html',context)
 
 
 #SEARCH

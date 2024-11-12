@@ -122,15 +122,71 @@
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
 
-                                    <!-- Step 4: Test Connection -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>4. Test Connection</h4>
-                                            <p class="mb-2"><strong>Allow the user to test the connection between the log source and the log monitoring system to ensure everything is working correctly.</strong></p>
-                                            <button type="button" class="btn btn-success">Test Connection</button>
-                                            <p class="mt-2">Connection Status: <span id="connectionStatus">Not Tested</span></p>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
+<!-- Step 4: Upload Logs -->
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <h4>4. Upload Logs</h4>
+    </div>
+    <div class="card-body">
+        <p class="mb-2"><strong>Upload log files here for monitoring and analysis.</strong></p>
+        
+        <!-- Form for Source Name and Dropzone Upload -->
+        <form method="post" action="{% url 'mongodb' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Source Name Input Field -->
+            <div class="form-group mb-3">
+                <label for="sourceName"><strong>Source Name</strong></label>
+                {{ form.source_name }}
+            </div>
+
+            <!-- Custom Upload Icon Button -->
+            <div class="form-group mb-3">
+                <label for="file"><strong>Upload File</strong></label>
+                <div class="dropzone bg-light rounded-lg p-4" id="tinydash-dropzone">
+                    <!-- Hidden File Input -->
+                    {{ form.file }}
+                    
+                    <!-- Display Custom Upload Icon as Trigger -->
+                    <div class="dz-message needsclick" onclick="document.getElementById('fileInput').click();">
+                        <div class="circle circle-lg bg-primary">
+                            <i class="fe fe-upload fe-24 text-white"></i>
+                        </div>
+                        <h5 class="text-muted mt-4">Drop files here or click to upload</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Submit and View</button>
+            </div>
+        </form>
+
+        <!-- Preview Template for Uploaded Files -->
+        <div class="d-none" id="uploadPreviewTemplate">
+            <div class="card mt-1 mb-0 shadow-none border">
+                <div class="p-2">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
+                        </div>
+                        <div class="col pl-0">
+                            <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+                            <p class="mb-0" data-dz-size></p>
+                        </div>
+                        <div class="col-auto">
+                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                <i class="dripicons-cross"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div> <!-- .card-body -->
+</div> <!-- .card -->
 
                                     <!-- Step 5: Configure Alerts and Notifications -->
                                     <div class="card shadow mb-4">

@@ -15,15 +15,12 @@ urlpatterns = [
     path('log-sources/db/<str:db_type>/', views.logsources, name='logsources_db'),
     path('log-sources/network/<str:network_type>/', views.logsources, name='logsources_network'),
 
-    
-
 #SEARCH
 
     path('home/search',views.search,name='search'),
 
 #LOG INGESTION 
-
-    #SYSTEM LOGS        
+      
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
 
     path('home/system-logs/os-types/windows-explorer/',views.windows_log_upload,name='windows'),
@@ -35,29 +32,10 @@ urlpatterns = [
     path('home/system-logs/os-types/nginx-explorer/',views.nginx_log_upload,name='nginx'),
     path('home/system-logs/os-types/iis-explorer/',views.iis_log_upload,name='iis'),
 
-    path('home/system-logs/os-types/mysql-explorer/',views.mysql,name='mysql'),
-    path('home/system-logs/os-types/postgresql-explorer/',views.postgresql,name='postgresql'),
-    path('home/system-logs/os-types/mongodb-explorer/',views.mongodb,name='mongodb'),    
+    path('home/system-logs/os-types/mysql-explorer/',views.mysql_log_upload,name='mysql'),
+    path('home/system-logs/os-types/postgresql-explorer/',views.postgres_log_upload,name='postgresql'),
+    path('home/system-logs/os-types/mongodb-explorer/',views.mongo_log_upload,name='mongodb'),    
 
-
-        #collection forms
-    # path('home/webserver/fileupload/',views.webserverfileupload,name='webserverfileupload'),
-    # path('home/db/mysql',views.mysqllogstream,name='mysqllogstream'),
-    path('home/db/mysqlfile',views.mysqllogfilestream,name='mysqllogfilestream'),
-    path('home/db/mysqlperf',views.mysqlperflogs,name='mysqlperflogs'),
-
- 
-    # path('home/db/postgres',views.postgreslogstream,name='postgreslogstream'),
-    path('home/db/postgresfile',views.postgreslogfilestream,name='postgreslogfilestream'),
-    path('home/db/postgresperf',views.postgresperflogs,name='postgresperflogs'),
- 
-    # path('home/db/mongo',views.mongodblogstream,name='mongodblogstream'),
-    path('home/db/mongofile',views.mongodblogfilestream,name='mongodblogfilestream'),
-    path('home/db/mongoperf',views.mongodbperflogs,name='mongodbperflogs'),
-
-        #CACHING SYSTEMS
-
-    path('home/cachingsystems-types/',views.cachingsystems_types,name='cachingsystems_types'),
 
 
     #LOG STREAMS
