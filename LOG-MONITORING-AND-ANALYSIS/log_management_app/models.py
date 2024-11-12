@@ -5,8 +5,12 @@ from user_management_app.models import User
  
 
 class UploadedLog(models.Model):
-    file = models.FileField(upload_to='uploaded_logs/')
+    source_name=models.CharField(max_length=20, blank=True, null=True)
+    file = models.FileField(upload_to='uploaded_logs/windows/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.source_name
 
 class LogEntry(models.Model):
     timestamp = models.DateTimeField()

@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
 
-    path('upload/', views.upload_log, name='upload_log'),
+    # path('upload/', views.upload_log, name='upload_log'),
 
     path('home/',views.home,name='home'),
 
@@ -29,7 +29,7 @@ urlpatterns = [
         #Windows 
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
 
-    path('home/system-logs/os-types/windows-explorer/',views.windows,name='windows'),
+    path('home/system-logs/os-types/windows-explorer/',views.upload_log,name='windows'),
     path('home/system-logs/os-types/linux-explorer/',views.linux,name='linux'),
     path('home/system-logs/os-types/macos-explorer/',views.macos,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD,name='activedirectory'),

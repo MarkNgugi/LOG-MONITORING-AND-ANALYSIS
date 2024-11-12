@@ -2,11 +2,21 @@
 from django import forms
 from .models import *
 
-
 class LogUploadForm(forms.ModelForm):
     class Meta:
         model = UploadedLog
-        fields = ['file']
+        fields = ['source_name', 'file']
+        widgets = {
+            'source_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter log source'
+            }),
+            'file': forms.ClearableFileInput(attrs={
+                'class': 'form-control-file',
+                'style': 'display:none;', 
+                'id': 'fileInput',         
+            }),
+        }
 
 
 #====================WINDOWS LOGS FORMS START=======================

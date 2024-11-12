@@ -7,7 +7,7 @@ from .forms import *
 from .models import *
 from django.urls import reverse
 
-from .tasks import process_uploaded_log
+from .tasks import *
 def upload_log(request):
     if request.method == 'POST':
         form = LogUploadForm(request.POST, request.FILES)
@@ -17,7 +17,7 @@ def upload_log(request):
             return redirect('home')
     else:
         form = LogUploadForm()
-    return render(request, 'baseapp/upload_log.html', {'form': form})
+    return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', {'form': form})
 
 #LOG SOURCES
 def home(request):
@@ -200,27 +200,27 @@ def system_os_types(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/windows/OSpage.html',context)
 
-def windows(request):
+# def windows(request):
 
-    if request.method == 'POST':    
-        print(request.POST) 
-        log_source_form = WindowsLogSourceForm(request.POST)
-        if log_source_form.is_valid():
-            log_source = log_source_form.save(commit=False)
-            log_source.save()
-            log_source_form.save_m2m() 
-            return redirect('logsources')
-        else:
-            print(log_source_form.errors)
+#     # if request.method == 'POST':    
+#     #     print(request.POST) 
+#     #     log_source_form = WindowsLogSourceForm(request.POST)
+#     #     if log_source_form.is_valid():
+#     #         log_source = log_source_form.save(commit=False)
+#     #         log_source.save()
+#     #         log_source_form.save_m2m() 
+#     #         return redirect('logsources')
+#     #     else:
+#     #         print(log_source_form.errors)
  
-    else:
-        log_source_form = WindowsLogSourceForm()
+#     # else:
+#     #     log_source_form = WindowsLogSourceForm()
 
-    context = {
-        'log_source_form': log_source_form,
-    }    
+#     # context = {
+#     #     'log_source_form': log_source_form,
+#     # }    
     
-    return render(request,'baseapp/logingestion/systemlogs/windows/windows.html',context)
+#     # return render(request,'baseapp/logingestion/systemlogs/windows/windows.html',context)
 
 def windowsAD(request):
     if request.method == 'POST': 
