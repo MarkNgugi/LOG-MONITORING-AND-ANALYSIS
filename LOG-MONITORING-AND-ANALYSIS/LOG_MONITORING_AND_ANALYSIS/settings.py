@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'log_management_app',
     'user_management_app',
     'alerts_and_notifications_app',
-    'AI_and_machine_learning_app',
+    'AI_and_machine_learning_app',    
 
 ]
 

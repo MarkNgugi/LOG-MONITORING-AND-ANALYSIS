@@ -101,6 +101,9 @@ class LogEntry(models.Model):
     source = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.source
+
 class Anomaly(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
     anomaly=models.CharField(max_length=30, blank=True, null=True)

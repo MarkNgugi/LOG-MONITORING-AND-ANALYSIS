@@ -2,6 +2,7 @@ import csv
 from celery import shared_task
 from .models import *
 
+
 @shared_task
 def process_uploaded_windows_logs(log_id):
     uploaded_log = WindowsLogFile.objects.get(id=log_id)
