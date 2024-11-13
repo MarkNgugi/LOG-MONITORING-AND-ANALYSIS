@@ -12,8 +12,7 @@ urlpatterns = [
     path('log-sources/', views.logsources, name='logsources'),
     path('log-sources/os/<str:os_type>/', views.logsources, name='logsources_os'),
     path('log-sources/server/<str:server_type>/', views.logsources, name='logsources_server'),
-    path('log-sources/db/<str:db_type>/', views.logsources, name='logsources_db'),
-    path('log-sources/network/<str:network_type>/', views.logsources, name='logsources_network'),
+    path('log-sources/db/<str:db_type>/', views.logsources, name='logsources_db'),    
 
 #SEARCH
 

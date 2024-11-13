@@ -69,7 +69,7 @@ def add_user(request):
         form = UserForm()
     return render(request, 'baseapp/useraccounts/add_user.html', {'form': form})
 
-
+ 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)  # Only allow superusers to edit users
 def edit_user(request, user_id):
@@ -105,9 +105,19 @@ def user_profile(request,user_id):
  
 
 
-
+@login_required
 def accountsettings(request, tab='profile'):
-    context = {'tab': tab}
+    user = request.user
+    
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        messages.success(request, 'Profile updated successfully.')
+        return redirect('accountsettings_tab', tab='profile')
+    
+    context = {'tab': tab, 'user': user}
     return render(request, 'baseapp/accountsettings/accountsettings.html', context)
 
 

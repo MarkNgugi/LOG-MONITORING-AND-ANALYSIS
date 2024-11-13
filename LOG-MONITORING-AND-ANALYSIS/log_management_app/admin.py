@@ -5,7 +5,7 @@ from .models import *
 admin.site.register(WindowsLogFile)
 admin.site.register(WindowsADLogFile)
 admin.site.register(LogEntry)
-# admin.site.register(Anomaly)
+admin.site.register(Anomaly)
 
 admin.site.register(LinuxLogFile)
 admin.site.register(MacLogFile) 

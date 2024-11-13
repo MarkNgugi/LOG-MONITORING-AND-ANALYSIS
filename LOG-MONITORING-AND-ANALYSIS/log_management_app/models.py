@@ -101,11 +101,10 @@ class LogEntry(models.Model):
     source = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-# class Anomaly(models.Model):
-#     severity = models.CharField(max_length=50)
-#     description = models.TextField()
-#     log_entry = models.ForeignKey(LogEntry, on_delete=models.CASCADE)
-#     detected_at = models.DateTimeField(auto_now_add=True)
+class Anomaly(models.Model):
+    source_name=models.CharField(max_length=20, blank=True, null=True)
+    anomaly=models.CharField(max_length=30, blank=True, null=True)
+    detected_at = models.DateTimeField(auto_now_add=True)
 
 
 

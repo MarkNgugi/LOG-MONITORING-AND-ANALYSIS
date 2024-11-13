@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from log_management_app import urls
-
+ 
 
 urlpatterns=[ 
     path('home/',views.home,name='home'),

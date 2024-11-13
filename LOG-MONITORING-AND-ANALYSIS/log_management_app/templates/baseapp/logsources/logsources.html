@@ -18,9 +18,6 @@
             <li class="nav-item">
               <a class="nav-link {% if db_type %}active{% endif %}" id="databases-tab" data-toggle="tab" href="#databases" role="tab" aria-controls="databases" aria-selected="false">Databases</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {% if network_type %}active{% endif %}" id="caching-systems-tab" data-toggle="tab" href="#caching-systems" role="tab" aria-controls="caching-systems" aria-selected="false">Network</a>
-            </li>
           </ul>
 
           
@@ -61,14 +58,8 @@
                 <thead>
                   <tr role="row">
                     <th class="text-center">ID</th>
-                    <th class="text-left">Source Name</th>
-                    <th class="text-left">Hostname/IP Address</th>
-                    <th class="text-left">OS Type</th>
-                    <th class="text-left">Last Collected</th>
-                    <th class="text-left">Status</th>
-                    <th class="text-left">Collection Mtd</th>
-                    <th class="text-left">Collection Interval</th>
-                    <th class="text-left">Activate</th>
+                    <th class="text-left">Last Collected</th>                                                          
+                    <th class="text-left">Source Name</th>                                                                                                      
                     <th class="text-left">Action</th>
                   </tr>
                 </thead>
@@ -76,25 +67,10 @@
                   {% for log_source in log_sources %}
                   <tr>
                     <td class="text-center">{{log_source.id}}</td>
-                    <td class="text-left">{{log_source.log_source_name}}</td>
-                    <td class="text-left">{{log_source.hostname_ip_address}}</td>
-                    <td class="text-left">{{log_source.os_type}}</td>
-                    <td class="text-left">{{log_source.created_at}}</td>
-
-                    {% if log_source.status == 'Online' %}
-                    <td class="text-left"><span class="dot dot-lg bg-success mr-2"></span>Online</td>
-                    {% else %}
-                    <td class="text-left"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
-                    {% endif %}
-
-                    <td class="text-left">{{log_source.collection_mtd}}</td>
-                    <td class="text-center">{{log_source.collection_interval}}</td>
-                    <td class="text-left">
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.activate %}checked{% endif %}>
-                        <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
-                      </div>
-                    </td>
+                    <td class="text-left">{{log_source.uploaded_at}}</td>
+                    <td class="text-left">{{log_source.source_name}}</td>                                        
+                    
+                                        
                     <td class="text-left">
                       <div class="dropdown">
                         <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -147,14 +123,8 @@
                 <thead>
                   <tr role="row">
                     <th class="text-center">ID</th>
-                    <th class="text-center">Source Name</th>
-                    <th class="text-center">Hostname/IP Address</th>
-                    <th class="text-center">Server Type</th>
                     <th class="text-center">Last Collected</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Collection Mtd</th>
-                    <th class="text-center">Collection Interval</th>
-                    <th class="text-center">Activate</th>
+                    <th class="text-center">Source Name</th>                                                                                                                                    
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
@@ -162,25 +132,9 @@
                   {% for log_source in webserver_logs %}
                   <tr>
                     <td class="text-center">{{log_source.id}}</td>
-                    <td class="text-center">{{log_source.log_source_name}}</td>
-                    <td class="text-center">{{log_source.hostname_ip_address}}</td>
-                    <td class="text-center">{{log_source.server_type}}</td>
-                    <td class="text-center">{{log_source.created_at}}</td>
-
-                    {% if log_source.status == 'Online' %}
-                    <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span>Online</td>
-                    {% else %}
-                    <td class="text-center"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
-                    {% endif %}
-
-                    <td class="text-center">{{log_source.collection_mtd}}</td>
-                    <td class="text-center">{{log_source.collection_interval}}</td>
-                    <td class="text-center">
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.activate %}checked{% endif %}>
-                        <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
-                      </div>
-                    </td>
+                    <td class="text-center">{{log_source.uploaded_at}}</td>
+                    <td class="text-center">{{log_source.source_name}}</td>                                                            
+                                      
                     <td class="text-center">
                       <div class="dropdown">
                         <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -234,14 +188,8 @@
                 <thead>
                   <tr role="row">
                     <th class="text-center">ID</th>
-                    <th class="text-center">Source Name</th>
-                    <th class="text-center">Hostname/IP Address</th>
-                    <th class="text-center">Database Type</th>
-                    <th class="text-center">Last Collected</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Collection Mtd</th>
-                    <th class="text-center">Collection Interval</th>
-                    <th class="text-center">Activate</th>
+                    <th class="text-center">Last Collected</th>   
+                    <th class="text-center">Source Name</th>                                                                                                                                       
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
@@ -249,25 +197,9 @@
                   {% for log_source in database_logs %}
                   <tr>
                     <td class="text-center">{{log_source.id}}</td>
-                    <td class="text-center">{{log_source.log_source_name}}</td>
-                    <td class="text-center">{{log_source.hostname_ip_address}}</td>
-                    <td class="text-center">{{log_source.db_type}}</td>
-                    <td class="text-center">{{log_source.created_at}}</td>
-
-                    {% if log_source.status == 'Online' %}
-                    <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span>Online</td>
-                    {% else %}
-                    <td class="text-center"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
-                    {% endif %}
-
-                    <td class="text-center">{{log_source.collection_mtd}}</td>
-                    <td class="text-center">{{log_source.collection_interval}}</td>
-                    <td class="text-center">
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.activate %}checked{% endif %}>
-                        <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
-                      </div>
-                    </td>
+                    <td class="text-center">{{log_source.uploaded_at}}</td>
+                    <td class="text-center">{{log_source.source_name}}</td>                                        
+                                                        
                     <td class="text-center">
                       <div class="dropdown">
                         <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -284,94 +216,7 @@
                   {% endfor %}
                 </tbody>
               </table>
-            </div>
-
-            <!-- Network Tab -->
-            <div class="tab-pane fade" id="caching-systems" role="tabpanel" aria-labelledby="caching-systems-tab">
-              <ul class="nav nav-pills">
-                <li class="nav-item">
-                  <a class="nav-link {% if not network_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="">
-                    All
-                    <span class="badge badge-pill {% if not network_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ all_count }}</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if network_type == 'router' %}active{% else %}text-muted{% endif %}" href="">
-                    Router
-                    <span class="badge badge-pill {% if network_type == 'router' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ router_count }}</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if network_type == 'switch' %}active{% else %}text-muted{% endif %}" href="">
-                    Switch
-                    <span class="badge badge-pill {% if network_type == 'switch' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ switch_count }}</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if network_type == 'firewall' %}active{% else %}text-muted{% endif %}" href="">
-                    Firewall
-                    <span class="badge badge-pill {% if network_type == 'firewall' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ firewall_count }}</span>
-                  </a>
-                </li>
-              </ul>
-           
-
-              <!-- Table for Network Logs -->
-              <table class="table border table-hover bg-white">
-                <thead>
-                  <tr role="row">
-                    <th class="text-center">ID</th>
-                    <th class="text-center">Source Name</th>
-                    <th class="text-center">Hostname/IP Address</th>
-                    <th class="text-center">Network Type</th>
-                    <th class="text-center">Last Collected</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Collection Mtd</th>
-                    <th class="text-center">Collection Interval</th>
-                    <th class="text-center">Activate</th>
-                    <th class="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for log_source in network_logs %}
-                  <tr>
-                    <td class="text-center">{{log_source.id}}</td>
-                    <td class="text-center">{{log_source.log_source_name}}</td>
-                    <td class="text-center">{{log_source.hostname_ip_address}}</td>
-                    <td class="text-center">{{log_source.network_type}}</td>
-                    <td class="text-center">{{log_source.created_at}}</td>
-
-                    {% if log_source.status == 'Online' %}
-                    <td class="text-center"><span class="dot dot-lg bg-success mr-2"></span>Online</td>
-                    {% else %}
-                    <td class="text-center"><span class="dot dot-lg bg-warning mr-2"></span>Offline</td>
-                    {% endif %}
-
-                    <td class="text-center">{{log_source.collection_mtd}}</td>
-                    <td class="text-center">{{log_source.collection_interval}}</td>
-                    <td class="text-center">
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="activate-{{ log_source.id }}" {% if log_source.activate %}checked{% endif %}>
-                        <label class="custom-control-label" for="activate-{{ log_source.id }}"></label>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <div class="dropdown">
-                        <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="text-muted sr-only">Action</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="#">More details</a>
-                          <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>            
+            </div>          
           </div>
         </div>
       </div>

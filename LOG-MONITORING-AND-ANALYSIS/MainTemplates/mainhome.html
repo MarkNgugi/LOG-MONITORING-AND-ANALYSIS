@@ -173,8 +173,7 @@
                 
                 <!-- Add Log Source -->
                 <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'system_os_types' %}">
-                    <i class="fe fe-plus-circle fe-14"></i> 
+                  <a class="nav-link" href="{% url 'system_os_types' %}">                    
                     <span class="ml-3 item-text">+ Add Log Source</span>
                   </a>
                 </li>
@@ -183,31 +182,11 @@
             </li>
           
             <!-- Log Exploration Dropdown -->
-            <li class="nav-item dropdown">
-              <a href="#logExplorationDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-search fe-16"></i>
-                <span class="ml-3 item-text">Log Exploration</span>
+            <li class="nav-item w-100">
+              <a class="nav-link" href="{% url 'search' %}">
+                <i class="fe fe-search fe-16"></i> 
+                <span class="ml-3 item-text">Search Logs</span>
               </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="logExplorationDropdown">
-          
-                <!-- Search Logs -->
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'search' %}">
-                    <i class="fe fe-search fe-16"></i> 
-                    <span class="ml-3 item-text">Search Logs</span>
-                    <span class="badge badge-pill badge-primary">New</span>
-                  </a>
-                </li>
-          
-                <!-- Log Streams -->
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'logstreams' %}">
-                    <i class="fe fe-database fe-16"></i>
-                    <span class="ml-3 item-text">Log Streams</span>
-                  </a>
-                </li>
-          
-              </ul>
             </li>
           
             <!-- Anomalies -->
@@ -265,12 +244,6 @@
               <ul class="collapse list-unstyled pl-4 w-100" id="performanceMonitoringDropdown">
                 <li class="nav-item w-100">
                   <a class="nav-link" href="">
-                    <i class="fe fe-zap fe-16"></i>
-                    <span class="ml-3 item-text">Realtime Monitoring</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="">
                     <i class="fe fe-bar-chart-2 fe-16"></i>
                     <span class="ml-3 item-text">Performance Metrics</span>
                   </a>
@@ -324,18 +297,7 @@
               </a>
               <!-- Collapsible List for Dropdown Items -->
               <ul class="collapse list-unstyled pl-4 w-100" id="alertingDropdown">
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'alertconfig' %}">
-                    <i class="fe fe-bell fe-16"></i>
-                    <span class="ml-3 item-text">Alert Rules</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'contactpoint' %}">
-                    <i class="fe fe-user-plus fe-16"></i> 
-                    <span class="ml-3 item-text">Contact Points</span>
-                  </a>
-                </li>
+
                 <li class="nav-item w-100">
                   <a class="nav-link" href="{% url 'notification-policies' %}">
                     <i class="fe fe-settings fe-16"></i> 
@@ -436,7 +398,7 @@
                    
 
           <p class="text-muted nav-heading mt-4 mb-1">
-            <span>User Management & Settings</span>
+            <span>Settings</span>
           </p>
           
           <ul class="navbar-nav flex-fill w-100 mb-2">
@@ -449,89 +411,8 @@
               </a>
             </li>
           
-            <!-- User Access Management Dropdown -->
-            <li class="nav-item dropdown">
-              <a href="#userAccessManagementDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-users fe-16"></i> 
-                <span class="ml-3 item-text">User Access</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="userAccessManagementDropdown">
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="{% url 'useraccounts' %}">
-                    <i class="fe fe-user fe-14"></i> 
-                    <span class="ml-1">Users and Teams</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="{% url 'ip_page' %}">
-                    <i class="fe fe-shield fe-14"></i> 
-                    <span class="ml-1">Access Control Policies</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="">
-                    <i class="fe fe-lock fe-14"></i> <!-- Icon for Role-Based Access Control -->
-                    <span class="ml-1">Role-Based Access Control</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="">
-                    <i class="fe fe-shield fe-14"></i> 
-                    <span class="ml-1">Two-Factor Authentication</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="">
-                    <i class="fe fe-key fe-14"></i>
-                    <span class="ml-1">Password Policies</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
           
-            <!-- Security & Activity Dropdown -->
-            <li class="nav-item dropdown">
-              <a href="#securityActivityDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-shield fe-16"></i> 
-                <span class="ml-3 item-text">Security and Activity</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="securityActivityDropdown">
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="./files-list.html">
-                    <i class="fe fe-file-text fe-14"></i> 
-                    <span class="ml-1">Audit Logs</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="./files-grid.html">
-                    <i class="fe fe-activity fe-14"></i> 
-                    <span class="ml-1">User Activity Dashboard</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="./files-list.html">
-                    <i class="fe fe-clock fe-14"></i> 
-                    <span class="ml-1">Session Management</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          
-            <!-- API and Integration Dropdown -->
-            <li class="nav-item dropdown">
-              <a href="#apiIntegrationDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-code fe-16"></i> 
-                <span class="ml-3 item-text">API and Integration</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="apiIntegrationDropdown">
-                <li class="nav-item w-100">
-                  <a class="nav-link pl-3" href="">
-                    <i class="fe fe-link fe-14"></i> 
-                    <span class="ml-1">API Access Management</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
+       
           </ul>
           
                   

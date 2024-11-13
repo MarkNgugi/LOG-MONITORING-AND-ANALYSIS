@@ -9,7 +9,7 @@ from .tasks import *
 
 #LOG SOURCES
 def home(request):
-    context={}
+    context={'user':request.user}
     return render(request,'baseapp/home.html',context)
 
 def logsources(request, os_type=None, server_type=None, db_type=None, network_type=None):
@@ -97,11 +97,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
     else:
         database_logs = list(chain(mysql_logs, postgres_logs, mongodb_logs))
 
-    if network_type:
-        pass
 
-    else:
-        pass
 
     # Counts for each category
     all_count = len(webserver_logs)
@@ -135,18 +131,16 @@ def logsources(request, os_type=None, server_type=None, db_type=None, network_ty
         'total_db_logs_count': total_db_logs_count,
         'log_sources': system_logs,
         'webserver_logs': webserver_logs,
-        'database_logs': database_logs,
-        'network_logs': network_logs,  # Add network logs to context
+        'database_logs': database_logs,        
         'os_type': os_type,
         'server_type': server_type,
-        'db_type': db_type,
-        'network_type': network_type,  # Include network_type in context
+        'db_type': db_type,        
     }
 
     return render(request, 'baseapp/logsources/logsources.html', context)
 
  
-
+ 
 
 
 #LOG INGESTION 
@@ -160,7 +154,7 @@ def windows_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_windows_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = WindowsLogUploadForm()
     return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', {'form': form})
@@ -171,7 +165,7 @@ def windowsAD_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_AD_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = WindowsADLogUploadForm()
 
@@ -185,7 +179,7 @@ def linux_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_linux_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = LinuxLogUploadForm()
 
@@ -199,7 +193,7 @@ def mac_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_mac_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = MacLogUploadForm()
 
@@ -213,7 +207,7 @@ def apache_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_apache_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = ApacheLogUploadForm()
 
@@ -226,7 +220,7 @@ def nginx_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_nginx_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = NginxLogUploadForm()
 
@@ -239,7 +233,7 @@ def iis_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_iis_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = IISLogUploadForm()
 
@@ -254,7 +248,7 @@ def mysql_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_mysql_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = MysqlLogUploadForm()
 
@@ -267,7 +261,7 @@ def postgres_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_postgres_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = PostgresLogUploadForm()
 
@@ -280,7 +274,7 @@ def mongo_log_upload(request):
         if form.is_valid():
             uploaded_log = form.save()
             process_uploaded_mongo_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('home')
+            return redirect('logsources')
     else:
         form = MongoLogUploadForm()
 
@@ -329,7 +323,8 @@ def logstreams(request):
 #ANOMALIES
 
 def anomaliespage(request):
-    context={}
+    anomalies = Anomaly.objects.all()
+    context={'anomalies':anomalies}
     return render(request,'baseapp/anomalies/anomalies.html',context)
 
 def anomalydetail(request):
