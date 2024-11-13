@@ -1,279 +1,107 @@
 {% extends 'mainhome.html' %}
 
 {% block content %}
-<!-- add options for exporting alerts, escalating and threshold -->
     <style>
         body {
+            font-family: 'Roboto', sans-serif;
             background-color: #212529;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-        .filter-section {
-            background-color: #323538;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .dashboard-widgets .dashboard-widget {
-            padding: 20px;
-            background-color: #212529;
-            border: 3px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .dashboard-widget h5 {
-            margin-bottom: 10px;
-            font-weight: 600;
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
         }
         .alert-card {
-            background-color: #212529;
-            border: 3px solid #ddd;
-            border-radius: 5px;
+            background-color: #343a40;
+            border-radius: 8px;
             padding: 20px;
-            margin: 15px 0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .alert-card.critical { border-left: 7px solid red; }
-        .alert-card.high { border-left: 7px solid orange; }
-        .alert-card.medium { border-left: 7px solid yellow; }
-        .alert-card.low { border-left: 7px solid green; }
-        .alert-card h5 {
-            margin: 0 0 10px;
-            font-weight: 600;
+        .alert-card .icon {
+            font-size: 24px;
+            color: #dc3545;
         }
-        .alert-card .details { margin-top: 10px; }
-        .alert-card .actions { margin-top: 15px; }
-        .btn-primary {
+        .alert-card .details {
+            flex-grow: 1;
+            margin-left: 16px;
+        }
+        /* .alert-card .details h4 {
+            margin: 0;
+            font-weight: 500;
+            color: #f8f9fa;
+        } */
+        .alert-card .details p {
+            margin: 4px 0;
+            color: #eff2f5;
+        }
+        .alert-card .timestamp {
+            font-size: 12px;
+            color: #f2f7fc;
+        }
+        .alert-card .badge {
+            margin-top: 8px;
+        }
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .filter-section input[type="search"] {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        .filter-section .filter-btn {
+            padding: 8px 12px;
             background-color: #007bff;
-            border-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            margin-right: 10px;
+
+        .view-more {
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
         }
+     
     </style>
 
-    <div class="container">
-        <header class="my-4">
-            <h1>Alerts Dashboard (add action required)</h1>
-        </header>
-
-        <div class="row">
-            <div class="col-md-12">
-              <div class="card shadow mb-4">
-                <!-- <div class="card-header">
-                  <strong class="card-title">Inline Form</strong>
-                </div> -->
-                <div class="card-body">
-                    <form class="form-row d-flex flex-wrap justify-content-between">
-                        <div class="form-group col-12 col-md-2">
-                            <label for="filterSourceType">Source Type:</label>
-                            <select id="filterSourceType" class="form-control">
-                                <option>All</option>
-                                <option>Windows</option>
-                                <option>Linux</option>
-                                <option>MacOS</option>
-                                <option>Webserver</option>
-                                <option>Database</option>
-                                <option>Middleware</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-12 col-md-2">
-                            <label for="clientname">Source Name:</label>
-                            <select id="clientname" class="form-control">
-                                <option>All</option>
-                                <option>Windows001</option>
-                                <option>Windows</option>
-                                <option>windowstest</option>
-                                <option>windows54</option>
-                                <option>windows23</option>
-                                <option>windows-45</option>
-                                <option>win892</option>
-                            </select>
-                        </div>                
-                        <div class="form-group col-12 col-md-2">
-                            <label for="filterSeverity">Severity:</label>
-                            <select id="filterSeverity" class="form-control">
-                                <option>All</option>
-                                <option>Critical</option>
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-12 col-md-2">
-                            <label for="filterTimeFrame">Time Frame:</label>
-                            <input type="date" id="filterTimeFrame" class="form-control">
-                        </div>
-                        <div class="form-group col-12 col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100">Filter</button>
-                        </div>
-                    </form>
-                </div>
-              </div>
-            </div>
-          </div> <!-- end section -->        
-
-          <div class="row">
-            <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                        <!-- <span class="circle circle-sm bg-primary">
-                          <i class="fe fe-16 fe-shopping-cart text-white mb-0"></i>
-                        </span> -->
-                      </div>
-                      <div class="col pr-0">
-                        <p class="mb-1">Critical</p>
-                        <p class="h3 mb-0 text-danger text-align center">0</p>                                                
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="col-md-6 col-xl-3 mb-4">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-3 text-center">
-                      <!-- <span class="circle circle-sm bg-primary">
-                        <i class="fe fe-16 fe-shopping-cart text-white mb-0"></i>
-                      </span> -->
-                    </div>
-                    <div class="col pr-0">
-                      <p class="mb-1">Warning</p>
-                      <p class="h3 mb-0 text-warning">0</p>                       
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                        <!-- <span class="circle circle-sm bg-primary">
-                          <i class="fe fe-16 fe-shopping-cart text-white mb-0"></i>
-                        </span> -->
-                      </div>
-                      <div class="col pr-0">
-                        <p class="mb-1">High</p>
-                        <p class="h3 mb-0 text-info">0</p>                       
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                        <!-- <span class="circle circle-sm bg-primary">
-                          <i class="fe fe-16 fe-shopping-cart text-white mb-0"></i>
-                        </span> -->
-                      </div>
-                      <div class="col pr-0">
-                        <p class="mb-0">Low</p>
-                        <p class="h3 mb-0 text-success">0</p>                       
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div> <!-- end section -->
-
-
-        <div class="col-md-12">
-            <div class="d-flex align-items-center mx-3 mb-3">
-              <div class="flex-fill">
-                <h3 class="h6 mb-0">Data Centers</h3>
-              </div>
-              <div class="flex-fill text-right">
-                <a class="small text-muted" href="#!">View all</a>
-              </div>
-            </div>
-            <table class="table table-striped table-borderless mb-4">
-              <thead class="thead-white d-none">
-                <tr>
-                  <th colspan="2">Data</th>
-                  <th>Center</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-muted text-center w-25">
-                    <span class="fe fe-database fe-24"></span><br /> 3218 </td>
-                  <th scope="row" class="w-50"> Nunc Lectus Incorporated<br />
-                    <small class="text-muted">Barcelona, Spain</small>
-                  </th>
-                  <td class="text-muted w-25">
-                    <div class="progress mt-3 mb-1" style="height:4px">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small>May 23, 2020</small>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-muted text-center w-25">
-                    <span class="fe fe-cpu fe-24"></span><br /> 2651 </td>
-                  <th scope="row" class="w-50"> Nisi Aenean Eget Limited<br />
-                    <small class="text-muted">Sydney, Australia</small>
-                  </th>
-                  <td class="text-muted w-25">
-                    <div class="progress mt-3 mb-1" style="height:4px">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small>Nov 4, 2019</small>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-muted text-center w-25">
-                    <span class="fe fe-globe fe-24"></span><br /> 2651 </td>
-                  <th scope="row" class="w-50"> Pellentesque Associates<br />
-                    <small class="text-muted">Amsterdam, Netherlands</small>
-                  </th>
-                  <td class="text-muted w-25">
-                    <div class="progress mt-3 mb-1" style="height:4px">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 8%" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small>Mar 27, 2020</small>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-muted text-center w-25">
-                    <span class="fe fe-database fe-24"></span><br /> 2757 </td>
-                  <th scope="row" class="w-50"> Augue Incorporated<br />
-                    <small class="text-muted">Paris, France</small>
-                  </th>
-                  <td class="text-muted w-25">
-                    <div class="progress mt-3 mb-1" style="height:4px">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small>Jan 13, 2020</small>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-muted text-center w-25">
-                    <span class="fe fe-cpu fe-24"></span><br /> 2816 </td>
-                  <th scope="row" class="w-50"> Enim Limited<br />
-                    <small class="text-muted">London, United Kingdom</small>
-                  </th>
-                  <td class="text-muted w-25">
-                    <div class="progress mt-3 mb-1" style="height:4px">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small>Jan 01, 2020</small>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
+<div class="container">
+    <!-- Filter section -->
+    <div class="filter-section">
+        <input type="search" placeholder="Search alerts..." />
+        <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
     </div>
+    
+    {% for alert in alerts %}
+    <div class="alert-card">
+        <span class="circle circle-sm bg-danger"><i class="fe fe-alert-triangle fe-16 text-white"></i></span>
+
+        <div class="details">
+            <h5>{{ alert.alert_title }}</h5>                        
+            <p class="mb-2">{{alert.alert_desc}}</p>
+            <div><span class="timestamp">{{ alert.detected_at }}</span></div>
+            <!-- <span class="badge badge-pill badge-danger">{{ alert.alert_level }}</span> -->
+        </div>
+
+        <div>
+          <a href="" class="view-more">View More Details</a>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+
 {% endblock %}

@@ -18,7 +18,7 @@ admin.site.register(MysqlLogFile)
 admin.site.register(PostgresLogFile)
 admin.site.register(MongoLogFile)
 
-admin.site.register(WindowsAlert)
+admin.site.register(Alert)
 
 
 

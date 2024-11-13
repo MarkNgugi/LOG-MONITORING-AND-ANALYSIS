@@ -291,18 +291,8 @@ def mongo_log_upload(request):
 
 def alert_history(request): 
 
-    critical_alerts = WindowsAlert.objects.filter(entry_type='Critical')
-    high_alerts = WindowsAlert.objects.filter(entry_type__in=['Error', 'FailureAudit', 'Failure Audit'])
-    medium_alerts = WindowsAlert.objects.filter(entry_type='Warning')
-    low_alerts = WindowsAlert.objects.filter(entry_type__in=['Success Audit', 'SuccessAudit', 'Information'])
-
-
-    context = {
-        'critical_alerts': critical_alerts,
-        'high_alerts': high_alerts,
-        'medium_alerts': medium_alerts,
-        'low_alerts': low_alerts,
-    }
+    alerts = Alert.objects.all()
+    context = {'alerts': alerts,}
 
     return render(request, 'baseapp/alerts/alerts.html', context)
 

@@ -111,24 +111,19 @@ class Anomaly(models.Model):
 #===========================APPLICATION LOGS MODELS START================================
 
 
+class Alert(models.Model):
 
 
-
-
-
-
-#MONGODB END
-
-class WindowsAlert(models.Model):
-    event_id = models.CharField(max_length=50)
-    entry_type=models.CharField(max_length=50)
-    provider = models.CharField(max_length=100)
-    alert_level = models.CharField(max_length=100)
-    message = models.TextField()
-    source_name = models.CharField(max_length=100,default="windows")
-    timestamp = models.DateTimeField()
+    alert_title=models.CharField(max_length=30)
+    alert_desc = models.CharField(max_length=100)
+    alert_level = models.CharField(max_length=100, choices=[
+        ('low','Low'),
+        ('medium','Medium'),
+        ('high','High')
+    ])       
+    detected_at = models.DateTimeField()
 
     def __str__(self):
-        return f"WindowsAlert {self.event_id}: {self.message[:50]}..."
+        return self.alert_title
 
 
