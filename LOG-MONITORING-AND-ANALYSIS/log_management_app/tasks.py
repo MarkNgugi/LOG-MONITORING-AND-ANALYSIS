@@ -9,13 +9,16 @@ def process_uploaded_windows_logs(log_id):
     with open(uploaded_log.file.path, 'r') as log_file:
         reader = csv.DictReader(log_file)
         for row in reader:
+            # Parse TimeCreated to datetime object
+            time_created = datetime.strptime(row['TimeCreated'], '%Y-%m-%d %H:%M:%S')
             LogEntry.objects.create(
-                timestamp=row['timestamp'],
-                log_level=row['log_level'],
-                message=row['message'],
-                source=row.get('source', 'unknown')
+                TimeCreated=time_created,
+                event_id=int(row['Id']),
+                LevelDisplayName=row['LevelDisplayName'],
+                message=row['Message'],
+                source=row.get('ProviderName', 'unknown')
             )
-
+ 
 @shared_task
 def process_uploaded_AD_logs(log_id):
     uploaded_log = WindowsADLogFile.objects.get(id=log_id)

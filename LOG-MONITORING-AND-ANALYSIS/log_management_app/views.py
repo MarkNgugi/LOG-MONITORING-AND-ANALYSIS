@@ -312,10 +312,10 @@ def logstreams(request):
 
 #ANOMALIES
 
-def anomaliespage(request):
-    anomalies = Anomaly.objects.all()
-    context={'anomalies':anomalies}
-    return render(request,'baseapp/anomalies/anomalies.html',context)
+# def anomaliespage(request):
+#     anomalies = Anomaly.objects.all()
+#     context={'anomalies':anomalies}
+#     return render(request,'baseapp/anomalies/anomalies.html',context)
 
 def anomalydetail(request):
     context={}

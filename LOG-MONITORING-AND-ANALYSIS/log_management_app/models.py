@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils import timezone 
 from user_management_app.models import User
+from datetime import datetime
 
  
 
 class WindowsLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
+    source = models.CharField(max_length=255,default='Windows')
     os_type=models.CharField(max_length=50,default='Windows')
     file = models.FileField(upload_to='uploaded_logs/windows/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
@@ -93,40 +95,54 @@ class MongoLogFile(models.Model):
 
     def __str__(self):
         return self.source_name 
+ 
 
 class LogEntry(models.Model):
-    timestamp = models.DateTimeField()
-    log_level = models.CharField(max_length=50)
+    TimeCreated = models.DateTimeField()
+    event_id = models.IntegerField()
+    LevelDisplayName = models.CharField(max_length=50)
+    source = models.CharField(max_length=255)
     message = models.TextField()
-    source = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    processed = models.BooleanField(default=False)  # Tracks if the log has been processed
+    batch_id = models.IntegerField(null=True, blank=True)  # Groups logs processed in a single batch
 
     def __str__(self):
-        return self.source
-
-class Anomaly(models.Model):
-    source_name=models.CharField(max_length=20, blank=True, null=True)
-    anomaly=models.CharField(max_length=30, blank=True, null=True)
-    detected_at = models.DateTimeField(auto_now_add=True)
+        return f"{self.TimeCreated} - {self.event_id} - {self.source}"
 
 
+# class Anomaly(models.Model):
+#     source_name=models.CharField(max_length=20, blank=True, null=True)
+#     anomaly=models.CharField(max_length=30, blank=True, null=True)
+#     detected_at = models.DateTimeField(auto_now_add=True)
 
-#===========================APPLICATION LOGS MODELS START================================
-
+from django.db import models
 
 class Alert(models.Model):
-
-
-    alert_title=models.CharField(max_length=30)
-    alert_desc = models.CharField(max_length=100)
-    alert_level = models.CharField(max_length=100, choices=[
-        ('low','Low'),
-        ('medium','Medium'),
-        ('high','High')
-    ])       
-    detected_at = models.DateTimeField()
+    alert_title = models.CharField(max_length=30)    
+    timestamp = models.DateTimeField()  
+    host = models.CharField(max_length=100)  
+    message = models.TextField(null=True)  
+    severity = models.CharField(
+        max_length=10,
+        choices=[
+            ('Low', 'Low'),
+            ('Medium', 'Medium'),
+            ('High', 'High')
+        ], default="None"
+    )
 
     def __str__(self):
         return self.alert_title
 
+ 
+from django.utils import timezone
 
+class ProcessLog(models.Model):
+    last_processed = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        # Return a formatted string instead of a datetime object
+        return self.last_processed.strftime('%Y-%m-%d %H:%M:%S')
+
+ 

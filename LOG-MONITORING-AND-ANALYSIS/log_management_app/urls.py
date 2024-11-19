@@ -42,7 +42,7 @@ urlpatterns = [
 
 
     #ANOMALIES
-    path('home/anomalies/',views.anomaliespage,name='anomaliespage'),
+    # path('home/anomalies/',views.anomaliespage,name='anomaliespage'),
     path('home/anomalydetail/',views.anomalydetail,name='anomalydetail'),
 
 
