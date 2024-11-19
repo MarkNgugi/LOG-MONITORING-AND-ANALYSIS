@@ -134,7 +134,7 @@ class Alert(models.Model):
 
     def __str__(self):
         return self.alert_title
-
+ 
  
 from django.utils import timezone
 

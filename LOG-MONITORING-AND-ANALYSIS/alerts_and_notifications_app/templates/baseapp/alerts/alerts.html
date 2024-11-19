@@ -1,107 +1,171 @@
 {% extends 'mainhome.html' %}
 
 {% block content %}
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #212529;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-        .alert-card {
-            background-color: #343a40;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .alert-card .icon {
-            font-size: 24px;
-            color: #dc3545;
-        }
-        .alert-card .details {
-            flex-grow: 1;
-            margin-left: 16px;
-        }
-        /* .alert-card .details h4 {
-            margin: 0;
-            font-weight: 500;
-            color: #f8f9fa;
-        } */
-        .alert-card .details p {
-            margin: 4px 0;
-            color: #eff2f5;
-        }
-        .alert-card .timestamp {
-            font-size: 12px;
-            color: #f2f7fc;
-        }
-        .alert-card .badge {
-            margin-top: 8px;
-        }
-        .filter-section {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .filter-section input[type="search"] {
-            padding: 8px;
-            width: 200px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-        }
-        .filter-section .filter-btn {
-            padding: 8px 12px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
 
-        .view-more {
-            padding: 6px 12px;
-            background-color: #007bff;
-            color: #fff;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 14px;
-            display: inline-block;
-        }
-     
-    </style>
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="h3 mb-0 page-title">Alerts Overview</h2>
+              <div class="row align-items-center my-4">
+                <div class="col-md-6">
+                  <div id="chart-box">
+                    <div id="donutChartWidget"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row align-items-center my-2">
+                    <div class="col">
+                      <strong>Total Alerts</strong><br/>
+                      <span class="my-0 text-muted small">+85%</span>
+                    </div>
+                    <div class="col-auto">
+                      <strong class="my-0">1200</strong>
+                    </div>
+ 
+                  </div> 
+                  <hr style="height: 3px; background-color: #1b68ff; border: none; border-radius: 10px;">
+                  <hr class="my-4">
 
-<div class="container">
-    <!-- Filter section -->
-    <div class="filter-section">
-        <input type="search" placeholder="Search alerts..." />
-        <button class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
-    </div>
-    
-    {% for alert in alerts %}
-    <div class="alert-card">
-        <span class="circle circle-sm bg-danger"><i class="fe fe-alert-triangle fe-16 text-white"></i></span>
+                  <div class="row align-items-center my-2">
+                    <div class="col">
+                      <strong>Open</strong><br/>
+                      <span class="my-0 text-muted small">+85%</span>
+                    </div>
+                    <div class="col-auto">
+                      <strong class="my-0">1200</strong>
+                    </div>
+                    <div class="col-3">
+                      <div class="progress" style="height: 4px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>                  
+                  <div class="row align-items-center my-2">
+                    <div class="col">
+                      <strong>Acknowledged</strong><br / />
+                      <span class="my-0 text-muted small">+60%</span>
+                    </div>
+                    <div class="col-auto">
+                      <strong>80</strong>
+                    </div>
+                    <div class="col-3">
+                      <div class="progress" style="height: 4px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row align-items-center my-2">
+                    <div class="col">
+                      <strong>Resolved</strong>
+                      <div class="my-0 text-muted small">+2%</div>
+                    </div>
+                    <div class="col-auto">
+                      <strong>262</strong>
+                    </div>
+                    <div class="col-3">
+                      <div class="progress" style="height: 4px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row align-items-center my-2">
+                    <div class="col">
+                      <strong>Assigned</strong>
+                      <div class="my-0 text-muted small">+6%</div>
+                    </div>
+                    <div class="col-auto">
+                      <strong>26</strong>
+                    </div>
+                    <div class="col-3">
+                      <div class="progress" style="height: 4px;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- .col-md-12 -->
+              </div> <!-- .row -->
+              <div class="row items-align-center my-4  d-none d-lg-flex">
+                <div class="col-md">
+                  <ul class="nav nav-pills justify-content-start">
+                    <li class="nav-item">
+                      <a class="nav-link active bg-transparent pr-2 pl-0 text-primary" href="#">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Open <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Acknowledged <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Resolved <span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-auto ml-auto text-right">
+                  <span class="small bg-white border py-1 px-2 rounded mr-2">
+                    <a href="#" class="text-muted"><i class="fe fe-x mx-1"></i></a>
+                    <span class="text-muted">Status : <strong>Pending</strong></span>
+                  </span>
+                  <span class="small bg-white border py-1 px-2 rounded mr-2">
+                    <a href="#" class="text-muted"><i class="fe fe-x mx-1"></i></a>
+                    <span class="text-muted">April 14, 2020 - May 13, 2020</span>
+                  </span>
+                  <button type="button" class="btn" data-toggle="modal" data-target=".modal-slide"><span class="fe fe-filter fe-16 text-muted"></span></button>
+                  <button type="button" class="btn"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- table -->
+                  <table class="table table-borderless table-striped">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th></th>
+                        <th>Severity</th>
+                        <th>Alert Title</th>                        
+                        <th>Alert</th>
+                        <th>Timestamp</th>                        
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {%for alert in alerts%}
+                      <tr>
+                        <td class="text-muted small">{{alert.id}}</td>
+                        <td class="text-center"><span class="dot dot-lg bg-danger mr-2"></span></td>
+                        <a href=""><td class="text-muted small">{{alert.severity}}</td></a>
+                        <a href=""><td class="text-muted small">{{alert.alert_title}}</td></a>                        
+                        <th scope="col">{{alert.message}}</th>
+                        <td class="text-muted small">{{alert.timestamp}}</td>
 
-        <div class="details">
-            <h5>{{ alert.alert_title }}</h5>                        
-            <p class="mb-2">{{alert.message}}</p>
-            <div><span class="timestamp">{{ alert.timestamp }}</span></div>
-            <!-- <span class="badge badge-pill badge-danger">{{ alert.alert_level }}</span> -->
-        </div>
+                        <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{%url 'anomalydetail'%}">View Details</a>
+                            <a class="dropdown-item" href="#">Remove</a>
+                            <a class="dropdown-item" href="#">Assign</a>
+                          </div>
+                        </td>
+                      </tr>
+                      {%endfor%}
 
-        <div>
-          <a href="" class="view-more">View More Details</a>
-      </div>
-    </div>
-    {% endfor %}
-</div>
+                    </tbody>
+                  </table>
+                  <nav aria-label="Table Paging" class="my-3">
+                    <ul class="pagination justify-content-end mb-0">
+                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav>
+                </div> <!-- .col -->
+              </div> <!-- .row -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
 
-{% endblock %}
+        {% endblock %}
