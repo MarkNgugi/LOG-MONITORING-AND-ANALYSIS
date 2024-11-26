@@ -19,16 +19,15 @@ def home(request):
     context={'user':request.user}
     return render(request,'baseapp/home.html',context)
 
-def logsources(request, os_type=None, server_type=None, db_type=None, network_type=None):
+def logsources(request, os_type=None, server_type=None, db_type=None,):    
     # Initialize log sources
     system_logs = []
     webserver_logs = []
-    database_logs = []
-    network_logs = []
+    database_logs = []    
 
     # Querysets for system logs
     log_sources_windows = list(chain(
-        WindowsLogFile.objects.all(),        
+        WindowsLogFile.objects.filter(user=request.user),        
     ))
 
     log_sources_linux = list(chain(
