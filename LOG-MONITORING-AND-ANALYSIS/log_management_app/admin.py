@@ -19,7 +19,7 @@ admin.site.register(PostgresLogFile)
 admin.site.register(MongoLogFile)
 
 admin.site.register(Alert)
-admin.site.register(ProcessLog)
+
 
 
 

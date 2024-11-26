@@ -14,9 +14,6 @@
               <a class="nav-link {% if tab == 'security' %}active{% endif %}" id="security-tab" href="{% url 'accountsettings_tab' tab='security' %}" role="tab" aria-controls="security" aria-selected="{% if tab == 'security' %}true{% else %}false{% endif %}">Security</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link {% if tab == 'notifications' %}active{% endif %}" id="notifications-tab" href="{% url 'accountsettings_tab' tab='notifications' %}" role="tab" aria-controls="notifications" aria-selected="{% if tab == 'notifications' %}true{% else %}false{% endif %}">Notifications</a>
-          </li>
-          <li class="nav-item">
               <a class="nav-link {% if tab == 'activitylogs' %}active{% endif %}" id="activitylogs-tab" href="{% url 'accountsettings_tab' tab='activitylogs' %}" role="tab" aria-controls="activitylogs" aria-selected="{% if tab == 'activitylogs' %}true{% else %}false{% endif %}">Activity Logs</a>
           </li> 
       </ul>
@@ -27,10 +24,7 @@
             {% include 'baseapp/accountsettings/profile.html' %}
 
         {% elif tab == 'security' %}            
-            {% include 'baseapp/accountsettings/security.html' %}
-
-        {% elif tab == 'notifications' %}
-            {% include 'baseapp/accountsettings/notifications.html' %}        
+            {% include 'baseapp/accountsettings/security.html' %}      
                       
         {% else %}
             {% include 'baseapp/accountsettings/activitylogs.html' %}        
@@ -43,24 +37,4 @@
   </div>
 </div>
 {% endblock %}
-
-
-Connected Accounts
-
-    Linked Accounts: Display and manage accounts linked to social media or other services.
-    Third-Party Integrations: Manage API keys or other connected services.
-
-Role and Permissions
-
-    Role: Display the user's role (e.g., Admin, Log Analyst, Viewer) with an option to request a role change if applicable.
-    Permissions: Show a summary of what the current role allows.    
-
-Account Status
-
-    Account Activation/Deactivation: Option to deactivate or delete the account, with details on the implications.
-    Subscription Plan: If applicable, show the current subscription plan and renewal date, with options to upgrade, downgrade, or cancel.    
-
-Account Activity
-
-    Session Management: View active sessions and the option to log out from other devices.
-    Download Data: Option to download personal data stored on the website.    
+ 

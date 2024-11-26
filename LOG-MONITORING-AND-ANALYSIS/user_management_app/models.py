@@ -19,32 +19,19 @@ class UserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
-
-    roles = [
-        ('Admin', 'Admin'),
-        ('Superuser', 'Superuser'),
-        ('Log Analyst', 'Log Analyst'),
-        ('Operator', 'Operator'),
-        ('Viewer', 'Viewer'),
-    ]
         
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255, blank=True)
-    contact_number = models.CharField(max_length=15, blank=True)
-    role = models.CharField(max_length=50, choices=roles, default='Select Role')
-    department = models.CharField(max_length=100, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    account_Status = models.BooleanField(default=False)
-    date_of_birth = models.DateField(null=True, blank=True)
+    last_name = models.CharField(max_length=255, blank=True)                    
+    account_Status = models.BooleanField(default=False)    
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
-    security_question = models.CharField(max_length=255, blank=True)
-    security_answer = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True,editable=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
+    
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -52,3 +39,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+ 

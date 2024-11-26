@@ -22,11 +22,6 @@ def notification_policy(request):
     
  
 
-
-
-
-
-
 def scheduledreports(request):
     context={}
     return render(request,'baseapp/scheduledreports/scheduledreports.html',context)

@@ -46,26 +46,17 @@ class LoginForm(AuthenticationForm):
         'placeholder': 'Password'
     }))            
 
-class UserForm(forms.ModelForm):
-    # password = forms.CharField(widget=forms.PasswordInput(), min_length=8)
-    # confirm_password = forms.CharField(widget=forms.PasswordInput(), min_length=8, label='Confirm Password')
-    role = forms.ChoiceField(choices=User.roles, widget=forms.RadioSelect)
+class UserForm(forms.ModelForm): 
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'contact_number', 'role', 'department', 'date_of_birth', 'profile_picture', 'security_question', 'security_answer']
+        fields = ['username', 'email', 'first_name', 'last_name', 'profile_picture']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your username'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email address'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your first name'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your last name'}),
-            'contact_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your contact number'}),
-            # 'role': forms.Select(attrs={'class': 'form-control'}),
-            'department': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your department'}),
-            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'profile_picture': forms.FileInput(attrs={'class': 'form-control-file'}),
-            'security_question': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your security question'}),
-            'security_answer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your security answer'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your last name'}),        
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control-file'}),        
         }
     
     def clean(self):

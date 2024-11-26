@@ -1,9 +1,13 @@
 from django.db import models
 from django.utils import timezone 
 from user_management_app.models import User
-from datetime import datetime
+from datetime import datetime 
+from user_management_app.models import User
 
- 
+def get_default_user():
+    # This can be any user that makes sense as the default
+    return User.objects.first()  # Fetch the first user or specify another default user.
+
 
 class WindowsLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
@@ -11,6 +15,7 @@ class WindowsLogFile(models.Model):
     os_type=models.CharField(max_length=50,default='Windows')
     file = models.FileField(upload_to='uploaded_logs/windows/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windows_logs')
 
     def __str__(self):
         return self.source_name
@@ -105,18 +110,13 @@ class LogEntry(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     processed = models.BooleanField(default=False)  # Tracks if the log has been processed
-    batch_id = models.IntegerField(null=True, blank=True)  # Groups logs processed in a single batch
+    batch_id = models.IntegerField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="log_entries_user")
+
 
     def __str__(self):
         return f"{self.TimeCreated} - {self.event_id} - {self.source}"
 
-
-# class Anomaly(models.Model):
-#     source_name=models.CharField(max_length=20, blank=True, null=True)
-#     anomaly=models.CharField(max_length=30, blank=True, null=True)
-#     detected_at = models.DateTimeField(auto_now_add=True)
-
-from django.db import models
 
 class Alert(models.Model):
     alert_title = models.CharField(max_length=30)    
@@ -131,18 +131,11 @@ class Alert(models.Model):
             ('High', 'High')
         ], default="None"
     )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user")
+
 
     def __str__(self):
         return self.alert_title
  
  
-from django.utils import timezone
-
-class ProcessLog(models.Model):
-    last_processed = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        # Return a formatted string instead of a datetime object
-        return self.last_processed.strftime('%Y-%m-%d %H:%M:%S')
-
  

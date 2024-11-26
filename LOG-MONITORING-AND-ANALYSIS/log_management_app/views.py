@@ -1,11 +1,18 @@
 from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import *
 from django.urls import reverse
 from .tasks import *
  
+
+def log_history(request):
+    logs = LogEntry.objects.filter(user=request.user).order_by('-TimeCreated')
+    context = {'logs': logs}
+    return render(request, 'baseapp/logs/logs.html', context)
+
 
 #LOG SOURCES
 def home(request):
@@ -148,15 +155,19 @@ def system_os_types(request):
     context={}
     return render(request,'baseapp/logingestion/OSpage.html',context)
 
+@login_required
 def windows_log_upload(request):
     if request.method == 'POST':
         form = WindowsLogUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            uploaded_log = form.save()
+            uploaded_log = form.save(commit=False)
+            uploaded_log.user = request.user  
+            uploaded_log.save()  
             process_uploaded_windows_logs.delay(uploaded_log.id)  # Trigger async processing
             return redirect('logsources')
     else:
         form = WindowsLogUploadForm()
+        
     return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', {'form': form})
 
 def windowsAD_log_upload(request):
@@ -291,7 +302,7 @@ def mongo_log_upload(request):
 
 def alert_history(request): 
 
-    alerts = Alert.objects.all()
+    alerts = Alert.objects.filter(user=request.user)
     context = {'alerts': alerts,}
 
     return render(request, 'baseapp/alerts/alerts.html', context)

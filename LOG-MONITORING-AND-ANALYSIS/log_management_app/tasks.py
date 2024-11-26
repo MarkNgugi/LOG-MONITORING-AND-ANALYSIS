@@ -6,6 +6,7 @@ from .models import *
 @shared_task
 def process_uploaded_windows_logs(log_id):
     uploaded_log = WindowsLogFile.objects.get(id=log_id)
+    user = uploaded_log.user  # Get the user who uploaded the log
     with open(uploaded_log.file.path, 'r') as log_file:
         reader = csv.DictReader(log_file)
         for row in reader:
@@ -16,8 +17,10 @@ def process_uploaded_windows_logs(log_id):
                 event_id=int(row['Id']),
                 LevelDisplayName=row['LevelDisplayName'],
                 message=row['Message'],
-                source=row.get('ProviderName', 'unknown')
+                source=row.get('ProviderName', 'unknown'),
+                user=user  # Link the log to the user
             )
+
  
 @shared_task
 def process_uploaded_AD_logs(log_id):
