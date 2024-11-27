@@ -6,84 +6,6 @@
           <div class="row justify-content-center">
             <div class="col-12">
               <h2 class="h3 mb-0 page-title">Alerts Overview</h2>
-              <div class="row align-items-center my-4">
-                <div class="col-md-6">
-                  <div id="chart-box">
-                    <div id="donutChartWidget"></div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="row align-items-center my-2">
-                    <div class="col">
-                      <strong>Total Alerts</strong><br/>
-                      <span class="my-0 text-muted small">+85%</span>
-                    </div>
-                    <div class="col-auto">
-                      <strong class="my-0">1200</strong>
-                    </div>
- 
-                  </div> 
-                  <hr style="height: 3px; background-color: #1b68ff; border: none; border-radius: 10px;">
-                  <hr class="my-4">
-
-                  <div class="row align-items-center my-2">
-                    <div class="col">
-                      <strong>Open</strong><br/>
-                      <span class="my-0 text-muted small">+85%</span>
-                    </div>
-                    <div class="col-auto">
-                      <strong class="my-0">1200</strong>
-                    </div>
-                    <div class="col-3">
-                      <div class="progress" style="height: 4px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </div>                  
-                  <div class="row align-items-center my-2">
-                    <div class="col">
-                      <strong>Acknowledged</strong><br / />
-                      <span class="my-0 text-muted small">+60%</span>
-                    </div>
-                    <div class="col-auto">
-                      <strong>80</strong>
-                    </div>
-                    <div class="col-3">
-                      <div class="progress" style="height: 4px;">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row align-items-center my-2">
-                    <div class="col">
-                      <strong>Resolved</strong>
-                      <div class="my-0 text-muted small">+2%</div>
-                    </div>
-                    <div class="col-auto">
-                      <strong>262</strong>
-                    </div>
-                    <div class="col-3">
-                      <div class="progress" style="height: 4px;">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row align-items-center my-2">
-                    <div class="col">
-                      <strong>Assigned</strong>
-                      <div class="my-0 text-muted small">+6%</div>
-                    </div>
-                    <div class="col-auto">
-                      <strong>26</strong>
-                    </div>
-                    <div class="col-3">
-                      <div class="progress" style="height: 4px;">
-                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div> <!-- .col-md-12 -->
-              </div> <!-- .row -->
               <div class="row items-align-center my-4  d-none d-lg-flex">
                 <div class="col-md">
                   <ul class="nav nav-pills justify-content-start">
@@ -91,14 +13,20 @@
                       <a class="nav-link active bg-transparent pr-2 pl-0 text-primary" href="#">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Open <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
+                      <a class="nav-link text-muted px-2" href="#">Critical <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Acknowledged <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
+                      <a class="nav-link text-muted px-2" href="#">High <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Resolved <span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                      <a class="nav-link text-muted px-2" href="#">Medium<span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Low<span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Informational<span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                    </li>                    
                   </ul>
                 </div>
                 <div class="col-md-auto ml-auto text-right">
@@ -123,6 +51,7 @@
                         <th>ID</th>
                         <th></th>
                         <th>Severity</th>
+                        <th>Source</th>
                         <th>Alert Title</th>                        
                         <th>Alert</th>
                         <th>Timestamp</th>                        
@@ -134,8 +63,9 @@
                       <tr>
                         <td class="text-muted small">{{alert.id}}</td>
                         <td class="text-center"><span class="dot dot-lg bg-danger mr-2"></span></td>
-                        <a href=""><td class="text-muted small">{{alert.severity}}</td></a>
-                        <a href=""><td class="text-muted small">{{alert.alert_title}}</td></a>                        
+                        <td class="text small">{{alert.severity}}</td>
+                        <td>Windows</td>
+                        <td class="text small">{{alert.alert_title}}</td>
                         <th scope="col">{{alert.message}}</th>
                         <td class="text-muted small">{{alert.timestamp}}</td>
 
@@ -143,7 +73,7 @@
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{%url 'anomalydetail'%}">View Details</a>
+                            <a class="dropdown-item" href="{%url 'alertdetail' alert.id%}">View Details</a>
                             <a class="dropdown-item" href="#">Remove</a>
                             <a class="dropdown-item" href="#">Assign</a>
                           </div>

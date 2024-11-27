@@ -42,8 +42,8 @@ urlpatterns = [
 
 
     #ANOMALIES
-    # path('home/anomalies/',views.anomaliespage,name='anomaliespage'),
-    path('home/anomalydetail/',views.anomalydetail,name='anomalydetail'),
+    
+    path('home/alert-detail/<int:id>/',views.alertdetail,name='alertdetail'),
 
 
     #REPORTS 

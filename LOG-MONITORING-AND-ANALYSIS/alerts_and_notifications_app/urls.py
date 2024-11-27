@@ -16,4 +16,4 @@ urlpatterns=[
     path('add-reports/',views.addscheduledreport,name='addreport'),
     path('custom-alerts/',views.customalerts,name='customalerts'), 
     path('not-settings/',views.notification_settings,name='notification_settings'),
-]
+] 

@@ -3,6 +3,8 @@ from .models import *
 
 #ALERTS
 
+
+
 def alertconfig(request):
     context={}
     return render(request,'baseapp/alertconfig/alertconfig.html',context)

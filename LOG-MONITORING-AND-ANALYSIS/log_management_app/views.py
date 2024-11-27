@@ -298,16 +298,6 @@ def mongo_log_upload(request):
 #=========================================DATABASE FORMS END=========================================================
 
 
-
-def alert_history(request): 
-
-    alerts = Alert.objects.filter(user=request.user)
-    context = {'alerts': alerts,}
-
-    return render(request, 'baseapp/alerts/alerts.html', context)
-
-
-
 #SEARCH
 
 def search(request):
@@ -322,14 +312,18 @@ def logstreams(request):
 
 #ANOMALIES
 
-# def anomaliespage(request):
-#     anomalies = Anomaly.objects.all()
-#     context={'anomalies':anomalies}
-#     return render(request,'baseapp/anomalies/anomalies.html',context)
+def alert_history(request): 
 
-def anomalydetail(request):
-    context={}
-    return render(request,'baseapp/anomalies/anomalydetail.html',context)
+    alerts = Alert.objects.filter(user=request.user)
+    context = {'alerts': alerts,}
+
+    return render(request, 'baseapp/alerts/alerts.html', context)
+
+def alertdetail(request,id):
+    alert = Alert.objects.filter(id=id)
+    context={'alert':alert}
+
+    return render(request,'baseapp/alerts/alertdetails.html',context)
 
 #REPORTS
 

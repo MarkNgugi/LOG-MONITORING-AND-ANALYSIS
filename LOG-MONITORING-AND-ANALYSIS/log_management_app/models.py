@@ -8,7 +8,7 @@ def get_default_user():
     # This can be any user that makes sense as the default
     return User.objects.first()  # Fetch the first user or specify another default user.
 
-
+ 
 class WindowsLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
     source = models.CharField(max_length=255,default='Windows')
