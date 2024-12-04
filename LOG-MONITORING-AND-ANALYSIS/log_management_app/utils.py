@@ -2,6 +2,14 @@ from datetime import datetime
 from .models import LogEntry
 from django.db import transaction
 
+def analyze_log(log):
+    try:
+        print(f"Analyzing log: {log}")
+        # Add actual log analysis logic here
+    except Exception as e:
+        print(f"Error in analyze_log: {e}")
+
+
 def fetch_unprocessed_logs(batch_size=100):
     """Fetch unprocessed logs for batch processing."""
     return LogEntry.objects.filter(processed=False).order_by('TimeCreated')[:batch_size]

@@ -103,7 +103,7 @@ class MongoLogFile(models.Model):
     def __str__(self):
         return self.source_name 
  
-
+ 
 class LogEntry(models.Model):
     TimeCreated = models.DateTimeField()
     event_id = models.IntegerField()
