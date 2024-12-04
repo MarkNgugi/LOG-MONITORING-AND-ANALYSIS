@@ -10,15 +10,17 @@ def get_default_user():
 
  
 class WindowsLogFile(models.Model):
-    source_name=models.CharField(max_length=20, blank=True, null=True)
-    source = models.CharField(max_length=255,default='Windows')
-    os_type=models.CharField(max_length=50,default='Windows')
+    source_name = models.CharField(max_length=20, blank=True, null=True)
+    source = models.CharField(max_length=255, default='Windows')
+    os_type = models.CharField(max_length=50, default='Windows')
     file = models.FileField(upload_to='uploaded_logs/windows/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windows_logs')
 
     def __str__(self):
-        return self.source_name
+        # Return 'source_name' or a fallback string if it's None
+        return self.source_name if self.source_name else "No Source Name"
+
     
 class WindowsADLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
@@ -116,22 +118,16 @@ class LogEntry(models.Model):
 
     def __str__(self):
         return f"{self.TimeCreated} - {self.event_id} - {self.source}"
-
+ 
 
 class Alert(models.Model):
     alert_title = models.CharField(max_length=30)    
     timestamp = models.DateTimeField()  
     host = models.CharField(max_length=100)  
     message = models.TextField(null=True)  
-    severity = models.CharField(
-        max_length=10,
-        choices=[
-            ('Low', 'Low'),
-            ('Medium', 'Medium'),
-            ('High', 'High')
-        ], default="None"
-    )
+    severity = models.CharField(max_length=10, default="None")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user")
+    
 
 
     def __str__(self):

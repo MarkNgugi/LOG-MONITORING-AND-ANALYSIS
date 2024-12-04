@@ -19,7 +19,7 @@ def run_all_modules(user):
     # Ensure the user passed is valid
     if user is None:
         print("No user found. Exiting...")
-        return
+        return 
 
     users = User.objects.filter(id=user.id)
 
@@ -27,15 +27,26 @@ def run_all_modules(user):
         os_path = os.path.join(MODULE_DIR, os_name)
         if os.path.isdir(os_path):
             for module_file in os.listdir(os_path):
-                if module_file.endswith(".py"):
+                if module_file.endswith(".py") and module_file != '__init__.py':
                     module_name = f"{MODULE_DIR}.{os_name}.{module_file[:-3]}"
-                    module = importlib.import_module(module_name)
-                    if hasattr(module, "detect_alerts"):
-                        print(f"Running {module_name}")
+                    print(f"Trying to load: {module_name}")  # Added for debugging
 
-                        for user in users:
-                            print(f"Running alert detection for user: {user}")
-                            module.detect_alerts(user)
+                    try:
+                        # Try to load and reload the module
+                        module = importlib.import_module(module_name)
+                        importlib.reload(module)
+
+                        # Check if the module has the detect_alerts function
+                        if hasattr(module, "detect_alerts"):
+                            print(f"Running {module_name}")
+                            for user in users:
+                                print(f"Running alert detection for user: {user}")
+                                module.detect_alerts(user)
+                                print()
+                        else:
+                            print(f"Module {module_name} does not have a detect_alerts function.")
+                    except Exception as e:
+                        print(f"Error loading module {module_name}: {e}")
 
 if __name__ == "__main__":
     # Example: Retrieve the first user in the database

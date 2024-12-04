@@ -10,7 +10,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.set
 django.setup()
 
 from log_management_app.models import *
-
+ 
 
 def detect_alerts(user):
     """Detect alerts from unprocessed logs."""

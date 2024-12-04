@@ -1,0 +1,14 @@
+TimeCreated,Id,LevelDisplayName,ProviderName,Message
+2024-11-14 10:00:01,4625,Warning,Security,Failed login attempt for user JohnDoe
+2024-11-14 10:01:30,4625,Warning,Security,Failed login attempt for user JohnDoe
+2024-11-14 10:03:15,4625,Warning,Security,Failed login attempt for user JohnDoe
+2024-11-14 10:05:45,4625,Warning,Security,Failed login attempt for user JohnDoe
+2024-11-14 10:06:50,4625,Warning,Security,Failed login attempt for user JohnDoe
+2024-11-14 10:20:25,4625,Warning,Security,Failed login attempt for user JaneSmith
+2024-11-14 10:21:10,4625,Warning,Security,Failed login attempt for user JaneSmith
+2024-11-14 10:22:05,4625,Warning,Security,Failed login attempt for user JaneSmith
+2024-11-14 10:23:30,4625,Warning,Security,Failed login attempt for user JaneSmith
+2024-11-14 10:24:50,4625,Warning,Security,Failed login attempt for user JaneSmith
+2024-11-14 10:30:00,4625,Warning,Security,Failed login attempt for user JaneSmith
+2024-11-14 11:00:00,4648,Information,Security,Unauthorized access attempt detected on resource XYZ
+2024-11-14 11:10:15,4673,Critical,Security,Privilege escalation attempt detected on user account Admin123
