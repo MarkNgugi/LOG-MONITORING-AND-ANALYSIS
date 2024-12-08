@@ -60,5 +60,7 @@ urlpatterns = [
 
     path('alerts-history/',views.alert_history,name='alert_history'),
 
+    path('api/linux/logs/', views.LinuxLogUploadView.as_view(), name='linux-log-upload'),
+
     
 ]

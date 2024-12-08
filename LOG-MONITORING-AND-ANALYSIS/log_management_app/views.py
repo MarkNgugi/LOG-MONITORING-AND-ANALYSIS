@@ -6,6 +6,12 @@ from .forms import *
 from .models import *
 from django.urls import reverse
 from .tasks import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import LinuxLogSerializer
+from rest_framework.permissions import IsAuthenticated
+
  
 
 def log_history(request):
@@ -195,6 +201,56 @@ def linux_log_upload(request):
 
     context={'form':form}        
     return render(request, 'baseapp/logingestion/systemlogs/linux/linux.html', context)
+
+from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework import status
+from .serializers import LinuxLogSerializer
+
+User = get_user_model()
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import get_user_model
+from .models import LogEntry
+from .serializers import LinuxLogSerializer
+
+User = get_user_model()
+
+class LinuxLogUploadView(APIView):
+    def post(self, request, *args, **kwargs):
+        # Get the first user in the database (or handle if no users exist)
+        try:
+            default_user = User.objects.first()  # Ensures a user is available
+            if not default_user:
+                return Response({"error": "No user found in the system."}, status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            return Response({"error": "No user found in the system."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Ensure log data is provided
+        logs = request.data.get('logs', [])
+        if not logs:
+            return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Iterate through logs and ensure user is assigned
+        for log in logs:
+            log['user'] = default_user.id  # Assign the user ID explicitly
+
+            serializer = LinuxLogSerializer(data=log)
+            if serializer.is_valid():
+                serializer.save()  # Save the log entry
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"message": "Logs successfully uploaded."}, status=status.HTTP_201_CREATED)
+
+
+
+
+
 
 
 def mac_log_upload(request):
