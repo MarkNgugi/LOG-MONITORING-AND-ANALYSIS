@@ -1,0 +1,68 @@
+.code-box {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #333; /* Dark border */
+    padding: 15px; /* Add some padding */
+    margin-left: -19px;
+    margin-top: 10px; /* Margin for spacing */
+    overflow-x: auto; /* Horizontal scroll if needed */
+    position: relative; /* Position relative for absolute positioning of icons */
+    max-width: 100%; /* Ensure the box does not overflow its container */
+  }
+  
+  .code-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Margin below the header */
+    background-color: #444; /* Lighter background color */
+    padding: 10px; /* Add padding for better spacing */
+    border-radius: 5px 5px 5px 5px; /* Rounded corners for the top */
+  }
+  
+  .code-header-title {
+    font-weight: bold; /* Bold text for the title */
+    color: #ffffff; /* Light color for the title text */
+  }
+  
+  .code-box-actions {
+    display: flex;
+    gap: 10px; /* Spacing between the buttons */
+  }
+  
+  .code-box-actions .btn {
+    background-color: #222; /* Dark background for buttons */
+    border: 1px solid #444; /* Dark border for buttons */
+    border-radius: 50%; /* Round buttons */
+    padding: 5px; /* Add padding around the icon */
+    color: #fff; /* Icon color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Shadow for a 3D effect */
+  }
+  
+  .code-box-actions .icon {
+    width: 16px; /* Width of the icon */
+    height: 16px; /* Height of the icon */
+  }
+  
+  .language-powershell {
+    background: #000; /* Black background */
+    color: #0aff02; /* White text */
+    padding: 0px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    overflow-x: auto; /* Horizontal scroll if content overflows */
+    margin: 0; /* Remove default margin */
+    max-width: 100%; /* Ensure the code does not overflow its container */
+  }
+
+  .language-bash {
+    background: #000; /* Black background */
+    color: #0aff02; /* White text */
+    padding: 0px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    overflow-x: auto; /* Horizontal scroll if content overflows */
+    margin: 0; /* Remove default margin */
+    max-width: 100%; /* Ensure the code does not overflow its container */
+  }
+  
+

@@ -1,0 +1,67 @@
+<form method="post" action="{% url 'accountsettings_tab' tab='profile' %}">
+  {% csrf_token %}
+  
+  <div class="row mt-5 align-items-center">
+    <div class="col-md-3 text-center mb-5">
+      <div class="avatar avatar-xl">
+        <img src="/static/assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+      </div>
+    </div>
+    <div class="col"> 
+      <div class="row align-items-center">
+        <div class="col-md-7">
+          <h4 class="mb-1">{{ user.first_name }} {{ user.last_name }}</h4>
+          <p class="small mb-3"><span class="badge badge-dark">New York, USA</span></p>
+        </div>
+      </div> 
+      <div class="row mb-4">
+        <div class="col-md-7">
+          <p class="text-muted"> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+        <div class="col">
+          <p class="small mb-0 text-muted">Nec Urna Suscipit Ltd</p>
+          <p class="small mb-0 text-muted">P.O. Box 464, 5975 Eget Avenue</p>
+          <p class="small mb-0 text-muted">(537) 315-1481</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <!-- {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %} -->
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="firstname">Firstname</label>
+      <input type="text" id="firstname" class="form-control" name="first_name" value="{{ user.first_name }}">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="lastname">Lastname</label>
+      <input type="text" id="lastname" class="form-control" name="last_name" value="{{ user.last_name }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail4">Email</label>
+    <input type="email" class="form-control" id="inputEmail4" name="email" value="{{ user.email }}">
+  </div>
+
+  <hr class="my-4">
+
+  <button type="submit" class="btn btn-primary">Save Change</button>
+</form>
+
+<h5 class="mb-1 mt-5 text-danger" style="font-size: 22px;">Delete Account</h5>
+<hr class="my-4">
+<p style="font-size: 15px;">Deleting your account is permanent and cannot be undone. Please ensure that you really want to proceed.</p>                      
+<div class="list-group mb-5 shadow">
+  <div class="">
+    <button class="btn btn-danger">Delete Your Account</button>
+  </div> <!-- .list-group-item -->
+</div> <!-- .list-group -->

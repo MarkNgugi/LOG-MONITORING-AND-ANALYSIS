@@ -1,0 +1,40 @@
+{% extends 'mainhome.html' %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8">
+      <h2 class="h3 mb-4 page-title">Settings</h2>
+      <div class="my-4">
+        
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+          <li class="nav-item">
+              <a class="nav-link {% if tab == 'profile' %}active{% endif %}" id="profile-tab" href="{% url 'accountsettings_tab' tab='profile' %}" role="tab" aria-controls="profile" aria-selected="{% if tab == 'profile' %}true{% else %}false{% endif %}">Profile</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link {% if tab == 'security' %}active{% endif %}" id="security-tab" href="{% url 'accountsettings_tab' tab='security' %}" role="tab" aria-controls="security" aria-selected="{% if tab == 'security' %}true{% else %}false{% endif %}">Security</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link {% if tab == 'activitylogs' %}active{% endif %}" id="activitylogs-tab" href="{% url 'accountsettings_tab' tab='activitylogs' %}" role="tab" aria-controls="activitylogs" aria-selected="{% if tab == 'activitylogs' %}true{% else %}false{% endif %}">Activity Logs</a>
+          </li> 
+      </ul>
+      
+        
+      <div class="tab-content">
+        {% if tab == 'profile' %}            
+            {% include 'baseapp/accountsettings/profile.html' %}
+
+        {% elif tab == 'security' %}            
+            {% include 'baseapp/accountsettings/security.html' %}      
+                      
+        {% else %}
+            {% include 'baseapp/accountsettings/activitylogs.html' %}        
+
+        {% endif %}
+    </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+ 

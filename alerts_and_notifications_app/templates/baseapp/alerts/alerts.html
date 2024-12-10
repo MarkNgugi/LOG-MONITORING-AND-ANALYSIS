@@ -1,0 +1,101 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="h3 mb-0 page-title">Alerts Overview</h2>
+              <div class="row items-align-center my-4  d-none d-lg-flex">
+                <div class="col-md">
+                  <ul class="nav nav-pills justify-content-start">
+                    <li class="nav-item">
+                      <a class="nav-link active bg-transparent pr-2 pl-0 text-primary" href="#">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Critical <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">High <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Medium<span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Low<span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-muted px-2" href="#">Informational<span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+                    </li>                    
+                  </ul>
+                </div>
+                <div class="col-md-auto ml-auto text-right">
+                  <span class="small bg-white border py-1 px-2 rounded mr-2">
+                    <a href="#" class="text-muted"><i class="fe fe-x mx-1"></i></a>
+                    <span class="text-muted">Status : <strong>Pending</strong></span>
+                  </span>
+                  <span class="small bg-white border py-1 px-2 rounded mr-2">
+                    <a href="#" class="text-muted"><i class="fe fe-x mx-1"></i></a>
+                    <span class="text-muted">April 14, 2020 - May 13, 2020</span>
+                  </span>
+                  <button type="button" class="btn" data-toggle="modal" data-target=".modal-slide"><span class="fe fe-filter fe-16 text-muted"></span></button>
+                  <button type="button" class="btn"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- table -->
+                  <table class="table table-borderless table-striped">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th></th>
+                        <th>Severity</th>
+                        <th>Source</th>
+                        <th>Alert Title</th>                        
+                        <th>Alert</th>
+                        <th>Timestamp</th>                        
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {%for alert in alerts%}
+                      <tr>
+                        <td class="text-muted small">{{alert.id}}</td>
+                        <td class="text-center"><span class="dot dot-lg bg-danger mr-2"></span></td>
+                        <td class="text small">{{alert.severity}}</td>
+                        <td>{{alert.source_name}}</td>
+                        <td class="text small">{{alert.alert_title}}</td>
+                        <th scope="col">{{alert.message}}</th>
+                        <td class="text-muted small">{{alert.timestamp}}</td>
+
+                        <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{%url 'alertdetail' alert.id%}">View Details</a>
+                            <a class="dropdown-item" href="#">Remove</a>
+                            <a class="dropdown-item" href="#">Assign</a>
+                          </div>
+                        </td>
+                      </tr>
+                      {%endfor%}
+
+                    </tbody>
+                  </table>
+                  <nav aria-label="Table Paging" class="my-3">
+                    <ul class="pagination justify-content-end mb-0">
+                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav>
+                </div> <!-- .col -->
+              </div> <!-- .row -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+
+        {% endblock %}

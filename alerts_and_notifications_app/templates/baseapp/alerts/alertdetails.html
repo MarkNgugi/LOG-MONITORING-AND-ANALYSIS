@@ -1,0 +1,71 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">  <!-- This will center the content horizontally -->
+            {% for alert in alert %}
+            <div class="col-12 col-md-11">  <!-- Set a width for the column (e.g., col-md-8 for 8/12 width on medium screens) -->
+                <div class="row align-items-center mb-4">
+                    <div class="col">
+                        <h2 class="h5 page-title">Alert Detail<br /></h2>
+                    </div>
+                </div> <!-- .row -->
+                <div class="row my-4">
+                    <div class="col-md-12">
+                        <div class="card shadow mb-4">
+                            <div class="card-header">
+                                <strong class="card-title">{{ alert.alert_title }}</strong>
+                                <span class="float-right"><i class="fe fe-flag mr-2"></i><span class="badge badge-pill badge-success text-white">Payment</span></span>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row align-items-center mb-0">
+                                    <dt class="col-sm-2 mb-3 text">Reported by</dt>
+                                    <dd class="col-sm-4 mb-3">
+                                        <strong>Brown Asher</strong>
+                                    </dd>
+                                    <dt class="col-sm-2 mb-3 text-muted">Assigned to</dt>
+                                    <dd class="col-sm-4 mb-3">
+                                        <strong>Kelley Sonya</strong>
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-2 mb-3 text-muted">Plan</dt>
+                                    <dd class="col-sm-4 mb-3">Basic</dd>
+                                    <dt class="col-sm-2 mb-3 text-muted">Department</dt>
+                                    <dd class="col-sm-4 mb-3">Support</dd>
+                                    <dt class="col-sm-2 mb-3 text-muted">Priority</dt>
+                                    <dd class="col-sm-4 mb-3">
+                                        <span class="badge badge-pill badge-danger">High</span>
+                                    </dd>
+                                    <dt class="col-sm-2 mb-3 text-muted">Status</dt>
+                                    <dd class="col-sm-4 mb-3">
+                                        <span class="dot dot-md bg-warning mr-2"></span> Open 
+                                        <div class="dropdown d-inline">
+                                            <button class="btn btn-sm p-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="sr-only">Change status</span>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Close</a>
+                                                <a class="dropdown-item" href="#">Assigned</a>
+                                                <a class="dropdown-item" href="#">Wait</a>
+                                            </div>
+                                        </div>
+                                    </dd>
+                                    <dt class="col-sm-2 mb-3 text-muted">Created On</dt>
+                                    <dd class="col-sm-4 mb-3">2020-04-21 00:38:38</dd>
+                                    <dt class="col-sm-2 mb-3 text-muted">Last Update</dt>
+                                    <dd class="col-sm-4 mb-3">2020-04-21 08:48:18</dd>
+                                    <dt class="col-sm-2 text-muted">Description</dt>
+                                    <dd class="col-sm-10"> {{alert.message}} </dd>
+                                </dl>
+                            </div> <!-- .card-body -->
+                        </div> <!-- .card -->
+                    </div> <!-- .col-md -->
+                </div> <!-- .row -->
+            </div>
+            {% endfor %}
+        </div> <!-- .row -->
+    </div> <!-- .container-fluid -->
+
+{% endblock %}

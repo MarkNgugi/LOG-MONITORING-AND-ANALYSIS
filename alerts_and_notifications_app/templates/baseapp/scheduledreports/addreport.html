@@ -1,0 +1,135 @@
+{%extends 'mainhome.html'%}
+{%block content%}
+    <style>
+        .card-header-custom {
+            background-color: #343a40;
+            border-bottom: 2px solid #e3e6f0;
+        }
+        .report-preview {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .form-control-custom {
+            border-radius: 0.25rem;
+        }
+    </style>
+
+    <div class="container mt-4">
+        <div class="card shadow mb-4">
+            <div class="card-header card-header-custom">
+                <h5 class="mb-0">Generate Reports</h5>
+            </div>            
+            <div class="card-body">
+                <!-- Report Overview -->
+                <div class="my-4">
+                    <h6>Report Overview</h6>
+                    <p><strong>Title:</strong> Weekly Security Report</p>
+                    <p><strong>Description:</strong> This report provides an overview of security events from the past week.</p>
+                </div>
+                
+                <!-- Report Scheduling Options -->
+                <h6 class="mb-3">Report Scheduling Options</h6>
+                <form>
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-3">
+                            <label for="reportFrequency">Frequency</label>
+                            <select id="reportFrequency" class="form-control form-control-custom">
+                                <option>Daily</option>
+                                <option>Weekly</option>
+                                <option>Monthly</option>
+                                <option>Custom</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="reportTime">Time of Day</label>
+                            <input type="time" id="reportTime" class="form-control form-control-custom">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="reportStartDate">Start Date</label>
+                            <input type="date" id="reportStartDate" class="form-control form-control-custom">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="reportEndDate">End Date</label>
+                            <input type="date" id="reportEndDate" class="form-control form-control-custom">
+                        </div>
+                    </div>
+
+                    <!-- Report Content Customization -->
+                    <h6 class="mb-3">Report Content Customization</h6>
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-4">
+                            <label for="dataSources">Select Data Sources</label>
+                            <select id="dataSources" class="form-control form-control-custom" multiple>
+                                <option>Windows Logs</option>
+                                <option>Linux Logs</option>
+                                <option>Web Server Logs</option>
+                                <option>Database Logs</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="filters">Filters</label>
+                            <select id="filters" class="form-control form-control-custom" multiple>
+                                <option>Critical</option>
+                                <option>High</option>
+                                <option>Medium</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="includeSections">Sections to Include</label>
+                            <select id="includeSections" class="form-control form-control-custom" multiple>
+                                <option>Summary of Alerts</option>
+                                <option>Anomalies Detected</option>
+                                <option>Trends and Patterns</option>
+                                <option>Top Offenders</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-4">
+                            <label for="reportFormat">Report Format</label>
+                            <select id="reportFormat" class="form-control form-control-custom">
+                                <option>PDF</option>
+                                <option>Excel</option>
+                                <option>CSV</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="recipients">Email Recipients</label>
+                            <input type="email" id="recipients" class="form-control form-control-custom" placeholder="Enter email addresses">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="notifications">Notification Options</label>
+                            <select id="notifications" class="form-control form-control-custom">
+                                <option>Email</option>
+                                <option>SMS</option>
+                                <option>In-App</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Report Preview -->
+                    <div class="report-preview mb-3">
+                        <h6>Report Preview</h6>
+                        <button type="button" class="btn btn-info">Generate Preview</button>
+                    </div>
+
+                    <!-- Report History -->
+                    <h6 class="mb-3">Report History</h6>
+                    <div class="mb-3">
+                        <p>No reports have been generated yet.</p>
+                    </div>
+
+                    <!-- Buttons -->
+                    <button type="submit" class="btn btn-primary">Save Schedule</button>
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{%endblock%}

@@ -1,0 +1,217 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+    <style>
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        .summary-card {
+            background-color: #393942;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .table-responsive {
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-12">
+                <h1 class="h3 page-title">Log Reports Dashboard</h1>
+                <p class="text-muted">View and analyze logs from different sources: systems and applications.</p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Summary Cards -->
+            <div class="col-md-3">
+                <div class="card summary-card text-center">
+                    <h6>Total Logs</h6>
+                    <p id="totalLogs" class="display-4">1234</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card summary-card text-center">
+                    <h6>Critical Logs</h6>
+                    <p id="criticalLogs" class="display-4 text-danger">56</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card summary-card text-center">
+                    <h6>Warning Logs</h6>
+                    <p id="warningLogs" class="display-4 text-warning">78</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card summary-card text-center">
+                    <h6>Info Logs</h6>
+                    <p id="infoLogs" class="display-4 text-info">1100</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Bar Chart -->
+            <div class="col-md-8">
+                <div class="card chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+            <!-- Pie Chart -->
+            <div class="col-md-4">
+                <div class="card chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Logs Table -->
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Source</th>
+                                <th>Severity</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logsTableBody">
+                            <tr>
+                                <td>2024-07-21 14:22:01</td>
+                                <td>Windows</td>
+                                <td>Info</td>
+                                <td>System startup completed successfully.</td>
+                            </tr>
+                            <tr>
+                                <td>2024-07-21 14:24:15</td>
+                                <td>Linux</td>
+                                <td>Warning</td>
+                                <td>Disk usage at 85%.</td>
+                            </tr>
+                            <tr>
+                                <td>2024-07-21 14:25:32</td>
+                                <td>Web Server</td>
+                                <td>Critical</td>
+                                <td>Service unavailable (HTTP 503).</td>
+                            </tr>
+                            <!-- Additional log rows can be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Manual Report Creation -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Create Report Manually</h5>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="reportTimestamp">Timestamp</label>
+                                    <input type="datetime-local" class="form-control" id="reportTimestamp" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="reportSource">Source</label>
+                                    <select id="reportSource" class="form-control" required>
+                                        <option value="Windows">Windows</option>
+                                        <option value="Linux">Linux</option>
+                                        <option value="macOS">macOS</option>
+                                        <option value="Web Server">Web Server</option>
+                                        <option value="Database">Database</option>
+                                        <option value="Caching System">Caching System</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="reportSeverity">Severity</label>
+                                    <select id="reportSeverity" class="form-control" required>
+                                        <option value="Info">Info</option>
+                                        <option value="Warning">Warning</option>
+                                        <option value="Critical">Critical</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportMessage">Message</label>
+                                <textarea id="reportMessage" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Report</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+ 
+{% block scripts %}
+    <!-- JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize Bar Chart
+        var barCtx = document.getElementById('barChart').getContext('2d');
+        var barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [{
+                    label: 'Log Entries',
+                    data: [65, 59, 80, 81, 56, 55],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Initialize Pie Chart
+        var pieCtx = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Info', 'Warning', 'Critical'],
+                datasets: [{
+                    data: [1100, 78, 56],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+{% endblock %}

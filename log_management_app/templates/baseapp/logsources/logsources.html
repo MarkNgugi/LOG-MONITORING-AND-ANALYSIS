@@ -1,0 +1,227 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="h3 mb-3 page-title">Log Sources</h2>
+      <div class="row mb-4 items-align-center">
+        <div class="col-md">
+          <!-- Tabs for Categories -->
+          <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link {% if not server_type and not db_type and not network_type %}active{% endif %}" id="system-logs-tab" data-toggle="tab" href="#system-logs" role="tab" aria-controls="system-logs" aria-selected="true">System Logs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if server_type %}active{% endif %}" id="web-servers-tab" data-toggle="tab" href="#web-servers" role="tab" aria-controls="web-servers" aria-selected="false">Web Servers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if db_type %}active{% endif %}" id="databases-tab" data-toggle="tab" href="#databases" role="tab" aria-controls="databases" aria-selected="false">Databases</a>
+            </li>
+          </ul>
+
+          
+          <!-- Tab Content -->
+          <div class="tab-content" id="myTabContent">
+            <!-- System Logs Tab -->
+            <div class="tab-pane fade {% if not server_type and not db_type and not network_type %}show active{% endif %}" id="system-logs" role="tabpanel" aria-labelledby="system-logs-tab">
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link {% if not os_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
+                      All
+                      <span class="badge badge-pill {% if not os_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{total_system_logs_count}}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if os_type == 'windows' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='windows' %}">
+                      Windows
+                      <span class="badge badge-pill {% if os_type == 'windows' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{windows_count}}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if os_type == 'linux' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='linux' %}">
+                      Linux
+                      <span class="badge badge-pill {% if os_type == 'linux' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{linux_count}}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if os_type == 'macos' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='macos' %}">
+                      Mac OS
+                      <span class="badge badge-pill {% if os_type == 'macos' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{mac_count}}</span>
+                  </a>
+                </li>
+              </ul>
+                   
+  
+              <!-- Table for System Logs -->
+              <table class="table border table-hover bg-white">
+                <thead>
+                  <tr role="row">
+                    <th class="text-center">ID</th>
+                    <th class="text-left">Last Collected</th>                                                          
+                    <th class="text-left">Source Name</th>                                                                                                      
+                    <th class="text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for log_source in log_sources %}
+                  <tr>
+                    <td class="text-center">{{log_source.id}}</td>
+                    <td class="text-left">{{log_source.uploaded_at}}</td>
+                    <td class="text-left">{{log_source.source_name}}</td>                                        
+                    
+                                        
+                    <td class="text-left">
+                      <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#">More details</a>
+                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Web Servers Tab -->
+            <div class="tab-pane fade {% if server_type %}show active{% endif %}" id="web-servers" role="tabpanel" aria-labelledby="web-servers-tab">
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link {% if not server_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
+                      All
+                      <span class="badge badge-pill {% if not server_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ all_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if server_type == 'apache' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='apache' %}">
+                      Apache
+                      <span class="badge badge-pill {% if server_type == 'apache' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ apache_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if server_type == 'nginx' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='nginx' %}">
+                      Nginx
+                      <span class="badge badge-pill {% if server_type == 'nginx' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ nginx_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if server_type == 'iis' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_server' server_type='iis' %}">
+                      IIS
+                      <span class="badge badge-pill {% if server_type == 'iis' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ iis_count }}</span>
+                  </a>
+                </li>
+              </ul>
+
+              <!-- Table for Web Server Logs -->
+              <table class="table border table-hover bg-white">
+                <thead>
+                  <tr role="row">
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Last Collected</th>
+                    <th class="text-center">Source Name</th>                                                                                                                                    
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for log_source in webserver_logs %}
+                  <tr>
+                    <td class="text-center">{{log_source.id}}</td>
+                    <td class="text-center">{{log_source.uploaded_at}}</td>
+                    <td class="text-center">{{log_source.source_name}}</td>                                                            
+                                      
+                    <td class="text-center">
+                      <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#">More details</a>
+                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item text-danger" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+
+            <!-- Databases Tab -->
+            <div class="tab-pane fade {% if db_type %}show active{% endif %}" id="databases" role="tabpanel" aria-labelledby="databases-tab">
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link {% if not db_type %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources' %}">
+                    All
+                    <span class="badge badge-pill {% if not db_type %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ total_db_logs_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if db_type == 'mysql' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mysql' %}">
+                    MySQL
+                    <span class="badge badge-pill {% if db_type == 'mysql' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mysql_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if db_type == 'postgres' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='postgres' %}">
+                    PostgreSQL
+                    <span class="badge badge-pill {% if db_type == 'postgres' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ postgres_count }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if db_type == 'mongo' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_db' db_type='mongo' %}">
+                    MongoDB
+                    <span class="badge badge-pill {% if db_type == 'mongo' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{ mongo_count }}</span>
+                  </a>
+                </li>
+              </ul>
+
+              <!-- Table for Database Logs -->
+              <table class="table border table-hover bg-white">
+                <thead>
+                  <tr role="row">
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Last Collected</th>   
+                    <th class="text-center">Source Name</th>                                                                                                                                       
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for log_source in database_logs %}
+                  <tr>
+                    <td class="text-center">{{log_source.id}}</td>
+                    <td class="text-center">{{log_source.uploaded_at}}</td>
+                    <td class="text-center">{{log_source.source_name}}</td>                                        
+                                                        
+                    <td class="text-center">
+                      <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="text-muted sr-only">Action</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#">More details</a>
+                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

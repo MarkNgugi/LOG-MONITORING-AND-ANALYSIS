@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Performance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+        }
+        .container {
+            width: 80%;
+            margin: 2% auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 22px;
+            margin-top: 30px;
+            color: #444;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .charts-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .chart {
+            flex: 1;
+            height: 350px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chart img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .report-container, .feedback-container {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .report-container h2, .feedback-container h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .feedback-container textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .section-header {
+            font-weight: bold;
+            margin-top: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Model Performance</h1>
+
+        <div class="section">
+            <h2>Performance Metrics</h2>
+            <p class="section-header">Accuracy:</p>
+            <p>Measures the proportion of correctly predicted instances out of the total instances.</p>
+            <p class="section-header">Precision:</p>
+            <p>Indicates the proportion of true positive results out of all positive predictions.</p>
+            <p class="section-header">Recall:</p>
+            <p>Represents the proportion of true positives out of all actual positives.</p>
+            <p class="section-header">F1 Score:</p>
+            <p>Combines precision and recall into a single metric, providing a balance between them.</p>
+        </div>
+
+        <div class="section charts-container">
+            <div class="chart">
+                <img src="https://via.placeholder.com/600x350?text=Performance+Over+Time" alt="Performance Over Time">
+                <div class="chart-title">Performance Over Time</div>
+            </div>
+            <div class="chart">
+                <img src="https://via.placeholder.com/600x350?text=Performance+Across+Datasets" alt="Performance Across Datasets">
+                <div class="chart-title">Performance Across Datasets</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Comparative Analysis</h2>
+            <p>Utilize advanced tools to compare various AI models or different versions of a single model. This section will provide insights into how different models stack up against each other, including strengths and weaknesses of each model version. Interactive tools can be included to facilitate this comparison.</p>
+        </div>
+
+        <div class="section">
+            <h2>Error Analysis</h2>
+            <p>Detailed analysis of misclassifications and errors to identify areas for improvement. This includes visualizing confusion matrices, error trends, and root cause analysis of model performance issues.</p>
+        </div>
+
+        <div class="section report-container">
+            <h2>Performance Reports</h2>
+            <p>Generate comprehensive reports that summarize the performance metrics, visualizations, and analyses conducted. These reports can be shared with stakeholders to provide insights into model performance and areas for improvement.</p>
+            <a href="#" class="button">Generate Report</a>
+        </div>
+
+        <div class="section feedback-container">
+            <h2>Feedback Loop</h2>
+            <p>Incorporate user feedback into the evaluation and improvement of AI models. Users can provide feedback on model performance, which will be used to make iterative improvements and adjustments to the models.</p>
+            <textarea placeholder="Enter your feedback here..."></textarea>
+            <br><br>
+            <a href="#" class="button">Submit Feedback</a>
+        </div>
+    </div>
+
+</body>
+</html>

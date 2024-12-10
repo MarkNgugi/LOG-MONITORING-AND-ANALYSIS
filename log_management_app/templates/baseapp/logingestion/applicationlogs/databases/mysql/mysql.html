@@ -1,0 +1,275 @@
+{% extends 'mainhome.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row"> 
+        <div class="col-md-12">
+            <h2 class="h3 mb-4 page-title">MySQL</h2>
+
+            <div class="my-4">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="false">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="config-tab" data-toggle="tab" href="#config" role="tab" aria-controls="config" aria-selected="true">Configuration Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="metrics-tab" data-toggle="tab" href="#metrics" role="tab" aria-controls="metrics" aria-selected="false">Metrics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="anomalies-tab" data-toggle="tab" href="#anomalies" role="tab" aria-controls="anomalies" aria-selected="false">Anomalies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="version-history-tab" data-toggle="tab" href="#version-history" role="tab" aria-controls="version-history" aria-selected="false">Version History</a>
+                    </li>
+                </ul>
+                
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Overview Tab Content -->
+                    <div class="tab-pane fade" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                        <h1 class="h3 page-title">About this integration</h1>
+                        <hr class="my-2">
+                        <p>Monitor Windows instances using the LMAN Agent installed. The integration includes pre-installed 
+                            dashboards that offer a comprehensive view of your Windows fleet, individual host overviews, and 
+                            additional dashboards with detailed metrics for in-depth system performance analysis. The integration 
+                            also features dashboards that display Windows event logs.
+                        </p>                       
+                    </div>
+
+                    <!-- Configuration Details Tab Content -->
+                    <div class="tab-pane fade show active" id="config" role="tabpanel" aria-labelledby="config-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Step 1: Add Log Source Information -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>1. Add Log Source Information</h4>
+                                            <p class="mb-2"><strong>Provide fields for the user to enter information about the log source, such as its name, type, and specific logs to collect.</strong></p>
+                                            
+                                            <form method="post">
+                                                {%csrf_token%}
+                                                <!-- Remove form-row and col-md-* to arrange fields vertically -->
+                                                <div class="form-group">
+                                                    {{ mysqlform.log_source_name.label_tag }}
+                                                    {{ mysqlform.log_source_name }}
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    {{ mysqlform.log_file_path.label_tag }}
+                                                    {{ mysqlform.log_file_path }}
+                                                </div>
+
+                                                <div class="form-group">
+                                                    {{ mysqlform.filter_keyword.label_tag }}
+                                                    {{ mysqlform.filter_keyword }}
+                                                </div>
+                                    
+                                                <div class="form-group">
+                                                    {{ mysqlform.log_rotation_interval.label_tag }}
+                                                    {{ mysqlform.log_rotation_interval }}
+                                                </div>
+
+                                                <div class="form-group">
+                                                    {{ mysqlform.collection_interval.label_tag }}
+                                                    {{ mysqlform.collection_interval }}
+                                                </div>     
+                                                
+                                                <div class="form-group">
+                                                    {{ mysqlform.retention_policy.label_tag }}
+                                                    {{ mysqlform.retention_policy }}
+                                                </div>                                                   
+
+                                                <div class="form-group">
+                                                    
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+
+                                            </form>
+                                    
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                                    
+
+                                    <!-- Step 2: Download Script File -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>2. Download Script File</h4>
+                                            <p class="mb-2"><strong>Offer a button that allows the user to download a script for setting up log collection on the target system.</strong></p>
+                                            <button type="button" class="btn btn-primary">Download Script</button>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+
+                                    <!-- Step 3: Running the Script on Windows -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>3. Running the Script on Windows</h4>
+                                            <p class="mb-2"><strong>Provide detailed instructions on how to run the downloaded script on the user's Windows machine and set it up as a service to ensure it starts on boot.</strong></p>
+                                            <ol>
+                                                <li>Download the script using the button above.</li>
+                                                <li>Open Command Prompt as Administrator.</li>
+                                                <li>Navigate to the location where the script was downloaded.</li>
+                                                <li>Run the script with the following command: <code>powershell -ExecutionPolicy Bypass -File setup-log-collection.ps1</code></li>
+                                                <li>Ensure the script runs successfully and sets up as a service.</li>
+                                            </ol>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+
+<!-- Step 4: Upload Logs -->
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <h4>4. Upload Logs</h4>
+    </div>
+    <div class="card-body">
+        <p class="mb-2"><strong>Upload log files here for monitoring and analysis.</strong></p>
+        
+        <!-- Form for Source Name and Dropzone Upload -->
+        <form method="post" action="{% url 'mysql' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Source Name Input Field -->
+            <div class="form-group mb-3">
+                <label for="sourceName"><strong>Source Name</strong></label>
+                {{ form.source_name }}
+            </div>
+
+            <!-- Custom Upload Icon Button -->
+            <div class="form-group mb-3">
+                <label for="file"><strong>Upload File</strong></label>
+                <div class="dropzone bg-light rounded-lg p-4" id="tinydash-dropzone">
+                    <!-- Hidden File Input -->
+                    {{ form.file }}
+                    
+                    <!-- Display Custom Upload Icon as Trigger -->
+                    <div class="dz-message needsclick" onclick="document.getElementById('fileInput').click();">
+                        <div class="circle circle-lg bg-primary">
+                            <i class="fe fe-upload fe-24 text-white"></i>
+                        </div>
+                        <h5 class="text-muted mt-4">Drop files here or click to upload</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Submit and View</button>
+            </div>
+        </form>
+
+        <!-- Preview Template for Uploaded Files -->
+        <div class="d-none" id="uploadPreviewTemplate">
+            <div class="card mt-1 mb-0 shadow-none border">
+                <div class="p-2">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
+                        </div>
+                        <div class="col pl-0">
+                            <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+                            <p class="mb-0" data-dz-size></p>
+                        </div>
+                        <div class="col-auto">
+                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                <i class="dripicons-cross"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div> <!-- .card-body -->
+</div> <!-- .card --> 
+
+                                    <!-- Step 5: Configure Alerts and Notifications -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h4>5. Configure Alerts and Notifications</h4>
+                                            <p class="mb-2"><strong>Guide the user through configuring alerts and notifications based on specific events or thresholds.</strong></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="alertEventIds">Alert Event IDs (Windows):</label>
+                                                    <input type="text" class="form-control" id="alertEventIds" placeholder="Enter Event IDs (comma-separated)" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="notificationMethod">Notification Method:</label>
+                                                    <select id="notificationMethod" class="custom-select">
+                                                        <option>Email</option>
+                                                        <option>SMS</option>
+                                                        <option>Webhook</option>
+                                                        <!-- Add more options as needed -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+
+                                    <!-- Step 6: Review and Save Configuration -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body" style="background-color: #343a40; color: #ffffff;"> <!-- Updated background and text color -->
+                                            <h4>6. Review and Save Configuration</h4>
+                                            <p class="mb-2"><strong>Provide a summary of all the configured settings, allowing the user to review and save the configuration.</strong></p>
+                                            <!-- Updated background color for the alert -->
+                                            <div class="alert" style="background-color: #343a40; border-color: #343a40; color: #ffffff;" role="alert">
+                                                <strong>Summary:</strong>
+                                                <ul>
+                                                    <li><strong>Log Source:</strong> <span id="summaryLogSource">Not Configured</span></li>
+                                                    <li><strong>Script Download:</strong> <span id="summaryScriptDownload">Not Downloaded</span></li>
+                                                    <li><strong>Connection Test:</strong> <span id="summaryConnectionTest">Not Tested</span></li>
+                                                    <li><strong>Alerts:</strong> <span id="summaryAlerts">Not Configured</span></li>
+                                                </ul>
+                                            </div>
+                                            <button type="button" class="btn btn-success">Save Configuration</button>
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+
+                                    <!-- Footer -->
+                                    <div class="footer-text">
+                                        <p>&copy; 2024 Log Monitoring & Analysis. All rights reserved.</p>
+                                    </div>
+                                </div> <!-- /.col-md-12 -->
+                            </div> <!-- /.row -->
+                        </div> <!-- /.container -->
+                    </div> <!-- /.tab-pane -->
+
+                    <!-- Metrics Tab Content -->
+                    <div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
+                        <h1 class="h3 page-title">Metrics</h1>
+                        <hr class="my-2">
+                        <p>MORE INFO TO BE ADDED</p>                       
+                    </div>
+
+                    <!-- Alerts Tab Content -->
+                    <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
+                        <h1 class="h3 page-title">Alerts</h1>
+                        <hr class="my-2">
+                        <p>MORE INFO TO BE ADDED</p>                        
+                    </div>
+
+                    <!-- Anomalies Tab Content -->
+                    <div class="tab-pane fade" id="anomalies" role="tabpanel" aria-labelledby="anomalies-tab">
+                        <h1 class="h3 page-title">Anomalies</h1>
+                        <hr class="my-2">
+                        <p>MORE INFO TO BE ADDED</p>
+                    </div>
+
+                    <!-- Version History Tab Content -->
+                    <div class="tab-pane fade" id="version-history" role="tabpanel" aria-labelledby="version-history-tab">
+                        <h1 class="h3 page-title">Version History</h1>
+                        <hr class="my-2">
+                        <p>MORE INFO TO BE ADDED</p>
+                    </div>
+                </div>
+            </div> <!-- /.my-4 -->
+        </div> <!-- /.col-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container -->
+
+{% endblock %}

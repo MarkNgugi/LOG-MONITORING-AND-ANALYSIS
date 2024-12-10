@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        header {
+            background: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .section {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .section h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .section p {
+            color: #555;
+        }
+        .section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .section table, .section th, .section td {
+            border: 1px solid #ddd;
+        }
+        .section th, .section td {
+            padding: 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .section th {
+            background: #f4f4f4;
+            color: #333;
+        }
+        .section tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .section button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            background: #007bff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .section button:hover {
+            background: #0056b3;
+        }
+        .section input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: calc(100% - 18px);
+            font-size: 14px;
+        }
+        .section input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .actions {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .actions button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Log Classification</h1>
+    </header>
+    <div class="container">
+        <div class="main-content">
+            <!-- Classification Models -->
+            <div class="section">
+                <h2>Classification Models</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Model A</td>
+                            <td>Supervised Learning</td>
+                            <td>Classifies logs based on predefined labels.</td>
+                        </tr>
+                        <tr>
+                            <td>Model B</td>
+                            <td>Unsupervised Learning</td>
+                            <td>Clusters logs into groups without predefined labels.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tagging and Labeling -->
+            <div class="section">
+                <h2>Tagging and Labeling</h2>
+                <p>View and edit classified logs, including tags and labels assigned by the AI.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Log ID</th>
+                            <th>Log Message</th>
+                            <th>Tags/Labels</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12345</td>
+                            <td>Error: Connection failed</td>
+                            <td>Network, Error</td>
+                            <td><button>Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td>67890</td>
+                            <td>Warning: Disk space low</td>
+                            <td>Warning, Disk</td>
+                            <td><button>Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Custom Classification Rules -->
+            <div class="section">
+                <h2>Custom Classification Rules</h2>
+                <p>Define custom rules and criteria for classifying logs.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rule Name</th>
+                            <th>Criteria</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Rule A</td>
+                            <td>Logs with keyword 'error'</td>
+                            <td>Classify as 'Error'</td>
+                        </tr>
+                        <tr>
+                            <td>Rule B</td>
+                            <td>Logs with status code '404'</td>
+                            <td>Classify as 'Not Found'</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="actions">
+                    <button>Add New Rule</button>
+                </div>
+            </div>
+
+            <!-- Training Data Management -->
+            <div class="section">
+                <h2>Training Data Management</h2>
+                <p>Manage and update the dataset used for training classification models.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dataset Name</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dataset A</td>
+                            <td>2024-07-26</td>
+                            <td><button>Update</button></td>
+                        </tr>
+                        <tr>
+                            <td>Dataset B</td>
+                            <td>2024-07-20</td>
+                            <td><button>Update</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Accuracy Metrics -->
+            <div class="section">
+                <h2>Accuracy Metrics</h2>
+                <p>Statistics showing the accuracy and performance of log classification models.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model Name</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1 Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Model A</td>
+                            <td>95%</td>
+                            <td>94%</td>
+                            <td>96%</td>
+                            <td>95%</td>
+                        </tr>
+                        <tr>
+                            <td>Model B</td>
+                            <td>89%</td>
+                            <td>88%</td>
+                            <td>90%</td>
+                            <td>89%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Manual Override -->
+            <div class="section">
+                <h2>Manual Override</h2>
+                <p>Options for users to manually reclassify logs if necessary.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Log ID</th>
+                            <th>Current Classification</th>
+                            <th>New Classification</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12345</td>
+                            <td>Network</td>
+                            <td><input type="text" placeholder="Enter new classification"></td>
+                            <td><button>Update</button></td>
+                        </tr>
+                        <tr>
+                            <td>67890</td>
+                            <td>Warning</td>
+                            <td><input type="text" placeholder="Enter new classification"></td>
+                            <td><button>Update</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
