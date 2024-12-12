@@ -312,6 +312,37 @@ def nginx_log_upload(request):
     context={'form':form}        
     return render(request, 'baseapp/logingestion/applicationlogs/webservers/nginx/nginx.html', context)
 
+
+class NginxLogUploadView(APIView):
+    def post(self, request, *args, **kwargs):
+        logs = request.data.get('logs', [])
+        
+        # Check if logs are provided
+        if not logs:
+            return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Log the raw data for debugging
+        print("Received logs data:", logs)
+        
+        # Use the serializer to validate and save logs
+        serializer = NginxLogSerializer(data=logs, many=True)
+        if serializer.is_valid():
+            # Save each log entry to the database
+            try:
+                for log in logs:
+                    # Create a new log object from validated data
+                    NginxLog.objects.create(**log)  # Save the log
+                return Response({"message": "Logs processed successfully"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"error": "Error saving logs", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            # Log serializer errors for debugging
+            print("Serializer validation errors:", serializer.errors)
+            return Response(
+                {"error": "Serializer validation failed", "details": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
 def iis_log_upload(request):
     if request.method == 'POST':
         form = IISLogUploadForm(request.POST, request.FILES)

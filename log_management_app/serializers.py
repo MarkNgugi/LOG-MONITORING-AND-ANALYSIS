@@ -121,3 +121,71 @@ class ApacheLogSerializer(serializers.Serializer):
             raise serializers.ValidationError("Expected a list of log data.")
 
         return logs
+
+
+class NginxLogSerializer(serializers.Serializer):
+    timestamp = serializers.CharField(allow_null=True, required=False)
+    client_ip = serializers.CharField(allow_null=True, required=False)
+    method = serializers.CharField(allow_null=True, required=False)
+    url = serializers.CharField(allow_null=True, required=False)
+    protocol = serializers.CharField(allow_null=True, required=False)
+    status_code = serializers.CharField(allow_null=True, required=False)
+    referrer = serializers.CharField(allow_null=True, required=False)
+    user_agent = serializers.CharField(allow_null=True, required=False)
+
+    error_module = serializers.CharField(allow_null=True, required=False)
+    process_id = serializers.IntegerField(allow_null=True, required=False)
+    error_message = serializers.CharField(allow_null=True, required=False)
+    file_path = serializers.CharField(allow_null=True, required=False)
+
+    
+
+    def create(self, validated_data):
+        logs = []
+        if isinstance(validated_data, list):
+            for log in validated_data:
+                # If log is a string, try to parse it as JSON
+                if isinstance(log, str):
+                    if log.strip():
+                        try:
+                            log = json.loads(log)
+                        except json.JSONDecodeError:
+                            raise serializers.ValidationError("Invalid JSON format in log data.")
+                    else:
+                        raise serializers.ValidationError("Empty log data received.")
+                
+                # Handle timestamp
+                timestamp = log.get('timestamp')
+                if timestamp:
+                    try:
+                        timestamp = datetime.strptime(timestamp, "%a %b %d %H:%M:%S").replace(year=datetime.now().year)
+                    except ValueError:
+                        raise serializers.ValidationError("Invalid timestamp format. Expected format: Thu Dec 12 12:01:21")
+                else:
+                    raise serializers.ValidationError("Missing timestamp.")
+                
+                # Check for critical missing fields
+                if log.get('client_ip') is None:
+                    raise serializers.ValidationError("Missing client_ip.")
+                if log.get('error_message') is None:
+                    raise serializers.ValidationError("Missing error_message.")
+                
+                # Create ApacheLog object
+                log_entry = NginxLog.objects.create(
+                    timestamp=timestamp,
+                    client_ip=log.get('client_ip'),
+                    method=log.get('method'),
+                    url=log.get('url'),
+                    status_code=log.get('status_code'),
+                    referrer=log.get('referrer'),
+                    user_agent=log.get('user_agent'),
+                    error_module=log.get('error_module'),
+                    process_id=log.get('process_id'),
+                    error_message=log.get('error_message'),
+                    file_path=log.get('file_path'),                    
+                )
+                logs.append(log_entry)
+        else:
+            raise serializers.ValidationError("Expected a list of log data.")
+
+        return logs

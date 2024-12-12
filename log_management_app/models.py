@@ -105,7 +105,33 @@ class NginxLogFile(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.source_name     
+        return self.source_name
+
+class NginxLog(models.Model):
+    client_ip = models.CharField(max_length=50, null=True, blank=True)
+    timestamp = models.CharField(max_length=255, null=True)
+    method = models.CharField(max_length=10,null=True, blank=True)
+    url = models.TextField(null=True, blank=True)
+    protocol = models.TextField(null=True)
+    status_code = models.PositiveIntegerField(null=True, blank=True)
+    referrer = models.TextField(null=True)
+    user_agent = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)    
+    
+    # Error Log Fields
+    error_module = models.CharField(max_length=50,null=True, blank=True)
+    process_id = models.PositiveIntegerField(null=True)
+    error_message = models.TextField(null=True, blank=True)
+    file_path = models.TextField(null=True, blank=True)
+
+
+    def __str__(self):        
+            return f"{self.timestamp} {self.client_ip} {self.method} {self.url}"
+        
+
+    class Meta:
+        verbose_name = "Nginx Log"
+        verbose_name_plural = "Nginx Logs"         
 
 class IISLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)

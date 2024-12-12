@@ -15,6 +15,8 @@ admin.site.register(MacLogFile)
 admin.site.register(ApacheLog)
 
 admin.site.register(NginxLogFile)
+admin.site.register(NginxLog)
+
 admin.site.register(IISLogFile)
 
 admin.site.register(MysqlLogFile)
@@ -24,7 +26,7 @@ admin.site.register(MongoLogFile)
 admin.site.register(Alert)
 
 
-
+ 
 
  
 
