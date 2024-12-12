@@ -9,7 +9,7 @@ from .tasks import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import LinuxLogSerializer
+from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 
  
@@ -63,7 +63,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
 
     # Querysets for web server logs
     apache_logs = list(chain(
-        ApacheLogFile.objects.all(),
+        ApacheLog.objects.all(),
 
     ))
 
@@ -218,48 +218,37 @@ def linux_log_upload(request):
     context={'form':form}        
     return render(request, 'baseapp/logingestion/systemlogs/linux/linux.html', context)
 
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import get_user_model
-from .serializers import LinuxLogSerializer
 
-User = get_user_model()
 
 class LinuxLogUploadView(APIView):
-    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can upload logs
-
     def post(self, request, *args, **kwargs):
-        # Get the first user in the database (or handle if no users exist)
-        try:
-            default_user = User.objects.first()  # Ensures a user is available
-            if not default_user:
-                return Response({"error": "No user found in the system."}, status=status.HTTP_400_BAD_REQUEST)
-        except User.DoesNotExist:
-            return Response({"error": "No user found in the system."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Ensure log data is provided
         logs = request.data.get('logs', [])
+        
+        # Check if logs are provided
         if not logs:
             return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Iterate through logs and ensure user is assigned
-        for log in logs:
-            log['user'] = default_user.id  # Assign the user ID explicitly
-
-            serializer = LinuxLogSerializer(data=log)
-            if serializer.is_valid():
-                serializer.save()  # Save the log entry
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({"message": "Logs successfully uploaded."}, status=status.HTTP_201_CREATED)
-
-
-
-
-
+        
+        # Log the raw data for debugging
+        print("Received logs data:", logs)
+        
+        # Use the serializer to validate and save logs
+        serializer = LinuxLogSerializer(data=logs, many=True)
+        if serializer.is_valid():
+            # Save each log entry to the database
+            try:
+                for log in logs:
+                    # Create a new log object from validated data
+                    LinuxLog.objects.create(**log)  # Save the log
+                return Response({"message": "Logs processed successfully"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"error": "Error saving logs", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            # Log serializer errors for debugging
+            print("Serializer validation errors:", serializer.errors)
+            return Response(
+                {"error": "Serializer validation failed", "details": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 
@@ -277,19 +266,38 @@ def mac_log_upload(request):
     context={'form':form}        
     return render(request, 'baseapp/logingestion/systemlogs/macos/macos.html', context)
 
- 
-def apache_log_upload(request):
-    if request.method == 'POST':
-        form = ApacheLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_apache_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = ApacheLogUploadForm()
 
-    context={'form':form}        
-    return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', context)
+
+class ApacheLogUploadView(APIView):
+    def post(self, request, *args, **kwargs):
+        logs = request.data.get('logs', [])
+        
+        # Check if logs are provided
+        if not logs:
+            return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Log the raw data for debugging
+        print("Received logs data:", logs)
+        
+        # Use the serializer to validate and save logs
+        serializer = ApacheLogSerializer(data=logs, many=True)
+        if serializer.is_valid():
+            # Save each log entry to the database
+            try:
+                for log in logs:
+                    # Create a new log object from validated data
+                    ApacheLog.objects.create(**log)  # Save the log
+                return Response({"message": "Logs processed successfully"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"error": "Error saving logs", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            # Log serializer errors for debugging
+            print("Serializer validation errors:", serializer.errors)
+            return Response(
+                {"error": "Serializer validation failed", "details": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
 
 def nginx_log_upload(request):
     if request.method == 'POST':

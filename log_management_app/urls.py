@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from .views import *
+
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [    
@@ -29,8 +31,7 @@ urlpatterns = [
     path('home/system-logs/os-types/linux-explorer/',views.linux_log_upload,name='linux'),
     path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
-
-    path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
+    
     path('home/system-logs/os-types/nginx-explorer/',views.nginx_log_upload,name='nginx'),
     path('home/system-logs/os-types/iis-explorer/',views.iis_log_upload,name='iis'),
 
@@ -64,6 +65,9 @@ urlpatterns = [
     path('alerts-history/',views.alert_history,name='alert_history'),
 
     path('api/linux/logs/', views.LinuxLogUploadView.as_view(), name='linux-log-upload'),
+    path('api/apache/logs/', views.ApacheLogUploadView.as_view(), name='apache-log-upload')
+
+
 
     
 ]

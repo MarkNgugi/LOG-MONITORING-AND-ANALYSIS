@@ -80,21 +80,21 @@ class MacLogUploadForm(forms.ModelForm):
 #=================================MACOS LOGS FORMS END============================================
 
 
-class ApacheLogUploadForm(forms.ModelForm):
-    class Meta:
-        model = ApacheLogFile
-        fields = ['source_name', 'file']
-        widgets = {
-            'source_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter log source'
-            }),
-            'file': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file',
-                'style': 'display:none;', 
-                'id': 'fileInput',         
-            }),
-        }
+# class ApacheLogUploadForm(forms.ModelForm):
+#     class Meta:
+#         model = ApacheLogFile
+#         fields = ['source_name', 'file']
+#         widgets = {
+#             'source_name': forms.TextInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Enter log source'
+#             }),
+#             'file': forms.ClearableFileInput(attrs={
+#                 'class': 'form-control-file',
+#                 'style': 'display:none;', 
+#                 'id': 'fileInput',         
+#             }),
+#         }
 
         
 

@@ -8,9 +8,12 @@ admin.site.register(LogEntry)
 # admin.site.register(Anomaly)
 
 admin.site.register(LinuxLogFile)
+admin.site.register(LinuxLog)
+
 admin.site.register(MacLogFile) 
 
-admin.site.register(ApacheLogFile)
+admin.site.register(ApacheLog)
+
 admin.site.register(NginxLogFile)
 admin.site.register(IISLogFile)
 
@@ -23,7 +26,7 @@ admin.site.register(Alert)
 
 
 
-
+ 
 
 
 

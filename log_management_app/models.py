@@ -39,19 +39,21 @@ class LinuxLogFile(models.Model):
 
     def __str__(self):
         return self.source_name  
+ 
+class LinuxLog(models.Model):    
 
-class LinuxLog(models.Model):
-    timestamp = models.DateTimeField()
-    hostname = models.CharField(max_length=255)
-    event = models.CharField(max_length=255)
-    username = models.CharField(max_length=255)
-    source_ip = models.GenericIPAddressField()
-    status = models.CharField(max_length=50)
-    log_level = models.CharField(max_length=50)  
-    process = models.CharField(max_length=255)  
-    source = models.CharField(max_length=255)  
-    message = models.TextField()  
-
+    timestamp = models.CharField(max_length=255,null=True)
+    event = models.TextField(max_length=50,null=True)
+    status = models.CharField(max_length=50, null=True, blank=True)
+    log_level = models.CharField(max_length=50, null=True)
+    hostname = models.CharField(max_length=255, null=True, blank=True)
+    process = models.CharField(max_length=255, null=True, blank=True)
+    source = models.CharField(max_length=255, null=True, blank=True)
+    message = models.TextField(null=True, blank=True)
+    username = models.CharField(max_length=255, null=True, blank=True)
+    source_ip = models.CharField(max_length=50, null=True, blank=True)
+    
+ 
     def __str__(self):
         return f"{self.timestamp} - {self.event} - {self.username} - {self.source_ip}"
 
@@ -59,7 +61,7 @@ class LinuxLog(models.Model):
         verbose_name = "Linux Log"
         verbose_name_plural = "Linux Logs"
 
-    
+     
 class MacLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
     os_type=models.CharField(max_length=50,default='mac')
@@ -68,15 +70,33 @@ class MacLogFile(models.Model):
 
     def __str__(self):
         return self.source_name 
+ 
+ 
+class ApacheLog(models.Model):
+    client_ip = models.CharField(max_length=50, null=True, blank=True)
+    timestamp = models.CharField(max_length=255, null=True)
+    method = models.CharField(max_length=10,null=True, blank=True)
+    url = models.TextField(null=True, blank=True)
+    protocol = models.TextField(null=True)
+    status_code = models.PositiveIntegerField(null=True, blank=True)
+    referrer = models.TextField(null=True)
+    user_agent = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)    
+    
+    # Error Log Fields
+    error_module = models.CharField(max_length=50,null=True, blank=True)
+    process_id = models.PositiveIntegerField(null=True)
+    error_message = models.TextField(null=True, blank=True)
+    file_path = models.TextField(null=True, blank=True)
 
-class ApacheLogFile(models.Model):
-    source_name=models.CharField(max_length=20, blank=True, null=True)
-    os_type=models.CharField(max_length=50,default='apache')
-    file = models.FileField(upload_to='uploaded_logs/apache/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.source_name       
+    def __str__(self):        
+            return f"{self.timestamp} {self.client_ip} {self.method} {self.url}"
+        
+
+    class Meta:
+        verbose_name = "Apache Log"
+        verbose_name_plural = "Apache Logs"
 
 class NginxLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
