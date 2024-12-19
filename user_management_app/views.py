@@ -28,6 +28,7 @@ def custom_login(request):
     return render(request, 'baseapp/MAINauth/loginform.html', context)
 
 
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)

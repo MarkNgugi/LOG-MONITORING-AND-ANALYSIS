@@ -2,16 +2,21 @@ from django.urls import path
 from . import views
 from .views import *
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
 urlpatterns = [    
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('home/',views.home,name='home'),
+    # Custom Token Generation Endpoint
+    # path('api/generate-token/', GenerateTokenView.as_view(), name='generate_token'),
+    path('api/generate-token/', generate_token, name='generate_token'),
+    path('execute/<str:filename>', ExecuteScriptView.as_view(), name='execute-script'),
 
+    path('home/',views.home,name='home'),    
 
+ 
 #LOG SOURCES
 
     path('log-sources/', views.logsources, name='logsources'),
@@ -32,6 +37,7 @@ urlpatterns = [
     path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
     
+    path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
     path('home/system-logs/os-types/nginx-explorer/',views.nginx_log_upload,name='nginx'),
     path('home/system-logs/os-types/iis-explorer/',views.iis_log_upload,name='iis'),
 

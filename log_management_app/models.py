@@ -3,6 +3,8 @@ from django.utils import timezone
 from user_management_app.models import User
 from datetime import datetime 
 from user_management_app.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.authtoken.models import Token  
 
 def get_default_user():
     # This can be any user that makes sense as the default
@@ -72,6 +74,15 @@ class MacLogFile(models.Model):
         return self.source_name 
  
  
+class ApacheLogFile(models.Model):
+    source_name=models.CharField(max_length=20, blank=True, null=True)
+    os_type=models.CharField(max_length=50,default='apache')
+    file = models.FileField(upload_to='uploaded_logs/apache/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.source_name
+
 class ApacheLog(models.Model):
     client_ip = models.CharField(max_length=50, null=True, blank=True)
     timestamp = models.CharField(max_length=255, null=True)
@@ -194,10 +205,16 @@ class Alert(models.Model):
     severity = models.CharField(max_length=10, default="None")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user")
     
-
+ 
 
     def __str__(self):
         return self.alert_title
  
- 
- 
+
+class CustomToken(Token):
+    created_at = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=255, default="token1")
+
+    def __str__(self):
+        username = getattr(self.user, 'username', 'Unknown User')
+        return f"Token '{self.name}' for {username} created at {self.created_at}"

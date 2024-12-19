@@ -13,20 +13,102 @@ from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 
  
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework import serializers
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+from .models import Token  
+from django.utils.timezone import now, timedelta
+ 
+class GenerateTokenView(APIView):
+    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
 
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username = serializers.EmailField()
+    def post(self, request):
+        user = request.user
+        token_name = request.data.get('name')
 
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        return data
+        if not token_name:
+            return Response({'error': 'Token name is required.'}, status=400)
 
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
+        # Try to get the existing token with the same name
+        token, created = CustomToken.objects.get_or_create(user=user, name=token_name)
 
+        # If token is newly created, set the creation time
+        if created:
+            token.created_at = now()
+            token.save()
+
+        # Check if the token has expired (10 seconds expiration time)
+        if now() - token.created_at > timedelta(seconds=1000):
+            # If expired, delete the old token and generate a new one
+            token.delete()
+            token = CustomToken.objects.create(user=user, name=token_name)  # Create a new token
+
+        # Return the (new or valid) token
+        return Response({'access_token': token.key})
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import json
+from rest_framework.authtoken.models import Token
+
+@csrf_exempt
+@login_required
+def generate_token(request):
+    if request.method == 'POST':
+        user = request.user
+        data = json.loads(request.body)
+        name = data.get('name')
+
+        if not name:
+            return JsonResponse({'error': 'Name is required'}, status=400)
+
+        # Create or update the token
+        token, created = CustomToken.objects.get_or_create(user=user, defaults={'name': name})
+        if not created:  # Token already exists
+            token.name = name  # Update the name field
+            token.save()
+
+        return JsonResponse({'access_token': token.key, 'name': token.name})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+
+from django.http import HttpResponse, HttpResponseForbidden, Http404
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.views import APIView
+from django.conf import settings
+from .models import CustomToken
+import os
+
+class ExecuteScriptView(APIView):
+    authentication_classes = [TokenAuthentication]  # Use token-based authentication
+
+    def get(self, request, filename):
+        # Get the token from the request headers
+        token_key = request.headers.get('Authorization', '').split(' ')[-1]
+        try:
+            # Validate the token
+            token = CustomToken.objects.get(key=token_key)
+            if not token or (timezone.now() - token.created_at > timedelta(seconds=1000)):
+                raise AuthenticationFailed("Token is invalid or expired.")                
+        except CustomToken.DoesNotExist:
+            raise AuthenticationFailed("Invalid token.")
+
+        # Build the file path
+        file_path = os.path.join(settings.BASE_DIR, 'protected_files', filename)
+        if not os.path.exists(file_path):
+            raise Http404("File not found.")
+
+        # Read the file content
+        with open(file_path, 'r') as file:
+            script_content = file.read()
+
+        # Return the script content as plain text
+        return HttpResponse(script_content, content_type="text/plain")
 
 
 
@@ -265,6 +347,20 @@ def mac_log_upload(request):
 
     context={'form':form}        
     return render(request, 'baseapp/logingestion/systemlogs/macos/macos.html', context)
+
+
+def apache_log_upload(request):
+    if request.method == 'POST':
+        form = ApacheLogUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_log = form.save()
+            process_uploaded_nginx_logs.delay(uploaded_log.id)  # Trigger async processing
+            return redirect('logsources')
+    else:
+        form = ApacheLogUploadForm()
+
+    context={'form':form}        
+    return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', context)
 
 
 

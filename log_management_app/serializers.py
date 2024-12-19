@@ -188,4 +188,4 @@ class NginxLogSerializer(serializers.Serializer):
         else:
             raise serializers.ValidationError("Expected a list of log data.")
 
-        return logs
+        return logs 

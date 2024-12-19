@@ -48,54 +48,133 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <!-- Step 1: Add Log Source Information -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>1. Add Log Source Information</h4>
-                                            <p class="mb-2"><strong>Provide fields for the user to enter information about the log source, such as its name, type, and specific logs to collect.</strong></p>
-                                            
-                                            <form method="post">
-                                                {%csrf_token%}
-                                                <!-- Remove form-row and col-md-* to arrange fields vertically -->
-                                                <div class="form-group">
-                                                    {{ log_source_form.log_source_name.label_tag }}
-                                                    {{ log_source_form.log_source_name }}
-                                                </div>
-                                                
-                                                <div class="form-group">
-                                                    {{ log_source_form.log_type.label_tag }}
-                                                    {{ log_source_form.log_type }}
-                                                </div>
+<!-- Step 1: Select Platform -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>1. Select platform</h4>
+        <p class="mb-2">
+            <strong>Select a platform environment to generate a configuration component.</strong>
+        </p>
 
-                                                <div class="form-group">
-                                                    {{ log_source_form.collection_interval.label_tag }}
-                                                    {{ log_source_form.collection_interval }}
-                                                </div>
+        <!-- Platform and Architecture Selection Component in One Row -->
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="platformSelect"><strong>Select platform</strong></label>
+                <select id="platformSelect" class="form-control">
+                    <option value="debian">Debian</option>
+                    <option value="ubuntu">Ubuntu</option>                    
+                    <option value="windows">Windows</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="architectureSelect"><strong>Architecture</strong></label>
+                <select id="architectureSelect" class="form-control">
+                    <option value="amd64">Amd64</option>
+                    <option value="arm64">Arm64</option>                    
+                </select>
+            </div>
+        </div>
+        
+        <div class="alert alert-info mt-3">
+            <i class="fas fa-info-circle"></i>
+            Looking to configure integrations for your Kubernetes environment? 
+            Check out <a href="" target="_blank">Kubernetes Monitoring</a> 
+            with LMAN Cloud to enable this.
+        </div>
+
+        
+        
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
+
                                     
-                                                <div class="form-group">
-                                                    {{ log_source_form.retention_policy.label_tag }}
-                                                    {{ log_source_form.retention_policy }}
-                                                </div>
-
-                                                <div class="form-group">
-                                                    
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-
-                                            </form>
-                                    
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
-                                    
-
                                     <!-- Step 2: Download Script File -->
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
                                             <h4>2. Download Script File</h4>
-                                            <p class="mb-2"><strong>Offer a button that allows the user to download a script for setting up log collection on the target system.</strong></p>
-                                            <button type="button" class="btn btn-primary">Download Script</button>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
+                                            <p class="mb-2"><strong>Before you configure this integration, you must set up Alloy.</strong></p>                                            
+                                            <button type="button" class="btn mb-2 btn-outline-success" data-toggle="modal" data-target="#verticalModal"> Setup Alloy </button>
+                                            <!-- Modal -->
+<!-- Alloy Configuration Modal -->
+<!-- Modal and Token Generation Section -->
+<div class="modal fade" id="verticalModal" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="verticalModalTitle">Alloy configuration</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row">
+                <input id="token-name-input" type="text" class="form-control" placeholder="Enter Token Name" />
+                <button id="create-token-btn" class="btn btn-primary">Generate Token</button>
+                <div id="token-result" style="display: none;">
+                    <p>Generated Token: <span id="generated-token"></span></p>
+                </div>
+                <div id="error-message" style="display: none; color: red;">
+                    <p>Token has expired or invalid input! Please try again.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+function getCSRFToken() {
+    let cookieValue = null;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith('csrftoken=')) {
+            cookieValue = cookie.substring('csrftoken='.length, cookie.length);
+            break;
+        }
+    }
+    return cookieValue;
+}
+
+document.getElementById("create-token-btn").addEventListener("click", function() {
+    const tokenName = document.getElementById("token-name-input").value;
+
+    if (!tokenName) {
+        alert("Please enter a token name.");
+        return;
+    }
+
+    fetch("/api/generate-token/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(), // Fetch CSRF token
+        },
+        body: JSON.stringify({ name: tokenName }),
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Token generation failed!");
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById("error-message").style.display = "none";
+        document.getElementById("token-result").style.display = "block";
+        document.getElementById("generated-token").innerText = data.access_token;
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("token-result").style.display = "none";
+    });
+});
+
+</script>
+
+    
+
+</div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
 
                                     <!-- Step 3: Running the Script on Windows -->
                                     <div class="card shadow mb-4">
@@ -109,95 +188,6 @@
                                                 <li>Run the script with the following command: <code>powershell -ExecutionPolicy Bypass -File setup-log-collection.ps1</code></li>
                                                 <li>Ensure the script runs successfully and sets up as a service.</li>
                                             </ol>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
-
-<!-- Step 4: Upload Logs -->
-<div class="card shadow mb-4">
-    <div class="card-header">
-        <h4>4. Upload Logs</h4>
-    </div>
-    <div class="card-body">
-        <p class="mb-2"><strong>Upload log files here for monitoring and analysis.</strong></p>
-        
-        <!-- Form for Source Name and Dropzone Upload -->
-        <form method="post" action="{% url 'linux' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-
-            <!-- Source Name Input Field -->
-            <div class="form-group mb-3">
-                <label for="sourceName"><strong>Source Name</strong></label>
-                {{ form.source_name }}
-            </div>
-
-            <!-- Custom Upload Icon Button -->
-            <div class="form-group mb-3">
-                <label for="file"><strong>Upload File</strong></label>
-                <div class="dropzone bg-light rounded-lg p-4" id="tinydash-dropzone">
-                    <!-- Hidden File Input -->
-                    {{ form.file }}
-                    
-                    <!-- Display Custom Upload Icon as Trigger -->
-                    <div class="dz-message needsclick" onclick="document.getElementById('fileInput').click();">
-                        <div class="circle circle-lg bg-primary">
-                            <i class="fe fe-upload fe-24 text-white"></i>
-                        </div>
-                        <h5 class="text-muted mt-4">Drop files here or click to upload</h5>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary">Submit and View</button>
-            </div>
-        </form>
-
-        <!-- Preview Template for Uploaded Files -->
-        <div class="d-none" id="uploadPreviewTemplate">
-            <div class="card mt-1 mb-0 shadow-none border">
-                <div class="p-2">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
-                        </div>
-                        <div class="col pl-0">
-                            <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
-                            <p class="mb-0" data-dz-size></p>
-                        </div>
-                        <div class="col-auto">
-                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-                                <i class="dripicons-cross"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    </div> <!-- .card-body -->
-</div> <!-- .card -->
-
-                                    <!-- Step 5: Configure Alerts and Notifications -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>5. Configure Alerts and Notifications</h4>
-                                            <p class="mb-2"><strong>Guide the user through configuring alerts and notifications based on specific events or thresholds.</strong></p>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="alertEventIds">Alert Event IDs (Windows):</label>
-                                                    <input type="text" class="form-control" id="alertEventIds" placeholder="Enter Event IDs (comma-separated)" />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="notificationMethod">Notification Method:</label>
-                                                    <select id="notificationMethod" class="custom-select">
-                                                        <option>Email</option>
-                                                        <option>SMS</option>
-                                                        <option>Webhook</option>
-                                                        <!-- Add more options as needed -->
-                                                    </select>
-                                                </div>
-                                            </div>
                                         </div> <!-- /.card-body -->
                                     </div> <!-- /.card -->
 
@@ -263,3 +253,8 @@
 </div> <!-- .container -->
 
 {% endblock %}
+
+ 
+
+  
+    
