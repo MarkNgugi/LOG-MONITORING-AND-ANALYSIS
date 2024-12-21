@@ -100,22 +100,61 @@
 <!-- Modal and Token Generation Section -->
 <div class="modal fade" id="verticalModal" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content bg-dark text-white">
+        <div class="modal-content" style="background-color: #181b1f; color: #ffffff;">
+            <!-- Header -->
             <div class="modal-header border-0">
                 <h5 class="modal-title" id="verticalModalTitle">Alloy configuration</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="row">
-                <input id="token-name-input" type="text" class="form-control" placeholder="Enter Token Name" />
-                <button id="create-token-btn" class="btn btn-primary">Generate Token</button>
-                <div id="token-result" style="display: none;">
-                    <p>Generated Token: <span id="generated-token"></span></p>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Step 1: Enter Token Name -->
+                <div id="step-1">
+                    <h6>Install Alloy</h6>
+                    <p>Use an API token</p>
+                    <div class="form-group">
+                        <label for="token-name-input">Token name</label>
+                        <input id="token-name-input" type="text" class="form-control" placeholder="Enter a descriptive name to identify this token" />
+                    </div>
+                    <button id="create-token-btn" class="btn btn-primary">Create token</button>
                 </div>
+
+                <!-- Step 2: Display Generated Token -->
+                <div id="step-2" style="display: none;">
+                    <h6>Install Alloy</h6>
+                    <p style="color: #63bd83;">
+                        Below you find the token you just generated - no need to do anything with it, we’ve automatically added it to the script in the next step.
+                    </p>
+                    <div class="form-group">
+                        <label for="generated-token">Generated Token</label>
+                        <textarea id="generated-token" class="form-control" style="background-color: #111217; color: #ffffff;" readonly></textarea>
+                    </div>                    
+                </div>
+
+                <!-- Step 3: Scrollable Command Section -->
+                <div id="step-3" style="display: none;">
+                    <br>
+                    <h3>Install and run Grafana Alloy</h3>
+                    <p>
+                        Run this command to install and run Alloy as a alloy.service systemd service
+                    </p>
+                    <textarea id="command-textarea" class="form-control" style="background-color: #111217; color: #ffffff;" rows="3" readonly></textarea>
+                    <button class="btn btn-secondary mt-2" id="copy-command-btn">Copy to clipboard</button>
+                </div>
+
+                <!-- Error Message -->
                 <div id="error-message" style="display: none; color: red;">
                     <p>Token has expired or invalid input! Please try again.</p>
                 </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer border-0">
+                <button class="btn btn-primary" id="test-connection-btn" style="display: none;">Test Alloy connection</button>
+                <button class="btn btn-success" id="proceed-install-btn" style="display: none;">Proceed to install integration</button>
             </div>
         </div>
     </div>
@@ -148,7 +187,7 @@ document.getElementById("create-token-btn").addEventListener("click", function()
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": getCSRFToken(), // Fetch CSRF token
+            "X-CSRFToken": getCSRFToken(),
         },
         body: JSON.stringify({ name: tokenName }),
     })
@@ -157,18 +196,51 @@ document.getElementById("create-token-btn").addEventListener("click", function()
         return response.json();
     })
     .then(data => {
-        document.getElementById("error-message").style.display = "none";
-        document.getElementById("token-result").style.display = "block";
-        document.getElementById("generated-token").innerText = data.access_token;
+        const generatedToken = data.access_token;
+
+        document.getElementById("step-1").style.display = "none";
+        document.getElementById("step-2").style.display = "block";
+        document.getElementById("generated-token").value = generatedToken;
+        document.getElementById("step-3").style.display = "block";
+        document.getElementById("command-textarea").value = `curl -H "Authorization: Token ${generatedToken}" http://127.0.0.1:8000/execute/mark.sh`;
+        document.getElementById("test-connection-btn").style.display = "inline-block";
+        document.getElementById("proceed-install-btn").style.display = "inline-block";
     })
     .catch(error => {
         console.error("Error:", error);
         document.getElementById("error-message").style.display = "block";
-        document.getElementById("token-result").style.display = "none";
     });
 });
 
+// Copy Command to Clipboard
+document.getElementById("copy-command-btn").addEventListener("click", function() {
+    const commandField = document.getElementById("command-textarea");
+    commandField.select();
+    document.execCommand("copy");
+    alert("Command copied to clipboard!");
+});
+
+// Close Modal on Proceed
+document.getElementById("proceed-install-btn").addEventListener("click", function() {
+    $('#verticalModal').modal('hide');
+});
 </script>
+
+<!-- CSS -->
+<style>
+    .modal-body textarea {
+        background-color: #2c2f33;
+        color: #ffffff;
+        border: 1px solid #444;
+    }
+    .modal-content {
+        border-radius: 8px;
+    }
+    .modal-footer button {
+        margin-right: 10px;
+    }
+</style>
+
 
     
 
