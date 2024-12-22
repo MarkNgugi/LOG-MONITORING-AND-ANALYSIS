@@ -93,7 +93,7 @@
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
                                             <h4>2. Download Script File</h4>
-                                            <p class="mb-2"><strong>Before you configure this integration, you must set up Alloy.</strong></p>                                            
+                                            <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
                                             <button type="button" class="btn mb-2 btn-outline-success" data-toggle="modal" data-target="#verticalModal"> Setup Alloy </button>
                                             <!-- Modal -->
 <!-- Alloy Configuration Modal -->
@@ -248,48 +248,121 @@ document.getElementById("proceed-install-btn").addEventListener("click", functio
 </div> <!-- /.card -->
 
 
-                                    <!-- Step 3: Running the Script on Windows -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>3. Running the Script on Windows</h4>
-                                            <p class="mb-2"><strong>Provide detailed instructions on how to run the downloaded script on the user's Windows machine and set it up as a service to ensure it starts on boot.</strong></p>
-                                            <ol>
-                                                <li>Download the script using the button above.</li>
-                                                <li>Open Command Prompt as Administrator.</li>
-                                                <li>Navigate to the location where the script was downloaded.</li>
-                                                <li>Run the script with the following command: <code>powershell -ExecutionPolicy Bypass -File setup-log-collection.ps1</code></li>
-                                                <li>Ensure the script runs successfully and sets up as a service.</li>
-                                            </ol>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
+<!-- Step 2: Create a Systemd Service File -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>3. Create a Systemd Service File</h4>
+        <p>Systemd services are configured using <code>.service</code> files. Follow these steps to create a service file for your script:</p>
+        <ol>
+            <li>Create a service file using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo nano /etc/systemd/system/log-collector.service</code>
+            </div>
+            <li>Add the following content to the service file:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <pre style="color: white;">[Unit]
+Description=Log Collector Service
+After=network.target
+            
+[Service]
+ExecStart=/usr/local/bin/collect-logs.sh
+Restart=always
+RestartSec=5s
+User=root
+Environment=LOG_API_URL="https://example.com/api/logs"
+            
+[Install]
+WantedBy=multi-user.target</pre>
+            </div>
+            
+            <li>Save and close the file.</li>
+        </ol>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
 
-                                    <!-- Step 6: Review and Save Configuration -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body" style="background-color: #343a40; color: #ffffff;"> <!-- Updated background and text color -->
-                                            <h4>6. Review and Save Configuration</h4>
-                                            <p class="mb-2"><strong>Provide a summary of all the configured settings, allowing the user to review and save the configuration.</strong></p>
-                                            <!-- Updated background color for the alert -->
-                                            <div class="alert" style="background-color: #343a40; border-color: #343a40; color: #ffffff;" role="alert">
-                                                <strong>Summary:</strong>
-                                                <ul>
-                                                    <li><strong>Log Source:</strong> <span id="summaryLogSource">Not Configured</span></li>
-                                                    <li><strong>Script Download:</strong> <span id="summaryScriptDownload">Not Downloaded</span></li>
-                                                    <li><strong>Connection Test:</strong> <span id="summaryConnectionTest">Not Tested</span></li>
-                                                    <li><strong>Alerts:</strong> <span id="summaryAlerts">Not Configured</span></li>
-                                                </ul>
-                                            </div>
-                                            <button type="button" class="btn btn-success">Save Configuration</button>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
 
-                                    <!-- Footer -->
-                                    <div class="footer-text">
-                                        <p>&copy; 2024 Log Monitoring & Analysis. All rights reserved.</p>
-                                    </div>
-                                </div> <!-- /.col-md-12 -->
-                            </div> <!-- /.row -->
-                        </div> <!-- /.container -->
-                    </div> <!-- /.tab-pane -->
+
+<!-- Step 4: Reload Systemd and Enable the Service -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>4. Reload Systemd and Enable the Service</h4>
+        <p>Reload the systemd configuration to recognize the new service and enable it to start on boot.</p>
+        <ol>
+            <li>Reload the systemd configuration using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl daemon-reload</code>
+            </div>
+            <li>Enable the service to start on boot:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl enable log-collector.service</code>
+            </div>
+            <li>Start the service using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl start log-collector.service</code>
+            </div>
+            <li>Check the service status to ensure it is running:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl status log-collector.service</code>
+            </div>
+        </ol>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
+
+<!-- Step 5: Test Connection -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>5. Test Connection</h4>
+        <p class="mb-2">
+            Test that Grafana Alloy is collecting data and sending it to Grafana Cloud.
+        </p>
+
+        <!-- Button to trigger connection test -->
+        <button class="btn btn-primary" onclick="testConnection()">Test Connection</button>
+
+        <!-- Alert for connection status (hidden initially) -->
+        <div id="connectionStatus" class="alert alert-info mt-3" style="display: none;">
+            <i class="fas fa-info-circle"></i>
+            Connection Test Successful! Data is being sent to Grafana Cloud.
+        </div>
+
+        <div id="connectionError" class="alert alert-danger mt-3" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i>
+            Connection Test Failed! Please check your settings.
+        </div>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
+<script>
+    function testConnection() {
+        // Simulate a test connection process (you can replace this with actual logic)
+        const success = Math.random() > 0.5; // Simulate success or failure randomly
+
+        // Show success or error message based on the result
+        if (success) {
+            document.getElementById('connectionStatus').style.display = 'block';
+            document.getElementById('connectionError').style.display = 'none';
+        } else {
+            document.getElementById('connectionStatus').style.display = 'none';
+            document.getElementById('connectionError').style.display = 'block';
+        }
+    }
+</script>
+
+<!-- Step 6: Test Connection -->
+<div id="step-6">
+    <h4>View Connection</h4>
+    <p>
+        This integration comes with pre-built dashboards, alerts to get you up and running quickly.
+    </p>
+    <button class="btn btn-primary">View Connection</button> <br> <br>
+</div>  
+   
+
+            </div> <!-- /.col-md-12 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+</div> <!-- /.tab-pane -->
 
                     <!-- Metrics Tab Content -->
                     <div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
