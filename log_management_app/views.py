@@ -331,7 +331,9 @@ class LinuxLogUploadView(APIView):
                 {"error": "Serializer validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
+def linux_info(request):
+    context={}
+    return render(request,'baseapp/logingestion/systemlogs/linux/linuxinfo.html',context)
 
 
 
