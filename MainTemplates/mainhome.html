@@ -200,27 +200,28 @@
 
           
           <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Monitoring and Analysis</span> 
+            <span>Monitoring and Analysis</span>
           </p>
           
           <ul class="navbar-nav flex-fill w-100 mb-2">
-            <!-- Performance Monitoring Dropdown -->
+            <!-- Metrics Monitoring Dropdown -->
             <li class="nav-item dropdown w-100">
-              <a href="#performanceMonitoringDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+              <a href="#metricsMonitoringDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                 <i class="fe fe-activity fe-16"></i>
-                <span class="ml-3 item-text">Performance Tracking</span>
+                <span class="ml-3 item-text">Metrics Tracking</span>
               </a>
               <!-- Collapsible List for Dropdown Items -->
-              <ul class="collapse list-unstyled pl-4 w-100" id="performanceMonitoringDropdown">
+              <ul class="collapse list-unstyled pl-4 w-100" id="metricsMonitoringDropdown">
                 <li class="nav-item w-100">
-                  <a class="nav-link" href="">
+                  <a class="nav-link" href="{%url 'linuxinfo'%}">
                     <i class="fe fe-bar-chart-2 fe-16"></i>
-                    <span class="ml-3 item-text">Performance Metrics</span>
+                    <span class="ml-3 item-text">Metrics</span>
                   </a>
                 </li>
               </ul>
             </li>
           </ul>
+          
           
                             
           <p class="text-muted nav-heading mt-4 mb-1">
@@ -254,39 +255,7 @@
               
             </li>
           </ul>
-                          
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>AI and Machine Learning</span>
-          </p>
-          <ul class="navbar-nav flex-fill w-100 mb-2">      
-          
-            <!-- Model Management Dropdown -->
-            <li class="nav-item dropdown">
-              <a href="#modelManagementDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-cpu fe-16"></i> 
-                <span class="ml-3 item-text">Model Management</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="modelManagementDropdown">
-                <!-- AI Models -->
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="">
-                    <i class="fe fe-box fe-16"></i> 
-                    <span class="ml-3 item-text">AI Models</span>
-                  </a>
-                </li>
-
-                <!-- Model Performance -->
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="">
-                    <i class="fe fe-bar-chart-2 fe-16"></i> 
-                    <span class="ml-3 item-text">Model Performance</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-                   
-
+                                             
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>Settings</span>
           </p>
@@ -300,36 +269,10 @@
                 <span class="ml-3 item-text">Account Settings</span>
               </a>
             </li>
+                           
+          </ul>       
           
           
-       
-          </ul>
-          
-                  
-          
-
-          <!-- Help and Support Section -->
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Help and Support</span>
-          </p>
-          
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <!-- Help and Support Dropdown -->
-            <li class="nav-item dropdown">
-              <a href="#help" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-help-circle fe-16"></i> 
-                <span class="ml-3 item-text">Help and Support</span>
-              </a>
-              <ul class="collapse list-unstyled pl-4 w-100" id="help">
-                <li>
-                  <a class="nav-link pl-3" href="./support-center.html">
-                    <i class="fe fe-book fe-14"></i> 
-                    <span class="ml-1">User Documentation</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
         
           <div class="btn-box w-100 mt-4 mb-1">
             <button 

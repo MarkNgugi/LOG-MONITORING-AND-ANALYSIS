@@ -24,9 +24,6 @@
                     <li class="nav-item">
                         <a class="nav-link" id="anomalies-tab" data-toggle="tab" href="#anomalies" role="tab" aria-controls="anomalies" aria-selected="false">Anomalies</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="version-history-tab" data-toggle="tab" href="#version-history" role="tab" aria-controls="version-history" aria-selected="false">Version History</a>
-                    </li>
                 </ul>
                 
 
@@ -364,12 +361,89 @@ WantedBy=multi-user.target</pre>
     </div> <!-- /.container -->
 </div> <!-- /.tab-pane -->
 
-                    <!-- Metrics Tab Content -->
-                    <div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
-                        <h1 class="h3 page-title">Metrics</h1>
-                        <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>                       
-                    </div>
+<!-- Metrics Tab Content -->
+<div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
+    <h1 class="h3 page-title">Metrics</h1>
+    <hr class="my-2">
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Metric Name</th>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- CPU Metrics -->
+            <tr>
+                <td>CPU Usage</td>
+                <td>CPU Metrics</td>
+                <td>Percentage of CPU utilization by user processes, system processes, and idle time.</td>
+            </tr>
+            <tr>
+                <td>Load Average</td>
+                <td>CPU Metrics</td>
+                <td>System load over 1, 5, and 15 minutes to assess CPU capacity.</td>
+            </tr>
+
+            <!-- Memory Metrics -->
+            <tr>
+                <td>Memory Usage</td>
+                <td>Memory Metrics</td>
+                <td>Used vs. available memory, including free, cached, and buffered memory.</td>
+            </tr>
+            <tr>
+                <td>Swap Usage</td>
+                <td>Memory Metrics</td>
+                <td>Swap space utilization, which indicates memory pressure.</td>
+            </tr>
+            <tr>
+                <td>Page Faults</td>
+                <td>Memory Metrics</td>
+                <td>Number of page swaps between physical memory and disk.</td>
+            </tr>
+
+            <!-- Disk Metrics -->
+
+            <tr>
+                <td>Disk Usage</td>
+                <td>Disk Metrics</td>
+                <td>Disk space utilization per partition, directory, or file.</td>
+            </tr>
+            <tr>
+                <td>Inode Usage</td>
+                <td>Disk Metrics</td>
+                <td>Percentage of used inodes to avoid file system exhaustion.</td>
+            </tr>
+
+            <!-- Process/Service Metrics -->
+            <tr>
+                <td>Top Processes</td>
+                <td>Process/Service Metrics</td>
+                <td>Resource-intensive processes consuming CPU, memory, or I/O.</td>
+            </tr>
+            <tr>
+                <td>Process Count</td>
+                <td>Process/Service Metrics</td>
+                <td>Total number of running, sleeping, and zombie processes.</td>
+            </tr>
+
+            <!-- System Metrics -->
+            <tr>
+                <td>System Uptime</td>
+                <td>System Metrics</td>
+                <td>Time since the last reboot, indicating system stability.</td>
+            </tr>
+            <tr>
+                <td>Kernel Logs and Errors</td>
+                <td>System Metrics</td>
+                <td>Logs related to kernel activity for troubleshooting.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 
                     <!-- Alerts Tab Content -->
                     <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
@@ -385,12 +459,6 @@ WantedBy=multi-user.target</pre>
                         <p>MORE INFO TO BE ADDED</p>
                     </div>
 
-                    <!-- Version History Tab Content -->
-                    <div class="tab-pane fade" id="version-history" role="tabpanel" aria-labelledby="version-history-tab">
-                        <h1 class="h3 page-title">Version History</h1>
-                        <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>
-                    </div>
                 </div>
             </div> <!-- /.my-4 -->
         </div> <!-- /.col-12 -->
