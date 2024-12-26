@@ -124,185 +124,190 @@
               </div>
         </div> <!-- end section -->
 
-        <h2 class="h5 page-title">CPU</h2>        
+        <h2 class="h5 page-title">CPU</h2>
         <div class="row">
-            <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h1 class="mb-0">15%</h1> 
-                        <span class="h4 small mb-0">Cpu usage</span>                                             
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          <!-- CPU Usage Percentage -->
+          <div class="col-md-6 col-xl-6 mb-4">
+            <div class="card shadow h-100">
+              <div class="card-body d-flex align-items-center justify-content-center flex-column">
+                <h1 class="display-1 mb-0">15%</h1>
+                <span class="h5 small text-muted">CPU Usage</span>
               </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">Hostname</h5>
-                        <span class="h4 small mb-0 Center">server01</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">Kernel Version</h5>
-                        <span class="h4 small mb-0">1.8</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">OS</h5>
-                        <span class="h4 small mb-0">ubuntu</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        </div> <!-- end section -->
-
-        <h2 class="h5 page-title">Memory</h2>        
-        <div class="row">
-            <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h1 class="mb-0">43%</h1> 
-                        <span class="h4 small mb-0">Memory usage</span>                                             
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">Hostname</h5>
-                        <span class="h4 small mb-0 Center">server01</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">Kernel Version</h5>
-                        <span class="h4 small mb-0">1.8</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">OS</h5>
-                        <span class="h4 small mb-0">ubuntu</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        </div> <!-- end section -->    
+            </div>
+          </div>
         
-        <h2 class="h5 page-title">Disk</h2>        
+          <!-- CPU Usage Graph -->
+          <div class="col-md-6 col-xl-6 mb-4">
+            <div class="card shadow h-100">
+              <div class="card-body">
+                <h5 class="mb-4">CPU Usage</h5>
+                <div>
+                  <canvas id="cpuChart" width="400" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <h2 class="h5 page-title">Memory</h2>
         <div class="row">
-            <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h1 class="mb-0">43%</h1> 
-                        <span class="h4 small mb-0">Memory usage</span>                                             
-                      </div>
-                    </div>
-                  </div>
+          <!-- Memory Usage Percentage -->
+          <div class="col-md-6 col-xl-6 mb-4">
+            <div class="card shadow h-100">
+              <div class="card-body d-flex align-items-center justify-content-center flex-column">
+                <h1 class="display-1 mb-0">56.7%</h1>
+                <span class="h5 small text-muted">Memory Usage</span>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Memory Usage Graph -->
+          <div class="col-md-6 col-xl-6 mb-4">
+            <div class="card shadow h-100">
+              <div class="card-body">
+                <h5 class="mb-4">Memory Usage</h5>
+                <div>
+                  <canvas id="memoryChart" width="400" height="200"></canvas>
                 </div>
               </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">Hostname</h5>
-                        <span class="h4 small mb-0 Center">server01</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">Kernel Version</h5>
-                        <span class="h4 small mb-0">1.8</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-3 text-center">
-                      </div>
-                      <div class="col pr-0">
-                        <h5 class="mb-0">OS</h5>
-                        <span class="h4 small mb-0">ubuntu</span>                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        </div> <!-- end section -->          
+            </div>
+          </div>
+        </div>
+        
+        <!-- Load Chart.js once -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <script>
+          // CPU chart
+          const ctxCpu = document.getElementById('cpuChart').getContext('2d');
+          const cpuChart = new Chart(ctxCpu, {
+            type: 'line',
+            data: {
+              labels: ['08:00', '08:05', '08:10', '08:15', '08:20', '08:25', '08:30'],
+              datasets: [
+                {
+                  label: 'CPU 0',
+                  data: [5, 10, 7, 12, 8, 10, 6],
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 2,
+                  tension: 0.4,
+                  fill: false,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Usage (%)',
+                  },
+                  ticks: {
+                    stepSize: 25,
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Time',
+                  },
+                },
+              },
+            },
+          });
+        
+          // Memory chart
+          const ctxMemory = document.getElementById('memoryChart').getContext('2d');
+          const memoryChart = new Chart(ctxMemory, {
+            type: 'line',
+            data: {
+              labels: ['08:00', '08:05', '08:10', '08:15', '08:20', '08:25'],
+              datasets: [
+                {
+                  label: 'Memory Used',
+                  data: [1.5, 1.6, 1.55, 1.6, 1.7, 1.8],
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 2,
+                  tension: 0.4,
+                  fill: false,
+                },
+                {
+                  label: 'Memory Free',
+                  data: [0.5, 0.4, 0.45, 0.4, 0.3, 0.2],
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  borderWidth: 2,
+                  tension: 0.4,
+                  fill: false,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Memory (GiB)',
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Time',
+                  },
+                },
+              },
+            },
+          });
+        </script>
+        
+                    
+        
+        <h2 class="h5 page-title">Disk Space Usage</h2>
+        <div class="card shadow">
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Mounted on</th>
+                  <th>Size</th>
+                  <th>Available</th>
+                  <th>Used</th>
+                  <th>Used, %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Row 1 -->
+                <tr>
+                  <td>/</td>
+                  <td>10.3 GB</td>
+                  <td>6.75 GB</td>
+                  <td>3.58 GB</td>
+                  <td>34.7%</td>
+                </tr>
+                <!-- Row 2 -->
+                <tr>
+                  <td>/run</td>
+                  <td>209 MB</td>
+                  <td>188 MB</td>
+                  <td>21.4 MB</td>
+                  <td>10.2%</td>
+                </tr>
+                <!-- Row 3 -->
+                <tr>
+                  <td>/run/lock</td>
+                  <td>5.24 MB</td>
+                  <td>5.24 MB</td>
+                  <td>0 B</td>
+                  <td>0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>                       
       </div>
     </div> <!-- .row -->
   </div> <!-- .container-fluid -->

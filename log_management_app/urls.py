@@ -73,7 +73,8 @@ urlpatterns = [
 
     path('api/linux/logs/', views.LinuxLogUploadView.as_view(), name='linux-log-upload'),
     path('api/apache/logs/', views.ApacheLogUploadView.as_view(), name='apache-log-upload'),
-    path('api/nginx/logs/', views.NginxLogUploadView.as_view(), name='nginx-log-upload')
+    path('api/nginx/logs/', views.NginxLogUploadView.as_view(), name='nginx-log-upload'),
+    
 
 
 

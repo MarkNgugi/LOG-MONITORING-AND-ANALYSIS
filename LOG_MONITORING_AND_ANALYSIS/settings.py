@@ -218,3 +218,4 @@ REST_FRAMEWORK = {
 #     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 #     'AUTH_HEADER_TYPES': ('Bearer',),
 # }
+
