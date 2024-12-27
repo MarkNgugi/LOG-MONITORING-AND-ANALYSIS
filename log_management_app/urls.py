@@ -35,10 +35,13 @@ urlpatterns = [
     path('home/system-logs/os-types/windows-explorer/',views.windows_log_upload,name='windows'),
     path('home/system-logs/os-types/linux-explorer/',views.linux_log_upload,name='linux'),
     path('home/system-logs/linuxmetrics/',views.linux_info,name='linuxinfo'),
+
     path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
     
     path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
+    path('home/webserver-logs/apachemetrics/',views.apache_info,name='apacheinfo'),
+
     path('home/system-logs/os-types/nginx-explorer/',views.nginx_log_upload,name='nginx'),
     path('home/system-logs/os-types/iis-explorer/',views.iis_log_upload,name='iis'),
 

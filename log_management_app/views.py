@@ -397,7 +397,11 @@ class ApacheLogUploadView(APIView):
                 {"error": "Serializer validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
+ 
 
+def apache_info(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apacheinfo.html',context)
 
 def nginx_log_upload(request):
     if request.method == 'POST':
