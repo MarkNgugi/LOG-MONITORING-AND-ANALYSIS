@@ -446,6 +446,11 @@ class NginxLogUploadView(APIView):
                 {"error": "Serializer validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
+
+def nginx_info(request):
+    context={}
+    return render(request,'baseapp/logingestion/applicationlogs/webservers/nginx/nginxinfo.html',context)
 
 def iis_log_upload(request):
     if request.method == 'POST':

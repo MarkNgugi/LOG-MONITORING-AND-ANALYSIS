@@ -43,6 +43,8 @@ urlpatterns = [
     path('home/webserver-logs/apachemetrics/',views.apache_info,name='apacheinfo'),
 
     path('home/system-logs/os-types/nginx-explorer/',views.nginx_log_upload,name='nginx'),
+    path('home/webserver-logs/nginxmetrics/',views.nginx_info,name='nginxinfo'),
+
     path('home/system-logs/os-types/iis-explorer/',views.iis_log_upload,name='iis'),
 
     path('home/system-logs/os-types/mysql-explorer/',views.mysql_log_upload,name='mysql'),
