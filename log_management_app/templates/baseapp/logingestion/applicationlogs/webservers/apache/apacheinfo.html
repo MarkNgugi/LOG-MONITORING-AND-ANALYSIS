@@ -146,17 +146,40 @@
         {% block extra_js %}
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/luxon@2.4.0/build/global/luxon.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         <script>
         window.onload = function() {
+          // Function to generate time labels every 5 minutes
+          function generateTimeLabels() {
+            const timeLabels = [];
+            const currentTime = new Date();
+            for (let i = 5; i >= 0; i--) {
+              const labelTime = new Date(currentTime);
+              labelTime.setMinutes(currentTime.getMinutes() - (i * 5));  // Decrease by 5 minutes
+              const formattedTime = labelTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+              timeLabels.push(formattedTime);
+            }
+            return timeLabels;
+          }
+        
+          // Function to get the current data (You can replace this with your real-time data fetching logic)
+          function getRealTimeData() {
+            // Example data, replace with your own real-time data source
+            return [2000, 2500, 2400, 2600, 2800, 3000]; // You can fetch data dynamically here
+          }
+        
           // CPU Load Chart
           const ctxLoad = document.getElementById('cpuLoadChart').getContext('2d');
           new Chart(ctxLoad, {
             type: 'line',
             data: {
-              labels: ['20:35', '20:40', '20:45', '20:50', '20:55', '21:00'],
+              labels: generateTimeLabels(),  // Get dynamically generated labels
               datasets: [{
                 label: 'Requests per second',
-                data: [2000, 2500, 2400, 2600, 2800, 3000],
+                data: getRealTimeData(),  // Use dynamic data
                 backgroundColor: 'rgba(255, 206, 86, 0.6)',
                 borderColor: 'rgba(255, 206, 86, 1)',
                 borderWidth: 3,
@@ -175,16 +198,16 @@
               }
             }
           });
-
+        
           // CPU Response Time Chart
           const ctxResponse = document.getElementById('cpuResponseChart').getContext('2d');
           new Chart(ctxResponse, {
             type: 'line',
             data: {
-              labels: ['20:35', '20:40', '20:45', '20:50', '20:55', '21:00'],
+              labels: generateTimeLabels(),
               datasets: [{
                 label: 'Response Time (ms)',
-                data: [0.2, 0.3, 0.25, 0.35, 0.4, 0.6],
+                data: getRealTimeData(),
                 backgroundColor: 'rgba(54, 162, 235, 0.5)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 3,
@@ -203,16 +226,16 @@
               }
             }
           });
-
+        
           // CPU Error Rate Chart
           const ctxError = document.getElementById('cpuErrorChart').getContext('2d');
           new Chart(ctxError, {
             type: 'line',
             data: {
-              labels: ['20:35', '20:40', '20:45', '20:50', '20:55', '21:00'],
+              labels: generateTimeLabels(),
               datasets: [{
                 label: 'Error Rate (%)',
-                data: [10, 12, 15, 20, 18, 25],
+                data: getRealTimeData(),
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 3,
@@ -231,56 +254,33 @@
               }
             }
           });
-
-          // Memory Worker Status Chart
-          const ctxWorker = document.getElementById('memoryWorkerChart').getContext('2d');
-          new Chart(ctxWorker, {
-            type: 'line',
-            data: {
-              labels: ['20:35', '20:40', '20:45', '20:50', '20:55', '21:00'],
-              datasets: [{
-                label: 'Busy Workers',
-                data: [240, 245, 250, 255, 248, 260],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 3,
-                fill: false,
-                pointRadius: 5,
-                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                tension: 0.4
-              }]
-            },
-            options: {
-              scales: {
-                y: { beginAtZero: true, max: 300 }
-              }
-            }
-          });
-
-          // Memory CPU Load Chart
-          const ctxMemoryLoad = document.getElementById('memoryLoadChart').getContext('2d');
-          new Chart(ctxMemoryLoad, {
-            type: 'line',
-            data: {
-              labels: ['20:35', '20:40', '20:45', '20:50', '20:55', '21:00'],
-              datasets: [{
-                label: 'CPU Load',
-                data: [10.5, 11.2, 11.5, 12, 11.6, 11.8],
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 3,
-                fill: false,
-                pointRadius: 5,
-                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                tension: 0.4
-              }]
-            },
-            options: {
-              scales: {
-                y: { beginAtZero: true, max: 15 }
-              }
-            }
-          });
+        
+          // Function to refresh the charts every 5 minutes
+          setInterval(function() {
+            // Update the time labels and the data for all charts
+            const newLabels = generateTimeLabels();
+            const newData = getRealTimeData();  // Replace this with your real-time data fetching logic
+        
+            // Update CPU Load Chart
+            ctxLoad.data.labels = newLabels;
+            ctxLoad.data.datasets[0].data = newData;
+            ctxLoad.update();
+        
+            // Update Response Time Chart
+            ctxResponse.data.labels = newLabels;
+            ctxResponse.data.datasets[0].data = newData;
+            ctxResponse.update();
+        
+            // Update CPU Error Rate Chart
+            ctxError.data.labels = newLabels;
+            ctxError.data.datasets[0].data = newData;
+            ctxError.update();
+        
+          }, 5 * 60 * 1000); // Refresh every 5 minutes (in milliseconds)
         };
         </script>
+        
+        
         {% endblock %}
       </div>
     </div>

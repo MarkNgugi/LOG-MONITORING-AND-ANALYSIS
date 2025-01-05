@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'log_management_app',
     'user_management_app',
     'alerts_and_notifications_app',
-    'AI_and_machine_learning_app',    
+    'AI_and_machine_learning_app',   
+     
 
 ]
 
@@ -158,7 +159,8 @@ AUTH_USER_MODEL = 'user_management_app.User'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
