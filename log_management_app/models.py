@@ -74,40 +74,37 @@ class MacLogFile(models.Model):
         return self.source_name 
  
  
-class ApacheLogFile(models.Model):
+class ApacheSourceInfo(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)
-    os_type=models.CharField(max_length=50,default='apache')
-    file = models.FileField(upload_to='uploaded_logs/apache/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)    
 
     def __str__(self):
         return self.source_name
+    
 
 class ApacheLog(models.Model):
-    client_ip = models.CharField(max_length=50, null=True, blank=True)
-    timestamp = models.CharField(max_length=255, null=True)
-    method = models.CharField(max_length=10,null=True, blank=True)
-    url = models.TextField(null=True, blank=True)
-    protocol = models.TextField(null=True)
-    status_code = models.PositiveIntegerField(null=True, blank=True)
-    referrer = models.TextField(null=True)
-    user_agent = models.TextField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)    
-    
-    # Error Log Fields
-    error_module = models.CharField(max_length=50,null=True, blank=True)
-    process_id = models.PositiveIntegerField(null=True)
-    error_message = models.TextField(null=True, blank=True)
-    file_path = models.TextField(null=True, blank=True)
-
-
-    def __str__(self):        
-            return f"{self.timestamp} {self.client_ip} {self.method} {self.url}"
-        
+    client_ip = models.GenericIPAddressField(null=True)  # Client IP address
+    remote_logname = models.CharField(max_length=100, blank=True, null=True)  # Remote Logname
+    remote_user = models.CharField(max_length=100, blank=True, null=True)  # Remote User
+    timestamp = models.DateTimeField(null=True)  # Timestamp of the request
+    request_line = models.CharField(max_length=255, default='none')  # Default value for request_line
+    response_code = models.IntegerField(null=True, blank=True)  # Response code can be null or blank
+    response_size = models.IntegerField(null=True)  # Response size (in bytes)
+    referrer = models.CharField(max_length=255, blank=True, null=True)  # Referrer URL
+    user_agent = models.CharField(max_length=255, blank=True, null=True)  # User-Agent string
+    created_at = models.DateTimeField(auto_now_add=True)  # Automatically set at creation time
 
     class Meta:
+        ordering = ['-timestamp']  # Ordering by timestamp, latest logs first
         verbose_name = "Apache Log"
         verbose_name_plural = "Apache Logs"
+
+    def __str__(self):
+        return f"{self.client_ip} - {self.timestamp} - {self.response_code if self.response_code else 'N/A'}"
+
+
+    
+
 
 class NginxLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)

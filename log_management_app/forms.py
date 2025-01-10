@@ -81,21 +81,17 @@ class MacLogUploadForm(forms.ModelForm):
 
 
 class ApacheLogUploadForm(forms.ModelForm):
+    file = forms.FileField(required=False)  # Add file field to the form (not in the model)
+
     class Meta:
-        model = ApacheLogFile
-        fields = ['source_name', 'file']
+        model = ApacheSourceInfo
+        fields = ['source_name']  
         widgets = {
             'source_name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter log source'
             }),
-            'file': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file',
-                'style': 'display:none;', 
-                'id': 'fileInput',         
-            }),
         }
-
         
 
 class NginxLogUploadForm(forms.ModelForm):

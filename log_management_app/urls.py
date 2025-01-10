@@ -41,6 +41,7 @@ urlpatterns = [
     
     path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
     path('home/webserver-logs/apachemetrics/',views.apache_info,name='apacheinfo'),
+    
 
     path('home/system-logs/os-types/nginx-explorer/',views.nginx_log_upload,name='nginx'),
     path('home/webserver-logs/nginxmetrics/',views.nginx_info,name='nginxinfo'),
@@ -77,7 +78,7 @@ urlpatterns = [
     path('alerts-history/',views.alert_history,name='alert_history'),
 
     path('api/linux/logs/', views.LinuxLogUploadView.as_view(), name='linux-log-upload'),
-    path('api/apache/logs/', views.ApacheLogUploadView.as_view(), name='apache-log-upload'),
+    path('api/apache/logs/', views.create_apache_log, name='apache-log-upload'),
     path('api/nginx/logs/', views.NginxLogUploadView.as_view(), name='nginx-log-upload'),
     
 

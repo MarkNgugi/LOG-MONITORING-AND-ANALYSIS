@@ -3,6 +3,12 @@ from datetime import datetime
 from rest_framework import serializers
 from .models import *
 
+
+class ApacheLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ApacheLog
+        fields = '__all__' 
+
 class LinuxLogSerializer(serializers.Serializer):
     timestamp = serializers.CharField(allow_null=True, required=False)
     event = serializers.CharField(allow_null=True, required=False)

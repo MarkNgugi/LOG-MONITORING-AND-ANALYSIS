@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 
  
 from rest_framework.views import APIView
@@ -368,7 +369,7 @@ def apache_log_upload(request):
 
 
 
-class ApacheLogUploadView(APIView):
+class ApacheLogView(APIView):
     def post(self, request, *args, **kwargs):
         logs = request.data.get('logs', [])
         
@@ -399,9 +400,27 @@ class ApacheLogUploadView(APIView):
             )
   
 
+@api_view(['POST'])
+def create_apache_log(request):
+    if request.method == 'POST':
+        serializer = ApacheLogSerializer(data=request.data)  # Validates and converts the data
+
+        if serializer.is_valid():
+            # Save the log entry to the ApacheLog model
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+
+
+
+
 def apache_info(request):
     context={}
     return render(request,'baseapp/logingestion/applicationlogs/webservers/apache/apacheinfo.html',context)
+
+
+
+
 
 def nginx_log_upload(request):
     if request.method == 'POST':
