@@ -257,7 +257,7 @@
                                     
 
 <!-- Step 3: Create a Systemd Service File -->
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="serviceFileSection">
     <div class="card-body">
         <h4>3. Create a Systemd Service File</h4>
         <p>Systemd services are configured using <code>.service</code> files. Follow these steps to create a service file for your script:</p>
@@ -282,18 +282,78 @@ Environment=LOG_API_URL="https://example.com/api/logs"
 [Install]
 WantedBy=multi-user.target</pre>
             </div>
-            
             <li>Save and close the file.</li>
         </ol>
     </div> <!-- /.card-body -->
 </div> <!-- /.card -->
 
+<!-- JavaScript -->
+<script>
+document.getElementById("platformSelect").addEventListener("change", function() {
+    const platform = this.value;
+    const serviceFileSection = document.getElementById("serviceFileSection");
+
+    if (platform === "windows") {
+        serviceFileSection.innerHTML = `
+            <div class="card-body">
+                <h4>3. Create a Service File for Windows</h4>
+                <p>For Windows, we use <code>.bat</code> files instead of <code>.service</code> files. Follow these steps to create a batch file for your script:</p>
+                <ol>
+                    <li>Create a batch file using the command below:</li>
+                    <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                        <code>notepad C:\\path\\to\\log-collector.bat</code>
+                    </div>
+                    <li>Add the following content to the batch file:</li>
+                    <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                        <pre style="color: white;">@echo off
+set LOG_API_URL=https://example.com/api/logs
+curl -H "Authorization: Token YOUR_TOKEN" %LOG_API_URL%</pre>
+                    </div>
+                    <li>Save and close the file.</li>
+                </ol>
+            </div>
+        `;
+    } else {
+        // Default Debian (same as original content)
+        serviceFileSection.innerHTML = `
+            <div class="card-body">
+                <h4>3. Create a Systemd Service File</h4>
+                <p>Systemd services are configured using <code>.service</code> files. Follow these steps to create a service file for your script:</p>
+                <ol>
+                    <li>Create a service file using the command below:</li>
+                    <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                        <code>sudo nano /etc/systemd/system/log-collector.service</code>
+                    </div>
+                    <li>Add the following content to the service file:</li>
+                    <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                        <pre style="color: white;">[Unit]
+Description=Log Collector Service
+After=network.target
+            
+[Service]
+ExecStart=/usr/local/bin/collect-logs.sh
+Restart=always
+RestartSec=5s
+User=root
+Environment=LOG_API_URL="https://example.com/api/logs"
+            
+[Install]
+WantedBy=multi-user.target</pre>
+                    </div>
+                    <li>Save and close the file.</li>
+                </ol>
+            </div>
+        `;
+    }
+});
+</script>
+
 <!-- Step 4: Reload Systemd and Enable the Service -->
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="step4Card">
     <div class="card-body">
         <h4>4. Reload Systemd and Enable the Service</h4>
         <p>Reload the systemd configuration to recognize the new service and enable it to start on boot.</p>
-        <ol>
+        <ol id="step4Instructions">
             <li>Reload the systemd configuration using the command below:</li>
             <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
                 <code>sudo systemctl daemon-reload</code>
@@ -313,6 +373,55 @@ WantedBy=multi-user.target</pre>
         </ol>
     </div> <!-- /.card-body -->
 </div> <!-- /.card -->
+
+<!-- JavaScript -->
+<script>
+document.getElementById("platformSelect").addEventListener("change", function() {
+    const platform = this.value;
+    const step4Card = document.getElementById("step4Card");
+    const step4Instructions = document.getElementById("step4Instructions");
+
+    if (platform === "windows") {
+        // Update instructions for Windows
+        step4Card.querySelector("h4").innerText = "4. Enable the Service on Windows";
+        step4Instructions.innerHTML = `
+            <li>Install and configure the Windows service using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sc create log-collector binPath= "C:\\path\\to\\your\\service.exe"</code>
+            </div>
+            <li>Start the service using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sc start log-collector</code>
+            </div>
+            <li>Check the service status to ensure it is running:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sc qc log-collector</code>
+            </div>
+        `;
+    } else {
+        // Default (Debian) instructions remain unchanged
+        step4Card.querySelector("h4").innerText = "4. Reload Systemd and Enable the Service";
+        step4Instructions.innerHTML = `
+            <li>Reload the systemd configuration using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl daemon-reload</code>
+            </div>
+            <li>Enable the service to start on boot:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl enable log-collector.service</code>
+            </div>
+            <li>Start the service using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl start log-collector.service</code>
+            </div>
+            <li>Check the service status to ensure it is running:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl status log-collector.service</code>
+            </div>
+        `;
+    }
+});
+</script>
 
 <!-- Step 5: Test Connection -->
 <div class="card shadow mb-4">
