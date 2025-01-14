@@ -33,6 +33,7 @@ urlpatterns = [
     path('home/system-logs/os-types/',views.system_os_types,name='system_os_types'),
 
     path('home/system-logs/os-types/windows-explorer/',views.windows_log_upload,name='windows'),
+    path('home/system-logs/os-types/windows-explorer/',views.windowsAD_log_upload,name='windowsAD'),
     path('home/system-logs/os-types/linux-explorer/',views.linux_log_upload,name='linux'),
     path('home/system-logs/linuxmetrics/',views.linux_info,name='linuxinfo'),
 

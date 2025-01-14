@@ -17,11 +17,11 @@
                         <a class="nav-link active" id="config-tab" data-toggle="tab" href="#config" role="tab" aria-controls="config" aria-selected="true">Configuration Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts</a>
+                        <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts & Anomalies</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="anomalies-tab" data-toggle="tab" href="#anomalies" role="tab" aria-controls="anomalies" aria-selected="false">Anomalies</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" id="version-history-tab" data-toggle="tab" href="#version-history" role="tab" aria-controls="version-history" aria-selected="false">Version History</a>
                     </li>
@@ -467,135 +467,156 @@ document.getElementById("platformSelect").addEventListener("change", function() 
                     </div> <!-- /.tab-pane -->
 
                     <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
-                        <h1 class="h3 page-title">Alerts</h1>
+                        <h1 class="h3 page-title">Alerts & Anomalies</h1>
                         <hr class="my-2">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Alert Name</th>
                                     <th>Category</th>
+                                    <th>Level</th>                                    
                                     <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>ApacheDown</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>CRITICAL</td>
                                     <td>Apache server is down.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheUp</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Anomaly</td>
+                                    <td>INFO</td>
                                     <td>Apache server is up and running.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheRestart</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Anomaly</td>
+                                    <td>INFO</td>
                                     <td>Apache server has restarted.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheWorkersLoad</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>WARNING</td>
                                     <td>Apache workers load is too high.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheResponseTimeTooHigh</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>WARNING</td>
                                     <td>Apache response time is higher than expected.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheErrorsRateTooHigh</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>WARNING</td>
                                     <td>Apache error rate is too high.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheHighTraffic</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Anomaly</td>
+                                    <td>INFO</td>
                                     <td>High traffic detected on the server.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheSlowRequests</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>WARNING</td>
                                     <td>Requests taking too long to process.</td>
                                 </tr>
                                 <tr>
                                     <td>Apache400ErrorsSpike</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>HIGH</td>
                                     <td>Spike in 400-series errors.</td>
                                 </tr>
                                 <tr>
                                     <td>Apache500ErrorsSpike</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>HIGH</td>
                                     <td>Spike in 500-series errors.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheDiskSpaceLow</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>CRITICAL</td>
                                     <td>Low disk space impacting Apache performance.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheMemoryUsageHigh</td>
-                                    <td>Apache Metrics</td>
+                                    <td>Alert</td>
+                                    <td>HIGH</td>
                                     <td>High memory usage detected by Apache workers.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheClientIPBlock</td>
-                                    <td>Apache Security</td>
+                                    <td>Alert</td>
+                                    <td>MEDIUM</td>
                                     <td>Blocked a client IP address due to suspicious activity.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheUnauthorizedAccess</td>
-                                    <td>Apache Security</td>
+                                    <td>Alert</td>
+                                    <td>MEDIUM</td>
                                     <td>Unauthorized access attempt detected.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheBruteForceAttack</td>
-                                    <td>Apache Security</td>
+                                    <td>Alert</td>
+                                    <td>CRITICAL</td>
                                     <td>Brute force attack detected on the server.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheDDOSAttack</td>
-                                    <td>Apache Security</td>
+                                    <td>Alert</td>
+                                    <td>CRITICAL</td>
                                     <td>Possible DDOS attack detected.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheSSLHandshakeFailure</td>
-                                    <td>Apache Security</td>
+                                    <td>Alert</td>
+                                    <td>HIGH</td>
                                     <td>SSL handshake failure detected.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheCertificateExpiry</td>
-                                    <td>Apache Security</td>
+                                    <td>Alert</td>
+                                    <td>HIGH</td>
                                     <td>SSL certificate nearing expiry.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheConfigError</td>
-                                    <td>Apache Configuration</td>
+                                    <td>Alert</td>
+                                    <td>HIGH</td>
                                     <td>Configuration error detected in Apache logs.</td>
                                 </tr>
                                 <tr>
                                     <td>ApacheProxyError</td>
-                                    <td>Apache Configuration</td>
+                                    <td>Alert</td>
+                                    <td>MEDIUM</td>
                                     <td>Errors related to Apache as a reverse proxy.</td>
                                 </tr>
                             </tbody>
                         </table>
-                                            
                     </div>
+                    
 
 
-                    <!-- Anomalies Tab Content -->
+                    <!-- Anomalies Tab Content
                     <div class="tab-pane fade" id="anomalies" role="tabpanel" aria-labelledby="anomalies-tab">
                         <h1 class="h3 page-title">Anomalies</h1>
                         <hr class="my-2">
                         <p>MORE INFO TO BE ADDED</p>
-                    </div>
+                    </div> -->
 
                     <!-- Version History Tab Content -->
                     <div class="tab-pane fade" id="version-history" role="tabpanel" aria-labelledby="version-history-tab">
                         <h1 class="h3 page-title">Version History</h1>
-                        <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>
+                        <hr class="my-2"> <br>
+                        <h4>VERSION 1.0</h4>
                     </div>
                 </div>
             </div> <!-- /.my-4 -->

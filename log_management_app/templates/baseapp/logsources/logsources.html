@@ -39,15 +39,15 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link {% if os_type == 'linux' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='linux' %}">
-                      Linux
-                      <span class="badge badge-pill {% if os_type == 'linux' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{linux_count}}</span>
+                  <a class="nav-link {% if os_type == 'windowsAD' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='windowsAD' %}">
+                      Windows AD
+                      <span class="badge badge-pill {% if os_type == 'windowsAD' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{windowsAD_count}}</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link {% if os_type == 'macos' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='macos' %}">
-                      Mac OS
-                      <span class="badge badge-pill {% if os_type == 'macos' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{mac_count}}</span>
+                  <a class="nav-link {% if os_type == 'linux' %}active bg-transparent text-primary{% else %}text-muted{% endif %}" href="{% url 'logsources_os' os_type='linux' %}">
+                      Linux
+                      <span class="badge badge-pill {% if os_type == 'linux' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">{{linux_count}}</span>
                   </a>
                 </li>
               </ul>
