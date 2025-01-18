@@ -74,33 +74,49 @@ class MacLogFile(models.Model):
         return self.source_name 
  
  
-class ApacheSourceInfo(models.Model):
-    source_name=models.CharField(max_length=20, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)    
+# class ApacheSourceInfo(models.Model):
+#     source_name = models.CharField(max_length=20, blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.source_name
-    
+#     def __str__(self):
+#         return self.source_name
+
 
 class ApacheLog(models.Model):
-    client_ip = models.GenericIPAddressField(null=True)  # Client IP address
-    remote_logname = models.CharField(max_length=100, blank=True, null=True)  # Remote Logname
-    remote_user = models.CharField(max_length=100, blank=True, null=True)  # Remote User
-    timestamp = models.DateTimeField(null=True)  # Timestamp of the request
-    request_line = models.CharField(max_length=255, default='none')  # Default value for request_line
-    response_code = models.IntegerField(null=True, blank=True)  # Response code can be null or blank
-    response_size = models.IntegerField(null=True)  # Response size (in bytes)
-    referrer = models.CharField(max_length=255, blank=True, null=True)  # Referrer URL
-    user_agent = models.CharField(max_length=255, blank=True, null=True)  # User-Agent string
-    created_at = models.DateTimeField(auto_now_add=True)  # Automatically set at creation time
+   
+    LOG_TYPE_CHOICES = [
+        ('access', 'Access'),
+        ('error', 'Error'),
+    ]    
+ 
+    log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True) 
+    client_ip = models.GenericIPAddressField(null=True, blank=True)  
+    remote_logname = models.CharField(max_length=100, blank=True, null=True)  
+    remote_user = models.CharField(max_length=100, blank=True, null=True)  
+    timestamp = models.CharField(null=True, blank=True) 
+    request_line = models.CharField(max_length=255, default='none', blank=True)  
+    response_code = models.IntegerField(null=True, blank=True)  
+    response_size = models.IntegerField(null=True, blank=True)  
+    referrer = models.CharField(max_length=255, blank=True, null=True)  
+    user_agent = models.CharField(max_length=255, blank=True, null=True)  
+    created_at = models.DateTimeField(auto_now_add=True)  
+    
+    # Fields specific to error logs
+    log_level = models.CharField(max_length=50, blank=True, null=True)  
+    error_message = models.TextField(blank=True, null=True) 
+    process_id = models.IntegerField(null=True, blank=True)  
+    thread_id = models.CharField(max_length=255, blank=True, null=True)  
+    module = models.CharField(max_length=255, blank=True, null=True)  
 
     class Meta:
-        ordering = ['-timestamp']  # Ordering by timestamp, latest logs first
+        ordering = ['-timestamp'] 
         verbose_name = "Apache Log"
         verbose_name_plural = "Apache Logs"
 
     def __str__(self):
-        return f"{self.client_ip} - {self.timestamp} - {self.response_code if self.response_code else 'N/A'}"
+        return f"{self.client_ip if self.client_ip else 'N/A'} - {self.timestamp} -{self.log_type} -{self.response_code if self.response_code else 'N/A'}"
+
+
 
 
     

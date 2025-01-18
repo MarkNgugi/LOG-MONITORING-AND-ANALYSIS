@@ -40,7 +40,7 @@ urlpatterns = [
     path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
     
-    path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
+    # path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
     path('home/webserver-logs/apachemetrics/',views.apache_info,name='apacheinfo'),
     
 

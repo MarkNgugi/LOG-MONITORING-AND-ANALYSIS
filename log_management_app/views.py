@@ -307,31 +307,23 @@ class LinuxLogUploadView(APIView):
     def post(self, request, *args, **kwargs):
         logs = request.data.get('logs', [])
         
-        # Check if logs are provided
         if not logs:
             return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
         
-        # Log the raw data for debugging
-        print("Received logs data:", logs)
-        
-        # Use the serializer to validate and save logs
-        serializer = LinuxLogSerializer(data=logs, many=True)
+        serializer = ApacheLogSerializer(data=logs, many=True)
         if serializer.is_valid():
-            # Save each log entry to the database
             try:
                 for log in logs:
-                    # Create a new log object from validated data
-                    LinuxLog.objects.create(**log)  # Save the log
+                    ApacheLog.objects.create(**log)  # Save the log
                 return Response({"message": "Logs processed successfully"}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return Response({"error": "Error saving logs", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            # Log serializer errors for debugging
-            print("Serializer validation errors:", serializer.errors)
             return Response(
                 {"error": "Serializer validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
 
             
 def linux_info(request):
@@ -354,50 +346,84 @@ def mac_log_upload(request):
     return render(request, 'baseapp/logingestion/systemlogs/macos/macos.html', context)
 
 
-def apache_log_upload(request):
-    if request.method == 'POST':
-        form = ApacheLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_nginx_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = ApacheLogUploadForm()
+# def apache_log_upload(request):
+#     if request.method == 'POST':
+#         form = ApacheLogUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             source_name = form.cleaned_data.get('source_name')
+#             files = request.FILES.getlist('file')  # Get all uploaded files
 
-    context={'form':form}        
-    return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', context)
+#             # Create or fetch the source
+#             source, _ = ApacheSourceInfo.objects.get_or_create(source_name=source_name)
+
+#             for file in files:
+#                 try:
+#                     # Parse each uploaded log file (assuming JSON format)
+#                     logs_data = json.load(file)
+#                 except json.JSONDecodeError:
+#                     form.add_error(None, "Invalid log file format. Ensure it's JSON.")
+#                     return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', {'form': form})
+
+#                 # Validate and save logs
+#                 serializer = ApacheLogSerializer(data={'source_name': source_name, 'logs': logs_data})
+#                 if serializer.is_valid():
+#                     serializer.save()
+#                 else:
+#                     form.add_error(None, serializer.errors)
+#                     return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', {'form': form})
+
+#             return redirect('logsources')  # Redirect to the log sources page
+#     else:
+#         form = ApacheLogUploadForm()
+
+#     return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', {'form': form})
 
 
+
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 class ApacheLogView(APIView):
     def post(self, request, *args, **kwargs):
-        logs = request.data.get('logs', [])
-        
-        # Check if logs are provided
+        # Accept logs directly (single log or list of logs)
+        logs = request.data if isinstance(request.data, list) else [request.data]
+
         if not logs:
-            return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Log the raw data for debugging
-        print("Received logs data:", logs)
-        
-        # Use the serializer to validate and save logs
-        serializer = ApacheLogSerializer(data=logs, many=True)
-        if serializer.is_valid():
-            # Save each log entry to the database
-            try:
-                for log in logs:
-                    # Create a new log object from validated data
-                    ApacheLog.objects.create(**log)  # Save the log
-                return Response({"message": "Logs processed successfully"}, status=status.HTTP_201_CREATED)
-            except Exception as e:
-                return Response({"error": "Error saving logs", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            # Log serializer errors for debugging
-            print("Serializer validation errors:", serializer.errors)
             return Response(
-                {"error": "Serializer validation failed", "details": serializer.errors},
+                {"error": "No logs provided or invalid format."},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+        logger.debug(f"Received logs data: {logs}")
+
+        # Validate logs using the serializer
+        serializer = ApacheLogSerializer(data=logs, many=True)
+        if serializer.is_valid():
+            try:
+                serializer.save()  # Save all logs at once
+                skipped_logs = len(logs) - len(serializer.validated_data)
+                message = f"Logs processed successfully. Skipped {skipped_logs} invalid entries." if skipped_logs > 0 else "Logs processed successfully."
+                return Response({"message": message}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                logger.error(f"Error saving logs: {str(e)}")
+                return Response(
+                    {"error": "Error saving logs", "details": str(e)},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+        else:
+            logger.error(f"Serializer validation errors: {serializer.errors}")
+            return Response(
+                {"error": "Validation failed", "details": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
   
 
 @api_view(['POST'])

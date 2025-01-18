@@ -259,6 +259,199 @@
                                         }
                                     </style>
                                     
+
+<!-- Step 3: Upload Logs -->
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <h4>3. Upload Logs</h4>
+    </div>
+    <div class="card-body">
+        <p class="mb-2"><strong>Upload log files here for monitoring and analysis.</strong></p>
+        
+        <!-- Check if the form has errors and display an alert -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <!-- Form for Source Name and Dropzone Upload -->
+        <form method="post" action="{% url 'apache' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Source Name Input Field -->
+            <div class="form-group mb-3">
+                <label for="sourceName"><strong>Source Name</strong></label>
+                {{ form.source_name }}
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="form-group mb-3">
+                <label for="file"><strong>Upload File</strong></label>
+                <div id="dropzone" class="bg-light rounded-lg p-4 text-center border border-dashed">
+                    <p class="text-muted mb-3">Drag files here or click to upload</p>
+                    <input type="file" id="fileInput" name="file" class="d-none" multiple 
+                        onchange="handleFileSelect(event)">
+                    <button type="button" class="btn btn-primary" onclick="triggerFileInput()">Browse Files</button>
+                </div>
+
+                <!-- File Preview Area -->
+                <div class="bg-light rounded-lg p-3 mt-3" id="filePreview">
+                    <h6 class="text-muted">Uploaded Files:</h6>
+                    <ul class="list-unstyled" id="fileList"></ul>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Submit and View</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    // JavaScript for drag-and-drop and file preview
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    let filesArray = []; // To keep track of files
+
+    // Trigger file input
+    function triggerFileInput() {
+        fileInput.click();
+    }
+
+    // Handle file select
+    function handleFileSelect(event) {
+        const files = event.target.files;
+        updateFilePreview(files);
+    }
+
+    // Handle drag-and-drop
+    dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('bg-primary', 'text-white');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('bg-primary', 'text-white');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('bg-primary', 'text-white');
+        const files = e.dataTransfer.files;
+        updateFilePreview(files);
+    });
+
+    // Update file preview
+    function updateFilePreview(files) {
+        Array.from(files).forEach((file) => {
+            if (!filesArray.some((f) => f.name === file.name)) {
+                filesArray.push(file);
+
+                const listItem = document.createElement('li');
+                listItem.className = 'd-flex justify-content-between align-items-center mb-2';
+
+                listItem.innerHTML = `
+                    <span>${file.name}</span>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeFile('${file.name}')">Remove</button>
+                `;
+                fileList.appendChild(listItem);
+            }
+        });
+    }
+
+    // Remove file from preview
+    function removeFile(fileName) {
+        filesArray = filesArray.filter((file) => file.name !== fileName);
+        const items = Array.from(fileList.children);
+        items.forEach((item) => {
+            if (item.innerText.includes(fileName)) {
+                fileList.removeChild(item);
+            }
+        });
+    }
+</script>
+
+<style>
+    /* Styling for drag-and-drop area */
+    #dropzone {
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    #dropzone.bg-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    #filePreview {
+        border: 1px dashed #ccc;
+        min-height: 100px;
+    }
+
+    #fileList li {
+        padding: 0.5em;
+        border-bottom: 1px solid #ddd;
+        font-size: 0.9em;
+    }
+
+    #fileList li:last-child {
+        border-bottom: none;
+    }
+
+    .btn-danger {
+        padding: 0.2em 0.5em;
+        font-size: 0.8em;
+    }
+</style>
+
+
+<script>
+    // JavaScript to handle file preview
+    function handleFileSelect(event) {
+        const files = event.target.files;
+        const fileList = document.getElementById('fileList');
+        fileList.innerHTML = ''; // Clear previous list
+
+        Array.from(files).forEach(file => {
+            const listItem = document.createElement('li');
+            listItem.textContent = file.name;
+            fileList.appendChild(listItem);
+        });
+    }
+</script>
+
+<style>
+    /* Styling for the file input and preview */
+    #fileInput {
+        display: block;
+        width: 100%;
+        padding: 0.5em;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    #filePreview {
+        border: 1px dashed #ccc;
+        min-height: 100px;
+    }
+
+    #fileList li {
+        margin: 5px 0;
+        font-size: 0.9em;
+        color: #333;
+    }
+</style>
+                                 
+
                                     
 
 <!-- Step 3: Create a Systemd Service File -->
