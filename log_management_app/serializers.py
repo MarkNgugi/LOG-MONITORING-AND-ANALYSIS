@@ -20,8 +20,7 @@ class ApacheLogSerializer(serializers.ModelSerializer):
             'user_agent',
             'log_level',
             'error_message',
-            'process_id',
-            'thread_id',
+            'process_id',            
             'module',
         ]
 

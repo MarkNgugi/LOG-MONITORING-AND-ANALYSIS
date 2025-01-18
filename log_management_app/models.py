@@ -104,8 +104,7 @@ class ApacheLog(models.Model):
     # Fields specific to error logs
     log_level = models.CharField(max_length=50, blank=True, null=True)  
     error_message = models.TextField(blank=True, null=True) 
-    process_id = models.IntegerField(null=True, blank=True)  
-    thread_id = models.CharField(max_length=255, blank=True, null=True)  
+    process_id = models.IntegerField(null=True, blank=True)        
     module = models.CharField(max_length=255, blank=True, null=True)  
 
     class Meta:
