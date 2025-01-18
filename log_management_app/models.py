@@ -42,26 +42,39 @@ class LinuxLogFile(models.Model):
     def __str__(self):
         return self.source_name  
  
-class LinuxLog(models.Model):    
 
-    timestamp = models.CharField(max_length=255,null=True)
-    event = models.TextField(max_length=50,null=True)
-    status = models.CharField(max_length=50, null=True, blank=True)
-    log_level = models.CharField(max_length=50, null=True)
+
+class LinuxLog(models.Model):
+    # Common fields for both syslogs and auth logs
+    LOG_TYPE_CHOICES = [
+        ('syslog', 'Syslog'),
+        ('authlog', 'Authlog'),
+    ]
+    log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True)
+    timestamp = models.DateTimeField(null=True, blank=True)
     hostname = models.CharField(max_length=255, null=True, blank=True)
-    process = models.CharField(max_length=255, null=True, blank=True)
-    source = models.CharField(max_length=255, null=True, blank=True)
+    service = models.CharField(max_length=255, null=True, blank=True)
+    process_id = models.IntegerField(null=True, blank=True)
     message = models.TextField(null=True, blank=True)
-    username = models.CharField(max_length=255, null=True, blank=True)
-    source_ip = models.CharField(max_length=50, null=True, blank=True)
-    
- 
-    def __str__(self):
-        return f"{self.timestamp} - {self.event} - {self.username} - {self.source_ip}"
+
+    # Additional fields for syslogs
+    log_level = models.CharField(max_length=50, null=True, blank=True)
+
+    # Additional fields for auth logs
+    user = models.CharField(max_length=255, null=True, blank=True)
+    command = models.TextField(null=True, blank=True)
+    pwd = models.CharField(max_length=255, null=True, blank=True)
+    session_status = models.CharField(max_length=255, null=True, blank=True)
+    uid = models.IntegerField(null=True, blank=True)
 
     class Meta:
+        ordering = ['-timestamp']
         verbose_name = "Linux Log"
         verbose_name_plural = "Linux Logs"
+
+    def __str__(self):
+        return f"{self.log_type} - {self.timestamp} - {self.service} - {self.message[:50]}"
+
 
      
 class MacLogFile(models.Model):

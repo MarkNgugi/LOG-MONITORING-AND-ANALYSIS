@@ -25,56 +25,23 @@ class ApacheLogSerializer(serializers.ModelSerializer):
         ]
 
 
-class LinuxLogSerializer(serializers.Serializer):
-    timestamp = serializers.CharField(allow_null=True, required=False)
-    event = serializers.CharField(allow_null=True, required=False)
-    status = serializers.CharField(allow_null=True, required=False)
-    log_level = serializers.CharField(allow_null=True, required=False)
-    hostname = serializers.CharField(allow_null=True, required=False)
-    process = serializers.CharField(allow_null=True, required=False)
-    source = serializers.CharField(allow_null=True, required=False)
-    message = serializers.CharField(allow_null=True, required=False)
-    username = serializers.CharField(allow_null=True, required=False)
-    source_ip = serializers.CharField(allow_null=True, required=False)
-
-
-
-    def create(self, validated_data):
-        logs = []
-        for log in validated_data:
-            if isinstance(log, str):
-                if log.strip():
-                    try:
-                        log = json.loads(log)
-                    except json.JSONDecodeError:
-                        raise serializers.ValidationError("Invalid JSON format in log data.")
-                else:
-                    raise serializers.ValidationError("Empty log data received.")
-            
-            timestamp = log.get('timestamp')
-            if timestamp:
-                try:
-                    timestamp = datetime.strptime(timestamp, "%b %d %H:%M:%S").replace(year=datetime.now().year)
-                except ValueError:
-                    raise serializers.ValidationError("Invalid timestamp format.")
-            else:
-                raise serializers.ValidationError("Missing timestamp.")
-            
-            log_entry = LinuxLog.objects.create(
-                timestamp=timestamp,
-                hostname=log.get('hostname'),
-                event=log.get('event'),
-                status=log.get('status'),
-                log_level=log.get('log_level'),
-                process=log.get('process'),
-                source=log.get('source'),
-                message=log.get('message'),
-                username=log.get('username'),
-                source_ip=log.get('source_ip')
-            )
-            logs.append(log_entry)
-
-        return logs
+class LinuxLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LinuxLog
+        fields = [
+            'log_type',
+            'timestamp',
+            'hostname',
+            'service',
+            'process_id',
+            'message',
+            'log_level',  # Only for syslogs
+            'user',  # Only for auth logs
+            'command',  # Only for auth logs
+            'pwd',  # Only for auth logs
+            'session_status',  # Only for auth logs
+            'uid',  # Only for auth logs
+        ]
     
 
 # class ApacheLogSerializer(serializers.Serializer):

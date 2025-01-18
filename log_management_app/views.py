@@ -21,6 +21,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from .models import Token  
 from django.utils.timezone import now, timedelta
+
+import logging
  
 class GenerateTokenView(APIView):
     permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
@@ -303,24 +305,39 @@ def linux_log_upload(request):
 
 
 
-class LinuxLogUploadView(APIView):
+logger = logging.getLogger(__name__)
+
+class LinuxLogView(APIView):
     def post(self, request, *args, **kwargs):
-        logs = request.data.get('logs', [])
-        
+        # Accept logs directly (single log or list of logs)
+        logs = request.data if isinstance(request.data, list) else [request.data]
+
         if not logs:
-            return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        serializer = ApacheLogSerializer(data=logs, many=True)
+            return Response(
+                {"error": "No logs provided or invalid format."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        logger.debug(f"Received logs data: {logs}")
+
+        # Validate logs using the serializer
+        serializer = LinuxLogSerializer(data=logs, many=True)
         if serializer.is_valid():
             try:
-                for log in logs:
-                    ApacheLog.objects.create(**log)  # Save the log
-                return Response({"message": "Logs processed successfully"}, status=status.HTTP_201_CREATED)
+                serializer.save()  # Save all logs at once
+                skipped_logs = len(logs) - len(serializer.validated_data)
+                message = f"Logs processed successfully. Skipped {skipped_logs} invalid entries." if skipped_logs > 0 else "Logs processed successfully."
+                return Response({"message": message}, status=status.HTTP_201_CREATED)
             except Exception as e:
-                return Response({"error": "Error saving logs", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                logger.error(f"Error saving logs: {str(e)}")
+                return Response(
+                    {"error": "Error saving logs", "details": str(e)},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         else:
+            logger.error(f"Serializer validation errors: {serializer.errors}")
             return Response(
-                {"error": "Serializer validation failed", "details": serializer.errors},
+                {"error": "Validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -346,46 +363,13 @@ def mac_log_upload(request):
     return render(request, 'baseapp/logingestion/systemlogs/macos/macos.html', context)
 
 
-# def apache_log_upload(request):
-#     if request.method == 'POST':
-#         form = ApacheLogUploadForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             source_name = form.cleaned_data.get('source_name')
-#             files = request.FILES.getlist('file')  # Get all uploaded files
 
-#             # Create or fetch the source
-#             source, _ = ApacheSourceInfo.objects.get_or_create(source_name=source_name)
-
-#             for file in files:
-#                 try:
-#                     # Parse each uploaded log file (assuming JSON format)
-#                     logs_data = json.load(file)
-#                 except json.JSONDecodeError:
-#                     form.add_error(None, "Invalid log file format. Ensure it's JSON.")
-#                     return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', {'form': form})
-
-#                 # Validate and save logs
-#                 serializer = ApacheLogSerializer(data={'source_name': source_name, 'logs': logs_data})
-#                 if serializer.is_valid():
-#                     serializer.save()
-#                 else:
-#                     form.add_error(None, serializer.errors)
-#                     return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', {'form': form})
-
-#             return redirect('logsources')  # Redirect to the log sources page
-#     else:
-#         form = ApacheLogUploadForm()
-
-#     return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html', {'form': form})
+def apache_log_upload(request):
+    context={}
+    return render(request, 'baseapp/logingestion/applicationlogs/webservers/apache/apache.html',context)
 
 
 
-
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-import logging
 
 
 logger = logging.getLogger(__name__)

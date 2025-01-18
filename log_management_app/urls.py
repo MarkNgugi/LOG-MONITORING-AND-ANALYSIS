@@ -40,7 +40,7 @@ urlpatterns = [
     path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
     
-    # path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
+    path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),
     path('home/webserver-logs/apachemetrics/',views.apache_info,name='apacheinfo'),
     
 
@@ -78,8 +78,8 @@ urlpatterns = [
 
     path('alerts-history/',views.alert_history,name='alert_history'),
 
-    path('api/linux/logs/', views.LinuxLogUploadView.as_view(), name='linux-log-upload'),
-    path('api/apache/logs/', views.create_apache_log, name='apache-log-upload'),
+    path('api/linux/logs/', views.LinuxLogView.as_view(), name='linux-log-upload'),
+    path('api/apache/logs/', views.ApacheLogView.as_view(), name='apache-log-upload'),
     path('api/nginx/logs/', views.NginxLogUploadView.as_view(), name='nginx-log-upload'),
     
 
