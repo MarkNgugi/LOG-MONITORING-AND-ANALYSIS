@@ -143,31 +143,39 @@ class NginxLogFile(models.Model):
     def __str__(self):
         return self.source_name
 
+
+
 class NginxLog(models.Model):
-    client_ip = models.CharField(max_length=50, null=True, blank=True)
-    timestamp = models.CharField(max_length=255, null=True)
-    method = models.CharField(max_length=10,null=True, blank=True)
-    url = models.TextField(null=True, blank=True)
-    protocol = models.TextField(null=True)
-    status_code = models.PositiveIntegerField(null=True, blank=True)
-    referrer = models.TextField(null=True)
-    user_agent = models.TextField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)    
+    LOG_TYPE_CHOICES = [
+        ('access', 'Access'),
+        ('error', 'Error'),
+    ]
     
-    # Error Log Fields
-    error_module = models.CharField(max_length=50,null=True, blank=True)
-    process_id = models.PositiveIntegerField(null=True)
-    error_message = models.TextField(null=True, blank=True)
-    file_path = models.TextField(null=True, blank=True)
-
-
-    def __str__(self):        
-            return f"{self.timestamp} {self.client_ip} {self.method} {self.url}"
-        
-
+    log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True)
+    client_ip = models.GenericIPAddressField(null=True, blank=True)
+    remote_logname = models.CharField(max_length=100, blank=True, null=True)
+    remote_user = models.CharField(max_length=100, blank=True, null=True)
+    timestamp = models.CharField(max_length=255, null=True, blank=True)
+    request_line = models.CharField(max_length=255, blank=True, null=True)
+    response_code = models.IntegerField(null=True, blank=True)
+    response_size = models.IntegerField(null=True, blank=True)
+    referrer = models.CharField(max_length=255, blank=True, null=True)
+    user_agent = models.CharField(max_length=255, blank=True, null=True)
+    log_level = models.CharField(max_length=50, blank=True, null=True)
+    error_message = models.TextField(blank=True, null=True)
+    process_id = models.IntegerField(null=True, blank=True)
+    module = models.CharField(max_length=255, blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    
     class Meta:
+        ordering = ['-timestamp']
         verbose_name = "Nginx Log"
-        verbose_name_plural = "Nginx Logs"         
+        verbose_name_plural = "Nginx Logs"
+    
+    def __str__(self):
+        return f"{self.client_ip if self.client_ip else 'N/A'} - {self.timestamp} - {self.log_type} - {self.response_code if self.response_code else 'N/A'}"
+        
 
 class IISLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)

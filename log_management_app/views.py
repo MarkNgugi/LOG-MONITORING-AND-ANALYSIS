@@ -446,33 +446,40 @@ def nginx_log_upload(request):
     return render(request, 'baseapp/logingestion/applicationlogs/webservers/nginx/nginx.html', context)
 
 
-class NginxLogUploadView(APIView):
+
+logger = logging.getLogger(__name__)
+
+class NginxLogView(APIView):
     def post(self, request, *args, **kwargs):
-        logs = request.data.get('logs', [])
-        
-        # Check if logs are provided
+        # Accept logs directly (single log or list of logs)
+        logs = request.data if isinstance(request.data, list) else [request.data]
+
         if not logs:
-            return Response({"error": "No logs provided."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Log the raw data for debugging
-        print("Received logs data:", logs)
-        
-        # Use the serializer to validate and save logs
+            return Response(
+                {"error": "No logs provided or invalid format."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        logger.debug(f"Received logs data: {logs}")
+
+        # Validate logs using the serializer
         serializer = NginxLogSerializer(data=logs, many=True)
         if serializer.is_valid():
-            # Save each log entry to the database
             try:
-                for log in logs:
-                    # Create a new log object from validated data
-                    NginxLog.objects.create(**log)  # Save the log
-                return Response({"message": "Logs processed successfully"}, status=status.HTTP_201_CREATED)
+                serializer.save()  # Save all logs at once
+                skipped_logs = len(logs) - len(serializer.validated_data)
+                message = f"Logs processed successfully. Skipped {skipped_logs} invalid entries." if skipped_logs > 0 else "Logs processed successfully."
+                return Response({"message": message}, status=status.HTTP_201_CREATED)
             except Exception as e:
-                return Response({"error": "Error saving logs", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                logger.error(f"Error saving logs: {str(e)}")
+                return Response(
+                    {"error": "Error saving logs", "details": str(e)},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         else:
-            # Log serializer errors for debugging
-            print("Serializer validation errors:", serializer.errors)
+            logger.error(f"Serializer validation errors: {serializer.errors}")
             return Response(
-                {"error": "Serializer validation failed", "details": serializer.errors},
+                {"error": "Validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
