@@ -51,7 +51,7 @@ class LinuxLog(models.Model):
         ('authlog', 'Authlog'),
     ]
     log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True)
-    timestamp = models.DateTimeField(null=True, blank=True)
+    timestamp = models.CharField(null=True, blank=True)
     hostname = models.CharField(max_length=255, null=True, blank=True)
     service = models.CharField(max_length=255, null=True, blank=True)
     process_id = models.IntegerField(null=True, blank=True)
@@ -73,7 +73,7 @@ class LinuxLog(models.Model):
         verbose_name_plural = "Linux Logs"
 
     def __str__(self):
-        return f"{self.log_type} - {self.timestamp} - {self.service} - {self.message[:50]}"
+        return f"{self.log_type} - {self.timestamp} - {self.service} - {self.log_type} - {self.message[:50]}"
 
 
      
