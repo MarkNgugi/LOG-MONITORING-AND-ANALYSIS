@@ -231,11 +231,11 @@ class LogEntry(models.Model):
  
 
 class Alert(models.Model):
-    alert_title = models.CharField(max_length=30)    
+    alert_title = models.CharField(max_length=100)    
     timestamp = models.DateTimeField()  
-    host = models.CharField(max_length=100)  
+    hostname = models.CharField(max_length=100)  
     message = models.TextField(null=True)  
-    severity = models.CharField(max_length=10, default="None")
+    severity = models.CharField(max_length=10, default="Low")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user")
     
  
@@ -243,6 +243,7 @@ class Alert(models.Model):
     def __str__(self):
         return self.alert_title
  
+
 
 class CustomToken(Token):
     created_at = models.DateTimeField(auto_now_add=True)

@@ -2,7 +2,7 @@
 
 # Paths to log files
 AUTHLOG_FILE="/var/log/authh.log"
-SYSLOG_FILE="/var/log/sys"
+SYSLOG_FILE="/var/log/syslog"
 
 # API endpoint
 API_ENDPOINT="http://127.0.0.1:8000/api/linux/logs/"
