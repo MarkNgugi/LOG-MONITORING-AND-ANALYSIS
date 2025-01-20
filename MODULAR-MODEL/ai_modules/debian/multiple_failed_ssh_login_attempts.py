@@ -3,14 +3,11 @@ import sys
 import django
 from datetime import datetime, timedelta
 
-# Add the project directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-# Set the settings module for Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.settings')
 django.setup()
 
-# Import models
 from log_management_app.models import Alert, User
 
 def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
@@ -22,42 +19,33 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
 
     for line in log_lines:
         if "Failed password" in line and "sshd" in line:
-            try:
-                # Extract the timestamp, hostname, and user
+            try:                
                 parts = line.split(" ", 5)
                 timestamp_str = parts[0]
                 hostname = parts[4]
                 user = line.split("invalid user")[-1].split("from")[0].strip()
                 source_ip = line.split("from")[1].split("port")[0].strip()
-
-                # Debugging output
+                
                 print(f"Parsing log line: {line}")
                 print(f"Extracted: timestamp='{timestamp_str}', hostname='{hostname}', user='{user}', source_ip='{source_ip}'")
-
-                # Parse the timestamp
+                
                 timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
                 key = (user, source_ip)
-
-                # Initialize failed attempts for this user and IP
+                
                 if key not in failed_attempts:
                     failed_attempts[key] = []
-
-                # Add the current timestamp
+                
                 failed_attempts[key].append(timestamp)
-
-                # Remove attempts outside the time window
+                
                 failed_attempts[key] = [t for t in failed_attempts[key] if t > timestamp - timedelta(minutes=time_window_minutes)]
-
-                # Debugging output
+                
                 print(f"Failed attempts for {key}: {failed_attempts[key]}")
 
-                # Check if the threshold is exceeded
-                # Check if the threshold is met or exceeded
                 if len(failed_attempts[key]) >= max_failed_attempts:
                     alert = {
                         "alert_title": "Multiple Failed SSH Login Attempts",
                         "timestamp": timestamp,
-                        "hostname": hostname,
+                        "hostname": "ubuntu",
                         "message": f"Detected {len(failed_attempts[key])} failed login attempts for user '{user}' from IP '{source_ip}' within {time_window_minutes} minutes.",
                         "severity": "High",
                         "user": user,
