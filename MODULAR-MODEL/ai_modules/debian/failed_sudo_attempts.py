@@ -118,3 +118,4 @@ if __name__ == "__main__":
         create_alerts(detected_alerts)
     else:
         print("No alerts detected.")
+ 
