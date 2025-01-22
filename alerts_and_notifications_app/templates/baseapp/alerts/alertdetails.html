@@ -1,62 +1,70 @@
 {% extends 'mainhome.html' %}
 
 {% block content %}
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            {% for alert in alert %}
-            <div class="col-12 col-md-9">  <!-- Adjusted width for better presentation -->
-                <div class="row align-items-center mb-4">
-                    <div class="col">
-                        <h2 class="h5 page-title">Alert Details</h2>
-                    </div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        {% for single_alert in alert %} <!-- Avoid variable name conflict -->
+        <div class="col-12 col-md-9">  
+            <!-- Page Title -->
+            <div class="row align-items-center mb-4">
+                <div class="col">
+                    <h2 class="h5 page-title">Alert Details</h2>
                 </div>
+            </div>
 
-                <div class="row my-4">
-                    <div class="col-md-12">
-                        <div class="card shadow mb-4">
-                            <div class="card-header">
-                                <strong class="card-title">{{ alert.alert_title }}</strong>
-                                <span class="float-right">
-                                    <i class="fe fe-flag mr-2"></i>
-                                    <span class="dot dot-lg bg-danger mr-2">{{ alert.severity }}</span>
-                                </span>
-                            </div>
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col-sm-3 mb-3 text-muted">Reported by</dt>
-                                    <dd class="col-sm-9 mb-3">{{ alert.user.username}}</dd>
-                                    <dt class="col-sm-3 mb-3 text-muted">Timestamp</dt>
-                                    <dd class="col-sm-9 mb-3">{{ alert.timestamp|date:"Y-m-d H:i:s" }}</dd>
+            <!-- Alert Card -->
+            <div class="row my-4">
+                <div class="col-md-12">
+                    <div class="card shadow mb-4">
+                        <div class="card-header">
+                            <strong class="card-title">{{ single_alert.alert_title }}</strong>
+                            <span class="float-right">
+                                <span class="dot dot-lg bg-danger mr-2"></span>
+                                <span class="severity-text">{{ single_alert.severity }}</span>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row">
+                                <!-- Reporter -->
+                                <dt class="col-sm-3 mb-3 text-muted">Reported by</dt>
+                                <dd class="col-sm-9 mb-3">{{ single_alert.user.username }}</dd>
 
-                                    <!-- Alert Message -->
-                                    <dt class="col-sm-3 mb-3 text-muted">Description</dt>
-                                    <dd class="col-sm-9 mb-3">{{ alert.message }}</dd>
+                                <!-- Timestamp -->
+                                <dt class="col-sm-3 mb-3 text-muted">Timestamp</dt>
+                                <dd class="col-sm-9 mb-3">{{ single_alert.timestamp|date:"Y-m-d H:i:s" }}</dd>
 
-                                    <!-- Severity and Action Section -->
-                                    <dt class="col-sm-3 mb-3 text-muted">Severity</dt>
-                                    <dd class="col-sm-9 mb-3">
-                                        <span class="dot dot-lg bg-danger mr-2">{{ alert.severity }}</span>
-                                    </dd>
-                                    
-                                    <!-- Action Section based on Severity -->
-                                    <dt class="col-sm-3 mb-3 text-muted">What to Do</dt>
-                                    <dd class="col-sm-9 mb-3">
-                                        {% if alert.severity == 'High' %}
-                                            <strong>Immediate action required:</strong> Review the system logs and investigate any suspicious activity. Consider blocking the IP if necessary.
-                                        {% elif alert.severity == 'Medium' %}
-                                            <strong>Moderate action required:</strong> Review recent login attempts and ensure no further unauthorized access.
-                                        {% else %}
-                                            <strong>Low priority:</strong> Monitor the situation, but no immediate action is required.
-                                        {% endif %}
-                                    </dd>
+                                <!-- Description -->
+                                <dt class="col-sm-3 mb-3 text-muted">Description</dt>
+                                <dd class="col-sm-9 mb-3">{{ single_alert.message }}</dd>
 
-                                </dl>
-                            </div> <!-- .card-body -->
-                        </div> <!-- .card -->
-                    </div> <!-- .col-md -->
-                </div> <!-- .row -->
-            </div> <!-- .col-12 -->
-            {% endfor %}
-        </div> <!-- .row -->
-    </div> <!-- .container-fluid -->
+                                <!-- Severity -->
+                                <dt class="col-sm-3 mb-3 text-muted">Severity</dt>
+                                <dd class="col-sm-9 mb-3">
+                                    <span class="dot dot-lg bg-danger mr-2"></span>
+                                    <span class="severity-text">{{ single_alert.severity }}</span>
+                                </dd>
+
+                                <!-- What to Do Section -->
+                                <dt class="col-sm-3 mb-3 text-muted">What to Do</dt>
+                                <dd class="col-sm-9 mb-3">
+                                    {% if single_alert.severity == 'High' %}
+                                    <strong class="text-danger">Immediate action required:</strong> 
+                                    Review the system logs and investigate any suspicious activity. Consider blocking the IP if necessary.
+                                    {% elif single_alert.severity == 'Medium' %}
+                                    <strong class="text-warning">Moderate action required:</strong> 
+                                    Review recent login attempts and ensure no further unauthorized access.
+                                    {% else %}
+                                    <strong class="text-success">Low priority:</strong> 
+                                    Monitor the situation, but no immediate action is required.
+                                    {% endif %}
+                                </dd>
+                            </dl>
+                        </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                </div> <!-- .col-md -->
+            </div> <!-- .row -->
+        </div> <!-- .col-12 -->
+        {% endfor %}
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->
 {% endblock %}

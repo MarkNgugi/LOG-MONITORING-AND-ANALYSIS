@@ -238,6 +238,8 @@ class Alert(models.Model):
     severity = models.CharField(max_length=10, default="Low")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user", null=True, blank=True)
     
+    class Meta:
+        ordering = ['-timestamp']    
 
     def __str__(self):
         return self.alert_title
