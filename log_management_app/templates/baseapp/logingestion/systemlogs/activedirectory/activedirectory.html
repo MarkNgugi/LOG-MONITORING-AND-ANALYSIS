@@ -16,14 +16,11 @@
                         <a class="nav-link active" id="config-tab" data-toggle="tab" href="#config" role="tab" aria-controls="config" aria-selected="true">Configuration Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="metrics-tab" data-toggle="tab" href="#metrics" role="tab" aria-controls="metrics" aria-selected="false">Metrics</a>
+                        <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts & Anomalies</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts</a>
-                    </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="anomalies-tab" data-toggle="tab" href="#anomalies" role="tab" aria-controls="anomalies" aria-selected="false">Anomalies</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" id="version-history-tab" data-toggle="tab" href="#version-history" role="tab" aria-controls="version-history" aria-selected="false">Version History</a>
                     </li>
@@ -36,10 +33,18 @@
                     <div class="tab-pane fade" id="overview" role="tabpanel" aria-labelledby="overview-tab">
                         <h1 class="h3 page-title">About this integration</h1>
                         <hr class="my-2">
-                        <p>Monitor Windows instances using the LMAN Agent installed. The integration includes pre-installed 
-                            dashboards that offer a comprehensive view of your Windows fleet, individual host overviews, and 
-                            additional dashboards with detailed metrics for in-depth system performance analysis. The integration 
-                            also features dashboards that display Windows event logs.
+                        <p>The integration of Linux server monitoring for system logs and authentication logs is a critical component for 
+                            ensuring server security and operational integrity. By leveraging logs from files such as /var/log/syslog 
+                            and /var/log/auth.log, administrators can implement proactive alert systems that detect specific anomalies 
+                            and potential threats. These logs provide granular details about system activities, including authentication 
+                            attempts, service restarts, system performance, and user actions, allowing for real-time monitoring and response. <br> <br>
+
+                            The integration highlights the importance of identifying specific events, such as multiple failed SSH login attempts, unauthorized 
+                            root access, and kernel out-of-memory (OOM) killer activations. By categorizing these alerts into authentication and system-level 
+                            events with varying severity levels, administrators can prioritize responses and mitigate risks. Furthermore, automated monitoring 
+                            solutions, combined with this granular log analysis, enable businesses to adhere to compliance standards, reduce downtime, and enhance 
+                            overall server resilience. This approach ensures that the Linux server remains secure and operates efficiently in the face of both internal 
+                            and external challenges.
                         </p>                       
                     </div>
 
@@ -48,203 +53,419 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <!-- Step 1: Add Log Source Information -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>1. Add Log Source Information</h4>
-                                            <p class="mb-2"><strong>Provide fields for the user to enter information about the log source, such as its name, type, and specific logs to collect.</strong></p>
-                                            
-                                            <form method="post">
-                                                {%csrf_token%}
-                                                <!-- Remove form-row and col-md-* to arrange fields vertically -->
-                                                <div class="form-group">
-                                                    {{ activedirectoryform.log_source_name.label_tag }}
-                                                    {{ activedirectoryform.log_source_name }}
-                                                </div>
 
-                                                <div class="form-group">
-                                                    {{ activedirectoryform.collection_interval.label_tag }}
-                                                    {{ activedirectoryform.collection_interval }}
-                                                </div>
-
-                                                <div class="form-group">
-                                                    
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-
-                                            </form>
                                     
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
-                                    
-
                                     <!-- Step 2: Download Script File -->
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
-                                            <h4>2. Download Script File</h4>
-                                            <p class="mb-2"><strong>Offer a button that allows the user to download a script for setting up log collection on the target system.</strong></p>
-                                            <button type="button" class="btn btn-primary">Download Script</button>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
+                                            <h4>1. Download Script File</h4>
+                                            <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
+                                            <button type="button" class="btn mb-2 btn-outline-success" data-toggle="modal" data-target="#verticalModal"> Setup Alloy </button>
 
-                                    <!-- Step 3: Running the Script on Windows -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>3. Running the Script on Windows</h4>
-                                            <p class="mb-2"><strong>Provide detailed instructions on how to run the downloaded script on the user's Windows machine and set it up as a service to ensure it starts on boot.</strong></p>
-                                            <ol>
-                                                <li>Download the script using the button above.</li>
-                                                <li>Open Command Prompt as Administrator.</li>
-                                                <li>Navigate to the location where the script was downloaded.</li>
-                                                <li>Run the script with the following command: <code>powershell -ExecutionPolicy Bypass -File setup-log-collection.ps1</code></li>
-                                                <li>Ensure the script runs successfully and sets up as a service.</li>
-                                            </ol>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
-
-                                    <!-- Step 4: Upload Logs -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-header">
-                                            <h4>4. Upload Logs</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="mb-2"><strong>Upload log files here for monitoring and analysis.</strong></p>
-                                            
-                                            <!-- Form for Source Name and Dropzone Upload -->
-                                            <form method="post" action="{% url 'activedirectory' %}" enctype="multipart/form-data">
-                                                {% csrf_token %}
-
-                                                <!-- Source Name Input Field -->
-                                                <div class="form-group mb-3">
-                                                    <label for="sourceName"><strong>Source Name</strong></label>
-                                                    {{ form.source_name }}
-                                                </div>
-
-                                                <!-- Custom Upload Icon Button -->
-                                                <div class="form-group mb-3">
-                                                    <label for="file"><strong>Upload File</strong></label>
-                                                    <div class="dropzone bg-light rounded-lg p-4" id="tinydash-dropzone">
-                                                        <!-- Hidden File Input -->
-                                                        {{ form.file }}
-                                                        
-                                                        <!-- Display Custom Upload Icon as Trigger -->
-                                                        <div class="dz-message needsclick" onclick="document.getElementById('fileInput').click();">
-                                                            <div class="circle circle-lg bg-primary">
-                                                                <i class="fe fe-upload fe-24 text-white"></i>
-                                                            </div>
-                                                            <h5 class="text-muted mt-4">Drop files here or click to upload</h5>
+                                            <div class="alert alert-info mt-3">
+                                                <i class="fas fa-info-circle"></i>
+                                                Looking to configure integrations for your Kubernetes environment? 
+                                                Check out <a href="" target="_blank">Kubernetes Monitoring</a> 
+                                                with LMAN Cloud to enable this.
+                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="verticalModal" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content" style="background-color: #181b1f; color: #ffffff;">
+                                                        <!-- Header -->
+                                                        <div class="modal-header border-0">
+                                                            <h5 class="modal-title" id="verticalModalTitle">Alloy configuration</h5>
+                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Submit Button -->
-                                                <div class="form-group text-center">
-                                                    <button type="submit" class="btn btn-primary">Submit and View</button>
-                                                </div>
-                                            </form>
-
-                                            <!-- Preview Template for Uploaded Files -->
-                                            <div class="d-none" id="uploadPreviewTemplate">
-                                                <div class="card mt-1 mb-0 shadow-none border">
-                                                    <div class="p-2">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-auto">
-                                                                <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
+                                    
+                                                        <!-- Modal Body -->
+                                                        <div class="modal-body">
+                                                            <!-- Step 1: Enter Token Name -->
+                                                            <div id="step-1">
+                                                                <h6>Install Alloy</h6>
+                                                                <p>Use an API token</p>
+                                                                <div class="form-group">
+                                                                    <label for="token-name-input">Token name</label>
+                                                                    <input id="token-name-input" type="text" class="form-control" placeholder="Enter a descriptive name to identify this token" />
+                                                                </div>
+                                                                <button id="create-token-btn" class="btn btn-primary">Create token</button>
                                                             </div>
-                                                            <div class="col pl-0">
-                                                                <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
-                                                                <p class="mb-0" data-dz-size></p>
+                                    
+                                                            <!-- Step 2: Display Generated Token -->
+                                                            <div id="step-2" style="display: none;">
+                                                                <h6>Install Alloy</h6>
+                                                                <p style="color: #63bd83;">
+                                                                    Below you find the token you just generated - no need to do anything with it, we’ve automatically added it to the script in the next step.
+                                                                </p>
+                                                                <div class="form-group">
+                                                                    <label for="generated-token">Generated Token</label>
+                                                                    <textarea id="generated-token" class="form-control" style="background-color: #111217; color: #ffffff;" readonly></textarea>
+                                                                </div>                    
                                                             </div>
-                                                            <div class="col-auto">
-                                                                <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-                                                                    <i class="dripicons-cross"></i>
-                                                                </a>
+                                    
+                                                            <!-- Step 3: Scrollable Command Section -->
+                                                            <div id="step-3" style="display: none;">
+                                                                <br>
+                                                                <h3>Install and run Grafana Alloy</h3>
+                                                                <p id="install-command-description">
+                                                                    Run this command to install and run Alloy as a systemd service
+                                                                </p>
+                                                                <textarea id="command-textarea" class="form-control" style="background-color: #111217; color: #ffffff;" rows="3" readonly></textarea>
+                                                                <button class="btn btn-secondary mt-2" id="copy-command-btn">Copy to clipboard</button>
                                                             </div>
+                                    
+                                                            <!-- Error Message -->
+                                                            <div id="error-message" style="display: none; color: red;">
+                                                                <p>Token has expired or invalid input! Please try again.</p>
+                                                            </div>
+                                                        </div>
+                                    
+                                                        <!-- Footer -->
+                                                        <div class="modal-footer border-0">
+                                                            <button class="btn btn-primary" id="test-connection-btn" style="display: none;">Test Alloy connection</button>
+                                                            <button class="btn btn-success" id="proceed-install-btn" style="display: none;">Proceed to install integration</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                    
+                                        </div> <!-- /.card-body -->
+                                    </div> <!-- /.card -->
+                                    
+                                    <!-- JavaScript -->
+                                    <script>
+                                    function getCSRFToken() {
+                                        let cookieValue = null;
+                                        const cookies = document.cookie.split(';');
+                                        for (let i = 0; i < cookies.length; i++) {
+                                            const cookie = cookies[i].trim();
+                                            if (cookie.startsWith('csrftoken=')) {
+                                                cookieValue = cookie.substring('csrftoken='.length, cookie.length);
+                                                break;
+                                            }
+                                        }
+                                        return cookieValue;
+                                    }
+                                    
+                                    document.getElementById("create-token-btn").addEventListener("click", function() {
+                                        const tokenName = document.getElementById("token-name-input").value;
+                                    
+                                        if (!tokenName) {
+                                            alert("Please enter a token name.");
+                                            return;
+                                        }
+                                    
+                                        fetch("/api/generate-token/", {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                                "X-CSRFToken": getCSRFToken(),
+                                            },
+                                            body: JSON.stringify({ name: tokenName }),
+                                        })
+                                        .then(response => {
+                                            if (!response.ok) throw new Error("Token generation failed!");
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            const generatedToken = data.access_token;
+
+                                            document.getElementById("step-1").style.display = "none";
+                                            document.getElementById("step-2").style.display = "block";
+                                            document.getElementById("generated-token").value = generatedToken;
+                                            document.getElementById("step-3").style.display = "block";
                                             
-                                        </div> <!-- .card-body -->
-                                    </div> <!-- .card -->
+                                            document.getElementById("install-command-description").innerText = "Run this command to install and run Alloy as a alloy.service systemd service:";
+                                            document.getElementById("command-textarea").value = `curl -H "Authorization: Token ${generatedToken}" http://127.0.0.1:8000/execute/mark.sh`;
 
-                                    <!-- Step 5: Configure Alerts and Notifications -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>5. Configure Alerts and Notifications</h4>
-                                            <p class="mb-2"><strong>Guide the user through configuring alerts and notifications based on specific events or thresholds.</strong></p>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="alertEventIds">Alert Event IDs (Windows):</label>
-                                                    <input type="text" class="form-control" id="alertEventIds" placeholder="Enter Event IDs (comma-separated)" />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="notificationMethod">Notification Method:</label>
-                                                    <select id="notificationMethod" class="custom-select">
-                                                        <option>Email</option>
-                                                        <option>SMS</option>
-                                                        <option>Webhook</option>
-                                                        <!-- Add more options as needed -->
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
+                                            document.getElementById("test-connection-btn").style.display = "inline-block";
+                                            document.getElementById("proceed-install-btn").style.display = "inline-block";
+                                        })
+                                        .catch(error => {
+                                            console.error("Error:", error);
+                                            document.getElementById("error-message").style.display = "block";
+                                        });
+                                    });
+                                    
+                                    // Copy Command to Clipboard
+                                    document.getElementById("copy-command-btn").addEventListener("click", function() {
+                                        const commandField = document.getElementById("command-textarea");
+                                        commandField.select();
+                                        document.execCommand("copy");
+                                        alert("Command copied to clipboard!");
+                                    });
+                                    
+                                    // Close Modal on Proceed
+                                    document.getElementById("proceed-install-btn").addEventListener("click", function() {
+                                        $('#verticalModal').modal('hide');
+                                    });
+                                    </script>
 
-                                    <!-- Step 6: Review and Save Configuration -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body" style="background-color: #343a40; color: #ffffff;"> <!-- Updated background and text color -->
-                                            <h4>6. Review and Save Configuration</h4>
-                                            <p class="mb-2"><strong>Provide a summary of all the configured settings, allowing the user to review and save the configuration.</strong></p>
-                                            <!-- Updated background color for the alert -->
-                                            <div class="alert" style="background-color: #343a40; border-color: #343a40; color: #ffffff;" role="alert">
-                                                <strong>Summary:</strong>
-                                                <ul>
-                                                    <li><strong>Log Source:</strong> <span id="summaryLogSource">Not Configured</span></li>
-                                                    <li><strong>Script Download:</strong> <span id="summaryScriptDownload">Not Downloaded</span></li>
-                                                    <li><strong>Connection Test:</strong> <span id="summaryConnectionTest">Not Tested</span></li>
-                                                    <li><strong>Alerts:</strong> <span id="summaryAlerts">Not Configured</span></li>
-                                                </ul>
-                                            </div>
-                                            <button type="button" class="btn btn-success">Save Configuration</button>
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
+                                    
+                                    <!-- CSS -->
+                                    <style>
+                                        .modal-body textarea {
+                                            background-color: #2c2f33;
+                                            color: #ffffff;
+                                            border: 1px solid #444;
+                                        }
+                                        .modal-content {
+                                            border-radius: 8px;
+                                        }
+                                        .modal-footer button {
+                                            margin-right: 10px;
+                                        }
+                                    </style>
+                                    
+                                    
 
-                                    <!-- Footer -->
-                                    <div class="footer-text">
-                                        <p>&copy; 2024 Log Monitoring & Analysis. All rights reserved.</p>
-                                    </div>
+<!-- Step 3: Create a Systemd Service File -->
+<div class="card shadow mb-4" id="serviceFileSection">
+    <div class="card-body">
+        <h4>2. Create a Systemd Service File</h4>
+        <p>Systemd services are configured using <code>.service</code> files. Follow these steps to create a service file for your script:</p>
+        <ol>
+            <li>Create a service file using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo nano /etc/systemd/system/log-collector.service</code>
+            </div>
+            <li>Add the following content to the service file:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <pre style="color: white;">[Unit]
+Description=Log Collector Service
+After=network.target
+            
+[Service]
+ExecStart=/usr/local/bin/collect-logs.sh
+Restart=always
+RestartSec=5s
+User=root
+Environment=LOG_API_URL="https://example.com/api/logs"
+            
+[Install]
+WantedBy=multi-user.target</pre>
+            </div>
+            <li>Save and close the file.</li>
+        </ol>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
+<!-- JavaScript -->
+
+
+<!-- Step 4: Reload Systemd and Enable the Service -->
+<div class="card shadow mb-4" id="step4Card">
+    <div class="card-body">
+        <h4>3. Reload Systemd and Enable the Service</h4>
+        <p>Reload the systemd configuration to recognize the new service and enable it to start on boot.</p>
+        <ol id="step4Instructions">
+            <li>Reload the systemd configuration using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl daemon-reload</code>
+            </div>
+            <li>Enable the service to start on boot:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl enable log-collector.service</code>
+            </div>
+            <li>Start the service using the command below:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl start log-collector.service</code>
+            </div>
+            <li>Check the service status to ensure it is running:</li>
+            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
+                <code>sudo systemctl status log-collector.service</code>
+            </div>
+        </ol>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
+
+
+<!-- Step 5: Test Connection -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>4. Test Connection</h4>
+        <p class="mb-2">
+            Test that Grafana Alloy is collecting data and sending it to Grafana Cloud.
+        </p>
+
+        <!-- Button to trigger connection test -->
+        <button class="btn btn-primary" onclick="testConnection()">Test Connection</button>
+
+        <!-- Alert for connection status (hidden initially) -->
+        <div id="connectionStatus" class="alert alert-info mt-3" style="display: none;">
+            <i class="fas fa-info-circle"></i>
+            Connection Test Successful! Data is being sent to Grafana Cloud.
+        </div>
+
+        <div id="connectionError" class="alert alert-danger mt-3" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i>
+            Connection Test Failed! Please check your settings.
+        </div>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
+
+<!-- Step 6: Test Connection -->
+<div id="step-6">
+    <h4>View Connection</h4>
+    <p>
+        This integration comes with pre-built dashboards, alerts to get you up and running quickly.
+    </p>
+    <button class="btn btn-primary">View Connection</button> <br> <br>
+</div>   
+
                                 </div> <!-- /.col-md-12 -->
                             </div> <!-- /.row -->
                         </div> <!-- /.container -->
                     </div> <!-- /.tab-pane -->
 
-                    <!-- Metrics Tab Content -->
-                    <div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
-                        <h1 class="h3 page-title">Metrics</h1>
-                        <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>                       
-                    </div>
-
-                    <!-- Alerts Tab Content -->
                     <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
-                        <h1 class="h3 page-title">Alerts</h1>
+                        <h1 class="h3 page-title">Alerts & Anomalies</h1>
                         <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>                        
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Alert Name</th>
+                                    <th>Type</th>
+                                    <th>Category</th>
+                                    <th>Level</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Multiple Failed Login Attempts Across Domain</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>More than 5 failed login attempts across multiple domain controllers within a short period, indicating a potential brute-force attack.</td>
+                                </tr>
+                                <tr>
+                                    <td>Successful Domain Admin Login from Unusual IP</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Critical</td>
+                                    <td>Domain administrator login from an IP address outside the normal range, possibly indicating a compromised account.</td>
+                                </tr>
+                                <tr>
+                                    <td>Creation of Unusual User Accounts</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>New user accounts created with elevated privileges or from unknown sources, indicating potential unauthorized access.</td>
+                                </tr>
+                                <tr>
+                                    <td>Admin Group Membership Changes</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Critical</td>
+                                    <td>Changes to the membership of sensitive groups like Domain Admins, Enterprise Admins, or Administrators, indicating possible privilege escalation.</td>
+                                </tr>
+                                <tr>
+                                    <td>Unexpected Domain Controller Failover</td>
+                                    <td>Alert</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>Unexpected failover of a domain controller, which could indicate a problem with the system or potential attack.</td>
+                                </tr>
+                                <tr>
+                                    <td>Domain Trust Relationship Failure</td>
+                                    <td>Alert</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>Failure of a domain trust relationship between domain controllers, which could indicate tampering with domain security settings.</td>
+                                </tr>
+                                <tr>
+                                    <td>Account Lockout Across Multiple Domains</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Multiple account lockouts across different domains in a short period, potentially indicating a brute force or password spraying attack.</td>
+                                </tr>
+                                <tr>
+                                    <td>Unexpected Changes to Group Policies</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Critical</td>
+                                    <td>Unexpected or unauthorized changes to Active Directory Group Policy Objects (GPOs), which could allow privilege escalation or bypass security controls.</td>
+                                </tr>
+                                <tr>
+                                    <td>Domain Admin Account Password Change</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Change to the password of a Domain Admin account, which could indicate an attempt to hijack or compromise an administrative account.</td>
+                                </tr>
+                                <tr>
+                                    <td>Failed Authentication Attempts for Domain Admin Accounts</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Critical</td>
+                                    <td>Multiple failed login attempts for Domain Admin accounts, indicating a potential brute force or targeted attack on privileged accounts.</td>
+                                </tr>
+                                <tr>
+                                    <td>Unusual SID History Modifications</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Critical</td>
+                                    <td>Changes to the Security Identifier (SID) history of user or computer accounts, which could indicate an attempt to escalate privileges or bypass security.</td>
+                                </tr>
+                                <tr>
+                                    <td>Changes to Service Principal Names (SPNs)</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Changes to Service Principal Names (SPNs), indicating potential Kerberos ticket manipulation or attempts to impersonate services.</td>
+                                </tr>
+                                <tr>
+                                    <td>Unusual Account Logon Locations</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>Logon attempts from unusual geographic locations or IP addresses for user accounts, indicating possible credential theft or misuse.</td>
+                                </tr>
+                                <tr>
+                                    <td>Multiple Password Reset Requests</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Multiple failed or successful password reset requests for the same account, indicating potential compromise or social engineering.</td>
+                                </tr>
+                                <tr>
+                                    <td>Unusual Service Account Behavior</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>Service accounts performing actions that are outside their usual pattern of behavior, potentially indicating misuse or compromise.</td>
+                                </tr>
+                                <tr>
+                                    <td>Unregistered or Unrecognized Domain Controllers</td>
+                                    <td>Alert</td>
+                                    <td>System</td>
+                                    <td>Critical</td>
+                                    <td>Unregistered or rogue domain controllers attempting to join the Active Directory domain, indicating potential attack or misconfiguration.</td>
+                                </tr>
+                                <tr>
+                                    <td>LDAP Injection Attempts</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Unusual patterns of LDAP queries or failed authentication attempts, possibly indicating an LDAP injection attack on the AD infrastructure.</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <!-- Anomalies Tab Content -->
-                    <div class="tab-pane fade" id="anomalies" role="tabpanel" aria-labelledby="anomalies-tab">
-                        <h1 class="h3 page-title">Anomalies</h1>
-                        <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>
-                    </div>
+                    
+                    
+                
 
                     <!-- Version History Tab Content -->
                     <div class="tab-pane fade" id="version-history" role="tabpanel" aria-labelledby="version-history-tab">
                         <h1 class="h3 page-title">Version History</h1>
-                        <hr class="my-2">
-                        <p>MORE INFO TO BE ADDED</p>
+                        <hr class="my-2"> <br>
+                        <h4>VERSION 1.0</h4>
                     </div>
                 </div>
             </div> <!-- /.my-4 -->

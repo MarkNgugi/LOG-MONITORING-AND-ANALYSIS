@@ -328,6 +328,7 @@ WantedBy=multi-user.target</pre>
                             <thead>
                                 <tr>
                                     <th>Alert Name</th>
+                                    <th>Type</th>
                                     <th>Category</th>
                                     <th>Level</th>
                                     <th>Description</th>
@@ -335,103 +336,120 @@ WantedBy=multi-user.target</pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>== Multiple Failed SSH Login Attempts</td>
+                                    <td>Multiple Failed SSH Login Attempts</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects multiple failed SSH login attempts within a short period, indicating potential brute force attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>== Successful Root Login from Unusual IP</td>
+                                    <td>Successful Root Login from Unusual IP</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Critical</td>
                                     <td>Root login from an IP address outside the expected range, signaling a potential compromise.</td>
                                 </tr>
                                 <tr>
-                                    <td>== Use of Unrecognized SSH Key</td>
+                                    <td>Use of Unrecognized SSH Key</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>Identifies SSH logins using unapproved keys, which may indicate unauthorized access.</td>
                                 </tr>
                                 <tr>
-                                    <td>== Repeated Authentication Failures for a Specific User</td>
+                                    <td>Repeated Authentication Failures for a Specific User</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>More than 5 failed login attempts for the same user, potentially indicating targeted brute force attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>== Sudden Restart of SSH Daemon</td>
+                                    <td>Sudden Restart of SSH Daemon</td>
+                                    <td>Alert</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Detects unexpected restarts of the SSH service, which may indicate configuration tampering.</td>
                                 </tr>
                                 <tr>
-                                    <td>== High Number of SSH Connections in a Short Period</td>
+                                    <td>High Number of SSH Connections in a Short Period</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>More than 20 SSH connections initiated within one minute, possibly indicating scanning or attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>== System Reboots or Shutdowns</td>
+                                    <td>System Reboots or Shutdowns</td>
+                                    <td>Alert</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Unexpected system restart or shutdown, which might indicate hardware issues or unauthorized actions.</td>
                                 </tr>
                                 <tr>
-                                    <td>== Disk Space Warnings</td>
+                                    <td>Disk Space Warnings</td>
+                                    <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Disk usage exceeding 90% on a critical partition, requiring attention to avoid system issues.</td>
                                 </tr>
                                 <tr>
                                     <td>Kernel OOM Killer Invocation</td>
+                                    <td>Alert</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>Kernel terminating processes due to low memory, which may impact system stability.</td>
                                 </tr>
                                 <tr>
                                     <td>Unauthorized Modification of PAM Configuration</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Critical</td>
                                     <td>Detection of changes to PAM configuration files, which may indicate an attempt to bypass authentication.</td>
                                 </tr>
                                 <tr>
                                     <td>Cron Job Failures</td>
+                                    <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Failure of scheduled cron jobs, which may affect system maintenance or monitoring tasks.</td>
                                 </tr>
                                 <tr>
-                                    <td>== User Account Lockouts</td>
+                                    <td>User Account Lockouts</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>User accounts locked after too many failed login attempts, signaling possible brute force attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>== Failed Sudo Attempts</td>
+                                    <td>Failed Sudo Attempts</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Users attempting to execute privileged commands without proper credentials.</td>
                                 </tr>
                                 <tr>
                                     <td>SSH Login from Invalid Users</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Login attempts for non-existent users, indicating possible reconnaissance or misconfiguration.</td>
                                 </tr>
                                 <tr>
                                     <td>Time Sync Failures</td>
+                                    <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>NTP synchronization failures, which may lead to timing issues in system operations.</td>
                                 </tr>
                                 <tr>
                                     <td>User Switched to Root Without Using Sudo</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>Switching to root using direct credentials rather than sudo, which may bypass audit trails.</td>
                                 </tr>
                                 <tr>
                                     <td>SSH Port Scanning Attempts</td>
+                                    <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Multiple connection attempts on various ports, indicating possible reconnaissance by attackers.</td>

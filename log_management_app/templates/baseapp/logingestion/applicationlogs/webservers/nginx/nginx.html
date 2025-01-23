@@ -342,9 +342,10 @@ WantedBy=multi-user.target</pre>
                         <h1 class="h3 page-title">Alerts & Anomalies</h1>
                         <hr class="my-2">
                         <table class="table table-striped">
-                            <thead>
+                            <thead> 
                                 <tr>
                                     <th>Alert Name</th>
+                                    <th>Type</th>
                                     <th>Category</th>
                                     <th>Level</th>                                    
                                     <th>Description</th>
@@ -354,125 +355,146 @@ WantedBy=multi-user.target</pre>
                                 <tr>
                                     <td>NginxDown</td>
                                     <td>Alert</td>
+                                    <td>Availability</td>
                                     <td>CRITICAL</td>
                                     <td>Nginx server is down.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxUp</td>
                                     <td>Anomaly</td>
+                                    <td>Status</td>
                                     <td>INFO</td>
                                     <td>Nginx server is up and running.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxRestart</td>
                                     <td>Anomaly</td>
+                                    <td>Status</td>
                                     <td>INFO</td>
                                     <td>Nginx server has restarted.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxWorkersLoad</td>
                                     <td>Alert</td>
+                                    <td>Performance</td>
                                     <td>WARNING</td>
                                     <td>Nginx workers load is too high.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxResponseTimeTooHigh</td>
                                     <td>Alert</td>
+                                    <td>Performance</td>
                                     <td>WARNING</td>
                                     <td>Nginx response time is higher than expected.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxErrorsRateTooHigh</td>
                                     <td>Alert</td>
+                                    <td>Error</td>
                                     <td>WARNING</td>
                                     <td>Nginx error rate is too high.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxHighTraffic</td>
                                     <td>Anomaly</td>
+                                    <td>Traffic</td>
                                     <td>INFO</td>
                                     <td>High traffic detected on the server.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxSlowRequests</td>
                                     <td>Alert</td>
+                                    <td>Performance</td>
                                     <td>WARNING</td>
                                     <td>Requests taking too long to process.</td>
                                 </tr>
                                 <tr>
                                     <td>Nginx400ErrorsSpike</td>
                                     <td>Alert</td>
+                                    <td>Error</td>
                                     <td>HIGH</td>
                                     <td>Spike in 400-series errors.</td>
                                 </tr>
                                 <tr>
                                     <td>Nginx500ErrorsSpike</td>
                                     <td>Alert</td>
+                                    <td>Error</td>
                                     <td>HIGH</td>
                                     <td>Spike in 500-series errors.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxDiskSpaceLow</td>
                                     <td>Alert</td>
+                                    <td>Resource</td>
                                     <td>CRITICAL</td>
                                     <td>Low disk space impacting Nginx performance.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxMemoryUsageHigh</td>
                                     <td>Alert</td>
+                                    <td>Resource</td>
                                     <td>HIGH</td>
                                     <td>High memory usage detected by Nginx workers.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxClientIPBlock</td>
                                     <td>Alert</td>
+                                    <td>Security</td>
                                     <td>MEDIUM</td>
                                     <td>Blocked a client IP address due to suspicious activity.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxUnauthorizedAccess</td>
                                     <td>Alert</td>
+                                    <td>Security</td>
                                     <td>MEDIUM</td>
                                     <td>Unauthorized access attempt detected.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxBruteForceAttack</td>
                                     <td>Alert</td>
+                                    <td>Security</td>
                                     <td>CRITICAL</td>
                                     <td>Brute force attack detected on the server.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxDDOSAttack</td>
                                     <td>Alert</td>
+                                    <td>Security</td>
                                     <td>CRITICAL</td>
                                     <td>Possible DDOS attack detected.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxSSLHandshakeFailure</td>
                                     <td>Alert</td>
+                                    <td>Security</td>
                                     <td>HIGH</td>
                                     <td>SSL handshake failure detected.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxCertificateExpiry</td>
                                     <td>Alert</td>
+                                    <td>Security</td>
                                     <td>HIGH</td>
                                     <td>SSL certificate nearing expiry.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxConfigError</td>
                                     <td>Alert</td>
+                                    <td>Configuration</td>
                                     <td>HIGH</td>
                                     <td>Configuration error detected in Nginx logs.</td>
                                 </tr>
                                 <tr>
                                     <td>NginxProxyError</td>
                                     <td>Alert</td>
+                                    <td>Proxy</td>
                                     <td>MEDIUM</td>
                                     <td>Errors related to Nginx as a reverse proxy.</td>
                                 </tr>
                             </tbody>
                         </table>
+                        
                         
                                                
                     </div>
