@@ -134,7 +134,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
 
     # Querysets for system logs
     log_sources_windows = list(chain(
-        WindowsLogFile.objects.filter(user=request.user),        
+        WindowsLog.objects.filter(user=request.user),        
     ))
  
     log_sources_linux = list(chain(

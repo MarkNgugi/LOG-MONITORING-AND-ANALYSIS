@@ -11,18 +11,21 @@ def get_default_user():
     return User.objects.first()  # Fetch the first user or specify another default user.
 
  
-class WindowsLogFile(models.Model):
-    source_name = models.CharField(max_length=20, blank=True, null=True)
-    source = models.CharField(max_length=255, default='Windows')
-    os_type = models.CharField(max_length=50, default='Windows')
-    file = models.FileField(upload_to='uploaded_logs/windows/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+class WindowsLog(models.Model):
+    log_name = models.CharField(max_length=255)
+    event_id = models.IntegerField()
+    source = models.CharField(max_length=255)
+    timestamp = models.DateTimeField()
+    level = models.CharField(max_length=50)
+    log_user = models.CharField(max_length=255)
+    computer = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windows_logs')
 
     def __str__(self):
-        # Return 'source_name' or a fallback string if it's None
-        return self.source_name if self.source_name else "No Source Name"
+        # Ensure event_id is returned as a string
+        return str(self.event_id) if self.computer else "No Source Name"
 
+ 
     
 class WindowsADLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)

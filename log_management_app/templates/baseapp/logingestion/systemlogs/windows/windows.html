@@ -328,7 +328,7 @@ WantedBy=multi-user.target</pre>
                             <thead>
                                 <tr>
                                     <th>Alert Name</th>
-                                    <th>Type</th>
+                                    <th>Event ID</th>
                                     <th>Category</th>
                                     <th>Level</th>
                                     <th>Description</th>
@@ -337,223 +337,224 @@ WantedBy=multi-user.target</pre>
                             <tbody>
                                 <tr>
                                     <td>Successful Logon</td>
-                                    <td>Event</td>
+                                    <td>4624</td>
                                     <td>Authentication</td>
                                     <td>Low</td>
                                     <td>Indicates a successful logon to the system.</td>
                                 </tr>
                                 <tr>
                                     <td>Failed Logon</td>
-                                    <td>Event</td>
+                                    <td>4625</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Records failed logon attempts, including invalid username or password.</td>
                                 </tr>
                                 <tr>
                                     <td>Logoff</td>
-                                    <td>Event</td>
+                                    <td>4634</td>
                                     <td>Authentication</td>
                                     <td>Low</td>
                                     <td>Indicates a user logoff event.</td>
                                 </tr>
                                 <tr>
                                     <td>User Initiated Logoff</td>
-                                    <td>Event</td>
+                                    <td>4647</td>
                                     <td>Authentication</td>
                                     <td>Low</td>
                                     <td>Indicates that a user initiated a logoff from the system.</td>
                                 </tr>
                                 <tr>
                                     <td>Special Privileges Assigned to New Logon</td>
-                                    <td>Event</td>
+                                    <td>4672</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>Indicates when a user logs on with special privileges, like an administrator.</td>
                                 </tr>
                                 <tr>
                                     <td>A New Process Has Been Created</td>
-                                    <td>Event</td>
+                                    <td>4688</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Shows when a new process starts on the machine, useful for detecting suspicious processes.</td>
                                 </tr>
                                 <tr>
                                     <td>Account Locked Out</td>
-                                    <td>Event</td>
+                                    <td>4740</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Indicates that an account has been locked out due to repeated failed login attempts.</td>
                                 </tr>
                                 <tr>
                                     <td>A Kerberos Authentication Ticket (TGT) Request Failed</td>
-                                    <td>Event</td>
+                                    <td>4768</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Indicates that a user or machine failed to request a Kerberos ticket, potentially signaling authentication issues or attack attempts.</td>
                                 </tr>
                                 <tr>
                                     <td>Kerberos Pre-authentication Failed</td>
-                                    <td>Event</td>
+                                    <td>4771</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Indicates a failed Kerberos pre-authentication attempt, which can point to brute force or other attack attempts.</td>
                                 </tr>
                                 <tr>
                                     <td>A User's Local Group Membership Was Enumerated</td>
-                                    <td>Event</td>
+                                    <td>4798</td>
                                     <td>Reconnaissance</td>
                                     <td>Medium</td>
                                     <td>Indicates when a user's group membership is enumerated, which could be indicative of reconnaissance activity by an attacker.</td>
                                 </tr>
                                 <tr>
                                     <td>The Event Log Service Has Started</td>
-                                    <td>Event</td>
+                                    <td>6005</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Indicates the system has started logging, typically after a reboot or system startup.</td>
                                 </tr>
                                 <tr>
                                     <td>The Event Log Service Has Stopped</td>
-                                    <td>Event</td>
+                                    <td>6006</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Indicates that the event log service has stopped, which could be a sign of a system shutdown or malicious activity.</td>
                                 </tr>
                                 <tr>
                                     <td>The Previous System Shutdown Was Unexpected</td>
-                                    <td>Event</td>
+                                    <td>6008</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Indicates an unexpected shutdown, which can be used to detect crashes or power failures.</td>
                                 </tr>
                                 <tr>
                                     <td>Kernel Power (Unexpected Shutdown)</td>
-                                    <td>Event</td>
+                                    <td>41</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>Indicates that the system was unexpectedly shut down, including hardware or power failures.</td>
                                 </tr>
                                 <tr>
                                     <td>Audit Log Cleared</td>
-                                    <td>Event</td>
+                                    <td>1102</td>
                                     <td>Authentication</td>
                                     <td>Critical</td>
                                     <td>Indicates when the audit log is cleared, which could be a sign of tampering or malicious activity.</td>
                                 </tr>
                                 <tr>
                                     <td>Service Failed to Start</td>
-                                    <td>Event</td>
+                                    <td>7000</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>Indicates that a service failed to start, which could signal issues with system services or a potential attack targeting specific services.</td>
                                 </tr>
                                 <tr>
                                     <td>Service Terminated Unexpectedly</td>
-                                    <td>Event</td>
+                                    <td>7031</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>Indicates that a service has terminated unexpectedly, often a clue to instability, or an application crash.</td>
                                 </tr>
                                 <tr>
                                     <td>The File System Structure on Disk Is Corrupt</td>
-                                    <td>Event</td>
+                                    <td>55</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>Indicates file system corruption, which can be a sign of hardware failure or malicious tampering.</td>
                                 </tr>
                                 <tr>
                                     <td>DNS Client Events (DNS Resolution Failures)</td>
-                                    <td>Event</td>
+                                    <td>1014</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Indicates DNS resolution failures, useful for identifying issues with network connectivity or potential DNS-based attacks.</td>
                                 </tr>
                                 <tr>
                                     <td>System Time Changed</td>
-                                    <td>Event</td>
+                                    <td>4616</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>The system time was changed.</td>
                                 </tr>
                                 <tr>
                                     <td>Windows Firewall Service Stopped</td>
-                                    <td>Event</td>
+                                    <td>5025</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>The Windows Firewall Service has been stopped.</td>
                                 </tr>
                                 <tr>
                                     <td>Windows Firewall Service Failed to Start</td>
-                                    <td>Event</td>
+                                    <td>5030</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>The Windows Firewall Service failed to start.</td>
                                 </tr>
                                 <tr>
                                     <td>Windows Firewall Driver Stopped</td>
-                                    <td>Event</td>
+                                    <td>5034</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>The Windows Firewall Driver was stopped.</td>
                                 </tr>
                                 <tr>
                                     <td>Windows Firewall Driver Failed to Start</td>
-                                    <td>Event</td>
+                                    <td>5035</td>
                                     <td>System</td>
                                     <td>High</td>
                                     <td>The Windows Firewall Driver failed to start.</td>
                                 </tr>
                                 <tr>
                                     <td>A Privileged Service Was Called</td>
-                                    <td>Event</td>
+                                    <td>4673</td>
                                     <td>Security</td>
                                     <td>Medium</td>
                                     <td>A privileged service was called.</td>
                                 </tr>
                                 <tr>
                                     <td>An Operation Was Attempted on a Privileged Object</td>
-                                    <td>Event</td>
+                                    <td>4674</td>
                                     <td>Security</td>
                                     <td>Medium</td>
                                     <td>An operation was attempted on a privileged object.</td>
                                 </tr>
                                 <tr>
                                     <td>An Object Was Deleted</td>
-                                    <td>Event</td>
+                                    <td>4660</td>
                                     <td>Security</td>
                                     <td>Medium</td>
                                     <td>An object was deleted.</td>
                                 </tr>
                                 <tr>
                                     <td>Account Failed to Log On</td>
-                                    <td>Event</td>
+                                    <td>4625</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>An account failed to log on.</td>
                                 </tr>
                                 <tr>
                                     <td>Logon Attempt Using Explicit Credentials</td>
-                                    <td>Event</td>
+                                    <td>4648</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>A logon was attempted using explicit credentials.</td>
                                 </tr>
                                 <tr>
                                     <td>User Initiated Logoff</td>
-                                    <td>Event</td>
+                                    <td>4647</td>
                                     <td>Authentication</td>
                                     <td>Low</td>
                                     <td>User initiated logoff.</td>
                                 </tr>
                                 <tr>
                                     <td>New Process Created</td>
-                                    <td>Event</td>
+                                    <td>4688</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>A new process has been created.</td>
                                 </tr>
                             </tbody>
                         </table>
+                        
                         
                         
                     </div>

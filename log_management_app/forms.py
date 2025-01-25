@@ -5,8 +5,8 @@ from .models import *
 
 class WindowsLogUploadForm(forms.ModelForm):
     class Meta:
-        model = WindowsLogFile
-        fields = ['source_name', 'file']
+        model = WindowsLog
+        fields = ['source']
         widgets = {
             'source_name': forms.TextInput(attrs={
                 'class': 'form-control',
