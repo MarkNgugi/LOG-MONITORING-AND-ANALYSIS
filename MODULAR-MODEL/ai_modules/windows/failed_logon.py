@@ -10,30 +10,27 @@ django.setup()
 
 from log_management_app.models import Alert, User, WindowsLog
 
-def detect_failed_logon(time_window_minutes=5):
+def detect_failed_logon():
     """
-    Detects failed logons (Event ID 4625) within the specified time window and creates alerts.
+    Detects failed logons (Event ID 4625) and creates alerts.
     """
     alerts = []
     
+    # Get all the logs with Event ID 4625 (Failed Logon)
     failed_logons = WindowsLog.objects.filter(event_id=4625)
     
-    current_time = timezone.now()
-
     for log in failed_logons:
         try:
             timestamp = log.timestamp
-            
-            if timestamp > current_time - timedelta(minutes=time_window_minutes):
-                alert = {
-                    "alert_title": "Failed Logon Detected",
-                    "timestamp": timestamp,
-                    "hostname": log.computer,  
-                    "message": f"Failed logon attempt by user '{log.log_user}' with invalid username or password.",
-                    "severity": "High",  
-                    "user": log.log_user,  
-                }
-                alerts.append(alert)
+            alert = {
+                "alert_title": "Failed Logon Detected",
+                "timestamp": timestamp,
+                "hostname": log.computer,  
+                "message": f"Failed logon attempt by user '{log.log_user}' with invalid username or password.",
+                "severity": "High",  
+                "user": log.log_user,  
+            }
+            alerts.append(alert)
 
         except Exception as e:
             print(f"Error processing log entry: {log}, Error: {e}")
@@ -66,7 +63,7 @@ def create_alerts(alerts):
         print(f"Failed to create alerts: {e}")
 
 if __name__ == "__main__":    
-    detected_alerts = detect_failed_logon(time_window_minutes=5)
+    detected_alerts = detect_failed_logon()
     
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")

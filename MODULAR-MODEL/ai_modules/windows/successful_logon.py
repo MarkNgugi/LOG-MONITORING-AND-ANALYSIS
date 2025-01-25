@@ -10,30 +10,28 @@ django.setup()
 
 from log_management_app.models import Alert, User, WindowsLog
 
-def detect_successful_logon(time_window_minutes=5):
+def detect_successful_logon():
     """
-    Detects successful logons (Event ID 4624) within the specified time window and creates alerts.
+    Detects successful logons (Event ID 4624) and creates alerts.
     """
     alerts = []
     
+    # Get all the logs with Event ID 4624 (Successful Logon)
     successful_logons = WindowsLog.objects.filter(event_id=4624)
     
-    current_time = timezone.now()
-
     for log in successful_logons:
         try:
             timestamp = log.timestamp
             
-            if timestamp > current_time - timedelta(minutes=time_window_minutes):
-                alert = {
-                    "alert_title": "Successful Logon Detected",
-                    "timestamp": timestamp,
-                    "hostname": log.computer,  
-                    "message": f"User '{log.log_user}' successfully logged on to the system.",
-                    "severity": "Low",  
-                    "user": log.log_user,
-                }
-                alerts.append(alert)
+            alert = {
+                "alert_title": "Successful Logon Detected",
+                "timestamp": timestamp,
+                "hostname": log.computer,  
+                "message": f"User '{log.log_user}' successfully logged on to the system.",
+                "severity": "Low",  
+                "user": log.log_user,
+            }
+            alerts.append(alert)
 
         except Exception as e:
             print(f"Error processing log entry: {log}, Error: {e}")
@@ -67,7 +65,8 @@ def create_alerts(alerts):
         print(f"Failed to create alerts: {e}")
 
 if __name__ == "__main__":
-    detected_alerts = detect_successful_logon(time_window_minutes=5)
+    # Detect Successful Logons (Event ID 4624) without time window filtering
+    detected_alerts = detect_successful_logon()
     
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")
