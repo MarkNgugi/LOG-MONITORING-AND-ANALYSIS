@@ -336,126 +336,226 @@ WantedBy=multi-user.target</pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Multiple Failed RDP Login Attempts</td>
-                                    <td>Alert</td>
+                                    <td>Successful Logon</td>
+                                    <td>Event</td>
                                     <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>Detects multiple failed Remote Desktop Protocol (RDP) login attempts within a short period, indicating potential brute force attacks.</td>
+                                    <td>Low</td>
+                                    <td>Indicates a successful logon to the system.</td>
                                 </tr>
                                 <tr>
-                                    <td>Successful Admin Login from Unusual IP</td>
-                                    <td>Alert</td>
+                                    <td>Failed Logon</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Records failed logon attempts, including invalid username or password.</td>
+                                </tr>
+                                <tr>
+                                    <td>Logoff</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
+                                    <td>Low</td>
+                                    <td>Indicates a user logoff event.</td>
+                                </tr>
+                                <tr>
+                                    <td>User Initiated Logoff</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
+                                    <td>Low</td>
+                                    <td>Indicates that a user initiated a logoff from the system.</td>
+                                </tr>
+                                <tr>
+                                    <td>Special Privileges Assigned to New Logon</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>Indicates when a user logs on with special privileges, like an administrator.</td>
+                                </tr>
+                                <tr>
+                                    <td>A New Process Has Been Created</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>Medium</td>
+                                    <td>Shows when a new process starts on the machine, useful for detecting suspicious processes.</td>
+                                </tr>
+                                <tr>
+                                    <td>Account Locked Out</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Indicates that an account has been locked out due to repeated failed login attempts.</td>
+                                </tr>
+                                <tr>
+                                    <td>A Kerberos Authentication Ticket (TGT) Request Failed</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Indicates that a user or machine failed to request a Kerberos ticket, potentially signaling authentication issues or attack attempts.</td>
+                                </tr>
+                                <tr>
+                                    <td>Kerberos Pre-authentication Failed</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Indicates a failed Kerberos pre-authentication attempt, which can point to brute force or other attack attempts.</td>
+                                </tr>
+                                <tr>
+                                    <td>A User's Local Group Membership Was Enumerated</td>
+                                    <td>Event</td>
+                                    <td>Reconnaissance</td>
+                                    <td>Medium</td>
+                                    <td>Indicates when a user's group membership is enumerated, which could be indicative of reconnaissance activity by an attacker.</td>
+                                </tr>
+                                <tr>
+                                    <td>The Event Log Service Has Started</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>Low</td>
+                                    <td>Indicates the system has started logging, typically after a reboot or system startup.</td>
+                                </tr>
+                                <tr>
+                                    <td>The Event Log Service Has Stopped</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>Medium</td>
+                                    <td>Indicates that the event log service has stopped, which could be a sign of a system shutdown or malicious activity.</td>
+                                </tr>
+                                <tr>
+                                    <td>The Previous System Shutdown Was Unexpected</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>Medium</td>
+                                    <td>Indicates an unexpected shutdown, which can be used to detect crashes or power failures.</td>
+                                </tr>
+                                <tr>
+                                    <td>Kernel Power (Unexpected Shutdown)</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>Indicates that the system was unexpectedly shut down, including hardware or power failures.</td>
+                                </tr>
+                                <tr>
+                                    <td>Audit Log Cleared</td>
+                                    <td>Event</td>
                                     <td>Authentication</td>
                                     <td>Critical</td>
-                                    <td>Administrator login from an IP address outside the expected range, signaling a potential compromise.</td>
+                                    <td>Indicates when the audit log is cleared, which could be a sign of tampering or malicious activity.</td>
                                 </tr>
                                 <tr>
-                                    <td>Use of Unrecognized Remote Access Tool</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
+                                    <td>Service Failed to Start</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>Indicates that a service failed to start, which could signal issues with system services or a potential attack targeting specific services.</td>
+                                </tr>
+                                <tr>
+                                    <td>Service Terminated Unexpectedly</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>Indicates that a service has terminated unexpectedly, often a clue to instability, or an application crash.</td>
+                                </tr>
+                                <tr>
+                                    <td>The File System Structure on Disk Is Corrupt</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>Indicates file system corruption, which can be a sign of hardware failure or malicious tampering.</td>
+                                </tr>
+                                <tr>
+                                    <td>DNS Client Events (DNS Resolution Failures)</td>
+                                    <td>Event</td>
+                                    <td>System</td>
                                     <td>Medium</td>
-                                    <td>Detects the use of unapproved remote access tools (e.g., VNC, TeamViewer), which could indicate unauthorized access.</td>
+                                    <td>Indicates DNS resolution failures, useful for identifying issues with network connectivity or potential DNS-based attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>Multiple Failed Windows Logins for Specific User</td>
-                                    <td>Alert</td>
+                                    <td>System Time Changed</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>Medium</td>
+                                    <td>The system time was changed.</td>
+                                </tr>
+                                <tr>
+                                    <td>Windows Firewall Service Stopped</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>The Windows Firewall Service has been stopped.</td>
+                                </tr>
+                                <tr>
+                                    <td>Windows Firewall Service Failed to Start</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>The Windows Firewall Service failed to start.</td>
+                                </tr>
+                                <tr>
+                                    <td>Windows Firewall Driver Stopped</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>The Windows Firewall Driver was stopped.</td>
+                                </tr>
+                                <tr>
+                                    <td>Windows Firewall Driver Failed to Start</td>
+                                    <td>Event</td>
+                                    <td>System</td>
+                                    <td>High</td>
+                                    <td>The Windows Firewall Driver failed to start.</td>
+                                </tr>
+                                <tr>
+                                    <td>A Privileged Service Was Called</td>
+                                    <td>Event</td>
+                                    <td>Security</td>
+                                    <td>Medium</td>
+                                    <td>A privileged service was called.</td>
+                                </tr>
+                                <tr>
+                                    <td>An Operation Was Attempted on a Privileged Object</td>
+                                    <td>Event</td>
+                                    <td>Security</td>
+                                    <td>Medium</td>
+                                    <td>An operation was attempted on a privileged object.</td>
+                                </tr>
+                                <tr>
+                                    <td>An Object Was Deleted</td>
+                                    <td>Event</td>
+                                    <td>Security</td>
+                                    <td>Medium</td>
+                                    <td>An object was deleted.</td>
+                                </tr>
+                                <tr>
+                                    <td>Account Failed to Log On</td>
+                                    <td>Event</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>More than 5 failed login attempts for the same user, potentially indicating targeted brute force attacks.</td>
+                                    <td>An account failed to log on.</td>
                                 </tr>
                                 <tr>
-                                    <td>Unexpected Restart of Windows Service</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>Medium</td>
-                                    <td>Detects unexpected restarts of critical Windows services, which may indicate tampering or exploitation.</td>
-                                </tr>
-                                <tr>
-                                    <td>High Number of RDP Connections in a Short Period</td>
-                                    <td>Alert</td>
+                                    <td>Logon Attempt Using Explicit Credentials</td>
+                                    <td>Event</td>
                                     <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>More than 10 RDP connection attempts within one minute, possibly indicating scanning or brute-force attacks.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unexpected System Reboots or Shutdowns</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
                                     <td>Medium</td>
-                                    <td>Unexpected system restart or shutdown, which could be caused by system crashes, power loss, or unauthorized actions.</td>
+                                    <td>A logon was attempted using explicit credentials.</td>
                                 </tr>
                                 <tr>
-                                    <td>Disk Space Warnings</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
+                                    <td>User Initiated Logoff</td>
+                                    <td>Event</td>
+                                    <td>Authentication</td>
                                     <td>Low</td>
-                                    <td>Disk usage exceeding 90% on a critical partition, requiring attention to avoid system issues.</td>
+                                    <td>User initiated logoff.</td>
                                 </tr>
                                 <tr>
-                                    <td>High CPU or Memory Usage</td>
-                                    <td>Alert</td>
+                                    <td>New Process Created</td>
+                                    <td>Event</td>
                                     <td>System</td>
-                                    <td>High</td>
-                                    <td>Unusually high CPU or memory usage, which could indicate resource exhaustion or a potential malicious process.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unauthorized Modification of Group Policy</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Changes to Group Policy Objects (GPO), which could indicate an attempt to bypass security controls or escalate privileges.</td>
-                                </tr>
-                                <tr>
-                                    <td>Scheduled Task Failures</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>Low</td>
-                                    <td>Failure of scheduled tasks, which could affect system maintenance or monitoring tasks.</td>
-                                </tr>
-                                <tr>
-                                    <td>User Account Lockouts</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
                                     <td>Medium</td>
-                                    <td>User accounts locked after too many failed login attempts, indicating possible brute force attempts.</td>
-                                </tr>
-                                <tr>
-                                    <td>Failed Attempt to Run Admin Command</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>Attempted execution of administrative commands by non-admin users.</td>
-                                </tr>
-                                <tr>
-                                    <td>Login Attempt from a Disabled Account</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>Login attempts using a disabled or locked-out account, indicating unauthorized access attempts.</td>
-                                </tr>
-                                <tr>
-                                    <td>Time Sync Failures</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>Low</td>
-                                    <td>Network Time Protocol (NTP) synchronization failures, which could result in timing issues in system operations.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unauthorized Use of PowerShell</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Medium</td>
-                                    <td>PowerShell usage detected by a non-administrative user, which could indicate malicious activity, such as script-based attacks.</td>
-                                </tr>
-                                <tr>
-                                    <td>Multiple Failed SMB Login Attempts</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>Multiple failed login attempts to shared folders, indicating potential SMB brute force attempts.</td>
+                                    <td>A new process has been created.</td>
                                 </tr>
                             </tbody>
                         </table>
+                        
+                        
                     </div>
                     
                 

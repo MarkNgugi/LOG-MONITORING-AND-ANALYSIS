@@ -77,7 +77,7 @@ def generate_token(request):
         return JsonResponse({'access_token': token.key, 'name': token.name})
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-
+ 
 
 from django.http import HttpResponse, HttpResponseForbidden, Http404
 from rest_framework.authentication import TokenAuthentication
