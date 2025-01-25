@@ -17,170 +17,134 @@
 </style>
 
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <!-- <h2>Section title</h2> -->
-            <h1 class="h3 page-title">Add a New Connection</h1>            
-            <br><br>
-            <!-- info small box -->
+  <div class="row justify-content-center"> <!-- Centering the content using justify-content-center -->
+      <div class="col-12">
+          <h1 class="h3 page-title">Add a New Connection</h1>            
+          <br><br> <br>
 
-            <h1 class="h3 page-title">System Logs</h1>    
-            <hr class="my-2">    
-            <p>...</p> 
-            <!-- <p>Use integrations to collect data in Grafana Cloud to monitor the health and performance 
-              of your infrastructure services.</p>              -->
-            <div class="row">
-              <div class="col-md-4 mb-4">
-                <a href="{% url 'windows' %}" class="text-decoration-none">
-                  
-                  <div class="card shadow mb-4">
-                    <div class="card-body file-list">
-                      <div class="d-flex align-items-center">                      
-                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                          <img src="{% static 'assets/images/windows.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                        </div>
-                                                      
-                        <div class="flex-fill ml-4 fname">
-                          <strong>Windows</strong><br />
-                          <span class="badge badge-light text-muted">3 files</span>
-                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                        </div>
+          <!-- <h1 class="h3 page-title">System Logs</h1>    
+          <hr class="my-2">    
+          <p>...</p>  -->
+
+          <div class="row justify-content-center"> <!-- Centering the row of cards -->
+            <div class="col-md-3 mb-4">
+              <a href="{% url 'windows' %}" class="text-decoration-none">
+                <div class="card shadow mb-4">
+                  <div class="card-body file-list">
+                    <div class="d-flex align-items-center">                      
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/windows.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
                       </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </a>
-              </div>
-              
-
-              <div class="col-md-4 mb-4">
-                <a href="{% url 'activedirectory' %}" class="text-decoration-none">
-                  
-                  <div class="card shadow mb-4">
-                    <div class="card-body file-list">
-                      <div class="d-flex align-items-center">                      
-                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                          <img src="{% static 'assets/images/ad.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                        </div>
-                                                      
-                        <div class="flex-fill ml-4 fname">
-                          <strong>Windows Active Directory</strong><br />
-                          <span class="badge badge-light text-muted">3 files</span>
-                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                        </div>
+                      <div class="flex-fill ml-4 fname">
+                        <strong>Windows</strong><br />
+                        <span class="badge badge-light text-white">SYSTEM</span>
                       </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </a>
-              </div>
+                    </div>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </a>
+            </div>
 
-              <div class="col-md-4 mb-4">
-                <a href="{% url 'linux' %}" class="text-decoration-none">
-                  
-                  <div class="card shadow mb-4">
-                    <div class="card-body file-list">
-                      <div class="d-flex align-items-center">                      
-                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                          <img src="{% static 'assets/images/linux.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                        </div>
-                                                      
-                        <div class="flex-fill ml-4 fname">
-                          <strong>Linux Server</strong><br />
-                          <span class="badge badge-light text-muted">3 files</span>
-                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                        </div>
+            <div class="col-md-3 mb-4">
+              <a href="{% url 'activedirectory' %}" class="text-decoration-none">
+                <div class="card shadow mb-4">
+                  <div class="card-body file-list">
+                    <div class="d-flex align-items-center">                      
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/ad.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
                       </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </a>
-              </div>
-
-            </div> <!-- end section -->
-            
-
-            <h1 class="h3 page-title">Webservers</h1>    
-            <hr class="my-2">    
-            <p>...</p> 
-            <!-- <p>Use integrations to collect data in Grafana Cloud to monitor the health and performance 
-              of your infrastructure services.</p>     -->
-
-            <div class="row">
-              <div class="col-md-4 mb-4">
-                <a href="{% url 'apache' %}" class="text-decoration-none">
-                  
-                  <div class="card shadow mb-4">
-                    <div class="card-body file-list">
-                      <div class="d-flex align-items-center">                      
-                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                          <img src="{% static 'assets/images/apache1.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                        </div>
-                                                      
-                        <div class="flex-fill ml-4 fname">
-                          <strong>Apache HTTP server</strong><br />
-                          <span class="badge badge-light text-muted">3 files</span>
-                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                        </div>
+                      <div class="flex-fill ml-4 fname">
+                        <strong>Windows Active Directory</strong><br />
+                        <span class="badge badge-light text-white">DIRECTORY SERVICE</span>                          
                       </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </a>
-              </div>
+                    </div>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </a>
+            </div>
 
-              <div class="col-md-4 mb-4">
-                <a href="{% url 'nginx' %}" class="text-decoration-none">
-                  
-                  <div class="card shadow mb-4">
-                    <div class="card-body file-list">
-                      <div class="d-flex align-items-center">                      
-                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                          <img src="{% static 'assets/images/nginx.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                        </div>
-                                                      
-                        <div class="flex-fill ml-4 fname">
-                          <strong>Nginx</strong><br />
-                          <span class="badge badge-light text-muted">3 files</span>
-                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                        </div>
+            <div class="col-md-3 mb-4">
+              <a href="{% url 'linux' %}" class="text-decoration-none">
+                <div class="card shadow mb-4">
+                  <div class="card-body file-list">
+                    <div class="d-flex align-items-center">                      
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/linux.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
                       </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </a>
-              </div>
-
-              <div class="col-md-4 mb-4">
-                <a href="{% url 'iis' %}" class="text-decoration-none">
-                  
-                  <div class="card shadow mb-4">
-                    <div class="card-body file-list">
-                      <div class="d-flex align-items-center">                      
-                        <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
-                          <img src="{% static 'assets/images/microsoft.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
-                        </div>
-                                                      
-                        <div class="flex-fill ml-4 fname">
-                          <strong>Microsoft IIS</strong><br />
-                          <span class="badge badge-light text-muted">3 files</span>
-                          <i class="fe fe-users fe-12 ml-2 text-muted"></i>
-                        </div>
+                      <div class="flex-fill ml-4 fname">
+                        <strong>Linux Server</strong><br />
+                        <span class="badge badge-light text-white">SYSTEM</span>                        
                       </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </a>
-              </div>
-            </div> <!-- end section -->  
-            
+                    </div>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </a>
+            </div>
 
-            <!-- <h1 class="h3 page-title">Databases</h1>    
-            <hr class="my-2">   
-            <p>...</p>  -->
-            <!-- <p>Use integrations to collect data in Grafana Cloud to monitor the health and performance 
-              of your infrastructure services.</p>              -->
-            
+          </div> <!-- end section -->
+          
+          <!-- <h1 class="h3 page-title">Webservers</h1>    
+          <hr class="my-2">    
+          <p>...</p>  -->
 
-            
-                     
+          <div class="row justify-content-center"> <!-- Centering the row of cards -->
+            <div class="col-md-3 mb-4">
+              <a href="{% url 'apache' %}" class="text-decoration-none">
+                <div class="card shadow mb-4">
+                  <div class="card-body file-list">
+                    <div class="d-flex align-items-center">                      
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/apache1.png' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                      </div>
+                      <div class="flex-fill ml-4 fname">
+                        <strong>Apache HTTP server</strong><br />
+                        <span class="badge badge-light text-muted">3 files</span>
+                      </div>
+                    </div>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </a>
+            </div>
 
-        </div>
-    </div> <!-- .row -->
+            <div class="col-md-3 mb-4">
+              <a href="{% url 'nginx' %}" class="text-decoration-none">
+                <div class="card shadow mb-4">
+                  <div class="card-body file-list">
+                    <div class="d-flex align-items-center">                      
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/nginx.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                      </div>
+                      <div class="flex-fill ml-4 fname">
+                        <strong>Nginx</strong><br />
+                        <span class="badge badge-light text-muted">3 files</span>
+                      </div>
+                    </div>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </a>
+            </div>
+
+            <div class="col-md-3 mb-4">
+              <a href="{% url 'iis' %}" class="text-decoration-none">
+                <div class="card shadow mb-4">
+                  <div class="card-body file-list">
+                    <div class="d-flex align-items-center">                      
+                      <div class="circle circle-md" style="display: flex; justify-content: center; align-items: center; overflow: hidden; background: none;">
+                        <img src="{% static 'assets/images/microsoft.svg' %}" alt="folder icon" style="width: 60%; height: auto; max-width: 100%; max-height: 100%;" />
+                      </div>
+                      <div class="flex-fill ml-4 fname">
+                        <strong>Microsoft IIS</strong><br />
+                        <span class="badge badge-light text-muted">3 files</span>
+                      </div>
+                    </div>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </a>
+            </div>
+          </div> <!-- end section -->  
+      </div>
+  </div> <!-- .row -->
 </div> <!-- .container-fluid -->
+
 
 {% endblock %}
