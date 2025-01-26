@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row"> 
         <div class="col-md-12">
-            <h2 class="h3 mb-4 page-title">Nginx</h2>
+            <h2 class="h3 mb-4 page-title">MySQL</h2>
 
             <div class="my-4">
                 <!-- Nav tabs -->
@@ -342,158 +342,110 @@ WantedBy=multi-user.target</pre>
                         <h1 class="h3 page-title">Alerts & Anomalies</h1>
                         <hr class="my-2">
                         <table class="table table-striped">
-                            <thead> 
+                            <thead>
                                 <tr>
                                     <th>Alert Name</th>
                                     <th>Type</th>
                                     <th>Category</th>
-                                    <th>Level</th>                                    
+                                    <th>Level</th>
                                     <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>NginxDown</td>
+                                    <td>ServerStartupShutdownIssues</td>
                                     <td>Alert</td>
-                                    <td>Availability</td>
+                                    <td>System</td>
                                     <td>CRITICAL</td>
-                                    <td>Nginx server is down.</td>
+                                    <td>Indicates issues during MySQL server startup or shutdown, such as port conflicts or configuration errors that prevent the server from starting properly.</td>
                                 </tr>
                                 <tr>
-                                    <td>NginxUp</td>
-                                    <td>Anomaly</td>
-                                    <td>Status</td>
-                                    <td>INFO</td>
-                                    <td>Nginx server is up and running.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxRestart</td>
-                                    <td>Anomaly</td>
-                                    <td>Status</td>
-                                    <td>INFO</td>
-                                    <td>Nginx server has restarted.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxWorkersLoad</td>
+                                    <td>AuthenticationFailures</td>
                                     <td>Alert</td>
-                                    <td>Performance</td>
-                                    <td>WARNING</td>
-                                    <td>Nginx workers load is too high.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxResponseTimeTooHigh</td>
-                                    <td>Alert</td>
-                                    <td>Performance</td>
-                                    <td>WARNING</td>
-                                    <td>Nginx response time is higher than expected.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxErrorsRateTooHigh</td>
-                                    <td>Alert</td>
-                                    <td>Error</td>
-                                    <td>WARNING</td>
-                                    <td>Nginx error rate is too high.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxHighTraffic</td>
-                                    <td>Anomaly</td>
-                                    <td>Traffic</td>
-                                    <td>INFO</td>
-                                    <td>High traffic detected on the server.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxSlowRequests</td>
-                                    <td>Alert</td>
-                                    <td>Performance</td>
-                                    <td>WARNING</td>
-                                    <td>Requests taking too long to process.</td>
-                                </tr>
-                                <tr>
-                                    <td>Nginx400ErrorsSpike</td>
-                                    <td>Alert</td>
-                                    <td>Error</td>
+                                    <td>Security</td>
                                     <td>HIGH</td>
-                                    <td>Spike in 400-series errors.</td>
+                                    <td>Triggered when invalid login attempts occur, possibly due to misconfigured credentials, which could indicate brute force attacks or unauthorized access attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>Nginx500ErrorsSpike</td>
-                                    <td>Alert</td>
-                                    <td>Error</td>
-                                    <td>HIGH</td>
-                                    <td>Spike in 500-series errors.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxDiskSpaceLow</td>
+                                    <td>OOMErrors</td>
                                     <td>Alert</td>
                                     <td>Resource</td>
                                     <td>CRITICAL</td>
-                                    <td>Low disk space impacting Nginx performance.</td>
+                                    <td>Occurs when MySQL fails to allocate memory for its buffer pool, often due to insufficient system memory, resulting in performance degradation or failure to process queries.</td>
                                 </tr>
                                 <tr>
-                                    <td>NginxMemoryUsageHigh</td>
+                                    <td>TableCorruption</td>
+                                    <td>Alert</td>
+                                    <td>Database</td>
+                                    <td>HIGH</td>
+                                    <td>Indicates that a MySQL table, typically MyISAM, is corrupted and requires repair. This can happen if a table becomes unstable or damaged, preventing access to data.</td>
+                                </tr>
+                                <tr>
+                                    <td>DiskSpaceIssues</td>
                                     <td>Alert</td>
                                     <td>Resource</td>
-                                    <td>HIGH</td>
-                                    <td>High memory usage detected by Nginx workers.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxClientIPBlock</td>
-                                    <td>Alert</td>
-                                    <td>Security</td>
-                                    <td>MEDIUM</td>
-                                    <td>Blocked a client IP address due to suspicious activity.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxUnauthorizedAccess</td>
-                                    <td>Alert</td>
-                                    <td>Security</td>
-                                    <td>MEDIUM</td>
-                                    <td>Unauthorized access attempt detected.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxBruteForceAttack</td>
-                                    <td>Alert</td>
-                                    <td>Security</td>
                                     <td>CRITICAL</td>
-                                    <td>Brute force attack detected on the server.</td>
+                                    <td>Triggered when the server runs out of disk space, causing MySQL to be unable to perform necessary operations like writing to logs or processing queries.</td>
                                 </tr>
                                 <tr>
-                                    <td>NginxDDOSAttack</td>
+                                    <td>ReplicationErrors</td>
                                     <td>Alert</td>
-                                    <td>Security</td>
-                                    <td>CRITICAL</td>
-                                    <td>Possible DDOS attack detected.</td>
-                                </tr>
-                                <tr>
-                                    <td>NginxSSLHandshakeFailure</td>
-                                    <td>Alert</td>
-                                    <td>Security</td>
+                                    <td>Replication</td>
                                     <td>HIGH</td>
-                                    <td>SSL handshake failure detected.</td>
+                                    <td>Occurs when there is a replication failure due to errors like missing data or conflicts between the master and slave, causing synchronization issues in the replicated environment.</td>
                                 </tr>
                                 <tr>
-                                    <td>NginxCertificateExpiry</td>
+                                    <td>Deadlocks</td>
                                     <td>Alert</td>
-                                    <td>Security</td>
-                                    <td>HIGH</td>
-                                    <td>SSL certificate nearing expiry.</td>
+                                    <td>Performance</td>
+                                    <td>WARNING</td>
+                                    <td>Indicates a deadlock situation where two or more transactions are stuck, unable to proceed due to conflicting resource requests, leading to a need for manual intervention or transaction restarts.</td>
                                 </tr>
                                 <tr>
-                                    <td>NginxConfigError</td>
+                                    <td>FilePermissionOwnershipErrors</td>
                                     <td>Alert</td>
                                     <td>Configuration</td>
-                                    <td>HIGH</td>
-                                    <td>Configuration error detected in Nginx logs.</td>
+                                    <td>MEDIUM</td>
+                                    <td>Occurs when MySQL encounters issues with file permissions or ownership, such as being unable to access necessary files, which may require running mysql_upgrade or adjusting permissions.</td>
                                 </tr>
                                 <tr>
-                                    <td>NginxProxyError</td>
+                                    <td>QueryCacheErrors</td>
                                     <td>Alert</td>
-                                    <td>Proxy</td>
+                                    <td>Configuration</td>
                                     <td>MEDIUM</td>
-                                    <td>Errors related to Nginx as a reverse proxy.</td>
+                                    <td>Triggered when MySQL’s query cache is disabled due to incorrect configuration or zero cache size, potentially leading to slower query performance as caching is disabled.</td>
+                                </tr>
+                                <tr>
+                                    <td>UnusualServerShutdowns</td>
+                                    <td>Alert</td>
+                                    <td>System</td>
+                                    <td>CRITICAL</td>
+                                    <td>Occurs when MySQL shuts down unexpectedly, possibly due to a crash, system resource limitations, or manual intervention, which could affect server availability and data integrity.</td>
+                                </tr>
+                                <tr>
+                                    <td>HighNumberOfConnections</td>
+                                    <td>Alert</td>
+                                    <td>Performance</td>
+                                    <td>HIGH</td>
+                                    <td>Indicates that the server is overwhelmed with a high number of concurrent client connections, which could lead to slow performance or even service disruptions.</td>
+                                </tr>
+                                <tr>
+                                    <td>SlowQueryLogs</td>
+                                    <td>Alert</td>
+                                    <td>Performance</td>
+                                    <td>WARNING</td>
+                                    <td>Triggered when MySQL logs slow queries, indicating that certain queries are taking too long to execute, which may be due to inefficient queries or missing indexes.</td>
+                                </tr>
+                                <tr>
+                                    <td>CrashRecoveryEvents</td>
+                                    <td>Alert</td>
+                                    <td>System</td>
+                                    <td>CRITICAL</td>
+                                    <td>Indicates that MySQL has crashed and is in the process of recovering, which may involve replaying transaction logs to restore the database to a consistent state.</td>
                                 </tr>
                             </tbody>
                         </table>
+                        
                         
                         
                                                

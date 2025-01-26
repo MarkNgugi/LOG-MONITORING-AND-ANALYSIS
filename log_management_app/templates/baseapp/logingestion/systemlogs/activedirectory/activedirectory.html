@@ -328,7 +328,7 @@ WantedBy=multi-user.target</pre>
                             <thead>
                                 <tr>
                                     <th>Alert Name</th>
-                                    <th>Type</th>
+                                    <th>Event ID</th>
                                     <th>Category</th>
                                     <th>Level</th>
                                     <th>Description</th>
@@ -336,126 +336,114 @@ WantedBy=multi-user.target</pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Multiple Failed Login Attempts Across Domain</td>
-                                    <td>Alert</td>
+                                    <td>Successful Logon</td>
+                                    <td>4624</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>More than 5 failed login attempts across multiple domain controllers within a short period, indicating a potential brute-force attack.</td>
+                                    <td>This event indicates a successful logon to the system, typically a user successfully logging into the domain.</td>
                                 </tr>
                                 <tr>
-                                    <td>Successful Domain Admin Login from Unusual IP</td>
-                                    <td>Alert</td>
+                                    <td>Failed Logon</td>
+                                    <td>4625</td>
                                     <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Domain administrator login from an IP address outside the normal range, possibly indicating a compromised account.</td>
+                                    <td>High</td>
+                                    <td>This event records a failed logon attempt. It is essential for detecting potential brute-force attacks or misconfigured credentials.</td>
                                 </tr>
                                 <tr>
-                                    <td>Creation of Unusual User Accounts</td>
-                                    <td>Alert</td>
+                                    <td>Account Locked Out</td>
+                                    <td>4740</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>This event occurs when a user account is locked due to too many failed login attempts. It can indicate potential brute-force attacks.</td>
+                                </tr>
+                                <tr>
+                                    <td>User Account Created</td>
+                                    <td>4720</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
-                                    <td>New user accounts created with elevated privileges or from unknown sources, indicating potential unauthorized access.</td>
+                                    <td>This event shows when a new user account is created in Active Directory. It's useful for monitoring administrative changes.</td>
                                 </tr>
                                 <tr>
-                                    <td>Admin Group Membership Changes</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Changes to the membership of sensitive groups like Domain Admins, Enterprise Admins, or Administrators, indicating possible privilege escalation.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unexpected Domain Controller Failover</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>High</td>
-                                    <td>Unexpected failover of a domain controller, which could indicate a problem with the system or potential attack.</td>
-                                </tr>
-                                <tr>
-                                    <td>Domain Trust Relationship Failure</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>High</td>
-                                    <td>Failure of a domain trust relationship between domain controllers, which could indicate tampering with domain security settings.</td>
-                                </tr>
-                                <tr>
-                                    <td>Account Lockout Across Multiple Domains</td>
-                                    <td>Alert</td>
+                                    <td>A Member Was Added to a Security-Enabled Local Group</td>
+                                    <td>4732</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>Multiple account lockouts across different domains in a short period, potentially indicating a brute force or password spraying attack.</td>
+                                    <td>This event is logged when a user is added to a privileged group, which could indicate unauthorized access or privilege escalation.</td>
                                 </tr>
                                 <tr>
-                                    <td>Unexpected Changes to Group Policies</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Unexpected or unauthorized changes to Active Directory Group Policy Objects (GPOs), which could allow privilege escalation or bypass security controls.</td>
-                                </tr>
-                                <tr>
-                                    <td>Domain Admin Account Password Change</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>Change to the password of a Domain Admin account, which could indicate an attempt to hijack or compromise an administrative account.</td>
-                                </tr>
-                                <tr>
-                                    <td>Failed Authentication Attempts for Domain Admin Accounts</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Multiple failed login attempts for Domain Admin accounts, indicating a potential brute force or targeted attack on privileged accounts.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unusual SID History Modifications</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Changes to the Security Identifier (SID) history of user or computer accounts, which could indicate an attempt to escalate privileges or bypass security.</td>
-                                </tr>
-                                <tr>
-                                    <td>Changes to Service Principal Names (SPNs)</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>Changes to Service Principal Names (SPNs), indicating potential Kerberos ticket manipulation or attempts to impersonate services.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unusual Account Logon Locations</td>
-                                    <td>Alert</td>
+                                    <td>A User Account Was Unlocked</td>
+                                    <td>4767</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
-                                    <td>Logon attempts from unusual geographic locations or IP addresses for user accounts, indicating possible credential theft or misuse.</td>
+                                    <td>This event indicates when a previously locked-out account is unlocked, which could indicate user recovery or malicious activity.</td>
                                 </tr>
                                 <tr>
-                                    <td>Multiple Password Reset Requests</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>Multiple failed or successful password reset requests for the same account, indicating potential compromise or social engineering.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unusual Service Account Behavior</td>
-                                    <td>Alert</td>
+                                    <td>The Name of an Account Was Changed</td>
+                                    <td>4781</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
-                                    <td>Service accounts performing actions that are outside their usual pattern of behavior, potentially indicating misuse or compromise.</td>
+                                    <td>This event logs when a user’s account name is changed. This could indicate attempts to obfuscate a user’s identity.</td>
                                 </tr>
                                 <tr>
-                                    <td>Unregistered or Unrecognized Domain Controllers</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>Critical</td>
-                                    <td>Unregistered or rogue domain controllers attempting to join the Active Directory domain, indicating potential attack or misconfiguration.</td>
+                                    <td>A User’s Local Group Membership Was Enumerated</td>
+                                    <td>4798</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>This event is logged when a user’s group membership is queried, which may indicate reconnaissance or attack attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>LDAP Injection Attempts</td>
-                                    <td>Alert</td>
+                                    <td>The Windows Filtering Platform has permitted a connection</td>
+                                    <td>5156</td>
+                                    <td>Network</td>
+                                    <td>High</td>
+                                    <td>This event can show when network traffic is allowed by the firewall, potentially helping to identify unauthorized network access.</td>
+                                </tr>
+                                <tr>
+                                    <td>A Logon Attempt Was Made Using Explicit Credentials</td>
+                                    <td>4648</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>This event indicates a logon attempt using explicit credentials, such as when a user logs on with alternate credentials. It could be suspicious if it happens unexpectedly.</td>
+                                </tr>
+                                <tr>
+                                    <td>Permissions on an Object Were Changed</td>
+                                    <td>4670</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>Unusual patterns of LDAP queries or failed authentication attempts, possibly indicating an LDAP injection attack on the AD infrastructure.</td>
+                                    <td>This event shows when permissions on an object in Active Directory (like a user or group) were changed, which can indicate a potential security breach or unauthorized privilege escalation.</td>
+                                </tr>
+                                <tr>
+                                    <td>A User Account Was Changed</td>
+                                    <td>4738</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>This event indicates when a user’s attributes (e.g., password, group membership) are changed. Unusual changes should be investigated for signs of malicious activity.</td>
+                                </tr>
+                                <tr>
+                                    <td>A Service Ticket Was Requested</td>
+                                    <td>4769</td>
+                                    <td>Authentication</td>
+                                    <td>Medium</td>
+                                    <td>This event is logged when a service ticket is requested from the Kerberos Key Distribution Center (KDC). Monitoring these events helps identify potential service account misuse.</td>
+                                </tr>
+                                <tr>
+                                    <td>A User Account Was Deleted</td>
+                                    <td>4726</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>This event logs when a user account is deleted in Active Directory. It’s important for detecting unauthorized account deletions or suspicious activity.</td>
+                                </tr>
+                                <tr>
+                                    <td>A Privileged Service Was Called</td>
+                                    <td>4673</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>This event indicates that a privileged service, such as a system-level service, was called. This could indicate a potentially malicious attempt to interact with sensitive services.</td>
                                 </tr>
                             </tbody>
                         </table>
+                        
+                        
                     </div>
                     
                     
