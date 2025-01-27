@@ -55,169 +55,189 @@
                                 <div class="col-md-12">
 
                                     
-                                    <!-- Step 2: Download Script File -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h4>1. Download Script File</h4>
-                                            <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
-                                            <button type="button" class="btn mb-2 btn-outline-success" data-toggle="modal" data-target="#verticalModal"> Setup Alloy </button>
+<!-- Step 2: Download Script File -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>1. Download Script File</h4>
+        <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
+        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn"> Setup Alloy </button>
 
-                                            <div class="alert alert-info mt-3">
-                                                <i class="fas fa-info-circle"></i>
-                                                Looking to configure integrations for your Kubernetes environment? 
-                                                Check out <a href="" target="_blank">Kubernetes Monitoring</a> 
-                                                with LMAN Cloud to enable this.
-                                            </div>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="verticalModal" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="background-color: #181b1f; color: #ffffff;">
-                                                        <!-- Header -->
-                                                        <div class="modal-header border-0">
-                                                            <h5 class="modal-title" id="verticalModalTitle">Alloy configuration</h5>
-                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                    
-                                                        <!-- Modal Body -->
-                                                        <div class="modal-body">
-                                                            <!-- Step 1: Enter Token Name -->
-                                                            <div id="step-1">
-                                                                <h6>Install Alloy</h6>
-                                                                <p>Use an API token</p>
-                                                                <div class="form-group">
-                                                                    <label for="token-name-input">Token name</label>
-                                                                    <input id="token-name-input" type="text" class="form-control" placeholder="Enter a descriptive name to identify this token" />
-                                                                </div>
-                                                                <button id="create-token-btn" class="btn btn-primary">Create token</button>
-                                                            </div>
-                                    
-                                                            <!-- Step 2: Display Generated Token -->
-                                                            <div id="step-2" style="display: none;">
-                                                                <h6>Install Alloy</h6>
-                                                                <p style="color: #63bd83;">
-                                                                    Below you find the token you just generated - no need to do anything with it, we’ve automatically added it to the script in the next step.
-                                                                </p>
-                                                                <div class="form-group">
-                                                                    <label for="generated-token">Generated Token</label>
-                                                                    <textarea id="generated-token" class="form-control" style="background-color: #111217; color: #ffffff;" readonly></textarea>
-                                                                </div>                    
-                                                            </div>
-                                    
-                                                            <!-- Step 3: Scrollable Command Section -->
-                                                            <div id="step-3" style="display: none;">
-                                                                <br>
-                                                                <h3>Install and run Grafana Alloy</h3>
-                                                                <p id="install-command-description">
-                                                                    Run this command to install and run Alloy as a systemd service
-                                                                </p>
-                                                                <textarea id="command-textarea" class="form-control" style="background-color: #111217; color: #ffffff;" rows="3" readonly></textarea>
-                                                                <button class="btn btn-secondary mt-2" id="copy-command-btn">Copy to clipboard</button>
-                                                            </div>
-                                    
-                                                            <!-- Error Message -->
-                                                            <div id="error-message" style="display: none; color: red;">
-                                                                <p>Token has expired or invalid input! Please try again.</p>
-                                                            </div>
-                                                        </div>
-                                    
-                                                        <!-- Footer -->
-                                                        <div class="modal-footer border-0">
-                                                            <button class="btn btn-primary" id="test-connection-btn" style="display: none;">Test Alloy connection</button>
-                                                            <button class="btn btn-success" id="proceed-install-btn" style="display: none;">Proceed to install integration</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    
-                                        </div> <!-- /.card-body -->
-                                    </div> <!-- /.card -->
-                                    
-                                    <!-- JavaScript -->
-                                    <script>
-                                    function getCSRFToken() {
-                                        let cookieValue = null;
-                                        const cookies = document.cookie.split(';');
-                                        for (let i = 0; i < cookies.length; i++) {
-                                            const cookie = cookies[i].trim();
-                                            if (cookie.startsWith('csrftoken=')) {
-                                                cookieValue = cookie.substring('csrftoken='.length, cookie.length);
-                                                break;
-                                            }
-                                        }
-                                        return cookieValue;
-                                    }
-                                    
-                                    document.getElementById("create-token-btn").addEventListener("click", function() {
-                                        const tokenName = document.getElementById("token-name-input").value;
-                                    
-                                        if (!tokenName) {
-                                            alert("Please enter a token name.");
-                                            return;
-                                        }
-                                    
-                                        fetch("/api/generate-token/", {
-                                            method: "POST",
-                                            headers: {
-                                                "Content-Type": "application/json",
-                                                "X-CSRFToken": getCSRFToken(),
-                                            },
-                                            body: JSON.stringify({ name: tokenName }),
-                                        })
-                                        .then(response => {
-                                            if (!response.ok) throw new Error("Token generation failed!");
-                                            return response.json();
-                                        })
-                                        .then(data => {
-                                            const generatedToken = data.access_token;
+        <div class="alert alert-info mt-3">
+            <i class="fas fa-info-circle"></i>
+            Looking to configure integrations for your Kubernetes environment? 
+            Check out <a href="" target="_blank">Kubernetes Monitoring</a> 
+            with LMAN Cloud to enable this.
+        </div>
+    </div> <!-- /.card-body -->
+</div> <!-- /.card -->
 
-                                            document.getElementById("step-1").style.display = "none";
-                                            document.getElementById("step-2").style.display = "block";
-                                            document.getElementById("generated-token").value = generatedToken;
-                                            document.getElementById("step-3").style.display = "block";
-                                            
-                                            document.getElementById("install-command-description").innerText = "Run this command to install and run Alloy as a alloy.service systemd service:";
-                                            document.getElementById("command-textarea").value = `curl -H "Authorization: Token ${generatedToken}" http://127.0.0.1:8000/execute/mark.sh`;
+<script>
+    document.getElementById("setup-alloy-btn").addEventListener("click", function () {
+        // Fetch the logged-in user's ID from the backend
+        fetch("/api/get-user-id/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user ID");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const userId = data.user_id; // Extract user_id from the API response
 
-                                            document.getElementById("test-connection-btn").style.display = "inline-block";
-                                            document.getElementById("proceed-install-btn").style.display = "inline-block";
-                                        })
-                                        .catch(error => {
-                                            console.error("Error:", error);
-                                            document.getElementById("error-message").style.display = "block";
-                                        });
-                                    });
-                                    
-                                    // Copy Command to Clipboard
-                                    document.getElementById("copy-command-btn").addEventListener("click", function() {
-                                        const commandField = document.getElementById("command-textarea");
-                                        commandField.select();
-                                        document.execCommand("copy");
-                                        alert("Command copied to clipboard!");
-                                    });
-                                    
-                                    // Close Modal on Proceed
-                                    document.getElementById("proceed-install-btn").addEventListener("click", function() {
-                                        $('#verticalModal').modal('hide');
-                                    });
-                                    </script>
+                // Define the content of the script with the user ID included
+                const scriptContent = `#!/bin/bash
 
-                                    
-                                    <!-- CSS -->
-                                    <style>
-                                        .modal-body textarea {
-                                            background-color: #2c2f33;
-                                            color: #ffffff;
-                                            border: 1px solid #444;
-                                        }
-                                        .modal-content {
-                                            border-radius: 8px;
-                                        }
-                                        .modal-footer button {
-                                            margin-right: 10px;
-                                        }
-                                    </style>
+# Paths to log files
+AUTHLOG_FILE="/var/log/authh.log"
+SYSLOG_FILE="/var/log/syslog"
+
+# API endpoint
+API_ENDPOINT="http://127.0.0.1:8000/api/linux/logs/"
+
+# User ID
+USER_ID="${userId}"
+
+# Function to process auth logs
+process_authlogs() {
+    echo "Processing auth logs..."
+    while read -r line; do
+        # Extract the timestamp (ISO format)
+        timestamp=$(echo "$line" | awk '{print $1}')
+        
+        # Extract the hostname (field after timestamp)
+        hostname=$(echo "$line" | awk '{print $2}')
+        
+        # Extract the service and optional process ID
+        service=$(echo "$line" | awk '{print $3}' | sed 's/\\[.*\\]:$//')
+        process_id=$(echo "$line" | grep -oP '\\[\\K[0-9]+(?=\\])' || echo "null")
+        
+        # Extract optional user, command, PWD, session status, and UID
+        user=$(echo "$line" | grep -oP 'user \\K\\w+' || echo "null")
+        command=$(echo "$line" | grep -oP 'COMMAND=\\K.*' || echo "null")
+        pwd=$(echo "$line" | grep -oP 'CWD=\\K.*' || echo "null")
+        session_status=$(echo "$line" | grep -oE 'session (opened|closed)' || echo "null")
+        uid=$(echo "$line" | grep -oP 'uid=\\K[0-9]+' || echo "null")
+        
+        # Extract the log message (everything after the service and process ID)
+        message=$(echo "$line" | sed -E 's/^.*\\[?[0-9]*\\]:?\\s?//')
+
+        # Debug: Show extracted auth log data
+        echo "Authlog: $timestamp, $hostname, $service, $process_id, $user, $command, $pwd, $session_status, $uid, $message"
+
+        # Create JSON payload
+        json_payload=$(cat <<EOF
+{
+    "log_type": "authlog",
+    "timestamp": "$timestamp",
+    "hostname": "$hostname",
+    "service": "$service",
+    "process_id": $process_id,
+    "user": "$user",
+    "command": "$command",
+    "pwd": "$pwd",
+    "session_status": "$session_status",
+    "uid": $uid,
+    "message": "$message",
+    "user_id": "$USER_ID"
+}
+EOF
+)
+        # Send to API
+        response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
+        echo "$response"
+    done < "$AUTHLOG_FILE"
+    echo "Auth logs processing completed."
+}
+
+# Function to process syslogs
+process_syslogs() {
+    echo "Processing syslogs..."
+    while read -r line; do
+        # Extract the timestamp (up to and including the timezone offset)
+        timestamp=$(echo "$line" | grep -oP '^\\S+')
+
+        # Extract the hostname (immediately after the timestamp)
+        hostname=$(echo "$line" | awk '{print $2}')
+
+        # Extract the service and process ID (from "service[process_id]:")
+        service_process=$(echo "$line" | awk '{print $3}' | sed 's/://g')
+        service=$(echo "$service_process" | grep -oP '^[^\\[]*')
+        process_id=$(echo "$service_process" | grep -oP '(?<=\\[)[0-9]+(?=\\])')
+
+        # Extract the message (everything after the first colon after service and process ID)
+        message=$(echo "$line" | sed -E 's/^[^:]+: //')
+
+        # Debug: Display extracted syslog data
+        echo "Syslog: $timestamp, $hostname, $service, $process_id, $message"
+
+        # Create JSON payload
+        json_payload=$(cat <<EOF
+{
+    "log_type": "syslog",
+    "timestamp": "$timestamp",
+    "hostname": "$hostname",
+    "service": "$service",
+    "process_id": \${process_id:-null},
+    "log_level": "N/A",
+    "message": "$message",
+    "user_id": "$USER_ID"
+}
+EOF
+)
+        # Send to API
+        response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
+        echo "$response"
+    done < "$SYSLOG_FILE"
+    echo "Syslogs processing completed."
+}
+
+# Main execution
+echo "Starting log processing..."
+process_authlogs
+process_syslogs
+echo "All logs processed successfully."
+`;
+
+                // Create a Blob object for the script
+                const blob = new Blob([scriptContent], { type: "text/x-sh" });
+
+                // Create a downloadable link
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "linux.sh";
+                link.click();
+            })
+            .catch((error) => {
+                console.error("Error fetching user ID:", error);
+                alert("Failed to fetch the user ID. Please try again.");
+            });
+    });
+</script>
+
+
+
+    
+
+<!-- CSS -->
+<style>
+    .modal-body textarea {
+        background-color: #2c2f33;
+        color: #ffffff;
+        border: 1px solid #444;
+    }
+    .modal-content {
+        border-radius: 8px;
+    }
+    .modal-footer button {
+        margin-right: 10px;
+    }
+</style>
+
                                     
                                     
 

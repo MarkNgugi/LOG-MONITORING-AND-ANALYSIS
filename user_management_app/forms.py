@@ -4,14 +4,21 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 
 
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import User
+
 class RegistrationForm(UserCreationForm):
-    confirm_password = forms.CharField(
-        label="Confirm Password",
-        widget=forms.PasswordInput(attrs={
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)        
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Password'
+        })
+        self.fields['password2'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Confirm Password'
-        }),
-    )
+        })
 
     class Meta:
         model = User
@@ -23,16 +30,6 @@ class RegistrationForm(UserCreationForm):
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
         }
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
-
-        if password != confirm_password:
-            self.add_error('confirm_password', "Passwords do not match")
-
-        return cleaned_data
               
 
 

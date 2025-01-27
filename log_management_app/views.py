@@ -114,6 +114,9 @@ class ExecuteScriptView(APIView):
         return HttpResponse(script_content, content_type="text/plain")
 
 
+@login_required
+def get_user_id(request):
+    return JsonResponse({"user_id": request.user.id})
 
 def log_history(request):
     logs = LogEntry.objects.filter(user=request.user).order_by('-TimeCreated')
@@ -177,7 +180,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
         MongoLogFile.objects.all(),
 
     ))
-
+ 
 
     # Filtering based on parameters
     if os_type:
@@ -309,6 +312,9 @@ logger = logging.getLogger(__name__)
 
 class LinuxLogView(APIView):
     def post(self, request, *args, **kwargs):
+        # Log the incoming request data
+        logger.debug(f"Incoming request data: {request.data}")
+
         # Accept logs directly (single log or list of logs)
         logs = request.data if isinstance(request.data, list) else [request.data]
 
@@ -318,10 +324,8 @@ class LinuxLogView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        logger.debug(f"Received logs data: {logs}")
-
         # Validate logs using the serializer
-        serializer = LinuxLogSerializer(data=logs, many=True)
+        serializer = LinuxLogSerializer(data=logs, many=True, context={'request': request})
         if serializer.is_valid():
             try:
                 serializer.save()  # Save all logs at once
@@ -340,6 +344,7 @@ class LinuxLogView(APIView):
                 {"error": "Validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
 
 
             

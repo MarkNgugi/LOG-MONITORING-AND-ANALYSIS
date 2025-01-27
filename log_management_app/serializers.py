@@ -25,6 +25,11 @@ class ApacheLogSerializer(serializers.ModelSerializer):
         ]
 
 
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 class LinuxLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = LinuxLog
@@ -41,7 +46,23 @@ class LinuxLogSerializer(serializers.ModelSerializer):
             'pwd',  # Only for auth logs
             'session_status',  # Only for auth logs
             'uid',  # Only for auth logs
+            'owner',  # ForeignKey to the User model
         ]
+
+    def to_internal_value(self, data):        
+        user_id = data.pop('user_id', None)
+        
+        validated_data = super().to_internal_value(data)
+
+        if user_id:
+            try:                
+                user = User.objects.get(id=user_id)
+                validated_data['owner'] = user  
+            except User.DoesNotExist:
+                raise serializers.ValidationError({'user_id': 'Invalid user ID'})
+
+        return validated_data
+
     
 
 # class ApacheLogSerializer(serializers.Serializer):

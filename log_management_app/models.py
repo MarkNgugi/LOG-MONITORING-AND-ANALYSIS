@@ -47,6 +47,11 @@ class LinuxLogFile(models.Model):
  
 
 
+from django.conf import settings
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 class LinuxLog(models.Model):
     # Common fields for both syslogs and auth logs
     LOG_TYPE_CHOICES = [
@@ -69,6 +74,9 @@ class LinuxLog(models.Model):
     pwd = models.CharField(max_length=255, null=True, blank=True)
     session_status = models.CharField(max_length=255, null=True, blank=True)
     uid = models.IntegerField(null=True, blank=True)
+
+    # ForeignKey to the User model
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='linux_logs', null=True, blank=True)
 
     class Meta:
         ordering = ['-timestamp']

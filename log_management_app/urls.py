@@ -83,7 +83,7 @@ urlpatterns = [
     path('api/nginx/logs/', views.NginxLogView.as_view(), name='nginx-log-upload'),
     
 
-
+    path('api/get-user-id/', views.get_user_id, name='get_user_id'),
 
     
 ]
