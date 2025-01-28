@@ -57,6 +57,7 @@ class LinuxLog(models.Model):
         ('syslog', 'Syslog'),
         ('authlog', 'Authlog'),
     ]
+    log_source_name = models.CharField(max_length=255, null=True, blank=True)
     log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True)
     timestamp = models.CharField(null=True, blank=True)
     hostname = models.CharField(max_length=255, null=True, blank=True)
@@ -111,7 +112,7 @@ class ApacheLog(models.Model):
         ('access', 'Access'),
         ('error', 'Error'),
     ]    
- 
+    log_source_name = models.CharField(max_length=255, null=True, blank=True)
     log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True) 
     client_ip = models.GenericIPAddressField(null=True, blank=True)  
     remote_logname = models.CharField(max_length=100, blank=True, null=True)  
@@ -129,6 +130,8 @@ class ApacheLog(models.Model):
     error_message = models.TextField(blank=True, null=True) 
     process_id = models.IntegerField(null=True, blank=True)        
     module = models.CharField(max_length=255, blank=True, null=True)  
+
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='apache_logs', null=True, blank=True)
 
     class Meta:
         ordering = ['-timestamp'] 

@@ -209,10 +209,12 @@ process_authlogs() {
     "session_status": "$session_status",
     "uid": $uid,
     "message": "$message",
+    "log_source_name": "$LOG_SOURCE_NAME", 
     "user_id": "$USER_ID"
 }
 EOF
 )
+
         # Send to API
         response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
         echo "$response"
@@ -247,6 +249,7 @@ process_syslogs() {
     "service": "$service",
     "process_id": \${process_id:-null},
     "message": "$message",
+    "log_source_name": "$LOG_SOURCE_NAME",
     "user_id": "$USER_ID"
 }
 EOF

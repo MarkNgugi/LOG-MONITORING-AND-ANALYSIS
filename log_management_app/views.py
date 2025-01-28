@@ -312,10 +312,7 @@ logger = logging.getLogger(__name__)
 
 class LinuxLogView(APIView):
     def post(self, request, *args, **kwargs):
-        # Log the incoming request data
         logger.debug(f"Incoming request data: {request.data}")
-
-        # Accept logs directly (single log or list of logs)
         logs = request.data if isinstance(request.data, list) else [request.data]
 
         if not logs:
@@ -324,11 +321,10 @@ class LinuxLogView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Validate logs using the serializer
         serializer = LinuxLogSerializer(data=logs, many=True, context={'request': request})
         if serializer.is_valid():
             try:
-                serializer.save()  # Save all logs at once
+                serializer.save()
                 skipped_logs = len(logs) - len(serializer.validated_data)
                 message = f"Logs processed successfully. Skipped {skipped_logs} invalid entries." if skipped_logs > 0 else "Logs processed successfully."
                 return Response({"message": message}, status=status.HTTP_201_CREATED)
@@ -344,6 +340,7 @@ class LinuxLogView(APIView):
                 {"error": "Validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
 
 
 
@@ -381,7 +378,7 @@ logger = logging.getLogger(__name__)
 
 class ApacheLogView(APIView):
     def post(self, request, *args, **kwargs):
-        # Accept logs directly (single log or list of logs)
+        logger.debug(f"Incoming request data: {request.data}")
         logs = request.data if isinstance(request.data, list) else [request.data]
 
         if not logs:
@@ -390,13 +387,11 @@ class ApacheLogView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        logger.debug(f"Received logs data: {logs}")
-
-        # Validate logs using the serializer
-        serializer = ApacheLogSerializer(data=logs, many=True)
+        # Pass the request context to the serializer
+        serializer = ApacheLogSerializer(data=logs, many=True, context={'request': request})
         if serializer.is_valid():
             try:
-                serializer.save()  # Save all logs at once
+                serializer.save()
                 skipped_logs = len(logs) - len(serializer.validated_data)
                 message = f"Logs processed successfully. Skipped {skipped_logs} invalid entries." if skipped_logs > 0 else "Logs processed successfully."
                 return Response({"message": message}, status=status.HTTP_201_CREATED)

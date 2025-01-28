@@ -50,31 +50,23 @@ EOF
 # Function to process error logs
 process_error_logs() {
     while read -r line; do
-        # Extract timestamp, module, and log level using awk
+        # Extract fields
         timestamp=$(echo "$line" | awk -F'[][]' '{print $2}')
         module=$(echo "$line" | awk -F'[][]' '{print $4}' | awk -F: '{print $1}')
         log_level=$(echo "$line" | awk -F'[][]' '{print $4}' | awk -F: '{print $2}')
+        client_ip=$(echo "$line" | grep -oP '(?<=\[client )[^:]*')
+        process_id=$(echo "$line" | grep -oP '(?<=\[pid )\d+' || echo "N/A")
+        error_message=$(echo "$line" | sed -E 's/.*\] \[[^]]*\] //')
 
-        # Debug: Show extracted timestamp, module, and log level
-        echo "Extracted Error Log: $timestamp, $module, $log_level"
+        # Provide default value for missing client_ip
+        if [[ -z "$client_ip" ]]; then
+            client_ip="0.0.0.0"  # Use a valid IP placeholder
+        fi
 
-        # Extract client IP and other fields from the log
-        client_ip=$(echo "$line" | sed -E 's/.*\[client ([^:]*).*/\1/')
-        remote_logname="N/A"
-        remote_user="N/A"
-        process_id=$(echo "$line" | sed -E 's/.*\[pid ([^]]*)\].*/\1/')
+        # Debugging output
+        echo "Parsed Error Log: $timestamp, $module, $log_level, $client_ip, $process_id, $error_message"
 
-        # Debug: Show the extracted fields before message extraction
-        echo "Extracted Error Log Fields (Pre-Message): $client_ip, $remote_logname, $remote_user, $process_id"
-
-        # Now extract the message correctly (after the `[client ...]`)
-        # The message is everything after the first `]` that follows the `[client ...]` part
-        error_message=$(echo "$line" | sed -E 's/.*\] \[client[^\]]*\] //')
-
-        # Debug: Show the extracted error message
-        echo "Extracted Error Message: $error_message"
-
-        # Create JSON payload with error_message field and remove thread_id field
+        # Create JSON payload
         json_payload=$(cat <<EOF
 {
     "log_type": "error",
@@ -83,9 +75,9 @@ process_error_logs() {
     "log_level": "$log_level",
     "error_message": "$error_message",
     "client_ip": "$client_ip",
-    "remote_logname": "$remote_logname",
-    "remote_user": "$remote_user",
-    "process_id": "$process_id"
+    "remote_logname": "N/A",
+    "remote_user": "N/A",
+    "process_id": $process_id
 }
 EOF
 )
