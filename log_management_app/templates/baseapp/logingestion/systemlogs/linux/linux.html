@@ -60,7 +60,7 @@
     <div class="card-body">
         <h4>1. Download Script File</h4>
         <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
-        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn"> Setup Alloy </button>
+        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn" data-toggle="modal" data-target="#logSourceModal"> Setup Alloy </button>
 
         <div class="alert alert-info mt-3">
             <i class="fas fa-info-circle"></i>
@@ -71,26 +71,92 @@
     </div> <!-- /.card-body -->
 </div> <!-- /.card -->
 
-<script>
-    document.getElementById("setup-alloy-btn").addEventListener("click", function () {
-        // Fetch the logged-in user's ID from the backend
-        fetch("/api/get-user-id/", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch user ID");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                const userId = data.user_id; // Extract user_id from the API response
+<!-- Modal for Log Source Name -->
+<div class="modal fade" id="logSourceModal" tabindex="-1" role="dialog" aria-labelledby="logSourceModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logSourceModalTitle">Enter Log Source Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="log-source-name">Log Source Name</label>
+                    <input id="log-source-name" type="text" class="form-control" placeholder="Enter a descriptive name for the log source">
+                </div>
+                <button id="create-log-source-btn" class="btn btn-primary">Create Log Source</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                // Define the content of the script with the user ID included
-                const scriptContent = `#!/bin/bash
+<!-- Modal for Download Script and Instructions -->
+<div class="modal fade" id="downloadScriptModal" tabindex="-1" role="dialog" aria-labelledby="downloadScriptModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="downloadScriptModalTitle">Download Script</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Your script is ready. Follow the instructions below:</p>
+                <ol>
+                    <li>Download the script by clicking the button below.</li>
+                    <li>Run the script on your server to start integration.</li>
+                </ol>
+                <button id="download-script-btn" class="btn btn-success mb-3">Download Script</button>
+                <textarea id="run-instructions" class="form-control" rows="3" readonly>
+# To run the script:
+chmod +x linux.sh
+./linux.sh
+                </textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" id="proceed-integration-btn">Proceed to Integration</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let logSourceName = "";
+
+    document.getElementById("create-log-source-btn").addEventListener("click", function () {
+        const inputLogSourceName = document.getElementById("log-source-name").value;
+
+        if (!inputLogSourceName) {
+            alert("Please enter a log source name.");
+            return;
+        }
+
+        logSourceName = inputLogSourceName; // Save log source name
+        $("#logSourceModal").modal("hide"); // Close the current modal
+        $("#downloadScriptModal").modal("show"); // Show the download script modal
+    });
+
+    document.getElementById("download-script-btn").addEventListener("click", function () {
+    // Fetch the logged-in user's ID
+    fetch("/api/get-user-id/", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch user ID");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const userId = data.user_id; // Extract user_id from the API response
+
+            // Full detailed script content
+            const scriptContent = `#!/bin/bash
 
 # Paths to log files
 AUTHLOG_FILE="/var/log/authh.log"
@@ -101,6 +167,9 @@ API_ENDPOINT="http://127.0.0.1:8000/api/linux/logs/"
 
 # User ID
 USER_ID="${userId}"
+
+# Log Source Name
+LOG_SOURCE_NAME="${logSourceName}"
 
 # Function to process auth logs
 process_authlogs() {
@@ -125,9 +194,6 @@ process_authlogs() {
         
         # Extract the log message (everything after the service and process ID)
         message=$(echo "$line" | sed -E 's/^.*\\[?[0-9]*\\]:?\\s?//')
-
-        # Debug: Show extracted auth log data
-        echo "Authlog: $timestamp, $hostname, $service, $process_id, $user, $command, $pwd, $session_status, $uid, $message"
 
         # Create JSON payload
         json_payload=$(cat <<EOF
@@ -158,22 +224,19 @@ EOF
 process_syslogs() {
     echo "Processing syslogs..."
     while read -r line; do
-        # Extract the timestamp (up to and including the timezone offset)
+        # Extract the timestamp
         timestamp=$(echo "$line" | grep -oP '^\\S+')
-
-        # Extract the hostname (immediately after the timestamp)
+        
+        # Extract the hostname
         hostname=$(echo "$line" | awk '{print $2}')
-
-        # Extract the service and process ID (from "service[process_id]:")
+        
+        # Extract the service and process ID
         service_process=$(echo "$line" | awk '{print $3}' | sed 's/://g')
         service=$(echo "$service_process" | grep -oP '^[^\\[]*')
         process_id=$(echo "$service_process" | grep -oP '(?<=\\[)[0-9]+(?=\\])')
 
-        # Extract the message (everything after the first colon after service and process ID)
+        # Extract the message
         message=$(echo "$line" | sed -E 's/^[^:]+: //')
-
-        # Debug: Display extracted syslog data
-        echo "Syslog: $timestamp, $hostname, $service, $process_id, $message"
 
         # Create JSON payload
         json_payload=$(cat <<EOF
@@ -183,7 +246,6 @@ process_syslogs() {
     "hostname": "$hostname",
     "service": "$service",
     "process_id": \${process_id:-null},
-    "log_level": "N/A",
     "message": "$message",
     "user_id": "$USER_ID"
 }
@@ -203,19 +265,25 @@ process_syslogs
 echo "All logs processed successfully."
 `;
 
-                // Create a Blob object for the script
-                const blob = new Blob([scriptContent], { type: "text/x-sh" });
+            // Create a Blob object for the script
+            const blob = new Blob([scriptContent], { type: "text/x-sh" });
 
-                // Create a downloadable link
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "linux.sh";
-                link.click();
-            })
-            .catch((error) => {
-                console.error("Error fetching user ID:", error);
-                alert("Failed to fetch the user ID. Please try again.");
-            });
+            // Create a downloadable link
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "linux.sh";
+            link.click();
+        })
+        .catch((error) => {
+            console.error("Error fetching user ID:", error);
+            alert("Failed to fetch the user ID. Please try again.");
+        });
+});
+
+
+    document.getElementById("proceed-integration-btn").addEventListener("click", function () {
+        $("#downloadScriptModal").modal("hide");
+        alert("Integration process started.");
     });
 </script>
 

@@ -21,8 +21,7 @@ class WindowsLog(models.Model):
     computer = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windows_logs')
 
-    def __str__(self):
-        # Ensure event_id is returned as a string
+    def __str__(self):        
         return str(self.event_id) if self.computer else "No Source Name"
 
  

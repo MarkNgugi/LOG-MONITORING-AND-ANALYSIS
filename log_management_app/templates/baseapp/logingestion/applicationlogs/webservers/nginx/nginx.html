@@ -353,95 +353,109 @@ WantedBy=multi-user.target</pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>ServerStartupShutdownIssues</td>
+                                    <td>Connection Errors</td>
                                     <td>Alert</td>
-                                    <td>System</td>
+                                    <td>Network</td>
                                     <td>CRITICAL</td>
-                                    <td>Indicates issues during MySQL server startup or shutdown, such as port conflicts or configuration errors that prevent the server from starting properly.</td>
+                                    <td>Indicates that the MySQL server is unreachable. This could be due to network issues, the server being down, or incorrect connection settings.</td>
                                 </tr>
                                 <tr>
-                                    <td>AuthenticationFailures</td>
+                                    <td>Too Many Connections</td>
+                                    <td>Alert</td>
+                                    <td>Resource</td>
+                                    <td>HIGH</td>
+                                    <td>The maximum number of allowed connections (`max_connections`) has been reached. This can cause new connections to be rejected.</td>
+                                </tr>
+                                <tr>
+                                    <td>Access Denied Errors</td>
                                     <td>Alert</td>
                                     <td>Security</td>
                                     <td>HIGH</td>
-                                    <td>Triggered when invalid login attempts occur, possibly due to misconfigured credentials, which could indicate brute force attacks or unauthorized access attempts.</td>
+                                    <td>A user is trying to access the database with incorrect credentials or insufficient privileges.</td>
                                 </tr>
                                 <tr>
-                                    <td>OOMErrors</td>
-                                    <td>Alert</td>
-                                    <td>Resource</td>
-                                    <td>CRITICAL</td>
-                                    <td>Occurs when MySQL fails to allocate memory for its buffer pool, often due to insufficient system memory, resulting in performance degradation or failure to process queries.</td>
-                                </tr>
-                                <tr>
-                                    <td>TableCorruption</td>
+                                    <td>Table Corruption</td>
                                     <td>Alert</td>
                                     <td>Database</td>
                                     <td>HIGH</td>
-                                    <td>Indicates that a MySQL table, typically MyISAM, is corrupted and requires repair. This can happen if a table becomes unstable or damaged, preventing access to data.</td>
+                                    <td>Indicates that a table is corrupted and needs to be repaired using tools like `myisamchk` or `REPAIR TABLE`.</td>
                                 </tr>
                                 <tr>
-                                    <td>DiskSpaceIssues</td>
+                                    <td>Disk Space Issues</td>
                                     <td>Alert</td>
                                     <td>Resource</td>
                                     <td>CRITICAL</td>
-                                    <td>Triggered when the server runs out of disk space, causing MySQL to be unable to perform necessary operations like writing to logs or processing queries.</td>
+                                    <td>The disk partition where the table is stored is out of space, or the table has reached its maximum size limit.</td>
                                 </tr>
                                 <tr>
-                                    <td>ReplicationErrors</td>
+                                    <td>Query Timeout</td>
                                     <td>Alert</td>
-                                    <td>Replication</td>
-                                    <td>HIGH</td>
-                                    <td>Occurs when there is a replication failure due to errors like missing data or conflicts between the master and slave, causing synchronization issues in the replicated environment.</td>
+                                    <td>Performance</td>
+                                    <td>WARNING</td>
+                                    <td>A query is waiting too long for a lock, often due to deadlocks or long-running transactions.</td>
                                 </tr>
                                 <tr>
                                     <td>Deadlocks</td>
                                     <td>Alert</td>
                                     <td>Performance</td>
                                     <td>WARNING</td>
-                                    <td>Indicates a deadlock situation where two or more transactions are stuck, unable to proceed due to conflicting resource requests, leading to a need for manual intervention or transaction restarts.</td>
+                                    <td>Two or more transactions are waiting for each other to release locks, causing a deadlock.</td>
                                 </tr>
                                 <tr>
-                                    <td>FilePermissionOwnershipErrors</td>
+                                    <td>Syntax Errors</td>
                                     <td>Alert</td>
-                                    <td>Configuration</td>
+                                    <td>Query</td>
                                     <td>MEDIUM</td>
-                                    <td>Occurs when MySQL encounters issues with file permissions or ownership, such as being unable to access necessary files, which may require running mysql_upgrade or adjusting permissions.</td>
+                                    <td>Indicates a syntax error in a query, often due to typos or incorrect SQL statements.</td>
                                 </tr>
                                 <tr>
-                                    <td>QueryCacheErrors</td>
-                                    <td>Alert</td>
-                                    <td>Configuration</td>
-                                    <td>MEDIUM</td>
-                                    <td>Triggered when MySQL’s query cache is disabled due to incorrect configuration or zero cache size, potentially leading to slower query performance as caching is disabled.</td>
-                                </tr>
-                                <tr>
-                                    <td>UnusualServerShutdowns</td>
+                                    <td>Server Shutdown</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>CRITICAL</td>
-                                    <td>Occurs when MySQL shuts down unexpectedly, possibly due to a crash, system resource limitations, or manual intervention, which could affect server availability and data integrity.</td>
+                                    <td>The MySQL server is shutting down, either intentionally or due to a crash.</td>
                                 </tr>
                                 <tr>
-                                    <td>HighNumberOfConnections</td>
+                                    <td>InnoDB Errors</td>
                                     <td>Alert</td>
-                                    <td>Performance</td>
-                                    <td>HIGH</td>
-                                    <td>Indicates that the server is overwhelmed with a high number of concurrent client connections, which could lead to slow performance or even service disruptions.</td>
+                                    <td>Storage</td>
+                                    <td>CRITICAL</td>
+                                    <td>Indicates a disk space issue or file system error affecting InnoDB operations.</td>
                                 </tr>
                                 <tr>
-                                    <td>SlowQueryLogs</td>
+                                    <td>Replication Errors</td>
+                                    <td>Alert</td>
+                                    <td>Replication</td>
+                                    <td>HIGH</td>
+                                    <td>Indicates a replication conflict, often due to duplicate primary keys or mismatched data between master and slave.</td>
+                                </tr>
+                                <tr>
+                                    <td>Memory Allocation Failures</td>
+                                    <td>Alert</td>
+                                    <td>Resource</td>
+                                    <td>CRITICAL</td>
+                                    <td>The server is running out of memory, which can cause crashes or performance degradation.</td>
+                                </tr>
+                                <tr>
+                                    <td>Slow Queries</td>
                                     <td>Alert</td>
                                     <td>Performance</td>
                                     <td>WARNING</td>
-                                    <td>Triggered when MySQL logs slow queries, indicating that certain queries are taking too long to execute, which may be due to inefficient queries or missing indexes.</td>
+                                    <td>Indicates a slow query that may need optimization. This is often logged in the slow query log rather than the error log.</td>
                                 </tr>
                                 <tr>
-                                    <td>CrashRecoveryEvents</td>
+                                    <td>Plugin or Module Errors</td>
                                     <td>Alert</td>
-                                    <td>System</td>
-                                    <td>CRITICAL</td>
-                                    <td>Indicates that MySQL has crashed and is in the process of recovering, which may involve replaying transaction logs to restore the database to a consistent state.</td>
+                                    <td>Configuration</td>
+                                    <td>MEDIUM</td>
+                                    <td>Indicates that a MySQL plugin or module failed to initialize, which could affect functionality.</td>
+                                </tr>
+                                <tr>
+                                    <td>Version Compatibility Issues</td>
+                                    <td>Alert</td>
+                                    <td>Configuration</td>
+                                    <td>MEDIUM</td>
+                                    <td>Indicates that the storage engine specified in a query is not supported or available in the current MySQL version.</td>
                                 </tr>
                             </tbody>
                         </table>
