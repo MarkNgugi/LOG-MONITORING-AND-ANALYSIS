@@ -158,36 +158,22 @@ class NginxLogFile(models.Model):
 
 
 
-class NginxLog(models.Model):
-    LOG_TYPE_CHOICES = [
-        ('access', 'Access'),
-        ('error', 'Error'),
+class MysqlLog(models.Model):
+    LOG_LEVEL_CHOICES = [
+        ('System', 'System'),
+        ('Warning', 'Warning'),
+        ('Error', 'Error'),
+        ('Info', 'Info'),
     ]
-    
-    log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True)
-    client_ip = models.GenericIPAddressField(null=True, blank=True)
-    remote_logname = models.CharField(max_length=100, blank=True, null=True)
-    remote_user = models.CharField(max_length=100, blank=True, null=True)
-    timestamp = models.CharField(max_length=255, null=True, blank=True)
-    request_line = models.CharField(max_length=255, blank=True, null=True)
-    response_code = models.IntegerField(null=True, blank=True)
-    response_size = models.IntegerField(null=True, blank=True)
-    referrer = models.CharField(max_length=255, blank=True, null=True)
-    user_agent = models.CharField(max_length=255, blank=True, null=True)
-    log_level = models.CharField(max_length=50, blank=True, null=True)
-    error_message = models.TextField(blank=True, null=True)
-    process_id = models.IntegerField(null=True, blank=True)
-    module = models.CharField(max_length=255, blank=True, null=True)
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        ordering = ['-timestamp']
-        verbose_name = "Nginx Log"
-        verbose_name_plural = "Nginx Logs"
-    
+    log_source_name = models.CharField(max_length=255)
+    log_type = models.CharField(max_length=50, default="mysql_error")
+    timestamp = models.DateTimeField()
+    error_message = models.TextField()    
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mysql_logs")    
+
     def __str__(self):
-        return f"{self.client_ip if self.client_ip else 'N/A'} - {self.timestamp} - {self.log_type} - {self.response_code if self.response_code else 'N/A'}"
+        return f"{self.timestamp} - {self.log_source_name}: {self.error_message[:50]}"
+
         
 
 class IISLogFile(models.Model):

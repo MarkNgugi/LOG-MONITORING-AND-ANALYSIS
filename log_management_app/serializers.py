@@ -81,62 +81,32 @@ class LinuxLogSerializer(serializers.ModelSerializer):
 
         return validated_data
 
-    
-
-# class ApacheLogSerializer(serializers.Serializer):
-#     source_name = serializers.CharField(allow_null=False, required=True)
-#     logs = serializers.ListField(child=serializers.JSONField(), required=True)  # List of logs
-
-#     def create(self, validated_data):
-#         source_name = validated_data.get('source_name')
-#         logs_data = validated_data.get('logs')
-
-#         # Fetch or create the source
-#         source, _ = ApacheSourceInfo.objects.get_or_create(source_name=source_name)
-
-#         logs = []
-#         for log in logs_data:
-#             timestamp = log.get('timestamp')
-#             if timestamp:
-#                 try:
-#                     timestamp = datetime.strptime(timestamp, "%a %b %d %H:%M:%S").replace(year=datetime.now().year)
-#                 except ValueError:
-#                     raise serializers.ValidationError("Invalid timestamp format. Expected format: Thu Dec 12 12:01:21")
-
-#             log_entry = ApacheLog.objects.create(
-#                 source=source,
-#                 client_ip=log.get('client_ip'),
-#                 remote_logname=log.get('remote_logname'),
-#                 remote_user=log.get('remote_user'),
-#                 timestamp=timestamp,
-#                 request_line=log.get('request_line'),
-#                 response_code=log.get('response_code'),
-#                 response_size=log.get('response_size'),
-#                 referrer=log.get('referrer'),
-#                 user_agent=log.get('user_agent'),
-#             )
-#             logs.append(log_entry)
-
-#         return logs
 
 
 
-class NginxLogSerializer(serializers.ModelSerializer):
+class MysqlLogSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+
     class Meta:
-        model = NginxLog
+        model = MysqlLog
         fields = [
+            'log_source_name',
             'log_type',
-            'client_ip',
-            'remote_logname',
-            'remote_user',
             'timestamp',
-            'request_line',
-            'response_code',
-            'response_size',
-            'referrer',
-            'user_agent',
-            'log_level',
             'error_message',
-            'process_id',
-            'module',
+            'owner',  # Include owner field for user association
         ]
+
+    def to_internal_value(self, data):
+        user_id = data.pop('user_id', None)
+        validated_data = super().to_internal_value(data)
+
+        if user_id:
+            try:
+                user = User.objects.get(id=user_id)
+                validated_data['owner'] = user  # Assign the User instance directly
+            except User.DoesNotExist:
+                raise serializers.ValidationError({'user_id': 'Invalid user ID'})
+
+        return validated_data
+

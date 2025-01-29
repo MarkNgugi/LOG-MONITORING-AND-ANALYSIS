@@ -449,24 +449,33 @@ def nginx_log_upload(request):
 
 logger = logging.getLogger(__name__)
 
-class NginxLogView(APIView):
+class MysqlLogView(APIView):
     def post(self, request, *args, **kwargs):
-        # Accept logs directly (single log or list of logs)
+        # Log incoming request data for debugging
+        logger.debug(f"Incoming request data: {request.data}")
+
+        # Ensure logs are processed as a list
         logs = request.data if isinstance(request.data, list) else [request.data]
 
+        # Check if logs are provided
         if not logs:
             return Response(
                 {"error": "No logs provided or invalid format."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        logger.debug(f"Received logs data: {logs}")
+        # Add user_id to each log entry if not already present
+        for log in logs:
+            if 'user_id' not in log:
+                log['user_id'] = request.user.id  # Use the authenticated user's ID
 
-        # Validate logs using the serializer
-        serializer = NginxLogSerializer(data=logs, many=True)
+        # Pass the request context to the serializer
+        serializer = MysqlLogSerializer(data=logs, many=True, context={'request': request})
+
+        # Validate and save logs
         if serializer.is_valid():
             try:
-                serializer.save()  # Save all logs at once
+                serializer.save()
                 skipped_logs = len(logs) - len(serializer.validated_data)
                 message = f"Logs processed successfully. Skipped {skipped_logs} invalid entries." if skipped_logs > 0 else "Logs processed successfully."
                 return Response({"message": message}, status=status.HTTP_201_CREATED)
@@ -482,6 +491,7 @@ class NginxLogView(APIView):
                 {"error": "Validation failed", "details": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
         
 
 def nginx_info(request):
