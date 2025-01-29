@@ -81,6 +81,7 @@ urlpatterns = [
     path('api/linux/logs/', views.LinuxLogView.as_view(), name='linux-log-upload'),
     path('api/apache/logs/', views.ApacheLogView.as_view(), name='apache-log-upload'),
     path('api/mysql/logs/', views.MysqlLogView.as_view(), name='mysql-log-upload'),
+    path('api/redis/logs/', RedisLogView.as_view(), name='redis-logs'),
     
 
     path('api/get-user-id/', views.get_user_id, name='get_user_id'),

@@ -110,3 +110,33 @@ class MysqlLogSerializer(serializers.ModelSerializer):
 
         return validated_data
 
+
+class RedisLogSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+
+    class Meta:
+        model = RedisLog
+        fields = [
+            'log_source_name',
+            'log_type',
+            'timestamp',
+            'message',
+            'owner',
+        ]
+
+    def to_internal_value(self, data):
+        # Extract user_id from the incoming data
+        user_id = data.pop('user_id', None)
+
+        # Validate the rest of the data using the parent class method
+        validated_data = super().to_internal_value(data)
+
+        # If user_id is provided, fetch the User instance and assign it to the owner field
+        if user_id:
+            try:
+                user = User.objects.get(id=user_id)
+                validated_data['owner'] = user  # Assign the User instance directly
+            except User.DoesNotExist:
+                raise serializers.ValidationError({'user_id': 'Invalid user ID'})
+
+        return validated_data

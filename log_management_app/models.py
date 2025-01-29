@@ -174,7 +174,24 @@ class MysqlLog(models.Model):
     def __str__(self):
         return f"{self.timestamp} - {self.log_source_name}: {self.error_message[:50]}"
 
-        
+
+class RedisLog(models.Model):
+    LOG_TYPE_CHOICES = [
+        ('INFO', 'Info'),
+        ('WARNING', 'Warning'),
+        ('ERROR', 'Error'),
+        ('DEBUG', 'Debug'),
+        ('', 'Debug'),
+    ]
+
+    log_source_name = models.CharField(max_length=255)
+    log_type = models.CharField(max_length=50, default="redis")
+    timestamp = models.DateTimeField()
+    message = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="redis_logs")
+
+    def __str__(self):
+        return f"{self.timestamp} - {self.log_source_name}: {self.message[:50]}"      
 
 class IISLogFile(models.Model):
     source_name=models.CharField(max_length=20, blank=True, null=True)

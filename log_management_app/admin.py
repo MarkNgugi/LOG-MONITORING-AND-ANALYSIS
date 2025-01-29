@@ -17,7 +17,7 @@ admin.site.register(ApacheLog)
 admin.site.register(NginxLogFile)
 admin.site.register(MysqlLog)
 
-admin.site.register(IISLogFile)
+admin.site.register(RedisLog)
 
 admin.site.register(MysqlLogFile)
 admin.site.register(PostgresLogFile)

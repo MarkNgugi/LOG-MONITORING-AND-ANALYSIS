@@ -492,7 +492,50 @@ class MysqlLogView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        
+
+
+class RedisLogView(APIView):
+    def post(self, request, *args, **kwargs):
+        # Log incoming request data for debugging
+        logger.debug(f"Incoming request data: {request.data}")
+
+        # Ensure logs are processed as a list
+        logs = request.data if isinstance(request.data, list) else [request.data]
+
+        # Check if logs are provided
+        if not logs:
+            return Response(
+                {"error": "No logs provided or invalid format."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Add user_id to each log entry if not already present
+        for log in logs:
+            if 'user_id' not in log:
+                log['user_id'] = request.user.id  # Use the authenticated user's ID
+
+        # Pass the request context to the serializer
+        serializer = RedisLogSerializer(data=logs, many=True, context={'request': request})
+
+        # Validate and save logs
+        if serializer.is_valid():
+            try:
+                serializer.save()
+                skipped_logs = len(logs) - len(serializer.validated_data)
+                message = f"Logs processed successfully. Skipped {skipped_logs} invalid entries." if skipped_logs > 0 else "Logs processed successfully."
+                return Response({"message": message}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                logger.error(f"Error saving logs: {str(e)}")
+                return Response(
+                    {"error": "Error saving logs", "details": str(e)},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+        else:
+            logger.error(f"Serializer validation errors: {serializer.errors}")
+            return Response(
+                {"error": "Validation failed", "details": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 def nginx_info(request):
     context={}
