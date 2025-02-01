@@ -10,7 +10,7 @@ django.setup()
 
 from log_management_app.models import Alert, User, LinuxLog
 
-def detect(time_window_minutes=5, max_failed_attempts=3):
+def detect(time_window_minutes=100, max_failed_attempts=3):
     """
     Detects multiple failed SSH login attempts within a short period using logs from the LinuxLog model.
     """

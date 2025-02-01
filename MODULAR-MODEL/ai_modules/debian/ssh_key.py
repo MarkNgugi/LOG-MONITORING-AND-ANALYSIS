@@ -13,19 +13,21 @@ from log_management_app.models import Alert, User, LinuxLog
 
 def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
     """
-    Detects multiple failed SSH authentication attempts using unrecognized keys.
+    Detects multiple failed SSH authentication attempts using unrecognized keys
+    and successful SSH authentication attempts using public keys.
     """
     failed_attempts = {}
     alerts = []
 
     for log in log_lines:
-        try:            
+        try:
             print(f"Processing log: {log.message}")
             
             timestamp_str = log.timestamp
             timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
             
-            if "Failed publickey" in log.message:                
+            # Detect failed public key attempts
+            if "Failed publickey" in log.message:
                 user = log.user
                 ip_address = re.search(r"from (\S+)", log.message).group(1)
                 key_info = re.search(r"ssh2: (\S+)", log.message).group(1)
@@ -37,29 +39,49 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
 
                 failed_attempts[user].append(timestamp)
 
-            if user in failed_attempts:
-                print(f"Failed attempts for {user}: {failed_attempts[user]}")
-                        
-            for user in failed_attempts:
-                failed_attempts[user] = [t for t in failed_attempts[user] if t > timestamp - timedelta(minutes=time_window_minutes)]
-                                
-                if len(failed_attempts[user]) >= max_failed_attempts:
-                    alert = {
-                        "alert_title": "Use of Unrecognized SSH Key Authentication",
-                        "timestamp": timestamp,
-                        "hostname": log.hostname,  
-                        "message": f"Detected {len(failed_attempts[user])} failed SSH login attempts for user '{user}' using unrecognized keys from IP '{ip_address}' within {time_window_minutes} minutes.",
-                        "severity": "Medium",
-                        "user": user,
-                    }
-                    alerts.append(alert)                    
-                    failed_attempts[user] = []
+                # Check if the user has exceeded the maximum failed attempts
+                if user in failed_attempts:
+                    print(f"Failed attempts for {user}: {failed_attempts[user]}")
+                    
+                    # Remove attempts older than the time window
+                    failed_attempts[user] = [t for t in failed_attempts[user] if t > timestamp - timedelta(minutes=time_window_minutes)]
+                    
+                    # Create an alert if the threshold is exceeded
+                    if len(failed_attempts[user]) >= max_failed_attempts:
+                        alert = {
+                            "alert_title": "Use of Unrecognized SSH Key Authentication",
+                            "timestamp": timestamp,
+                            "hostname": log.hostname,  
+                            "message": f"Detected {len(failed_attempts[user])} failed SSH login attempts for user '{user}' using unrecognized keys from IP '{ip_address}' within {time_window_minutes} minutes.",
+                            "severity": "Medium",
+                            "user": user,
+                        }
+                        alerts.append(alert)
+                        failed_attempts[user] = []  # Reset the failed attempts for this user
+
+            # Detect successful public key attempts
+            elif "Accepted publickey" in log.message:
+                user = log.user
+                ip_address = re.search(r"from (\S+)", log.message).group(1)
+                key_info = re.search(r"ssh2: (\S+)", log.message).group(1)
+
+                print(f"Successful SSH Key Authentication detected: User '{user}' from IP '{ip_address}' using key {key_info}")
+
+                # Create an alert for successful public key authentication
+                alert = {
+                    "alert_title": "Successful SSH Key Authentication",
+                    "timestamp": timestamp,
+                    "hostname": log.hostname,
+                    "message": f"Detected successful SSH login for user '{user}' using public key from IP '{ip_address}'.",
+                    "severity": "Low",
+                    "user": user,
+                }
+                alerts.append(alert)
 
         except Exception as e:
             print(f"Error processing log: {log.message}, Error: {e}")
 
     return alerts
-
 
 def create_alerts(alerts):
     """
@@ -68,7 +90,7 @@ def create_alerts(alerts):
     Args:
         alerts (list[dict]): A list of dictionaries containing alert details.
     """
-    try:        
+    try:
         default_user = User.objects.first()
         if not default_user:
             raise ValueError("No default user found in the database.")
@@ -85,7 +107,6 @@ def create_alerts(alerts):
             print(f"Alert created: {alert_data['alert_title']} for user '{alert_data['user']}'")
     except Exception as e:
         print(f"Failed to create alerts: {e}")
-
 
 if __name__ == "__main__":
     # Query LinuxLog for relevant logs

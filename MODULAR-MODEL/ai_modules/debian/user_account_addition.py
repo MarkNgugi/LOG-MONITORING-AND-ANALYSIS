@@ -68,8 +68,7 @@ def create_alerts(alerts):
     except Exception as e:
         print(f"Failed to create alerts: {e}")
 
-if __name__ == "__main__":
-    # Fetch LinuxLog entries related to auth logs (since user creation logs are typically in auth logs)
+if __name__ == "__main__":    
     log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 authlog entries
     
     detected_alerts = detect_new_user_creation(log_lines)

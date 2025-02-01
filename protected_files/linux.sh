@@ -1,42 +1,126 @@
 #!/bin/bash
 
 # Paths to log files
-AUTHLOG_FILE="/var/log/authh.log"
+AUTHLOG_FILE="/var/log/auth.log"
 SYSLOG_FILE="/var/log/syslog"
 
 # API endpoint
 API_ENDPOINT="http://127.0.0.1:8000/api/linux/logs/"
 
-# Function to process auth logs
-process_authlogs() {
-    echo "Processing auth logs..."
-    while read -r line; do
-        # Extract the timestamp (ISO format)
+# User ID
+USER_ID="1"
+
+# Log Source Name
+LOG_SOURCE_NAME="LINUX TEST"
+
+# Specific services to monitor
+SERVICES=("apache2" "nginx" "ssh" "mysql" "postgresql")
+
+# Patterns for syslog (strictly matching defined services)
+# Patterns for syslog (strictly matching defined services and system events)
+SYSLOG_PATTERNS=(
+    # SSH-related events
+    "sshd.*Failed password"                          # Failed SSH login attempts
+    "sshd.*Accepted publickey"                       # SSH logins using keys
+    "sshd.*Accepted password"                        # SSH logins using passwords
+    "sshd.*session opened"                           # SSH session opened
+    "sshd.*session closed"                           # SSH session closed
+    "sshd.*Received disconnect"                      # SSH disconnections
+    "sshd.*Connection closed"                        # SSH connection closed
+    "systemd.*sshd.service:.*(start|stop|restart)"   # SSH service start/stop/restart
+
+    # System-related events
+    "systemd.*reboot"                                # System reboots
+    "systemd.*shutdown"                              # System shutdowns
+    "systemd.*Started Session"                       # User session started
+    "systemd.*Stopped Session"                       # User session stopped
+    "systemd.*Started .*service"                     # Service start
+    "systemd.*Stopped .*service"                     # Service stop
+    "systemd.*Failed .*service"                      # Service failure
+    "cron.*FAILED"                                   # Cron job failures
+    "kernel:.*disk space"                            # Disk space warnings
+
+    # Sudoers and privilege escalation
+    "sudo: .*COMMAND=.*"                             # Sudo command execution
+    "sudo: .*authentication failure"                 # Failed sudo attempts
+    "sudo: .*session opened"                         # Sudo session opened
+    "sudo: .*session closed"                         # Sudo session closed
+    "sudo: .*user .*NOT in sudoers"                  # Unauthorized sudo attempt
+    "sudo: .*user .*password attempt"                # Sudo password attempts
+
+    # User account changes
+    "useradd.*new user"                              # New user account creation
+    "userdel.*delete user"                           # User account deletion
+    "usermod.*modify user"                           # User account modification
+    "groupadd.*new group"                            # New group creation
+    "groupdel.*delete group"                         # Group deletion
+    "groupmod.*modify group"                         # Group modification
+)
+
+# Patterns for authlog (authentication events & service-related changes)
+AUTHLOG_PATTERNS=(
+    # SSH-related events
+    "sshd.*Failed password"                          # Failed SSH login attempts
+    "sshd.*Accepted publickey"                       # SSH logins using keys
+    "sshd.*Failed publickey"                         # Failed SSH logins keys
+    "sshd.*Accepted password"                        # SSH logins using passwords
+    "sshd.*session opened"                           # SSH session opened
+    "sshd.*session closed"                           # SSH session closed
+    "sshd.*Received disconnect"                      # SSH disconnections
+    "sshd.*Connection closed"                        # SSH connection closed
+
+    # Authentication failures
+    "authentication failure"                         # General authentication failures
+    "failed login"                                   # Failed login attempts
+    "user .* logged in"                              # User login events
+    "user .* NOT in sudoers"                         # Unauthorized sudo attempts
+    "sudo: .*authentication failure"                 # Failed sudo attempts
+    "pam_unix\(sudo:auth\): authentication failure"  # Sudo authentication failure (added)
+    "sudo: .*incorrect password attempts"            # Incorrect password attempts (added)
+
+    # User account changes
+    "useradd.*new user"                              # New user account creation
+    "userdel.*delete user"                           # User account deletion
+    "usermod.*modify user"                           # User account modification
+    "groupadd.*new group"                            # New group creation
+    "groupdel.*delete group"                         # Group deletion
+    "groupmod.*modify group"                         # Group modification
+
+    # Sudoers file changes
+    "sudoers file changed"                           # Changes to sudoers file
+    "sudoers: .*syntax error"                        # Sudoers file syntax errors
+
+    # User and group management (added patterns)
+    "accounts-daemon: request by system-bus-name.*create user"  # User creation via accounts-daemon
+    "groupadd.*new group"                            # New group creation
+    "groupadd.*group added to /etc/group"            # Group added to /etc/group
+    "groupadd.*group added to /etc/gshadow"          # Group added to /etc/gshadow
+    "useradd.*new user"                              # New user creation
+    "chfn.*changed user .* information"              # User information changes
+    "gpasswd.*members of group .* set by"            # Group membership changes
+    "accounts-daemon: request by system-bus-name.*set password and hint of user"  # Password changes
+)
+
+
+# Convert patterns into regex strings
+SYSLOG_REGEX=$(IFS="|"; echo "${SYSLOG_PATTERNS[*]}")
+AUTHLOG_REGEX=$(IFS="|"; echo "${AUTHLOG_PATTERNS[*]}")
+
+# Function to process authentication logs in real-time
+process_authlogs_realtime() {
+    echo "Listening for new authentication logs..."
+    tail -n 0 -f "$AUTHLOG_FILE" | grep --line-buffered -E "$AUTHLOG_REGEX" | while read -r line; do
+        # Extract details
         timestamp=$(echo "$line" | awk '{print $1}')
-        
-        # Extract the hostname (field after timestamp)
         hostname=$(echo "$line" | awk '{print $2}')
-        
-        # Extract the service and optional process ID
         service=$(echo "$line" | awk '{print $3}' | sed 's/\[.*\]:$//')
         process_id=$(echo "$line" | grep -oP '\[\K[0-9]+(?=\])' || echo "null")
-        
-        # Extract optional user, command, PWD, session status, and UID
         user=$(echo "$line" | grep -oP 'user \K\w+' || echo "null")
         command=$(echo "$line" | grep -oP 'COMMAND=\K.*' || echo "null")
         pwd=$(echo "$line" | grep -oP 'CWD=\K.*' || echo "null")
         session_status=$(echo "$line" | grep -oE 'session (opened|closed)' || echo "null")
         uid=$(echo "$line" | grep -oP 'uid=\K[0-9]+' || echo "null")
-        
-        # Extract the log message (everything after the service and process ID)
         message=$(echo "$line" | sed -E 's/^.*\[?[0-9]*\]:?\s?//')
-
-        # Ensure no field is improperly assigned
-        hostname=$(echo "$hostname" | grep -vE '^Executing$' || echo "ubuntu")
-        timestamp=$(echo "$timestamp" | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}' || echo "null")
-
-        # Debug: Show extracted auth log data
-        echo "Authlog: $timestamp, $hostname, $service, $process_id, $user, $command, $pwd, $session_status, $uid, $message"
 
         # Create JSON payload
         json_payload=$(cat <<EOF
@@ -51,37 +135,35 @@ process_authlogs() {
     "pwd": "$pwd",
     "session_status": "$session_status",
     "uid": $uid,
-    "message": "$message"
+    "message": "$message",
+    "log_source_name": "$LOG_SOURCE_NAME", 
+    "user_id": "$USER_ID"
 }
 EOF
 )
+
         # Send to API
         response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
         echo "$response"
-    done < "$AUTHLOG_FILE"
-    echo "Auth logs processing completed."
+    done
 }
 
-# Function to process syslogs
-process_syslogs() {
-    echo "Processing syslogs..."
-    while read -r line; do
-        # Extract the timestamp (up to and including the timezone offset)
+# Function to process system logs in real-time
+process_syslogs_realtime() {
+    echo "Listening for new system logs..."
+    tail -n 0 -f "$SYSLOG_FILE" | grep --line-buffered -E "$SYSLOG_REGEX" | grep -E "($(IFS="|"; echo "${SERVICES[*]}"))" | while read -r line; do
+        # Extract details
         timestamp=$(echo "$line" | grep -oP '^\S+')
-
-        # Extract the hostname (immediately after the timestamp)
         hostname=$(echo "$line" | awk '{print $2}')
-
-        # Extract the service and process ID (from "service[process_id]:")
         service_process=$(echo "$line" | awk '{print $3}' | sed 's/://g')
         service=$(echo "$service_process" | grep -oP '^[^\[]*')
         process_id=$(echo "$service_process" | grep -oP '(?<=\[)[0-9]+(?=\])')
-
-        # Extract the message (everything after the first colon after service and process ID)
         message=$(echo "$line" | sed -E 's/^[^:]+: //')
 
-        # Debug: Display extracted syslog data
-        echo "Syslog: $timestamp, $hostname, $service, $process_id, $message"
+        # Ensure only specified services are logged
+        if [[ ! " ${SERVICES[*]} " =~ " $service " ]]; then
+            continue
+        fi
 
         # Create JSON payload
         json_payload=$(cat <<EOF
@@ -91,20 +173,22 @@ process_syslogs() {
     "hostname": "$hostname",
     "service": "$service",
     "process_id": ${process_id:-null},
-    "log_level": "N/A",
-    "message": "$message"
+    "message": "$message",
+    "log_source_name": "$LOG_SOURCE_NAME",
+    "user_id": "$USER_ID"
 }
 EOF
 )
         # Send to API
         response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
         echo "$response"
-    done < "$SYSLOG_FILE"
-    echo "Syslogs processing completed."
+    done
 }
 
-# Main execution
-echo "Starting log processing..."
-process_authlogs
-process_syslogs
-echo "All logs processed successfully."
+# Start both log monitoring functions
+echo "Starting real-time log processing..."
+process_authlogs_realtime &
+process_syslogs_realtime &
+
+# Keep the script running
+wait
