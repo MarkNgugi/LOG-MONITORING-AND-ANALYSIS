@@ -5,6 +5,10 @@ from datetime import datetime
 from user_management_app.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.authtoken.models import Token  
+from django.conf import settings
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def get_default_user():
     # This can be any user that makes sense as the default
@@ -12,44 +16,27 @@ def get_default_user():
 
  
 class WindowsLog(models.Model):
-    log_name = models.CharField(max_length=255)
-    event_id = models.IntegerField()
-    source = models.CharField(max_length=255)
+    log_source_name = models.CharField(max_length=255, null=True, blank=True)
+    event_id = models.IntegerField()    
     timestamp = models.DateTimeField()
-    level = models.CharField(max_length=50)
-    log_user = models.CharField(max_length=255)
-    computer = models.CharField(max_length=255)
+    hostname = models.CharField(max_length=255, null=True, blank=True)   
+    message = models.TextField(null=True, blank=True)     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windows_logs')
 
     def __str__(self):        
-        return str(self.event_id) if self.computer else "No Source Name"
+        return str(self.event_id) if self.hostname else "No Source Name"
 
  
-    
-class WindowsADLogFile(models.Model):
-    source_name=models.CharField(max_length=20, blank=True, null=True)
-    os_type=models.CharField(max_length=50,default='WindowsAD')
-    file = models.FileField(upload_to='uploaded_logs/windowsAD/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+class WindowsADLog(models.Model):
+    log_source_name = models.CharField(max_length=255, null=True, blank=True)
+    event_id = models.IntegerField()    
+    timestamp = models.DateTimeField()
+    hostname = models.CharField(max_length=255, null=True, blank=True)   
+    message = models.TextField(null=True, blank=True)     
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windowsAD_logs')
 
-    def __str__(self):
-        return self.source_name
-    
-class LinuxLogFile(models.Model):
-    source_name=models.CharField(max_length=20, blank=True, null=True)
-    os_type=models.CharField(max_length=50,default='Linux')
-    file = models.FileField(upload_to='uploaded_logs/linux/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.source_name  
- 
-
-
-from django.conf import settings
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+    def __str__(self):        
+        return str(self.event_id) if self.hostname else "No Source Name"
 
 class LinuxLog(models.Model):
     # Common fields for both syslogs and auth logs
@@ -251,7 +238,7 @@ class Alert(models.Model):
     timestamp = models.DateTimeField()  
     hostname = models.CharField(max_length=100)  
     message = models.TextField(null=True)  
-    severity = models.CharField(max_length=10, default="Low")
+    severity = models.CharField(max_length=100, default="Low")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user", null=True, blank=True)
     
     class Meta:

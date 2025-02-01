@@ -25,6 +25,7 @@
           <th></th>
           <th>Severity</th>
           <th>Hostname</th>
+          <th>Connection</th>          
           <th>Alert Title</th>                        
           <th>Alert</th>
           <th>Timestamp</th>                        
@@ -36,8 +37,9 @@
         <tr>
           <td class="text-muted small">{{ alert.id }}</td>
           <td class="text-center"><span class="dot dot-lg bg-danger mr-2"></span></td>
-          <td class="text small">{{ alert.severity }}</td>
+          <td class="text small">{{ alert.severity }}</td>        
           <td>{{ alert.hostname }}</td>
+          <td class="text small">Windows</td>
           <!-- Make Alert Title clickable with improved styling -->
           <td class="text small">
             <a href="{% url 'alertdetail' alert.id %}" class="alert-title-link">

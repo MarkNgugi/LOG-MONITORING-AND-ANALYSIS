@@ -139,27 +139,27 @@ chmod +x linux.sh
     });
 
     document.getElementById("download-script-btn").addEventListener("click", function () {
-    // Fetch the logged-in user's ID
-    fetch("/api/get-user-id/", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch user ID");
-            }
-            return response.json();
+        // Fetch the logged-in user's ID
+        fetch("/api/get-user-id/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
-        .then((data) => {
-            const userId = data.user_id; // Extract user_id from the API response
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user ID");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const userId = data.user_id; // Extract user_id from the API response
 
-            // Full detailed script content
-            const scriptContent = `#!/bin/bash
+                // Full detailed script content
+                const scriptContent = `#!/bin/bash
 
 # Paths to log files
-AUTHLOG_FILE="/var/log/authh.log"
+AUTHLOG_FILE="/var/log/auth.log"
 SYSLOG_FILE="/var/log/syslog"
 
 # API endpoint
@@ -171,29 +171,60 @@ USER_ID="${userId}"
 # Log Source Name
 LOG_SOURCE_NAME="${logSourceName}"
 
+# Function to sanitize JSON values
+sanitize_json() {
+    echo "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\//\\\//g' -e 's/\x1B\[[0-9;]*[mGKH]//g'
+}
+
+# Function to extract numeric values (e.g., uid, process_id)
+extract_numeric() {
+    echo "$1" | grep -oP '[0-9]+' || echo null
+}
+
 # Function to process auth logs
 process_authlogs() {
-    echo "Processing auth logs..."
-    while read -r line; do
+    echo "Processing auth logs in real-time..."
+    tail -F "$AUTHLOG_FILE" | while read -r line; do
         # Extract the timestamp (ISO format)
-        timestamp=$(echo "$line" | awk '{print $1}')
-        
+        timestamp=$(echo "$line" | grep -oP '^\S+')
+
         # Extract the hostname (field after timestamp)
         hostname=$(echo "$line" | awk '{print $2}')
-        
+
         # Extract the service and optional process ID
-        service=$(echo "$line" | awk '{print $3}' | sed 's/\\[.*\\]:$//')
-        process_id=$(echo "$line" | grep -oP '\\[\\K[0-9]+(?=\\])' || echo "null")
-        
+        service=$(echo "$line" | awk '{print $3}' | sed 's/\[.*\]:$//')
+        process_id=$(echo "$line" | grep -oP '\[\K[0-9]+(?=\])' || echo null)
+
         # Extract optional user, command, PWD, session status, and UID
-        user=$(echo "$line" | grep -oP 'user \\K\\w+' || echo "null")
-        command=$(echo "$line" | grep -oP 'COMMAND=\\K.*' || echo "null")
-        pwd=$(echo "$line" | grep -oP 'CWD=\\K.*' || echo "null")
-        session_status=$(echo "$line" | grep -oE 'session (opened|closed)' || echo "null")
-        uid=$(echo "$line" | grep -oP 'uid=\\K[0-9]+' || echo "null")
-        
+        user=$(echo "$line" | grep -oP 'user \K\w+' || echo null)
+        command=$(echo "$line" | grep -oP 'COMMAND=\K.*' || echo null)
+        pwd=$(echo "$line" | grep -oP 'CWD=\K.*' || echo null)
+        session_status=$(echo "$line" | grep -oE 'session (opened|closed)' || echo null)
+        uid=$(echo "$line" | grep -oP 'uid=\K[0-9]+' || echo null)
+
         # Extract the log message (everything after the service and process ID)
-        message=$(echo "$line" | sed -E 's/^.*\\[?[0-9]*\\]:?\\s?//')
+        message=$(echo "$line" | sed -E 's/^.*\[?[0-9]*\]:?\s?//')
+
+        # Ensure no field is improperly assigned
+        hostname=$(echo "$hostname" | grep -vE '^Executing$' || echo "ubuntu")
+        timestamp=$(echo "$timestamp" | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}' || echo null)
+
+        # Sanitize fields for JSON
+        timestamp=$(sanitize_json "$timestamp")
+        hostname=$(sanitize_json "$hostname")
+        service=$(sanitize_json "$service")
+        user=$(sanitize_json "$user")
+        command=$(sanitize_json "$command")
+        pwd=$(sanitize_json "$pwd")
+        session_status=$(sanitize_json "$session_status")
+        message=$(sanitize_json "$message")
+
+        # Ensure numeric fields are properly formatted
+        process_id=$(extract_numeric "$process_id")
+        uid=$(extract_numeric "$uid")
+
+        # Debug: Show extracted auth log data
+        echo "Authlog: $timestamp, $hostname, $service, $process_id, $user, $command, $pwd, $session_status, $uid, $message"
 
         # Create JSON payload
         json_payload=$(cat <<EOF
@@ -209,36 +240,49 @@ process_authlogs() {
     "session_status": "$session_status",
     "uid": $uid,
     "message": "$message",
-    "log_source_name": "$LOG_SOURCE_NAME", 
+    "log_source_name": "$LOG_SOURCE_NAME",
     "user_id": "$USER_ID"
 }
 EOF
 )
+        # Debug: Print JSON payload
+        echo "JSON Payload: $json_payload"
 
         # Send to API
         response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
-        echo "$response"
-    done < "$AUTHLOG_FILE"
-    echo "Auth logs processing completed."
+        echo "API Response: $response"
+    done
 }
 
 # Function to process syslogs
 process_syslogs() {
-    echo "Processing syslogs..."
-    while read -r line; do
-        # Extract the timestamp
-        timestamp=$(echo "$line" | grep -oP '^\\S+')
-        
-        # Extract the hostname
-        hostname=$(echo "$line" | awk '{print $2}')
-        
-        # Extract the service and process ID
-        service_process=$(echo "$line" | awk '{print $3}' | sed 's/://g')
-        service=$(echo "$service_process" | grep -oP '^[^\\[]*')
-        process_id=$(echo "$service_process" | grep -oP '(?<=\\[)[0-9]+(?=\\])')
+    echo "Processing syslogs in real-time..."
+    tail -F "$SYSLOG_FILE" | while read -r line; do
+        # Extract the timestamp (up to and including the timezone offset)
+        timestamp=$(echo "$line" | grep -oP '^\S+')
 
-        # Extract the message
+        # Extract the hostname (immediately after the timestamp)
+        hostname=$(echo "$line" | awk '{print $2}')
+
+        # Extract the service and process ID (from "service[process_id]:")
+        service_process=$(echo "$line" | awk '{print $3}' | sed 's/://g')
+        service=$(echo "$service_process" | grep -oP '^[^\[]*')
+        process_id=$(echo "$service_process" | grep -oP '(?<=\[)[0-9]+(?=\])' || echo null)
+
+        # Extract the message (everything after the first colon after service and process ID)
         message=$(echo "$line" | sed -E 's/^[^:]+: //')
+
+        # Sanitize fields for JSON
+        timestamp=$(sanitize_json "$timestamp")
+        hostname=$(sanitize_json "$hostname")
+        service=$(sanitize_json "$service")
+        message=$(sanitize_json "$message")
+
+        # Ensure numeric fields are properly formatted
+        process_id=$(extract_numeric "$process_id")
+
+        # Debug: Display extracted syslog data
+        echo "Syslog: $timestamp, $hostname, $service, $process_id, $message"
 
         # Create JSON payload
         json_payload=$(cat <<EOF
@@ -247,42 +291,43 @@ process_syslogs() {
     "timestamp": "$timestamp",
     "hostname": "$hostname",
     "service": "$service",
-    "process_id": \${process_id:-null},
+    "process_id": $process_id,
+    "log_level": "N/A",
     "message": "$message",
     "log_source_name": "$LOG_SOURCE_NAME",
     "user_id": "$USER_ID"
 }
 EOF
 )
+        # Debug: Print JSON payload
+        echo "JSON Payload: $json_payload"
+
         # Send to API
         response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
-        echo "$response"
-    done < "$SYSLOG_FILE"
-    echo "Syslogs processing completed."
+        echo "API Response: $response"
+    done
 }
 
 # Main execution
-echo "Starting log processing..."
-process_authlogs
-process_syslogs
-echo "All logs processed successfully."
-`;
+echo "Starting real-time log processing..."
+process_authlogs &
+process_syslogs &
+wait`;
 
-            // Create a Blob object for the script
-            const blob = new Blob([scriptContent], { type: "text/x-sh" });
+                // Create a Blob object for the script
+                const blob = new Blob([scriptContent], { type: "text/x-sh" });
 
-            // Create a downloadable link
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "linux.sh";
-            link.click();
-        })
-        .catch((error) => {
-            console.error("Error fetching user ID:", error);
-            alert("Failed to fetch the user ID. Please try again.");
-        });
-});
-
+                // Create a downloadable link
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "linux.sh";
+                link.click();
+            })
+            .catch((error) => {
+                console.error("Error fetching user ID:", error);
+                alert("Failed to fetch the user ID. Please try again.");
+            });
+    });
 
     document.getElementById("proceed-integration-btn").addEventListener("click", function () {
         $("#downloadScriptModal").modal("hide");
@@ -427,21 +472,14 @@ WantedBy=multi-user.target</pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Multiple Failed SSH Login Attempts</td>
+                                    <td>-- Multiple Failed SSH Login Attempts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects multiple failed SSH login attempts within a short period, indicating potential brute force attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>Successful Root Login from Unusual IP</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Root login from an IP address outside the expected range, signaling a potential compromise.</td>
-                                </tr>
-                                <tr>
-                                    <td>Use of Unrecognized SSH Key</td>
+                                    <td>-- Use of Unrecognized SSH Key</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
@@ -455,7 +493,7 @@ WantedBy=multi-user.target</pre>
                                     <td>More than 5 failed login attempts for the same user, potentially indicating targeted brute force attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>Sudden Restart of SSH Daemon</td>
+                                    <td>-- Sudden Restart of SSH Daemon</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Medium</td>
@@ -469,49 +507,42 @@ WantedBy=multi-user.target</pre>
                                     <td>More than 20 SSH connections initiated within one minute, possibly indicating scanning or attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>System Reboots or Shutdowns</td>
+                                    <td>* System Reboots or Shutdowns</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Unexpected system restart or shutdown, which might indicate hardware issues or unauthorized actions.</td>
                                 </tr>
                                 <tr>
-                                    <td>Disk Space Warnings</td>
+                                    <td>* Disk Space Warnings</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Disk usage exceeding 90% on a critical partition, requiring attention to avoid system issues.</td>
                                 </tr>
                                 <tr>
-                                    <td>Kernel OOM Killer Invocation</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>High</td>
-                                    <td>Kernel terminating processes due to low memory, which may impact system stability.</td>
-                                </tr>
-                                <tr>
-                                    <td>Unauthorized Modification of PAM Configuration</td>
+                                    <td>-- Changes to Sudoers File</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
-                                    <td>Critical</td>
-                                    <td>Detection of changes to PAM configuration files, which may indicate an attempt to bypass authentication.</td>
+                                    <td>High</td>
+                                    <td>Detects modifications to the /etc/sudoers file, which may indicate privilege escalation attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>Cron Job Failures</td>
+                                    <td>* Cron Job Failures</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Failure of scheduled cron jobs, which may affect system maintenance or monitoring tasks.</td>
                                 </tr>
                                 <tr>
-                                    <td>User Account Lockouts</td>
+                                    <td>* User Account Lockouts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>User accounts locked after too many failed login attempts, signaling possible brute force attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>Failed Sudo Attempts</td>
+                                    <td>-- Failed Sudo Attempts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
@@ -525,11 +556,11 @@ WantedBy=multi-user.target</pre>
                                     <td>Login attempts for non-existent users, indicating possible reconnaissance or misconfiguration.</td>
                                 </tr>
                                 <tr>
-                                    <td>Time Sync Failures</td>
+                                    <td>-- Service Start/Stop</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
-                                    <td>NTP synchronization failures, which may lead to timing issues in system operations.</td>
+                                    <td>Detects when a critical service (e.g., SSH, Apache, MySQL) is unexpectedly started or stopped, which could indicate tampering.</td>
                                 </tr>
                                 <tr>
                                     <td>User Switched to Root Without Using Sudo</td>
@@ -539,12 +570,19 @@ WantedBy=multi-user.target</pre>
                                     <td>Switching to root using direct credentials rather than sudo, which may bypass audit trails.</td>
                                 </tr>
                                 <tr>
-                                    <td>SSH Port Scanning Attempts</td>
+                                    <td>* New User Account Creation</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>Multiple connection attempts on various ports, indicating possible reconnaissance by attackers.</td>
+                                    <td>Detects when a single user is logged in from multiple IPs simultaneously, which may indicate account sharing or compromise.</td>
                                 </tr>
+                                <tr>
+                                    <td>* User Account Deleted</td>
+                                    <td>Alert</td>
+                                    <td>Authentication</td>
+                                    <td>High</td>
+                                    <td>Detects when a single user is logged in from multiple IPs simultaneously, which may indicate account sharing or compromise.</td>
+                                </tr>                                
                             </tbody>
                         </table>
                         

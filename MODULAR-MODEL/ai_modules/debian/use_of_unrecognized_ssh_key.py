@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.settings')
 django.setup()
 
-from log_management_app.models import Alert, User
+from log_management_app.models import Alert, User, LinuxLog
 
 def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
     """
@@ -18,18 +18,17 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
     failed_attempts = {}
     alerts = []
 
-    for line in log_lines:
+    for log in log_lines:
         try:            
-            print(f"Processing log line: {line}")
+            print(f"Processing log: {log.message}")
             
-            parts = line.split(" ", 5)
-            timestamp_str = parts[0]
+            timestamp_str = log.timestamp
             timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
             
-            if "Failed publickey" in line:                
-                user = line.split("for ")[-1].split(" from ")[0].strip()
-                ip_address = line.split("from ")[-1].split(" port ")[0].strip()
-                key_info = line.split("ssh2: ")[-1].strip()
+            if "Failed publickey" in log.message:                
+                user = log.user
+                ip_address = re.search(r"from (\S+)", log.message).group(1)
+                key_info = re.search(r"ssh2: (\S+)", log.message).group(1)
 
                 print(f"Unrecognized SSH Key Attempt detected: User '{user}' from IP '{ip_address}' using key {key_info}")
 
@@ -48,7 +47,7 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
                     alert = {
                         "alert_title": "Use of Unrecognized SSH Key Authentication",
                         "timestamp": timestamp,
-                        "hostname": "ubuntu",  
+                        "hostname": log.hostname,  
                         "message": f"Detected {len(failed_attempts[user])} failed SSH login attempts for user '{user}' using unrecognized keys from IP '{ip_address}' within {time_window_minutes} minutes.",
                         "severity": "Medium",
                         "user": user,
@@ -57,7 +56,7 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
                     failed_attempts[user] = []
 
         except Exception as e:
-            print(f"Error processing log line: {line}, Error: {e}")
+            print(f"Error processing log: {log.message}, Error: {e}")
 
     return alerts
 
@@ -89,14 +88,10 @@ def create_alerts(alerts):
 
 
 if __name__ == "__main__":
-    
-    sample_logs = [
-        "2025-01-21T16:10:24.090526+03:00 ubuntu sshd[38721]: Failed publickey for smilex from 192.168.15.243 port 41448 ssh2: RSA SHA256:PZmELyNy/qVNVP8vq59Sa0GMaEeJ3m8SXdbZ2ADXxgA",
-        "2025-01-21T16:10:24.095567+03:00 ubuntu sshd[38721]: Failed publickey for smilex from 192.168.15.243 port 41448 ssh2: RSA SHA256:WDoASjFk1g9e6Szu5m9BFwmMaNC8k1BTn+7i1YBVd6k",
-        "2025-01-21T16:10:24.095567+03:00 ubuntu sshd[38721]: Failed publickey for smilex from 192.168.15.243 port 41448 ssh2: RSA SHA256:WDoASjFk1g9e6Szu5m9BFwmMaNC8k1BTn+7i1YBVd6k",
-    ]
-    
-    detected_alerts = detect(sample_logs)
+    # Query LinuxLog for relevant logs
+    log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 auth logs
+
+    detected_alerts = detect(log_lines)
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")
         for alert in detected_alerts:

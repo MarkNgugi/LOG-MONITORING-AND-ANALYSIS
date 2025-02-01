@@ -36,8 +36,7 @@ urlpatterns = [
     path('home/system-logs/os-types/windows-explorer/',views.windowsAD_log_upload,name='windowsAD'),
     path('home/system-logs/os-types/linux-explorer/',views.linux_log_upload,name='linux'),
     path('home/system-logs/linuxmetrics/',views.linux_info,name='linuxinfo'),
-
-    path('home/system-logs/os-types/macos-explorer/',views.mac_log_upload,name='macos'),
+    
     path('home/system-logs/os-types/ad-explorer/',views.windowsAD_log_upload,name='activedirectory'),
     
     path('home/system-logs/os-types/apache-explorer/',views.apache_log_upload,name='apache'),

@@ -3,11 +3,10 @@ from .models import *
 # Register your models here.
 
 admin.site.register(WindowsLog)
-admin.site.register(WindowsADLogFile)
+admin.site.register(WindowsADLog)
 admin.site.register(LogEntry)
 # admin.site.register(Anomaly)
 
-admin.site.register(LinuxLogFile)
 admin.site.register(LinuxLog)
 
 admin.site.register(MacLogFile) 

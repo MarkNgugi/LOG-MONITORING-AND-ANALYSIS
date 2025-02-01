@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.settings')
 django.setup()
 
-from log_management_app.models import Alert, User
+from log_management_app.models import Alert, User, LinuxLog
 
 def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
     """
@@ -22,12 +22,13 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
         try:            
             print(f"Processing log line: {line}")
             
-            parts = line.split(" ", 5)
-            timestamp_str = parts[0]
+            # Assuming the timestamp is in ISO 8601 format like: '2025-01-20T17:05:21.665037+03:00'
+            timestamp_str = line.timestamp
             timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
 
-            if "authentication failure" in line and "sudo" in line:                
-                user = line.split("user=")[-1].split(" ")[0].strip()
+            # Look for "authentication failure" in the log message for sudo attempts
+            if "authentication failure" in line.message and "sudo" in line.message:                
+                user = line.message.split("user=")[-1].split(" ")[0].strip()
                 print(f"Authentication failure detected for user: {user}")
                 key = user
                 
@@ -36,9 +37,9 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
 
                 failed_attempts[key].append(timestamp)
 
-            elif "incorrect password attempts" in line:                
-                match_user = re.search(r"sudo:\s+(\w+)\s*:", line)
-                match_failed_attempts = re.search(r"\b(\d+)\s+incorrect password attempts", line)
+            elif "incorrect password attempts" in line.message:                
+                match_user = re.search(r"sudo:\s+(\w+)\s*:", line.message)
+                match_failed_attempts = re.search(r"\b(\d+)\s+incorrect password attempts", line.message)
 
                 if match_user and match_failed_attempts:
                     user = match_user.group(1).strip()
@@ -60,7 +61,7 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
                     alert = {
                         "alert_title": "Multiple Failed Sudo Attempts",
                         "timestamp": timestamp,
-                        "hostname": "ubuntu",  
+                        "hostname": line.hostname,  
                         "message": f"Detected {len(failed_attempts[user])} failed sudo attempts for user '{user}' within {time_window_minutes} minutes.",
                         "severity": "High",
                         "user": user,
@@ -69,10 +70,9 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
                     failed_attempts[user] = []
 
         except Exception as e:
-            print(f"Error processing log line: {line}, Error: {e}")
+            print(f"Error processing log line: {line.message}, Error: {e}")
 
     return alerts
-
 
 
 def create_alerts(alerts):
@@ -102,14 +102,10 @@ def create_alerts(alerts):
 
 
 if __name__ == "__main__":
-    
-    sample_logs = [
-        "2025-01-20T17:05:21.665037+03:00 ubuntu sudo: pam_unix(sudo:auth): authentication failure; logname=smilex uid=1000 euid=0 tty=/dev/pts/9 ruser=smilex rhost=  user=smilex",
-        "2025-01-20T17:05:33.240157+03:00 ubuntu sudo:   smilex : 3 incorrect password attempts ; TTY=pts/9 ; PWD=/home/smilex/Desktop ; USER=root ; COMMAND=/usr/bin/ls /root",
-    ]
+    # Fetch LinuxLog entries related to sudo or authentication failures
+    log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 auth logs
 
-
-    detected_alerts = detect(sample_logs)
+    detected_alerts = detect(log_lines)
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")
         for alert in detected_alerts:
@@ -118,4 +114,3 @@ if __name__ == "__main__":
         create_alerts(detected_alerts)
     else:
         print("No alerts detected.")
- 

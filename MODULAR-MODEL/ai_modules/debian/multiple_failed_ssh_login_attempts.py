@@ -8,57 +8,59 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.settings')
 django.setup()
 
-from log_management_app.models import Alert, User
+from log_management_app.models import Alert, User, LinuxLog
 
-def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
+def detect(time_window_minutes=5, max_failed_attempts=3):
     """
-    Detects multiple failed SSH login attempts within a short period.
+    Detects multiple failed SSH login attempts within a short period using logs from the LinuxLog model.
     """
     failed_attempts = {}
     alerts = []
 
-    for line in log_lines:
-        if "Failed password" in line and "sshd" in line:
-            try:                
-                parts = line.split(" ", 5)
-                timestamp_str = parts[0]
-                hostname = parts[4]
-                user = line.split("invalid user")[-1].split("from")[0].strip()
-                source_ip = line.split("from")[1].split("port")[0].strip()
-                
-                print(f"Parsing log line: {line}")
-                print(f"Extracted: timestamp='{timestamp_str}', hostname='{hostname}', user='{user}', source_ip='{source_ip}'")
-                
-                timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
-                key = (user, source_ip)
-                
-                if key not in failed_attempts:
-                    failed_attempts[key] = []
-                
-                failed_attempts[key].append(timestamp)
-                
-                failed_attempts[key] = [t for t in failed_attempts[key] if t > timestamp - timedelta(minutes=time_window_minutes)]
-                
-                print(f"Failed attempts for {key}: {failed_attempts[key]}")
+    # Get failed login attempts from 'authlog' type logs containing 'Failed password'
+    log_lines = LinuxLog.objects.filter(log_type='authlog', message__icontains="Failed password")
+    
+    for log in log_lines:
+        try:
+            # Assuming log.timestamp is in ISO 8601 format
+            timestamp_str = log.timestamp
+            message = log.message
+            user = log.user
+            source_ip = message.split("from")[1].split("port")[0].strip()
+            
+            print(f"Parsing log entry: {log}")
+            print(f"Extracted: timestamp='{timestamp_str}', user='{user}', source_ip='{source_ip}'")
+            
+            timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
+            key = (user, source_ip)
+            
+            if key not in failed_attempts:
+                failed_attempts[key] = []
+            
+            failed_attempts[key].append(timestamp)
+            
+            # Retain only attempts within the time window
+            failed_attempts[key] = [t for t in failed_attempts[key] if t > timestamp - timedelta(minutes=time_window_minutes)]
+            
+            print(f"Failed attempts for {key}: {failed_attempts[key]}")
 
-                if len(failed_attempts[key]) >= max_failed_attempts:
-                    alert = {
-                        "alert_title": "Multiple Failed SSH Login Attempts",
-                        "timestamp": timestamp,
-                        "hostname": "ubuntu",
-                        "message": f"Detected {len(failed_attempts[key])} failed login attempts for user '{user}' from IP '{source_ip}' within {time_window_minutes} minutes.",
-                        "severity": "High",
-                        "user": user,
-                    }
-                    alerts.append(alert)
-                    # Clear attempts for the user after an alert is created
-                    failed_attempts[key] = []
+            if len(failed_attempts[key]) >= max_failed_attempts:
+                alert = {
+                    "alert_title": "Multiple Failed SSH Login Attempts",
+                    "timestamp": timestamp,
+                    "hostname": log.hostname,
+                    "message": f"Detected {len(failed_attempts[key])} failed login attempts for user '{user}' from IP '{source_ip}' within {time_window_minutes} minutes.",
+                    "severity": "High",
+                    "user": user,
+                }
+                alerts.append(alert)
+                # Clear attempts for the user after an alert is created
+                failed_attempts[key] = []
 
-            except Exception as e:
-                print(f"Error processing log line: {line}, Error: {e}")
+        except Exception as e:
+            print(f"Error processing log entry: {log}, Error: {e}")
     
     return alerts
-
 
 
 def create_alerts(alerts):
@@ -89,22 +91,8 @@ def create_alerts(alerts):
 
 
 if __name__ == "__main__":
-    # Sample logs provided by the user
-    sample_logs = [
-        "2025-01-20T16:19:49.040080+03:00 ubuntu sshd[181502]: Invalid user wronguser from 192.168.15.243 port 40030",
-        "2025-01-20T16:19:54.267943+03:00 ubuntu sshd[181502]: pam_unix(sshd:auth): check pass; user unknown",
-        "2025-01-20T16:19:54.268460+03:00 ubuntu sshd[181502]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.15.243",
-        "2025-01-20T16:19:55.907980+03:00 ubuntu sshd[181502]: Failed password for invalid user wronguser from 192.168.15.243 port 40030 ssh2",
-        "2025-01-20T16:19:57.076163+03:00 ubuntu sshd[181502]: pam_unix(sshd:auth): check pass; user unknown",
-        "2025-01-20T16:19:59.127539+03:00 ubuntu sshd[181502]: Failed password for invalid user wronguser from 192.168.15.243 port 40030 ssh2",
-        "2025-01-20T16:20:03.844286+03:00 ubuntu sshd[181502]: pam_unix(sshd:auth): check pass; user unknown",
-        "2025-01-20T16:20:06.387045+03:00 ubuntu sshd[181502]: Failed password for invalid user wronguser from 192.168.15.243 port 40030 ssh2",
-        "2025-01-20T16:20:07.154185+03:00 ubuntu sshd[181502]: Connection closed by invalid user wronguser 192.168.15.243 port 40030 [preauth]",
-        "2025-01-20T16:20:07.155050+03:00 ubuntu sshd[181502]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.15.243",
-    ]
-
-    # Detect alerts
-    detected_alerts = detect(sample_logs)
+    # Detect alerts based on the logs from the LinuxLog model
+    detected_alerts = detect()
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")
         for alert in detected_alerts:

@@ -3,58 +3,58 @@ from .models import *
 
 #====================WINDOWS LOGS FORMS START=======================
 
-class WindowsLogUploadForm(forms.ModelForm):
-    class Meta:
-        model = WindowsLog
-        fields = ['source']
-        widgets = {
-            'source_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter log source'
-            }),
-            'file': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file',
-                'style': 'display:none;', 
-                'id': 'fileInput',         
-            }),
-        }
+# class WindowsLogUploadForm(forms.ModelForm):
+#     class Meta:
+#         model = WindowsLog
+#         fields = ['source']
+#         widgets = {
+#             'source_name': forms.TextInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Enter log source'
+#             }),
+#             'file': forms.ClearableFileInput(attrs={
+#                 'class': 'form-control-file',
+#                 'style': 'display:none;', 
+#                 'id': 'fileInput',         
+#             }),
+#         }
 
 
-class WindowsADLogUploadForm(forms.ModelForm):
-    class Meta:
-        model = WindowsADLogFile
-        fields = ['source_name', 'file']
-        widgets = {
-            'source_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter log source'
-            }),
-            'file': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file',
-                'style': 'display:none;', 
-                'id': 'fileInput',         
-            }),
-        }
+# class WindowsADLogUploadForm(forms.ModelForm):
+#     class Meta:
+#         model = WindowsADLog
+#         fields = ['source_name', 'file']
+#         widgets = {
+#             'source_name': forms.TextInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Enter log source'
+#             }),
+#             'file': forms.ClearableFileInput(attrs={
+#                 'class': 'form-control-file',
+#                 'style': 'display:none;', 
+#                 'id': 'fileInput',         
+#             }),
+#         }
 
 #=================================WINDOWS LOGS FORMS END============================================
 
 #================LINUX LOGS FORMS START============================================
 
-class LinuxLogUploadForm(forms.ModelForm):
-    class Meta:
-        model = LinuxLogFile
-        fields = ['source_name', 'file']
-        widgets = {
-            'source_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter log source'
-            }),
-            'file': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file',
-                'style': 'display:none;', 
-                'id': 'fileInput',         
-            }),
-        }
+# class LinuxLogUploadForm(forms.ModelForm):
+#     class Meta:
+#         model = LinuxLog
+#         fields = ['source_name', 'file']
+#         widgets = {
+#             'source_name': forms.TextInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Enter log source'
+#             }),
+#             'file': forms.ClearableFileInput(attrs={
+#                 'class': 'form-control-file',
+#                 'style': 'display:none;', 
+#                 'id': 'fileInput',         
+#             }),
+#         }
 
 #================LINUX LOGS FORMS END============================================
 

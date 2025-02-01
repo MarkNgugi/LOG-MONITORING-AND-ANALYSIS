@@ -141,7 +141,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
     ))
  
     log_sources_linux = list(chain(
-        LinuxLogFile.objects.all(),
+        LinuxLog.objects.all(),
 
     ))
 
@@ -266,44 +266,16 @@ def system_os_types(request):
 
 @login_required
 def windows_log_upload(request):
-    if request.method == 'POST':
-        form = WindowsLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save(commit=False)
-            uploaded_log.user = request.user  
-            uploaded_log.save()  
-            process_uploaded_windows_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = WindowsLogUploadForm()
-        
-    return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', {'form': form})
+    context = {}
+    return render(request, 'baseapp/logingestion/systemlogs/windows/windows.html', context)
 
 def windowsAD_log_upload(request):
-    if request.method == 'POST':
-        form = WindowsADLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_AD_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = WindowsADLogUploadForm()
-
-    context={'form':form}        
+    context = {}
     return render(request, 'baseapp/logingestion/systemlogs/activedirectory/activedirectory.html', context)
     
 
 def linux_log_upload(request):
-    if request.method == 'POST':
-        form = LinuxLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_linux_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = LinuxLogUploadForm()
-
-    context={'form':form}        
+    context = {} 
     return render(request, 'baseapp/logingestion/systemlogs/linux/linux.html', context)
 
 
