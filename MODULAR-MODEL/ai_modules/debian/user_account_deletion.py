@@ -13,7 +13,7 @@ from log_management_app.models import Alert, User, LinuxLog
 
 def detect_user_deletion(log_lines):
     """
-    Detects user deletion events by checking the message field for specific patterns.
+    Detects user deletion events by checking the service and message fields.
     """
     alerts = []
     
@@ -23,42 +23,24 @@ def detect_user_deletion(log_lines):
             timestamp_str = line.timestamp
             timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
             
-            # Check the message field for user deletion logs
-            if line.message:
-                # Pattern 1: accounts-daemon: request by ... delete user 'newusername' (1002)
-                pattern1 = r"accounts-daemon: .* delete user '(\w+)'"
-                match1 = re.search(pattern1, line.message)
-                
-                if match1:
-                    username = match1.group(1)  # The deleted username
+            # Check if the service is "userdel" and the message contains "delete user"
+            if line.service == "userdel" and "delete user" in line.message.lower():
+                # Extract the username from the message
+                match = re.search(r"delete user '(\w+)'", line.message)
+                if match:
+                    username = match.group(1)  # The deleted username
                     
+                    # Create an alert for the user deletion
                     alert = {
-                        "alert_title": f"User Deletion Detected: {username}",
+                        "alert_title": f"User Account Deleted: {username}",
                         "timestamp": timestamp,
                         "hostname": line.hostname,
-                        "message": f"Detected deletion of user '{username}'.",
+                        "message": f"Detected deletion of user account '{username}'.",
                         "severity": "High",
                     }
                     alerts.append(alert)
                     print(f"User Deletion Detected: {alert}")
                 
-                # Pattern 2: userdel[30053]: delete user 'newusername'
-                pattern2 = r"userdel\[\d+\]: delete user '(\w+)'"
-                match2 = re.search(pattern2, line.message)
-                
-                if match2:
-                    username = match2.group(1)  # The deleted username
-                    
-                    alert = {
-                        "alert_title": f"User Deletion Detected: {username}",
-                        "timestamp": timestamp,
-                        "hostname": line.hostname,
-                        "message": f"Detected deletion of user '{username}'.",
-                        "severity": "High",
-                    }
-                    alerts.append(alert)
-                    print(f"User Deletion Detected: {alert}")
-                        
         except Exception as e:
             print(f"Error processing log line: {line.message}, Error: {e}")
     
@@ -87,7 +69,7 @@ def create_alerts(alerts):
         print(f"Failed to create alerts: {e}")
 
 if __name__ == "__main__":
-    # Fetch LinuxLog entries related to auth logs (since user deletion commands are typically in auth logs)
+    # Fetch LinuxLog entries related to auth logs (since user deletion logs are typically in auth logs)
     log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 authlog entries
     
     detected_alerts = detect_user_deletion(log_lines)

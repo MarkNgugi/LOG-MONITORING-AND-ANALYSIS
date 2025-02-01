@@ -22,6 +22,7 @@ class WindowsLog(models.Model):
     hostname = models.CharField(max_length=255, null=True, blank=True)   
     message = models.TextField(null=True, blank=True)     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windows_logs')
+    processed = models.BooleanField(default=False)
 
     def __str__(self):        
         return str(self.event_id) if self.hostname else "No Source Name"
@@ -64,6 +65,7 @@ class LinuxLog(models.Model):
 
     # ForeignKey to the User model
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='linux_logs', null=True, blank=True)
+    processed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-timestamp']
@@ -74,24 +76,19 @@ class LinuxLog(models.Model):
         return f"{self.log_type} - {self.timestamp} - {self.service} - {self.log_type} - {self.message[:50]}"
 
 
-     
-class MacLogFile(models.Model):
-    source_name=models.CharField(max_length=20, blank=True, null=True)
-    os_type=models.CharField(max_length=50,default='mac')
-    file = models.FileField(upload_to='uploaded_logs/mac/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+class Alert(models.Model):
+    alert_title = models.CharField(max_length=100)    
+    timestamp = models.DateTimeField()  
+    hostname = models.CharField(max_length=100)  
+    message = models.TextField(null=True)  
+    severity = models.CharField(max_length=100, default="Low")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user", null=True, blank=True)
+    
+    class Meta:
+        ordering = ['-timestamp']    
 
     def __str__(self):
-        return self.source_name 
- 
- 
-# class ApacheSourceInfo(models.Model):
-#     source_name = models.CharField(max_length=20, blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return self.source_name
-
+        return self.alert_title
 
 class ApacheLog(models.Model):
    
@@ -127,11 +124,6 @@ class ApacheLog(models.Model):
 
     def __str__(self):
         return f"{self.client_ip if self.client_ip else 'N/A'} - {self.timestamp} -{self.log_type} -{self.response_code if self.response_code else 'N/A'}"
-
-
-
-
-    
 
 
 class NginxLogFile(models.Model):
@@ -232,20 +224,6 @@ class LogEntry(models.Model):
     def __str__(self):
         return f"{self.TimeCreated} - {self.event_id} - {self.source}"
  
-
-class Alert(models.Model):
-    alert_title = models.CharField(max_length=100)    
-    timestamp = models.DateTimeField()  
-    hostname = models.CharField(max_length=100)  
-    message = models.TextField(null=True)  
-    severity = models.CharField(max_length=100, default="Low")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user", null=True, blank=True)
-    
-    class Meta:
-        ordering = ['-timestamp']    
-
-    def __str__(self):
-        return self.alert_title
  
 
 

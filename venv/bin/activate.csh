@@ -9,7 +9,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV /home/smilex/Documents/MARK/LOG-MONITORING-AND-ANALYSIS/venv
+setenv VIRTUAL_ENV /home/smilex/Documents/MARK2/LOG-MONITORING-AND-ANALYSIS/venv
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/"bin":$PATH"

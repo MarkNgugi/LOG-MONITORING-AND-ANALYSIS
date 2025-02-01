@@ -22,11 +22,10 @@ def detect(log_lines):
 if __name__ == "__main__":
     # Example usage
     sample_logs = [
-        "Sample log entry 1",
-        "Sample log entry 2",
-        "Sample log entry 3"
+
     ]
     if detect(sample_logs):
         print("Kernel OOM Killer Invocation detected!")
     else:
         print("No issues detected.")
+ 

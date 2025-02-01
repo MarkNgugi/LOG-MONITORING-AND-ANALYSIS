@@ -61,21 +61,6 @@ from .models import *
 
 #================MACOS LOGS FORMS START============================================
 
-class MacLogUploadForm(forms.ModelForm):
-    class Meta:
-        model = MacLogFile
-        fields = ['source_name', 'file']
-        widgets = {
-            'source_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter log source'
-            }),
-            'file': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file',
-                'style': 'display:none;', 
-                'id': 'fileInput',         
-            }),
-        }
 
 #=================================MACOS LOGS FORMS END============================================
 

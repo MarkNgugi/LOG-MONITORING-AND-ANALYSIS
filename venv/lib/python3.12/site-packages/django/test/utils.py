@@ -1,4 +1,5 @@
 import collections
+import gc
 import logging
 import os
 import re
@@ -26,8 +27,8 @@ from django.db.models.options import Options
 from django.template import Template
 from django.test.signals import template_rendered
 from django.urls import get_script_prefix, set_script_prefix
-from django.utils.deprecation import RemovedInDjango50Warning
 from django.utils.translation import deactivate
+from django.utils.version import PYPY
 
 try:
     import jinja2
@@ -39,6 +40,7 @@ __all__ = (
     "Approximate",
     "ContextList",
     "isolate_lru_cache",
+    "garbage_collect",
     "get_runner",
     "CaptureQueriesContext",
     "ignore_warnings",
@@ -198,26 +200,9 @@ def setup_databases(
             if first_alias is None:
                 first_alias = alias
                 with time_keeper.timed("  Creating '%s'" % alias):
-                    # RemovedInDjango50Warning: when the deprecation ends,
-                    # replace with:
-                    # serialize_alias = (
-                    #     serialized_aliases is None
-                    #     or alias in serialized_aliases
-                    # )
-                    try:
-                        serialize_alias = connection.settings_dict["TEST"]["SERIALIZE"]
-                    except KeyError:
-                        serialize_alias = (
-                            serialized_aliases is None or alias in serialized_aliases
-                        )
-                    else:
-                        warnings.warn(
-                            "The SERIALIZE test database setting is "
-                            "deprecated as it can be inferred from the "
-                            "TestCase/TransactionTestCase.databases that "
-                            "enable the serialized_rollback feature.",
-                            category=RemovedInDjango50Warning,
-                        )
+                    serialize_alias = (
+                        serialized_aliases is None or alias in serialized_aliases
+                    )
                     connection.creation.create_test_db(
                         verbosity=verbosity,
                         autoclobber=not interactive,
@@ -590,7 +575,7 @@ class modify_settings(override_settings):
             except KeyError:
                 value = list(getattr(settings, name, []))
             for action, items in operations.items():
-                # items my be a single value or an iterable.
+                # items may be a single value or an iterable.
                 if isinstance(items, str):
                     items = [items]
                 if action == "append":
@@ -1000,3 +985,10 @@ def register_lookup(field, *lookups, lookup_name=None):
     finally:
         for lookup in lookups:
             field._unregister_lookup(lookup, lookup_name)
+
+
+def garbage_collect():
+    gc.collect()
+    if PYPY:
+        # Collecting weakreferences can take two collections on PyPy.
+        gc.collect()

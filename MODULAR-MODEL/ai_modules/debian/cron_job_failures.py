@@ -77,8 +77,7 @@ def create_alert(alert_data):
 if __name__ == "__main__":
     # Example usage
     sample_logs = [
-        "2025-01-18T21:15:01.654321+03:00 ubuntu CRON[134567]: (user123) CMD (/usr/local/bin/backup.sh)",
-        "2025-01-18T21:15:01.654999+03:00 ubuntu CRON[134567]: error: permission denied: /usr/local/bin/backup.sh",
+
     ]
 
     alert_details = detect(sample_logs)

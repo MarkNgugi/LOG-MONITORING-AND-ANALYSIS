@@ -55,6 +55,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "--database",
             default=DEFAULT_DB_ALIAS,
+            choices=tuple(connections),
             help=(
                 "Nominates a specific database to load fixtures into. Defaults to the "
                 '"default" database.'
@@ -311,7 +312,7 @@ class Command(BaseCommand):
                 fixture_files_in_dir.append((candidate, fixture_dir, fixture_name))
         return fixture_files_in_dir
 
-    @functools.lru_cache(maxsize=None)
+    @functools.cache
     def find_fixtures(self, fixture_label):
         """Find fixture files for a given label."""
         if fixture_label == READ_STDIN:

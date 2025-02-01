@@ -56,8 +56,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'log_management_app',
     'user_management_app',
-    'alerts_and_notifications_app',
-    'AI_and_machine_learning_app',   
+    'alerts_and_notifications_app',       
      
 
 ]

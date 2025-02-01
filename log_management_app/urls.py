@@ -48,9 +48,9 @@ urlpatterns = [
 
     path('home/system-logs/os-types/iis-explorer/',views.iis_log_upload,name='iis'),
 
-    path('home/system-logs/os-types/mysql-explorer/',views.mysql_log_upload,name='mysql'),
-    path('home/system-logs/os-types/postgresql-explorer/',views.postgres_log_upload,name='postgresql'),
-    path('home/system-logs/os-types/mongodb-explorer/',views.mongo_log_upload,name='mongodb'),    
+    # path('home/system-logs/os-types/mysql-explorer/',views.mysql_log_upload,name='mysql'),
+    # path('home/system-logs/os-types/postgresql-explorer/',views.postgres_log_upload,name='postgresql'),
+    # path('home/system-logs/os-types/mongodb-explorer/',views.mongo_log_upload,name='mongodb'),    
 
 
 

@@ -472,14 +472,14 @@ WantedBy=multi-user.target</pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>-- Multiple Failed SSH Login Attempts</td>
+                                    <td>Multiple Failed SSH Login Attempts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects multiple failed SSH login attempts within a short period, indicating potential brute force attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Use of Unrecognized SSH Key</td>
+                                    <td>Use of Unrecognized SSH Key</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
@@ -493,13 +493,6 @@ WantedBy=multi-user.target</pre>
                                     <td>More than 5 failed login attempts for the same user, potentially indicating targeted brute force attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Sudden Restart of SSH Daemon</td>
-                                    <td>Alert</td>
-                                    <td>System</td>
-                                    <td>Medium</td>
-                                    <td>Detects unexpected restarts of the SSH service, which may indicate configuration tampering.</td>
-                                </tr>
-                                <tr>
                                     <td>High Number of SSH Connections in a Short Period</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
@@ -507,42 +500,42 @@ WantedBy=multi-user.target</pre>
                                     <td>More than 20 SSH connections initiated within one minute, possibly indicating scanning or attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>* System Reboots or Shutdowns</td>
+                                    <td>System Reboots or Shutdowns</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Unexpected system restart or shutdown, which might indicate hardware issues or unauthorized actions.</td>
                                 </tr>
                                 <tr>
-                                    <td>* Disk Space Warnings</td>
+                                    <td>Disk Space Warnings</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Disk usage exceeding 90% on a critical partition, requiring attention to avoid system issues.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Changes to Sudoers File</td>
+                                    <td>Changes to Sudoers File</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects modifications to the /etc/sudoers file, which may indicate privilege escalation attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>* Cron Job Failures</td>
+                                    <td>Cron Job Failures</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Failure of scheduled cron jobs, which may affect system maintenance or monitoring tasks.</td>
                                 </tr>
                                 <tr>
-                                    <td>* User Account Lockouts</td>
+                                    <td>User Account Lockouts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>User accounts locked after too many failed login attempts, signaling possible brute force attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Failed Sudo Attempts</td>
+                                    <td>Failed Sudo Attempts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
@@ -556,7 +549,7 @@ WantedBy=multi-user.target</pre>
                                     <td>Login attempts for non-existent users, indicating possible reconnaissance or misconfiguration.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Service Start/Stop</td>
+                                    <td>-- Service Start/Stop and restarts</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
@@ -570,14 +563,14 @@ WantedBy=multi-user.target</pre>
                                     <td>Switching to root using direct credentials rather than sudo, which may bypass audit trails.</td>
                                 </tr>
                                 <tr>
-                                    <td>* New User Account Creation</td>
+                                    <td>-- New User Account Creation</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects when a single user is logged in from multiple IPs simultaneously, which may indicate account sharing or compromise.</td>
                                 </tr>
                                 <tr>
-                                    <td>* User Account Deleted</td>
+                                    <td>-- User Account Deleted</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>

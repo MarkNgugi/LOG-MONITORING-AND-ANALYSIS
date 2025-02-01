@@ -5,7 +5,7 @@ from .models import *
 
 @shared_task
 def process_uploaded_windows_logs(log_id):
-    uploaded_log = WindowsLogFile.objects.get(id=log_id)
+    uploaded_log = WindowsLog.objects.get(id=log_id)
     user = uploaded_log.user  # Get the user who uploaded the log
     with open(uploaded_log.file.path, 'r') as log_file:
         reader = csv.DictReader(log_file)
@@ -24,7 +24,7 @@ def process_uploaded_windows_logs(log_id):
  
 @shared_task
 def process_uploaded_AD_logs(log_id):
-    uploaded_log = WindowsADLogFile.objects.get(id=log_id)
+    uploaded_log = WindowsADLog.objects.get(id=log_id)
     with open(uploaded_log.file.path, 'r') as log_file:
         reader = csv.DictReader(log_file)
         for row in reader:
@@ -37,7 +37,7 @@ def process_uploaded_AD_logs(log_id):
 
 @shared_task
 def process_uploaded_linux_logs(log_id):
-    uploaded_log = LinuxLogFile.objects.get(id=log_id)
+    uploaded_log = LinuxLog.objects.get(id=log_id)
     with open(uploaded_log.file.path, 'r') as log_file:
         reader = csv.DictReader(log_file)
         for row in reader:
@@ -47,23 +47,11 @@ def process_uploaded_linux_logs(log_id):
                 message=row['message'],
                 source=row.get('source', 'unknown')
             )            
-
-@shared_task
-def process_uploaded_mac_logs(log_id):
-    uploaded_log = MacLogFile.objects.get(id=log_id)
-    with open(uploaded_log.file.path, 'r') as log_file:
-        reader = csv.DictReader(log_file)
-        for row in reader:
-            LogEntry.objects.create(
-                timestamp=row['timestamp'],
-                log_level=row['log_level'],
-                message=row['message'],
-                source=row.get('source', 'unknown')
-            )               
+            
 
 @shared_task
 def process_uploaded_apache_logs(log_id):
-    uploaded_log = ApacheLogFile.objects.get(id=log_id)
+    uploaded_log = ApacheLog.objects.get(id=log_id)
     with open(uploaded_log.file.path, 'r') as log_file:
         reader = csv.DictReader(log_file)
         for row in reader:

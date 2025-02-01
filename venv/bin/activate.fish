@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/smilex/Documents/MARK/LOG-MONITORING-AND-ANALYSIS/venv
+set -gx VIRTUAL_ENV /home/smilex/Documents/MARK2/LOG-MONITORING-AND-ANALYSIS/venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

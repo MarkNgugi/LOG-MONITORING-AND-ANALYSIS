@@ -95,16 +95,7 @@ def create_alerts(alerts):
 
 if __name__ == "__main__":
     sample_logs = [
-        "2025-01-20T17:05:21.665037+03:00 ubuntu sshd[12345]: Accepted publickey for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:05:25.240157+03:00 ubuntu sshd[12346]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:05:30.240157+03:00 ubuntu sshd[12347]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:05:35.240157+03:00 ubuntu sshd[12348]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:05:40.240157+03:00 ubuntu sshd[12349]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:05:45.240157+03:00 ubuntu sshd[12350]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:05:50.240157+03:00 ubuntu sshd[12351]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:05:55.240157+03:00 ubuntu sshd[12352]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:06:00.240157+03:00 ubuntu sshd[12353]: Accepted password for user from 192.168.1.2 port 22 ssh2",
-        "2025-01-20T17:06:05.240157+03:00 ubuntu sshd[12354]: Accepted password for user from 192.168.1.2 port 22 ssh2",
+
     ]
 
     detected_alerts = detect_ssh_connection_spikes(sample_logs)

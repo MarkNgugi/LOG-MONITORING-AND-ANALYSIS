@@ -145,10 +145,6 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
 
     ))
 
-    log_sources_macos = list(chain(
-        MacLogFile.objects.all(),
-    ))
-
     # Querysets for web server logs
     apache_logs = list(chain(
         ApacheLog.objects.all(),
@@ -188,10 +184,10 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
             system_logs = log_sources_windows
         elif os_type == 'linux':
             system_logs = log_sources_linux
-        elif os_type == 'macos':
-            system_logs = log_sources_macos
+        # elif os_type == 'macos':
+        #     system_logs = log_sources_macos
     else:
-        system_logs = list(chain(log_sources_windows, log_sources_linux, log_sources_macos))
+        system_logs = list(chain(log_sources_windows, log_sources_linux))
 
     if server_type:
         if server_type == 'apache':
@@ -223,8 +219,9 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
 
     windows_count = len(log_sources_windows)
     linux_count = len(log_sources_linux)
-    mac_count = len(log_sources_macos)
-    total_system_logs_count = windows_count + linux_count + mac_count
+    # mac_count = len(log_sources_macos)
+    total_system_logs_count = windows_count + linux_count
+    # total_system_logs_count = windows_count + linux_count + mac_count
 
     mysql_count = len(mysql_logs)
     postgres_count = len(postgres_logs)
@@ -239,7 +236,7 @@ def logsources(request, os_type=None, server_type=None, db_type=None,):
         'iis_count': iis_count,
         'windows_count': windows_count,
         'linux_count': linux_count,
-        'mac_count': mac_count,
+        # 'mac_count': mac_count,
         'total_system_logs_count': total_system_logs_count,
         'mysql_count': mysql_count,
         'postgres_count': postgres_count,
@@ -320,22 +317,6 @@ class LinuxLogView(APIView):
 def linux_info(request):
     context={}
     return render(request,'baseapp/logingestion/systemlogs/linux/linuxinfo.html',context)
-
-
-
-def mac_log_upload(request):
-    if request.method == 'POST':
-        form = MacLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_mac_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = MacLogUploadForm()
-
-    context={'form':form}        
-    return render(request, 'baseapp/logingestion/systemlogs/macos/macos.html', context)
-
 
 
 def apache_log_upload(request):
@@ -528,44 +509,10 @@ def iis_log_upload(request):
 
 
 
-def mysql_log_upload(request):
-    if request.method == 'POST':
-        form = MysqlLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_mysql_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = MysqlLogUploadForm()
 
-    context={'form':form}        
-    return render(request, 'baseapp/logingestion/applicationlogs/databases/mysql/mysql.html', context)
 
-def postgres_log_upload(request):
-    if request.method == 'POST':
-        form = PostgresLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_postgres_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = PostgresLogUploadForm()
 
-    context={'form':form}        
-    return render(request, 'baseapp/logingestion/applicationlogs/databases/postgres/postgresql.html', context)
 
-def mongo_log_upload(request):
-    if request.method == 'POST':
-        form = MongoLogUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_log = form.save()
-            process_uploaded_mongo_logs.delay(uploaded_log.id)  # Trigger async processing
-            return redirect('logsources')
-    else:
-        form = MongoLogUploadForm()
-
-    context={'form':form}        
-    return render(request, 'baseapp/logingestion/applicationlogs/databases/mongodb/mongodb.html', context)
 
 
 

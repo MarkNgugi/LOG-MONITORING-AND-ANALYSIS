@@ -6,11 +6,11 @@ import random
 import tempfile
 import time
 import zlib
+from hashlib import md5
 
 from django.core.cache.backends.base import DEFAULT_TIMEOUT, BaseCache
 from django.core.files import locks
 from django.core.files.move import file_move_safe
-from django.utils.crypto import md5
 
 
 class FileBasedCache(BaseCache):
@@ -166,5 +166,5 @@ class FileBasedCache(BaseCache):
         """
         return [
             os.path.join(self._dir, fname)
-            for fname in glob.glob1(self._dir, "*%s" % self.cache_suffix)
+            for fname in glob.glob(f"*{self.cache_suffix}", root_dir=self._dir)
         ]

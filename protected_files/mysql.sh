@@ -1,55 +1,110 @@
 #!/bin/bash
 
-# Path to the MySQL error log file
-MYSQL_ERROR_LOG_FILE="/var/log/mysql/error.log"
+# Paths to log files
+AUTHLOG_FILE="/var/log/authh.log"
+SYSLOG_FILE="/var/log/syslog"
 
-# API endpoint for MySQL logs
-API_ENDPOINT="http://127.0.0.1:8000/api/mysql/logs/"
+# API endpoint
+API_ENDPOINT="http://127.0.0.1:8000/api/linux/logs/"
 
-# User ID and Log Source Name
+# User ID
 USER_ID="1"
-LOG_SOURCE_NAME="MARK TEST"
 
-# Function to process MySQL error logs
-process_mysql_error_logs() {
-    while IFS= read -r line; do
-        # Skip empty lines
-        if [[ -z "$line" ]]; then
-            continue
-        fi
+# Log Source Name
+LOG_SOURCE_NAME="LINUX TEST"
 
-        # Extract the timestamp and message
+# Function to process auth logs
+process_authlogs() {
+    echo "Processing auth logs..."
+    while read -r line; do
+        # Extract the timestamp (ISO format)
         timestamp=$(echo "$line" | awk '{print $1}')
-        error_message=$(echo "$line" | cut -d' ' -f2-)
-
-        # Debug: Show parsed data
-        echo "Parsed MySQL Error Log: $timestamp, $error_message"
-
-        # Escape special characters in the error message
-        escaped_error_message=$(echo "$error_message" | sed 's/"/\\"/g')
+        
+        # Extract the hostname (field after timestamp)
+        hostname=$(echo "$line" | awk '{print $2}')
+        
+        # Extract the service and optional process ID
+        service=$(echo "$line" | awk '{print $3}' | sed 's/\[.*\]:$//')
+        process_id=$(echo "$line" | grep -oP '\[\K[0-9]+(?=\])' || echo "null")
+        
+        # Extract optional user, command, PWD, session status, and UID
+        user=$(echo "$line" | grep -oP 'user \K\w+' || echo "null")
+        command=$(echo "$line" | grep -oP 'COMMAND=\K.*' || echo "null")
+        pwd=$(echo "$line" | grep -oP 'CWD=\K.*' || echo "null")
+        session_status=$(echo "$line" | grep -oE 'session (opened|closed)' || echo "null")
+        uid=$(echo "$line" | grep -oP 'uid=\K[0-9]+' || echo "null")
+        
+        # Extract the log message (everything after the service and process ID)
+        message=$(echo "$line" | sed -E 's/^.*\[?[0-9]*\]:?\s?//')
 
         # Create JSON payload
         json_payload=$(cat <<EOF
 {
-    "log_type": "error",
+    "log_type": "authlog",
     "timestamp": "$timestamp",
-    "error_message": "$escaped_error_message",
-    "log_source_name": "$LOG_SOURCE_NAME",
+    "hostname": "$hostname",
+    "service": "$service",
+    "process_id": $process_id,
+    "user": "$user",
+    "command": "$command",
+    "pwd": "$pwd",
+    "session_status": "$session_status",
+    "uid": $uid,
+    "message": "$message",
+    "log_source_name": "$LOG_SOURCE_NAME", 
     "user_id": "$USER_ID"
 }
 EOF
 )
 
-        # Debug: Show JSON payload
-        echo "JSON Payload: $json_payload"
-
         # Send to API
-        curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT"
-    done < "$MYSQL_ERROR_LOG_FILE"
+        response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
+        echo "$response"
+    done < "$AUTHLOG_FILE"
+    echo "Auth logs processing completed."
+}
+
+# Function to process syslogs
+process_syslogs() {
+    echo "Processing syslogs..."
+    while read -r line; do
+        # Extract the timestamp
+        timestamp=$(echo "$line" | grep -oP '^\S+')
+        
+        # Extract the hostname
+        hostname=$(echo "$line" | awk '{print $2}')
+        
+        # Extract the service and process ID
+        service_process=$(echo "$line" | awk '{print $3}' | sed 's/://g')
+        service=$(echo "$service_process" | grep -oP '^[^\[]*')
+        process_id=$(echo "$service_process" | grep -oP '(?<=\[)[0-9]+(?=\])')
+
+        # Extract the message
+        message=$(echo "$line" | sed -E 's/^[^:]+: //')
+
+        # Create JSON payload
+        json_payload=$(cat <<EOF
+{
+    "log_type": "syslog",
+    "timestamp": "$timestamp",
+    "hostname": "$hostname",
+    "service": "$service",
+    "process_id": ${process_id:-null},
+    "message": "$message",
+    "log_source_name": "$LOG_SOURCE_NAME",
+    "user_id": "$USER_ID"
+}
+EOF
+)
+        # Send to API
+        response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_payload" "$API_ENDPOINT")
+        echo "$response"
+    done < "$SYSLOG_FILE"
+    echo "Syslogs processing completed."
 }
 
 # Main execution
-echo "Processing MySQL error logs..."
-process_mysql_error_logs
-
-echo "Done."
+echo "Starting log processing..."
+process_authlogs
+process_syslogs
+echo "All logs processed successfully."

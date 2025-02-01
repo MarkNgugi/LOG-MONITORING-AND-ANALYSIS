@@ -141,10 +141,7 @@ def create_alerts(alerts):
 if __name__ == "__main__":
     
     sample_logs = [
-        "2025-01-20T17:05:21.665037+03:00 ubuntu sudo: pam_unix(sudo:auth): authentication failure; logname=smilex uid=1000 euid=0 tty=/dev/pts/9 ruser=smilex rhost=  user=smilex",
-        "2025-01-20T17:05:33.240157+03:00 ubuntu sudo:   smilex : 3 incorrect password attempts ; TTY=pts/9 ; PWD=/home/smilex/Desktop ; USER=root ; COMMAND=/usr/bin/ls /root",
-        "2025-01-20T18:10:45.550123+03:00 ubuntu sshd[12345]: Accepted publickey for root from 192.168.1.100 port 22 ssh2",
-        "2025-01-20T19:15:30.000001+03:00 ubuntu disk monitor: disk usage on partition /dev/sda1 critical usage 92%"
+
     ]
 
     detected_alerts = detect(sample_logs)

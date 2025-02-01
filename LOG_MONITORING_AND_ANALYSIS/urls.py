@@ -20,6 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('log_management_app.urls')),
     path('user/',include('user_management_app.urls')),
-    path('alerts/',include('alerts_and_notifications_app.urls')),
-    path('Ai/',include('AI_and_machine_learning_app.urls'))
+    path('alerts/',include('alerts_and_notifications_app.urls')),    
 ]

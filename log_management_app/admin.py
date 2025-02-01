@@ -9,8 +9,6 @@ admin.site.register(LogEntry)
 
 admin.site.register(LinuxLog)
 
-admin.site.register(MacLogFile) 
-
 admin.site.register(ApacheLog)
 
 admin.site.register(NginxLogFile)
