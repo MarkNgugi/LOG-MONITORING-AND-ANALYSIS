@@ -1,89 +1,62 @@
 import os
 import sys
 import django
-from datetime import datetime, timedelta
-import re
+from datetime import datetime
+from django.utils.timezone import make_aware
 
+# Set up Django environment
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ALERTING.settings')
 django.setup()
 
-from log_management_app.models import Alert, User
+from log_management_app.models import Alert, User, LinuxLog
 
-def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
+def detect_system_events(log_lines):
     """
-    Detects multiple failed sudo attempts and system reboots or shutdowns within a short period.
+    Detects system reboots and shutdowns from LinuxLog entries.
+
+    Args:
+        log_lines (QuerySet): A QuerySet of LinuxLog objects.
+
+    Returns:
+        list: A list of dictionaries containing alert details.
     """
-    failed_attempts = {}
     alerts = []
 
     for line in log_lines:
         try:
-            print(f"Processing log line: {line}")
+            print(f"Processing log line: {line.message}")
 
-            parts = line.split(" ", 5)
-            timestamp_str = parts[0]
-            timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f+03:00")
-            
-            if "authentication failure" in line and "sudo" in line:
-                user = line.split("user=")[-1].split(" ")[0].strip()
-                print(f"Authentication failure detected for user: {user}")
-                key = user
-
-                if key not in failed_attempts:
-                    failed_attempts[key] = []
-
-                failed_attempts[key].append(timestamp)
-
-            elif "incorrect password attempts" in line:
-                match_user = re.search(r"sudo:\s+(\w+)\s*:", line)
-                match_failed_attempts = re.search(r"\b(\d+)\s+incorrect password attempts", line)
-
-                if match_user and match_failed_attempts:
-                    user = match_user.group(1).strip()
-                    num_failed = int(match_failed_attempts.group(1))
-                    key = user
-
-                    if key not in failed_attempts:
-                        failed_attempts[key] = []
-
-                    failed_attempts[key].extend([timestamp] * num_failed)
-            
-            elif "reboot" in line or "shutdown" in line or "poweroff" in line:
-                hostname = "ubuntu"  
+            # Check for system reboot or shutdown messages
+            if "System is rebooting" in line.message:
                 alert = {
-                    "alert_title": "System Reboot or Shutdown Detected",
-                    "timestamp": timestamp,
-                    "hostname": hostname,
-                    "message": "Unexpected system restart or shutdown detected. This might indicate hardware issues or unauthorized actions.",
-                    "severity": "Critical",
-                    "user": "System",
+                    "alert_title": "System Reboot Detected",
+                    "timestamp": make_aware(datetime.strptime(line.timestamp, "%Y-%m-%dT%H:%M:%S.%f%z")),
+                    "hostname": line.hostname,
+                    "message": "System is rebooting.",
+                    "severity": "Medium",
+                    "user": line.user if line.user else "System",
                 }
                 alerts.append(alert)
+                print(f"System reboot detected: {line.message}")
 
-            if key in failed_attempts:
-                print(f"Failed attempts for {key}: {failed_attempts[key]}")
-
-            for user in failed_attempts:
-                failed_attempts[user] = [t for t in failed_attempts[user] if t > timestamp - timedelta(minutes=time_window_minutes)]
-
-                if len(failed_attempts[user]) >= max_failed_attempts:
-                    alert = {
-                        "alert_title": "Multiple Failed Sudo Attempts",
-                        "timestamp": timestamp,
-                        "hostname": "ubuntu",  
-                        "message": f"Detected {len(failed_attempts[user])} failed sudo attempts for user '{user}' within {time_window_minutes} minutes.",
-                        "severity": "High",
-                        "user": user,
-                    }
-                    alerts.append(alert)
-                    failed_attempts[user] = []
+            elif "System is powering down" in line.message:
+                alert = {
+                    "alert_title": "System Shutdown Detected",
+                    "timestamp": make_aware(datetime.strptime(line.timestamp, "%Y-%m-%dT%H:%M:%S.%f%z")),
+                    "hostname": line.hostname,
+                    "message": "System is powering down.",
+                    "severity": "Medium",
+                    "user": line.user if line.user else "System",
+                }
+                alerts.append(alert)
+                print(f"System shutdown detected: {line.message}")
 
         except Exception as e:
-            print(f"Error processing log line: {line}, Error: {e}")
+            print(f"Error processing log line: {line.message}, Error: {e}")
 
     return alerts
+
 
 def create_alerts(alerts):
     """
@@ -93,6 +66,7 @@ def create_alerts(alerts):
         alerts (list[dict]): A list of dictionaries containing alert details.
     """
     try:
+        # Fetch the default user (or any user) to associate with the alert
         default_user = User.objects.first()
         if not default_user:
             raise ValueError("No default user found in the database.")
@@ -106,24 +80,25 @@ def create_alerts(alerts):
                 severity=alert_data["severity"],
                 user=default_user,
             )
-            print(f"Alert created: {alert_data['alert_title']} for user '{alert_data['user']}'")
+            print(f"Alert created: {alert_data['alert_title']} for host '{alert_data['hostname']}'")
+
     except Exception as e:
         print(f"Failed to create alerts: {e}")
 
-if __name__ == "__main__":
-    sample_logs = [
-        "2025-01-20T17:05:21.665037+03:00 ubuntu sudo: pam_unix(sudo:auth): authentication failure; logname=smilex uid=1000 euid=0 tty=/dev/pts/9 ruser=smilex rhost=  user=smilex",
-        "2025-01-20T17:05:33.240157+03:00 ubuntu sudo:   smilex : 3 incorrect password attempts ; TTY=pts/9 ; PWD=/home/smilex/Desktop ; USER=root ; COMMAND=/usr/bin/ls /root",
-        "2025-01-20T18:00:00.000000+03:00 ubuntu shutdown: shutting down for maintenance",
-        "2025-01-20T18:05:00.000000+03:00 ubuntu reboot: system rebooted by admin",
-    ]
 
-    detected_alerts = detect(sample_logs)
+if __name__ == "__main__":
+    # Fetch LinuxLog entries related to system events (syslog or authlog)
+    log_lines = LinuxLog.objects.filter(log_type__in=['syslog', 'authlog']).order_by('-timestamp')[:100]  # Fetch the last 100 logs
+
+    # Detect system reboots and shutdowns
+    detected_alerts = detect_system_events(log_lines)
+
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")
         for alert in detected_alerts:
             print(alert)
 
+        # Create alerts in the database
         create_alerts(detected_alerts)
     else:
-        print("No alerts detected.")
+        print("No system reboot or shutdown alerts detected.")

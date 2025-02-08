@@ -486,53 +486,53 @@ WantedBy=multi-user.target</pre>
                                     <td>Identifies SSH logins using unapproved keys, which may indicate unauthorized access.</td>
                                 </tr>
                                 <tr>
-                                    <td>Repeated Authentication Failures for a Specific User</td>
+                                    <td>-- Successful SSH Login</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>More than 5 failed login attempts for the same user, potentially indicating targeted brute force attacks.</td>
+                                    <td>A user successfully logged in via SSH.</td>
                                 </tr>
-                                <tr>
-                                    <td>High Number of SSH Connections in a Short Period</td>
+                                <!-- <tr>
+                                    <td>User Login</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
-                                    <td>High</td>
-                                    <td>More than 20 SSH connections initiated within one minute, possibly indicating scanning or attacks.</td>
-                                </tr>
+                                    <td>Info</td>
+                                    <td>A user successfully logged into the system.</td>
+                                </tr> -->
                                 <tr>
-                                    <td>System Reboots or Shutdowns</td>
+                                    <td>-- System Reboots or Shutdowns</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Medium</td>
                                     <td>Unexpected system restart or shutdown, which might indicate hardware issues or unauthorized actions.</td>
                                 </tr>
                                 <tr>
-                                    <td>Disk Space Warnings</td>
+                                    <td>--Disk Space Warnings</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Disk usage exceeding 90% on a critical partition, requiring attention to avoid system issues.</td>
                                 </tr>
                                 <tr>
-                                    <td>Changes to Sudoers File</td>
+                                    <td>-- Changes to Sudoers File</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects modifications to the /etc/sudoers file, which may indicate privilege escalation attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>Cron Job Failures</td>
+                                    <td>Cron Job Executed</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
-                                    <td>Failure of scheduled cron jobs, which may affect system maintenance or monitoring tasks.</td>
+                                    <td>A scheduled cron job was executed.</td>
                                 </tr>
                                 <tr>
-                                    <td>User Account Lockouts</td>
+                                    <td>User Account Locked</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
-                                    <td>User accounts locked after too many failed login attempts, signaling possible brute force attempts.</td>
+                                    <td>A user account was locked due to multiple failed login attempts.</td>
                                 </tr>
                                 <tr>
                                     <td>-- Failed Sudo Attempts</td>
@@ -542,11 +542,11 @@ WantedBy=multi-user.target</pre>
                                     <td>Users attempting to execute privileged commands without proper credentials.</td>
                                 </tr>
                                 <tr>
-                                    <td>SSH Login from Invalid Users</td>
+                                    <td>-- Public Key Authentication Success </td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>Login attempts for non-existent users, indicating possible reconnaissance or misconfiguration.</td>
+                                    <td>A user authenticated using an SSH key instead of a password.</td>
                                 </tr>
                                 <tr>
                                     <td>-- Service Start/Stop and restarts</td>
@@ -556,11 +556,11 @@ WantedBy=multi-user.target</pre>
                                     <td>Detects when a critical service (e.g., SSH, Apache, MySQL) is unexpectedly started or stopped, which could indicate tampering.</td>
                                 </tr>
                                 <tr>
-                                    <td>User Switched to Root Without Using Sudo</td>
+                                    <td>-- Kernel Panic</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
-                                    <td>Medium</td>
-                                    <td>Switching to root using direct credentials rather than sudo, which may bypass audit trails.</td>
+                                    <td>Critical</td>
+                                    <td>The system crashes due to a fatal kernel error.</td>
                                 </tr>
                                 <tr>
                                     <td>-- New User Account Creation</td>

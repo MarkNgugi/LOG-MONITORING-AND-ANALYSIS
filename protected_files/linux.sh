@@ -55,6 +55,39 @@ SYSLOG_PATTERNS=(
     "groupadd.*new group"                            # New group creation
     "groupdel.*delete group"                         # Group deletion
     "groupmod.*modify group"                         # Group modification
+
+
+    "systemd.*reboot"                                # System reboots
+    "systemd.*shutdown"                              # System shutdowns
+    "System is rebooting"                            # Explicit system reboot message
+    "System is powering down"                        # Explicit system shutdown message
+
+    "CRON\\[[0-9]+\\]: \\([^)]+\\) CMD \\(.*\\)"     # General cron job execution                     
+    "CRON.*STARTUP.*fork ok"        # Cron service startup events
+    "CRON.*session opened"          # Cron job session start    
+    "CRON\[.*\]: \(.*\) CMD \(.*\)"  # Captures cron jobs executed by ANY user (dynamic user detection)
+    "CRON.*FAILED"                  # Cron job failures 
+
+    # Kernel panic detection patterns
+    "kernel: .*Kernel panic - not syncing"        # General kernel panic event
+    "kernel: .*Oops: [0-9]+ \[#.*\]"              # Kernel oops message indicating critical failure
+
+    "kernel:.*No space left on device"           # Kernel disk space warnings
+    "kernel:.*EXT4-fs warning.*"                 # EXT4 filesystem space warnings
+    "kernel:.*EXT4-fs error.*"                   # EXT4 filesystem errors
+    "systemd.*No space left on device"           # Systemd service failure due to no space
+    "CRON.*FAILED.*No space left on device"      # Cron job failure due to low disk space
+    ".*No space left on device.*"                # General application failures
+    ".*Disk usage.*(9[0-9]|100)%"                # High disk usage warnings (90%+)
+
+    "sudo: .*COMMAND=/usr/bin/(cat|less|more) .*sudoers"      # Reading sudoers file
+    "sudo: .*COMMAND=/usr/bin/(vim|vi|nano|subl|gedit|code) .*sudoers"  # Editing sudoers file
+    "sudo: .*COMMAND=/usr/sbin/visudo"                        # Editing sudoers via visudo
+
+    "sudo: .*Account locked due to too many failed login attempts for .*"  # Sudo lockout
+    "faillock.*User .* has been locked due to .* failed login attempts"  # PAM FailLock lockout
+
+
 )
 
 # Patterns for authlog (authentication events & service-related changes)
@@ -99,6 +132,29 @@ AUTHLOG_PATTERNS=(
     "chfn.*changed user .* information"              # User information changes
     "gpasswd.*members of group .* set by"            # Group membership changes
     "accounts-daemon: request by system-bus-name.*set password and hint of user"  # Password changes
+
+    "System is rebooting"                            # System reboot detected in auth logs
+    "System is powering down"                        # System shutdown detected in auth logs
+
+    # Kernel panic detection patterns
+    "kernel: .*Kernel panic - not syncing"        # General kernel panic event
+    "kernel: .*Oops: [0-9]+ \[#.*\]"              # Kernel oops message indicating critical failure
+
+    "kernel:.*No space left on device"           # Kernel disk space warnings
+    "kernel:.*EXT4-fs warning.*"                 # EXT4 filesystem space warnings
+    "kernel:.*EXT4-fs error.*"                   # EXT4 filesystem errors
+    "systemd.*No space left on device"           # Systemd service failure due to no space
+    "CRON.*FAILED.*No space left on device"      # Cron job failure due to low disk space
+    ".*No space left on device.*"                # General application failures
+    ".*Disk usage.*(9[0-9]|100)%"                # High disk usage warnings (90%+)
+
+    "sudo: .*COMMAND=/usr/bin/(cat|less|more) .*sudoers"      # Reading sudoers file
+    "sudo: .*COMMAND=/usr/bin/(vim|vi|nano|subl|gedit|code) .*sudoers"  # Editing sudoers file
+    "sudo: .*COMMAND=/usr/sbin/visudo"                        # Editing sudoers via visudo
+
+    "sudo: .*Account locked due to too many failed login attempts for .*"  # Sudo lockout
+    "faillock.*User .* has been locked due to .* failed login attempts"  # PAM FailLock lockout
+
 )
 
 
