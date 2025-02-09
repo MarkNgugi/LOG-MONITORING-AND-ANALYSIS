@@ -1,9 +1,9 @@
 import os
 import sys
 import django
+from datetime import datetime, timedelta
 import re
-from datetime import datetime
-from django.db.models import Q
+from django.db.models import Q  # Import Q for OR filtering
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
@@ -12,58 +12,69 @@ django.setup()
 
 from log_management_app.models import Alert, User, LinuxLog
 
-def detect():
+def detect_public_key_auth(time_window_minutes=100):
     """
-    Detects Disk Space Warnings using logs from the LinuxLog model.
+    Detects successful public key authentication attempts using logs from the LinuxLog model.
     """
-    disk_space_warnings = []
-    patterns = [
-        r"kernel:.*No space left on device",
-        r"kernel:.*EXT4-fs warning.*",
-        r"kernel:.*EXT4-fs error.*",
-        r"systemd.*No space left on device",
-        r"CRON.*FAILED.*No space left on device",
-        r"No space left on device",
-        r"Disk usage.*(9[0-9]|100)%"
-    ]
-    
+    successful_logins = []
+    alerts = []
+
+    # Get successful public key authentication attempts from 'authlog' type logs
     log_lines = LinuxLog.objects.filter(
-        log_type__in=["kernlog", "syslog", "authlog", "cronlog"]
+        log_type="authlog"
     ).filter(
-        Q(message__iregex="|".join(patterns))
+        Q(message__icontains="Accepted publickey")
     )
     
     for log in log_lines:
         try:
             timestamp_str = log.timestamp
             message = log.message
-            hostname = log.hostname if log.hostname else "Unknown"
+            user = log.user if log.user else "Unknown"
+            source_ip = None
+
+            # Pattern: Public Key Authentication Success
+            match_publickey = re.search(r"Accepted publickey for (\S+) from (\d+\.\d+\.\d+\.\d+)", message)
+            
+            if match_publickey:
+                user = match_publickey.group(1)
+                source_ip = match_publickey.group(2)
+            
+            if not source_ip:
+                continue
+            
+            print(f"Parsing log entry: {log}")
+            print(f"Extracted: timestamp='{timestamp_str}', user='{user}', source_ip='{source_ip}'")
             
             timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f%z")
-            severity = "High" if "No space left on device" in message else "Medium"
             
             alert = {
-                "alert_title": "Disk Space Warning",
+                "alert_title": "Public Key Authentication Success",
                 "timestamp": timestamp,
-                "hostname": hostname,
-                "message": message,
-                "severity": severity,
+                "hostname": log.hostname,
+                "message": f"User '{user}' successfully authenticated using public key from IP '{source_ip}'.",
+                "severity": "Medium",
+                "user": user,
             }
-            disk_space_warnings.append(alert)
+            alerts.append(alert)
+
         except Exception as e:
             print(f"Error processing log entry: {log}, Error: {e}")
     
-    return disk_space_warnings
+    return alerts
 
 def create_alerts(alerts):
     """
     Creates alerts in the database using the provided alert data.
+
+    Args:
+        alerts (list[dict]): A list of dictionaries containing alert details.
     """
     try:
         default_user = User.objects.first()
         if not default_user:
             raise ValueError("No default user found in the database.")
-        
+
         for alert_data in alerts:
             Alert.objects.create(
                 alert_title=alert_data["alert_title"],
@@ -73,12 +84,12 @@ def create_alerts(alerts):
                 severity=alert_data["severity"],
                 user=default_user,
             )
-            print(f"Alert created: {alert_data['alert_title']} for hostname '{alert_data['hostname']}'")
+            print(f"Alert created: {alert_data['alert_title']} for user '{alert_data['user']}'")
     except Exception as e:
         print(f"Failed to create alerts: {e}")
 
 if __name__ == "__main__":
-    detected_alerts = detect()
+    detected_alerts = detect_public_key_auth()
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")
         for alert in detected_alerts:

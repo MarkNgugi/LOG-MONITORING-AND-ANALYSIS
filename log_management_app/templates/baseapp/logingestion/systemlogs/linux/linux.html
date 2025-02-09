@@ -479,7 +479,7 @@ WantedBy=multi-user.target</pre>
                                     <td>Detects multiple failed SSH login attempts within a short period, indicating potential brute force attacks.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Use of Unrecognized SSH Key</td>
+                                    <td>Use of Unrecognized SSH Key</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
@@ -492,13 +492,6 @@ WantedBy=multi-user.target</pre>
                                     <td>High</td>
                                     <td>A user successfully logged in via SSH using a password.</td>
                                 </tr>
-                                <!-- <tr>
-                                    <td>User Login</td>
-                                    <td>Alert</td>
-                                    <td>Authentication</td>
-                                    <td>Info</td>
-                                    <td>A user successfully logged into the system.</td>
-                                </tr> -->
                                 <tr>
                                     <td>-- System Reboots or Shutdowns</td>
                                     <td>Alert</td>
@@ -507,42 +500,42 @@ WantedBy=multi-user.target</pre>
                                     <td>Unexpected system restart or shutdown, which might indicate hardware issues or unauthorized actions.</td>
                                 </tr>
                                 <tr>
-                                    <td>--Disk Space Warnings</td>
+                                    <td>Disk Space Warnings</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>Disk usage exceeding 90% on a critical partition, requiring attention to avoid system issues.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Changes to Sudoers File</td>
+                                    <td>Changes to Sudoers File</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects modifications to the /etc/sudoers file, which may indicate privilege escalation attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>Cron Job Executed</td>
+                                    <td>-- Cron Job Executed</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
                                     <td>A scheduled cron job was executed.</td>
                                 </tr>
                                 <tr>
-                                    <td>User Account Locked</td>
+                                    <td>-- User Account Locked</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>
                                     <td>A user account was locked due to multiple failed login attempts.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Failed Sudo Attempts</td>
+                                    <td>Failed Sudo Attempts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Users attempting to execute privileged commands without proper credentials.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Public Key Authentication Success </td>
+                                    <td>Public Key Authentication Success </td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
@@ -556,7 +549,7 @@ WantedBy=multi-user.target</pre>
                                     <td>Detects when a critical service (e.g., SSH, Apache, MySQL) is unexpectedly started or stopped, which could indicate tampering.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Kernel Panic</td>
+                                    <td>Kernel Panic</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Critical</td>
