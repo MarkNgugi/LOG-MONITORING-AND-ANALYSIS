@@ -87,6 +87,10 @@ SYSLOG_PATTERNS=(
     "sudo: .*Account locked due to too many failed login attempts for .*"  # Sudo lockout
     "faillock.*User .* has been locked due to .* failed login attempts"  # PAM FailLock lockout
 
+    "sudo: .*COMMAND=/usr/sbin/service .* (start|stop|restart).*"  # New pattern
+    "sudo: .*COMMAND=/bin/systemctl .* (start|stop|restart).*"     # New pattern
+    "sudo: .*COMMAND=/etc/init.d/.* (start|stop|restart).*"  
+
 
 )
 
@@ -154,6 +158,12 @@ AUTHLOG_PATTERNS=(
 
     "sudo: .*Account locked due to too many failed login attempts for .*"  # Sudo lockout
     "faillock.*User .* has been locked due to .* failed login attempts"  # PAM FailLock lockout
+
+
+    "sudo: .*COMMAND=/usr/sbin/service .* (start|stop|restart).*"  # New pattern
+    "sudo: .*COMMAND=/bin/systemctl .* (start|stop|restart).*"     # New pattern
+    "sudo: .*COMMAND=/etc/init.d/.* (start|stop|restart).*"  
+
 
 )
 

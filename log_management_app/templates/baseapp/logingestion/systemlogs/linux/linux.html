@@ -472,7 +472,7 @@ WantedBy=multi-user.target</pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>-- Multiple Failed SSH Login Attempts</td>
+                                    <td>Multiple Failed SSH Login Attempts</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
@@ -486,11 +486,11 @@ WantedBy=multi-user.target</pre>
                                     <td>Identifies SSH logins using unapproved keys, which may indicate unauthorized access.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Successful SSH Login</td>
+                                    <td>Successful SSH Login</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
-                                    <td>A user successfully logged in via SSH.</td>
+                                    <td>A user successfully logged in via SSH using a password.</td>
                                 </tr>
                                 <!-- <tr>
                                     <td>User Login</td>
@@ -549,7 +549,7 @@ WantedBy=multi-user.target</pre>
                                     <td>A user authenticated using an SSH key instead of a password.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- Service Start/Stop and restarts</td>
+                                    <td>Service Start/Stop and restarts</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Low</td>
@@ -563,14 +563,14 @@ WantedBy=multi-user.target</pre>
                                     <td>The system crashes due to a fatal kernel error.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- New User Account Creation</td>
+                                    <td>New User Account Creation</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
                                     <td>Detects when a single user is logged in from multiple IPs simultaneously, which may indicate account sharing or compromise.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- User Account Deleted</td>
+                                    <td>User Account Deleted</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>High</td>
