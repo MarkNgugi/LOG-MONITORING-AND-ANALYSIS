@@ -65,6 +65,7 @@ def detect(log_lines, time_window_minutes=5, max_failed_attempts=3):
                         "message": f"Detected {len(failed_attempts[user])} failed sudo attempts for user '{user}' within {time_window_minutes} minutes.",
                         "severity": "High",
                         "user": user,
+                        "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                     }
                     alerts.append(alert)                    
                     failed_attempts[user] = []
@@ -95,6 +96,8 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
+                
             )
             print(f"Alert created: {alert_data['alert_title']} for user '{alert_data['user']}'")
     except Exception as e:
@@ -103,7 +106,7 @@ def create_alerts(alerts):
 
 if __name__ == "__main__":
     # Fetch LinuxLog entries related to sudo or authentication failures
-    log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 auth logs
+    log_lines = LinuxLog.objects.filter(log_type='authlog', processed=False).order_by('-timestamp')[:2]
 
     detected_alerts = detect(log_lines)
     if detected_alerts:

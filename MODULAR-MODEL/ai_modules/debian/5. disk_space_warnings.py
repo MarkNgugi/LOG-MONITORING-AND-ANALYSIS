@@ -48,6 +48,7 @@ def detect():
                 "hostname": hostname,
                 "message": message,
                 "severity": severity,
+                "log_source_name": log.log_source_name,  # Include log_source_name in the alert
             }
             disk_space_warnings.append(alert)
         except Exception as e:
@@ -72,6 +73,7 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert created: {alert_data['alert_title']} for hostname '{alert_data['hostname']}'")
     except Exception as e:

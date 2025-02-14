@@ -32,6 +32,7 @@ def detect_sudoers_access(log_lines):
                     "message": "An attempt to access /etc/sudoers was detected but was denied due to an incorrect password.",
                     "severity": "Medium",
                     "user": line.user if line.user else "Unknown",
+                    "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                 }
                 alerts.append(alert)
                 print(f"Alert created: {alert}")
@@ -46,6 +47,7 @@ def detect_sudoers_access(log_lines):
                     "message": f"Detected 3 incorrect password attempts while trying to edit sudoers using {editor}.",
                     "severity": "High",
                     "user": line.user if line.user else "Unknown",
+                    "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                 }
                 alerts.append(alert)
                 print(f"Alert created: {alert}")
@@ -60,6 +62,7 @@ def detect_sudoers_access(log_lines):
                     "message": f"User '{line.user}' accessed the sudoers file using {editor}.",
                     "severity": "Informational",
                     "user": line.user if line.user else "Unknown",
+                    "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                 }
                 alerts.append(alert)
                 print(f"Alert created: {alert}")
@@ -86,6 +89,7 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert recorded: {alert_data['alert_title']} for user '{alert_data['user']}'")
     except Exception as e:
@@ -93,7 +97,7 @@ def create_alerts(alerts):
 
 if __name__ == "__main__":
     # Fetch LinuxLog entries related to sudoers file access or attempts
-    log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]
+    log_lines = LinuxLog.objects.filter(log_type='authlog',processed=False).order_by('-timestamp')[:2]
     detected_alerts = detect_sudoers_access(log_lines)
     
     if detected_alerts:

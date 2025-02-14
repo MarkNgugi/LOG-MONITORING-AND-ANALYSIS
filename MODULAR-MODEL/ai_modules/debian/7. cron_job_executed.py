@@ -40,6 +40,7 @@ def detect(log_lines):
                     "message": message,
                     "severity": "Low",
                     "user": user,
+                    "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                 }
             except IndexError:
                 # If an IndexError occurs, print the log line and skip it
@@ -69,6 +70,7 @@ def create_alert(alert_data):
             message=alert_data["message"],
             severity=alert_data["severity"],
             user=default_user,
+            log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
         )
         print("Alert created successfully!")
     except Exception as e:

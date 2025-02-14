@@ -16,9 +16,14 @@ def get_default_user():
 
  
 class WindowsLog(models.Model):
+    LOG_TYPE_CHOICES = [
+        ('syslog', 'Syslog'),
+        ('authlog', 'Authlog'),
+    ]    
     log_source_name = models.CharField(max_length=255, null=True, blank=True)
     event_id = models.IntegerField()    
     timestamp = models.DateTimeField()
+    log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True, blank=True) 
     hostname = models.CharField(max_length=255, null=True, blank=True)   
     message = models.TextField(null=True, blank=True)     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windows_logs')
@@ -29,9 +34,14 @@ class WindowsLog(models.Model):
 
  
 class WindowsADLog(models.Model):
+    LOG_TYPE_CHOICES = [
+        ('syslog', 'Syslog'),
+        ('authlog', 'Authlog'),
+    ]
     log_source_name = models.CharField(max_length=255, null=True, blank=True)
     event_id = models.IntegerField()    
     timestamp = models.DateTimeField()
+    log_type = models.CharField(max_length=50, choices=LOG_TYPE_CHOICES, null=True, blank=True) 
     hostname = models.CharField(max_length=255, null=True, blank=True)   
     message = models.TextField(null=True, blank=True)     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windowsAD_logs')
@@ -82,7 +92,8 @@ class Alert(models.Model):
     hostname = models.CharField(max_length=100)  
     message = models.TextField(null=True)  
     severity = models.CharField(max_length=100, default="Low")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user", null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user", null=True, blank=True)    
+    log_source_name = models.CharField(max_length=255, null=True, blank=True)
     
     class Meta:
         ordering = ['-timestamp']    

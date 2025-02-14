@@ -36,6 +36,7 @@ def detect_system_events(log_lines):
                     "message": "System is rebooting.",
                     "severity": "Medium",
                     "user": line.user if line.user else "System",
+                    "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                 }
                 alerts.append(alert)
                 print(f"System reboot detected: {line.message}")
@@ -48,6 +49,7 @@ def detect_system_events(log_lines):
                     "message": "System is powering down.",
                     "severity": "Medium",
                     "user": line.user if line.user else "System",
+                    "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                 }
                 alerts.append(alert)
                 print(f"System shutdown detected: {line.message}")
@@ -79,6 +81,7 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert created: {alert_data['alert_title']} for host '{alert_data['hostname']}'")
 
@@ -88,7 +91,7 @@ def create_alerts(alerts):
 
 if __name__ == "__main__":
     # Fetch LinuxLog entries related to system events (syslog or authlog)
-    log_lines = LinuxLog.objects.filter(log_type__in=['syslog', 'authlog']).order_by('-timestamp')[:100]  # Fetch the last 100 logs
+    log_lines = LinuxLog.objects.filter(log_type__in=['syslog', 'authlog'],processed=False).order_by('-timestamp')[:2]  # Fetch the last 100 logs
 
     # Detect system reboots and shutdowns
     detected_alerts = detect_system_events(log_lines)

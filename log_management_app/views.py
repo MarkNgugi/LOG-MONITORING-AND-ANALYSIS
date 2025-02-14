@@ -12,7 +12,7 @@ from rest_framework import status
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
-
+from django.shortcuts import get_object_or_404
  
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -129,131 +129,88 @@ def home(request):
     context={'user':request.user}
     return render(request,'baseapp/home.html',context)
 
-def logsources(request, os_type=None, server_type=None, db_type=None,):    
-    # Initialize log sources
-    system_logs = []
-    webserver_logs = []
-    database_logs = []    
+from itertools import chain
+from django.db.models import Max
 
+def logsources(request, os_type=None):
     # Querysets for system logs
-    log_sources_windows = list(chain(
-        WindowsLog.objects.filter(user=request.user),        
-    ))
- 
-    log_sources_linux = list(chain(
-        LinuxLog.objects.all(),
-
-    ))
-
-    # Querysets for web server logs
-    apache_logs = list(chain(
-        ApacheLog.objects.all(),
-
-    ))
-
-    nginx_logs = list(chain(
-        NginxLogFile.objects.all(),
-
-    ))
-
-    iis_logs = list(chain(
-        IISLogFile.objects.all(),
-
-    ))
-
-    # Querysets for database logs
-    mysql_logs = list(chain(
-        MysqlLogFile.objects.all(),
-
-    ))
-
-    postgres_logs = list(chain(
-        PostgresLogFile.objects.all(),
-
-    ))
-
-    mongodb_logs = list(chain(
-        MongoLogFile.objects.all(),
-
-    ))
- 
+    log_sources_windows = WindowsLog.objects.filter(user=request.user)
+    log_sources_windows_ad = WindowsADLog.objects.filter(user=request.user)
+    log_sources_linux = LinuxLog.objects.filter(owner=request.user)
 
     # Filtering based on parameters
     if os_type:
         if os_type == 'windows':
-            system_logs = log_sources_windows
+            log_sources = log_sources_windows.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
+        elif os_type == 'windowsAD':
+            log_sources = log_sources_windows_ad.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
         elif os_type == 'linux':
-            system_logs = log_sources_linux
-        # elif os_type == 'macos':
-        #     system_logs = log_sources_macos
+            log_sources = log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
     else:
-        system_logs = list(chain(log_sources_windows, log_sources_linux))
-
-    if server_type:
-        if server_type == 'apache':
-            webserver_logs = apache_logs
-        elif server_type == 'nginx':
-            webserver_logs = nginx_logs
-        elif server_type == 'iis':
-            webserver_logs = iis_logs
-    else:
-        webserver_logs = list(chain(apache_logs, nginx_logs, iis_logs))
-
-    if db_type:
-        if db_type == 'mysql':
-            database_logs = mysql_logs
-        elif db_type == 'postgres':
-            database_logs = postgres_logs
-        elif db_type == 'mongo':
-            database_logs = mongodb_logs
-    else:
-        database_logs = list(chain(mysql_logs, postgres_logs, mongodb_logs))
-
-
+        # Combine all log sources if no os_type is specified
+        log_sources = list(chain(
+            log_sources_windows.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp')),
+            log_sources_windows_ad.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp')),
+            log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
+        ))
 
     # Counts for each category
-    all_count = len(webserver_logs)
-    apache_count = len(apache_logs)
-    nginx_count = len(nginx_logs)
-    iis_count = len(iis_logs)
-
-    windows_count = len(log_sources_windows)
-    linux_count = len(log_sources_linux)
-    # mac_count = len(log_sources_macos)
-    total_system_logs_count = windows_count + linux_count
-    # total_system_logs_count = windows_count + linux_count + mac_count
-
-    mysql_count = len(mysql_logs)
-    postgres_count = len(postgres_logs)
-    mongo_count = len(mongodb_logs)
-    total_db_logs_count = mysql_count + postgres_count + mongo_count
-
+    windows_count = log_sources_windows.count()
+    windows_ad_count = log_sources_windows_ad.count()
+    linux_count = log_sources_linux.count()
+    total_system_logs_count = windows_count + windows_ad_count + linux_count
 
     context = {
-        'all_count': all_count,
-        'apache_count': apache_count,
-        'nginx_count': nginx_count,
-        'iis_count': iis_count,
         'windows_count': windows_count,
+        'windows_ad_count': windows_ad_count,
         'linux_count': linux_count,
-        # 'mac_count': mac_count,
         'total_system_logs_count': total_system_logs_count,
-        'mysql_count': mysql_count,
-        'postgres_count': postgres_count,
-        'mongo_count': mongo_count,
-        'total_db_logs_count': total_db_logs_count,
-        'log_sources': system_logs,
-        'webserver_logs': webserver_logs,
-        'database_logs': database_logs,        
+        'log_sources': log_sources,  # Pass the filtered log_sources to the template
         'os_type': os_type,
-        'server_type': server_type,
-        'db_type': db_type,        
     }
 
     return render(request, 'baseapp/logsources/logsources.html', context)
 
- 
- 
+
+
+from django.db.models import Count
+
+def sourceinfo(request, os_type, log_source_name, hostname):
+    # Fetch the log source based on os_type, log_source_name, and hostname
+    if os_type == 'windows':
+        log_source = get_object_or_404(WindowsLog, log_source_name=log_source_name, hostname=hostname, user=request.user)
+        recent_logs = WindowsLog.objects.filter(log_source_name=log_source_name, hostname=hostname, user=request.user).order_by('-timestamp')[:10]
+        total_logs = WindowsLog.objects.filter(log_source_name=log_source_name, hostname=hostname, user=request.user).count()
+    elif os_type == 'windowsAD':
+        log_source = get_object_or_404(WindowsADLog, log_source_name=log_source_name, hostname=hostname, user=request.user)
+        recent_logs = WindowsADLog.objects.filter(log_source_name=log_source_name, hostname=hostname, user=request.user).order_by('-timestamp')[:10]
+        total_logs = WindowsADLog.objects.filter(log_source_name=log_source_name, hostname=hostname, user=request.user).count()
+    elif os_type == 'linux':
+        log_sources = LinuxLog.objects.filter(log_source_name=log_source_name, hostname=hostname, owner=request.user)
+        
+        if log_sources.exists():
+            log_source = log_sources.first()  # Get the first object
+        else:
+            return HttpResponse("Log source not found", status=404)
+        
+        recent_logs = log_sources.order_by('-timestamp')[:10]
+        total_logs = log_sources.count()
+    else:
+        # Handle invalid os_type
+        return HttpResponse("Invalid OS type", status=400)
+
+    # Fetch the number of alerts for the selected log source
+    total_alerts = Alert.objects.filter(log_source_name=log_source_name, hostname=hostname, user=request.user).count()
+
+    context = {
+        'log_source': log_source,
+        'recent_logs': recent_logs,  # Pass the last 10 logs to the template
+        'os_type': os_type,
+        'total_logs': total_logs,  # Pass the total number of logs
+        'total_alerts': total_alerts,  # Pass the total number of alerts
+    }
+
+    return render(request, 'baseapp/logsources/sourceinfo.html', context)
 
 
 #LOG INGESTION 

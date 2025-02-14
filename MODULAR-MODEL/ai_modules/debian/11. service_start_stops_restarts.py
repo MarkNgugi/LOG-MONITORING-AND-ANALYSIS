@@ -43,6 +43,7 @@ def detect_service_events(log_lines):
                             "hostname": line.hostname,
                             "message": f"Detected {action.lower()} of service '{service_name}'.",
                             "severity": "Medium",
+                            "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                         }
                         alerts.append(alert)
                         print(f"Service {action.capitalize()} Detected: {alert}")
@@ -69,13 +70,15 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert created: {alert_data['alert_title']}")
     except Exception as e:
         print(f"Failed to create alerts: {e}")
 
-if __name__ == "__main__":    
-    log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 authlog entries
+if __name__ == "__main__":
+    # Fetch the last 100 unprocessed authlog entries
+    log_lines = LinuxLog.objects.filter(log_type='authlog', processed=False).order_by('-timestamp')[:2]
     
     detected_alerts = detect_service_events(log_lines)
     if detected_alerts:
@@ -84,5 +87,9 @@ if __name__ == "__main__":
             print(alert)
         
         create_alerts(detected_alerts)
+        
+        # Mark the processed logs as processed
+        log_lines.update(processed=True)
+        print(f"Marked {len(log_lines)} log(s) as processed.")
     else:
         print("No alerts detected.")

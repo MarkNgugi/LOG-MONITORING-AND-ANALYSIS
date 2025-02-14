@@ -1,0 +1,98 @@
+{% extends 'mainhome.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12">
+        <h2 class="h3 mb-3 page-title">Log Source Details [<span class="card-title">{{ log_source.log_source_name }}</span>]</h2>
+      <div class="row">
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-3 text-center">
+                  </div>
+                  <div class="col pr-0">
+                    <h5 class="mb-0">Total Logs Collected</h5>
+                    <span class="h4 small mb-0">{{ total_logs }}</span>                        
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-3 text-center">
+                  </div>
+                  <div class="col pr-0">
+                    <h5 class="mb-0">Alerts Identified</h5>
+                    <span class="h4 small mb-0">{{ total_alerts }}</span>                        
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-3 text-center">
+                  </div>
+                  <div class="col pr-0">
+                    <h5 class="mb-0">Kernel Version</h5>
+                    <span class="h4 small mb-0">1.8</span>                        
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-3 text-center">
+                  </div>
+                  <div class="col pr-0">
+                    <h5 class="mb-0">Hostname</h5>
+                    <span class="h4 small mb-0">{{ log_source.log_source_name }}</span>                        
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div> <!-- end section -->
+      <div class="row mb-4 items-align-center">
+        <div class="col-md">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <!-- Display the last 10 logs -->
+              <div class="mt-4">
+                <h5 class="card-title">Recent Logs</h5>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Timestamp</th>
+                      <th>Message</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for log in recent_logs %}
+                    <tr>
+                      <td>{{ log.timestamp }}</td>
+                      <td>{{ log.message }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

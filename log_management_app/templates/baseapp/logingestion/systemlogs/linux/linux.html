@@ -60,13 +60,11 @@
     <div class="card-body">
         <h4>1. Download Script File</h4>
         <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
-        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn" data-toggle="modal" data-target="#logSourceModal"> Setup Alloy </button>
+        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn" data-toggle="modal" data-target="#logSourceModal"> Initialize Setup </button>
 
         <div class="alert alert-info mt-3">
             <i class="fas fa-info-circle"></i>
-            Looking to configure integrations for your Kubernetes environment? 
-            Check out <a href="" target="_blank">Kubernetes Monitoring</a> 
-            with LMAN Cloud to enable this.
+            After completing the setup, verify the script is running successfully by checking your system's integration status.
         </div>
     </div> <!-- /.card-body -->
 </div> <!-- /.card -->
@@ -95,32 +93,61 @@
 <!-- Modal for Download Script and Instructions -->
 <div class="modal fade" id="downloadScriptModal" tabindex="-1" role="dialog" aria-labelledby="downloadScriptModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="downloadScriptModalTitle">Download Script</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <!-- Modal Header -->
+            <div class="modal-header bg-success text-white border-0">
+                <h5 class="modal-title fw-bold" id="downloadScriptModalTitle">Setup Your Server</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body p-4">
+                <p class="text-muted fs-5 mb-4">Follow these simple steps to complete the setup:</p>
+
+                <!-- Step 1: Download Script -->
+                <div class="d-flex align-items-center mb-4">
+                    <div class="flex-shrink-0 text-success">
+                        <i class="fas fa-file-download fa-2x"></i>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="fw-bold mb-1">Step 1: Download the Script</h6>
+                        <p class="text-muted small mb-2">Click the button below to download the script.</p>
+                        <button id="download-script-btn" class="btn btn-outline-success w-100">
+                            <i class="fas fa-download me-2"></i> Download Script
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr class="my-4">
+
+                <!-- Step 2: Run Script -->
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 text-primary">
+                        <i class="fas fa-terminal fa-2x"></i>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="fw-bold mb-1">Step 2: Run the Script</h6>
+                        <p class="text-muted small mb-2">Execute the following commands in your terminal:</p>
+                        <div class="bg-dark text-white rounded p-3">
+                            <code class="d-block">chmod +x linux.sh</code>
+                            <code class="d-block">./linux.sh</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer border-0 d-flex justify-content-end p-3">
+                <button class="btn btn-light me-2" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-success" id="proceed-integration-btn">
+                    <i class="fas fa-arrow-right me-2"></i> Proceed to Integration
                 </button>
-            </div>
-            <div class="modal-body">
-                <p>Your script is ready. Follow the instructions below:</p>
-                <ol>
-                    <li>Download the script by clicking the button below.</li>
-                    <li>Run the script on your server to start integration.</li>
-                </ol>
-                <button id="download-script-btn" class="btn btn-success mb-3">Download Script</button>
-                <textarea id="run-instructions" class="form-control" rows="3" readonly>
-# To run the script:
-chmod +x linux.sh
-./linux.sh
-                </textarea>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" id="proceed-integration-btn">Proceed to Integration</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     let logSourceName = "";
@@ -493,7 +520,7 @@ WantedBy=multi-user.target</pre>
                                     <td>A user successfully logged in via SSH using a password.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- System Reboots or Shutdowns</td>
+                                    <td>System Reboots or Shutdowns</td>
                                     <td>Alert</td>
                                     <td>System</td>
                                     <td>Medium</td>
@@ -521,7 +548,7 @@ WantedBy=multi-user.target</pre>
                                     <td>A scheduled cron job was executed.</td>
                                 </tr>
                                 <tr>
-                                    <td>-- User Account Locked</td>
+                                    <td>User Account Locked</td>
                                     <td>Alert</td>
                                     <td>Authentication</td>
                                     <td>Medium</td>

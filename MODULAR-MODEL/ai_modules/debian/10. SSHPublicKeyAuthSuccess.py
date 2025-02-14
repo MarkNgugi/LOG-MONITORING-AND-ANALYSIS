@@ -21,7 +21,8 @@ def detect_public_key_auth(time_window_minutes=100):
 
     # Get successful public key authentication attempts from 'authlog' type logs
     log_lines = LinuxLog.objects.filter(
-        log_type="authlog"
+        log_type="authlog",
+        processed=False
     ).filter(
         Q(message__icontains="Accepted publickey")
     )
@@ -55,6 +56,7 @@ def detect_public_key_auth(time_window_minutes=100):
                 "message": f"User '{user}' successfully authenticated using public key from IP '{source_ip}'.",
                 "severity": "Medium",
                 "user": user,
+                "log_source_name": log.log_source_name,  # Include log_source_name in the alert
             }
             alerts.append(alert)
 
@@ -83,6 +85,7 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert created: {alert_data['alert_title']} for user '{alert_data['user']}'")
     except Exception as e:

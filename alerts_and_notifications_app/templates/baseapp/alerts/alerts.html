@@ -7,13 +7,12 @@
     font-weight: 600; /* Bold text for better visibility */
     text-decoration: none; /* Remove underline for cleaner look */
     transition: color 0.3s ease; /* Smooth hover effect */
-}
+  }
 
-.alert-title-link:hover {
+  .alert-title-link:hover {
     color: #0476f0; /* Darker blue on hover */
     text-decoration: none; /* Underline on hover for clarity */
-}
-
+  }
 </style>
 <div class="row">
   <div class="col-md-12">
@@ -25,6 +24,7 @@
           <th></th>
           <th>Severity</th>
           <th>Hostname</th>
+          <th>Log Source Name</th> <!-- New column for Log Source Name -->
           <th>Connection</th>          
           <th>Alert Title</th>                        
           <th>Alert</th>
@@ -39,6 +39,7 @@
           <td class="text-center"><span class="dot dot-lg bg-danger mr-2"></span></td>
           <td class="text small">{{ alert.severity }}</td>        
           <td>{{ alert.hostname }}</td>
+          <td>{{ alert.log_source_name }}</td> <!-- Display Log Source Name -->
           <td class="text small">Windows</td>
           <!-- Make Alert Title clickable with improved styling -->
           <td class="text small">
@@ -73,6 +74,4 @@
     </nav>
   </div> <!-- .col -->
 </div> <!-- .row -->
-
-
-        {% endblock %}
+{% endblock %}

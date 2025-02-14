@@ -37,6 +37,7 @@ def detect_user_deletion(log_lines):
                         "hostname": line.hostname,
                         "message": f"Detected deletion of user account '{username}'.",
                         "severity": "High",
+                        "log_source_name": line.log_source_name,  # Include log_source_name in the alert
                     }
                     alerts.append(alert)
                     print(f"User Deletion Detected: {alert}")
@@ -63,13 +64,14 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert created: {alert_data['alert_title']}")
     except Exception as e:
         print(f"Failed to create alerts: {e}")
 
 if __name__ == "__main__":    
-    log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 authlog entries
+    log_lines = LinuxLog.objects.filter(log_type='authlog',processed=False).order_by('-timestamp')[:100]  # Fetch the last 100 authlog entries
     
     detected_alerts = detect_user_deletion(log_lines)
     if detected_alerts:

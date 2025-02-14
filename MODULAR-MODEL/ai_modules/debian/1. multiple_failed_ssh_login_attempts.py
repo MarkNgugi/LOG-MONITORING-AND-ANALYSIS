@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 import re
 from django.db.models import Q  # Import Q for OR filtering
 
+# Set up Django environment
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.settings')
 django.setup()
 
@@ -15,13 +15,15 @@ from log_management_app.models import Alert, User, LinuxLog
 def detect(time_window_minutes=100, max_failed_attempts=1):
     """
     Detects multiple failed SSH login attempts within a short period using logs from the LinuxLog model.
+    Only fetches logs that have not been processed (processed=False).
     """
     failed_attempts = {}
     alerts = []
 
     # Get failed login attempts from 'authlog' type logs containing 'Failed password' or 'incorrect password attempts'
     log_lines = LinuxLog.objects.filter(
-        log_type="authlog"
+        log_type="authlog",
+        processed=False  # Only fetch unprocessed logs
     ).filter(
         Q(message__icontains="Failed password") | Q(message__icontains="incorrect password attempts")
     )
@@ -67,12 +69,13 @@ def detect(time_window_minutes=100, max_failed_attempts=1):
             
             if len(failed_attempts[key]) >= max_failed_attempts:
                 alert = {
-                    "alert_title": "Multiple Failed SSH Login Attempts",
+                    "alert_title": "Failed SSH Login Attempts",
                     "timestamp": timestamp,
                     "hostname": log.hostname,
                     "message": f"Detected {len(failed_attempts[key])} failed login attempts for user '{user}' from IP '{source_ip}' within {time_window_minutes} minutes.",
                     "severity": "High",
                     "user": user,
+                    "log_source_name": log.log_source_name,  # Include log_source_name in the alert
                 }
                 alerts.append(alert)
                 # Clear attempts for the user after an alert is created
@@ -103,6 +106,7 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert created: {alert_data['alert_title']} for user '{alert_data['user']}'")
     except Exception as e:
@@ -114,6 +118,12 @@ if __name__ == "__main__":
         print(f"{len(detected_alerts)} alert(s) detected:")
         for alert in detected_alerts:
             print(alert)
+        
         create_alerts(detected_alerts)
+        
+        # Mark the processed logs as processed
+        log_ids = [log.id for log in LinuxLog.objects.filter(log_type="authlog", processed=False)]
+        LinuxLog.objects.filter(id__in=log_ids).update(processed=True)
+        print(f"Marked {len(log_ids)} log(s) as processed.")
     else:
         print("No alerts detected.")

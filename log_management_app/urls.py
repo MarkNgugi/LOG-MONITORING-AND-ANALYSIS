@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('log-sources/', views.logsources, name='logsources'),
     path('log-sources/os/<str:os_type>/', views.logsources, name='logsources_os'),
+    path('log-sources/os/<str:os_type>/<str:log_source_name>/<str:hostname>/', views.sourceinfo, name='sourceinfo'),
     path('log-sources/server/<str:server_type>/', views.logsources, name='logsources_server'),
     path('log-sources/db/<str:db_type>/', views.logsources, name='logsources_db'),    
 

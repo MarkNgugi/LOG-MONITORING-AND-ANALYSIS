@@ -29,6 +29,9 @@
                                 <dt class="col-sm-3 mb-3 text-muted">Reported by</dt>
                                 <dd class="col-sm-9 mb-3">{{ single_alert.user.username }}</dd>
 
+                                <dt class="col-sm-3 mb-3 text-muted">Source</dt>
+                                <dd class="col-sm-9 mb-3">{{ single_alert.log_source_name }}</dd>                                
+
                                 <!-- Timestamp -->
                                 <dt class="col-sm-3 mb-3 text-muted">Timestamp</dt>
                                 <dd class="col-sm-9 mb-3">{{ single_alert.timestamp|date:"Y-m-d H:i:s" }}</dd>

@@ -1,72 +1,78 @@
 import os
 import sys
 import django
-from datetime import datetime
 import re
+from datetime import datetime
+from django.db.models import Q
 
-# Set up Django environment
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LOG_MONITORING_AND_ANALYSIS.settings')
 django.setup()
 
 from log_management_app.models import Alert, User, LinuxLog
 
-def detect_failed_publickey():
-    """
-    Detects failed SSH public key authentication attempts by analyzing logs from the LinuxLog model.
-    """
-    alerts = []
+# Patterns for detecting account lockout events
+LOCKOUT_PATTERNS = [
+    r"sudo: .*Account locked due to too many failed login attempts for (\S+)",
+    r"faillock.*User (\S+) has been locked due to .* failed login attempts",
+    r"pam_tally.*account temporarily locked",
+    r"sshd.*Failed password.*Connection closed",
+    r"systemd.*User (\S+) locked due to failed logins"
+]
 
-    # Get logs related to failed SSH public key authentication
-    log_lines = LinuxLog.objects.filter(
+def detect():
+    """
+    Detects account lockout events using logs from the LinuxLog model.
+    """
+    lockout_alerts = []
+
+    # Query logs for possible account lockout events
+    log_entries = LinuxLog.objects.filter(
         log_type="authlog",
-        message__icontains="Failed publickey"
+        processed=False  # Only fetch unprocessed logs
+    ).filter(
+        Q(message__icontains="Account locked") |
+        Q(message__icontains="failed login attempts") |
+        Q(message__icontains="pam_tally") |
+        Q(message__icontains="sshd")
     )
 
-    for log in log_lines:
+    for log in log_entries:
         try:
             timestamp_str = log.timestamp
             message = log.message
-            user = log.user if log.user else "Unknown"
-            source_ip = None
+            hostname = log.hostname if log.hostname else "Unknown"
+            user = "Unknown"
 
-            # Extract source IP and user from the log message
-            match = re.search(r"Failed publickey for (\S+) from (\d+\.\d+\.\d+\.\d+)", message)
-            if match:
-                user = match.group(1)
-                source_ip = match.group(2)
-            else:
-                continue  # Skip logs that don't match the pattern
-
-            print(f"Parsing log entry: {log}")
-            print(f"Extracted: timestamp='{timestamp_str}', user='{user}', source_ip='{source_ip}'")
+            # Check if message matches any lockout pattern
+            for pattern in LOCKOUT_PATTERNS:
+                match = re.search(pattern, message)
+                if match:
+                    user = match.group(1) if match.groups() else "Unknown"
+                    break
 
             timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%f%z")
 
-            # Create an alert for failed SSH public key authentication
             alert = {
-                "alert_title": "Use of Unrecognized SSH Key",
+                "alert_title": "Account Lockout Detected",
                 "timestamp": timestamp,
-                "hostname": log.hostname,
-                "message": f"Detected use of Unrecognized SSH Key from user '{user}' from IP '{source_ip}'.",
+                "hostname": hostname,
+                "message": f"User '{user}' account has been locked due to failed login attempts.",
                 "severity": "High",
                 "user": user,
                 "log_source_name": log.log_source_name,  # Include log_source_name in the alert
             }
-            alerts.append(alert)
+            lockout_alerts.append(alert)
 
         except Exception as e:
             print(f"Error processing log entry: {log}, Error: {e}")
 
-    return alerts
-
+    return lockout_alerts
 
 def create_alerts(alerts):
     """
     Creates alerts in the database using the provided alert data.
-
-    Args:
-        alerts (list[dict]): A list of dictionaries containing alert details.
     """
     try:
         default_user = User.objects.first()
@@ -87,16 +93,12 @@ def create_alerts(alerts):
     except Exception as e:
         print(f"Failed to create alerts: {e}")
 
-
 if __name__ == "__main__":
-    # Detect failed SSH public key authentication attempts
-    detected_alerts = detect_failed_publickey()
+    detected_alerts = detect()
     if detected_alerts:
         print(f"{len(detected_alerts)} alert(s) detected:")
         for alert in detected_alerts:
             print(alert)
-
-        # Store the alerts in the database
         create_alerts(detected_alerts)
     else:
-        print("No alerts detected.")
+        print("No account lockouts detected.")

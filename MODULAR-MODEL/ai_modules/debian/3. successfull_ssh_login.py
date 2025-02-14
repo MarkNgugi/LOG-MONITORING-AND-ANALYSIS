@@ -21,7 +21,8 @@ def detect(time_window_minutes=100):
 
     # Get successful login attempts from 'authlog' type logs containing 'Accepted password'
     log_lines = LinuxLog.objects.filter(
-        log_type="authlog"
+        log_type="authlog",
+        processed=False  # Only fetch unprocessed logs
     ).filter(
         Q(message__icontains="Accepted password") | Q(message__icontains="session opened")
     )
@@ -61,6 +62,7 @@ def detect(time_window_minutes=100):
                 "message": f"User '{user}' successfully logged in from IP '{source_ip}'.",
                 "severity": "Medium",
                 "user": user,
+                "log_source_name": log.log_source_name,  # Include log_source_name in the alert
             }
             alerts.append(alert)
 
@@ -89,6 +91,7 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
             )
             print(f"Alert created: {alert_data['alert_title']} for user '{alert_data['user']}'")
     except Exception as e:

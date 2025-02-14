@@ -36,7 +36,8 @@ def detect_new_user_creation(log_lines):
                         "timestamp": timestamp,
                         "hostname": line.hostname,
                         "message": f"A new user account '{username}' was created.",
-                        "severity": "High",
+                        "severity": "High",    
+                        "log_source_name": line.log_source_name,  # Include log_source_name in the alert                    
                     }
                     alerts.append(alert)
                     print(f"New User Creation Detected: {alert}")
@@ -62,14 +63,15 @@ def create_alerts(alerts):
                 hostname=alert_data["hostname"],
                 message=alert_data["message"],
                 severity=alert_data["severity"],
-                user=default_user,
+                user=default_user,   
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert             
             )
             print(f"Alert created: {alert_data['alert_title']}")
     except Exception as e:
         print(f"Failed to create alerts: {e}")
 
 if __name__ == "__main__":    
-    log_lines = LinuxLog.objects.filter(log_type='authlog').order_by('-timestamp')[:100]  # Fetch the last 100 authlog entries
+    log_lines = LinuxLog.objects.filter(log_type='authlog',processed=False,service='useradd').order_by('-timestamp')[:5]  # Fetch the last 100 authlog entries
     
     detected_alerts = detect_new_user_creation(log_lines)
     if detected_alerts:

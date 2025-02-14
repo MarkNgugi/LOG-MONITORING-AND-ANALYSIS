@@ -24,11 +24,6 @@ admin.site.register(Alert)
 admin.site.register(CustomToken)
 
 
- 
-
- 
-
-
 
 
 
