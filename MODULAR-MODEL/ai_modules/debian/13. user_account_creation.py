@@ -37,7 +37,8 @@ def detect_new_user_creation(log_lines):
                         "hostname": line.hostname,
                         "message": f"A new user account '{username}' was created.",
                         "severity": "High",    
-                        "log_source_name": line.log_source_name,  # Include log_source_name in the alert                    
+                        "log_source_name": line.log_source_name,  # Include log_source_name in the alert      
+                        "connection": "linux",              
                     }
                     alerts.append(alert)
                     print(f"New User Creation Detected: {alert}")

@@ -56,6 +56,7 @@ def detect(time_window_minutes=100):
                     "severity": "High",
                     "user": "System",
                     "log_source_name": log.log_source_name,  # Include log_source_name in the alert
+                    "connection": "linux",
                 }
                 alerts.append(alert)
 
@@ -82,6 +83,7 @@ def create_alerts(alerts):
                 severity=alert_data["severity"],
                 user=default_user,
                 log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert
+                connection=alert_data["connection"]
             )
             print(f"Alert created: {alert_data['alert_title']} for system '{alert_data['hostname']}'")
     except Exception as e:
