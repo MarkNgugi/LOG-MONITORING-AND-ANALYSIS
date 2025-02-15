@@ -39,8 +39,12 @@
           <td class="text-center"><span class="dot dot-lg bg-danger mr-2"></span></td>
           <td class="text small">{{ alert.severity }}</td>        
           <td>{{ alert.hostname }}</td>
-          <td>{{ alert.log_source_name }}</td> <!-- Display Log Source Name -->
-          <td class="text small">Windows</td>
+          <td>
+            <a href="{% url 'sourceinfo' os_type=alert.os_type log_source_name=alert.log_source_name hostname=alert.hostname %}">
+              {{ alert.log_source_name }}
+            </a>
+          </td> <!-- Display Log Source Name -->
+          <td class="text small">{{alert.connection}}</td>
           <!-- Make Alert Title clickable with improved styling -->
           <td class="text small">
             <a href="{% url 'alertdetail' alert.id %}" class="alert-title-link">

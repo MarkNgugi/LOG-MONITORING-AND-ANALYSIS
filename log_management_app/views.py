@@ -492,10 +492,21 @@ def logstreams(request):
 
 #ANOMALIES
 
-def alert_history(request): 
-
+def alert_history(request):
     alerts = Alert.objects.filter(user=request.user)
-    context = {'alerts': alerts,}
+    
+    # Dynamically determine os_type based on the log source
+    for alert in alerts:
+        if 'windows' in alert.connection.lower():
+            alert.os_type = 'windows'
+        elif 'linux' in alert.connection.lower():
+            alert.os_type = 'linux'
+        else:
+            alert.os_type = 'windowsAD'  # Default or adjust as needed
+
+    context = {
+        'alerts': alerts,
+    }
 
     return render(request, 'baseapp/alerts/alerts.html', context)
 

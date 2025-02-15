@@ -94,6 +94,7 @@ class Alert(models.Model):
     severity = models.CharField(max_length=100, default="Low")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="alerts_user", null=True, blank=True)    
     log_source_name = models.CharField(max_length=255, null=True, blank=True)
+    connection = models.CharField(max_length=255, null=True, blank=True)
     
     class Meta:
         ordering = ['-timestamp']    
