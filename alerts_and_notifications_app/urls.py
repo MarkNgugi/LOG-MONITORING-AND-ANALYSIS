@@ -14,6 +14,10 @@ urlpatterns=[
 
     path('generated-reports/',views.scheduledreports,name='gen_reports'), 
     path('add-reports/',views.addscheduledreport,name='addreport'),
+    path('report/<int:report_id>/', views.report_detail, name='report_detail'),
+    path('addscheduledreport/', views.addscheduledreport, name='addscheduledreport'),
+    path('report/<int:report_id>/', views.report_detail, name='report_detail'),
+
     path('custom-alerts/',views.customalerts,name='customalerts'), 
     path('not-settings/',views.notification_settings,name='notification_settings'),
 ] 

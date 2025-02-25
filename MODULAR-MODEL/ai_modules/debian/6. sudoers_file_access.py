@@ -33,6 +33,7 @@ def detect_sudoers_access(log_lines):
                     "severity": "Medium",
                     "user": line.user if line.user else "Unknown",
                     "log_source_name": line.log_source_name,  # Include log_source_name in the alert
+                    "connection": "linux",
                 }
                 alerts.append(alert)
                 print(f"Alert created: {alert}")
@@ -48,6 +49,7 @@ def detect_sudoers_access(log_lines):
                     "severity": "High",
                     "user": line.user if line.user else "Unknown",
                     "log_source_name": line.log_source_name,  # Include log_source_name in the alert
+                    "connection": "linux",
                 }
                 alerts.append(alert)
                 print(f"Alert created: {alert}")

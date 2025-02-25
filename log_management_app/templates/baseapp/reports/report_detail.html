@@ -1,0 +1,150 @@
+{% extends 'mainhome.html' %}
+{% block content %}
+    <div class="container mt-4">
+        <!-- Overview Section -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Logs Processed</h5>
+                        <h2 class="text-primary">{{ report.total_logs_processed }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Alerts Triggered</h5>
+                        <h2 class="text-danger">{{ report.total_alerts_triggered }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Data Sources</h5>
+                        <p class="text-muted">
+                            {% for source in report.data_sources %}
+                                <span class="badge bg-info me-1">{{ source }}</span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Summary Section -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">Log Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Total Logs Processed:</strong> {{ report.log_summary }}</p>
+                        <p><strong>Log Types:</strong></p>
+                        <ul class="list-unstyled">
+                            <li><span class="badge bg-success">Success</span>: 70%</li>
+                            <li><span class="badge bg-warning">Warnings</span>: 20%</li>
+                            <li><span class="badge bg-danger">Errors</span>: 10%</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Example Chart (you can use a charting library like Chart.js) -->
+                        <canvas id="logDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts & Anomalies Section -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">Alerts & Anomalies</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Alert Severity Distribution:</strong></p>
+                        <ul class="list-unstyled">
+                            {% for severity, count in report.alert_severity_distribution.items %}
+                                <li class="mb-2">
+                                    <span class="badge bg-{{ severity|lower }} me-2">{{ severity }}</span>
+                                    <span class="text-muted">{{ count }} alerts</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Top 5 Critical Alerts:</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Alert Title</th>
+                                        <th>Timestamp</th>
+                                        <th>Hostname</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for alert in report.top_critical_alerts %}
+                                        <tr>
+                                            <td>{{ alert.alert_title }}</td>
+                                            <td>{{ alert.timestamp }}</td>
+                                            <td>{{ alert.hostname }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Sources Section -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">Data Sources</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for source in report.data_sources %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ source }}</h6>
+                                    <p class="text-muted">Details about this data source...</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Script for Log Distribution Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('logDistributionChart').getContext('2d');
+        const logDistributionChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Success', 'Warnings', 'Errors'],
+                datasets: [{
+                    data: [70, 20, 10],
+                    backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

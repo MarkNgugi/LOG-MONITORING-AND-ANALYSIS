@@ -24,334 +24,218 @@
             </form>
           </div>
         </div>
-        <div class="mb-2 align-items-center">
-          <div class="card shadow mb-4">
-            <div class="card-body">
-              <div class="row mt-1 align-items-center">
-                <div class="col-12 col-lg-4 text-left pl-4">
-                  <p class="mb-1 small text-muted">Balance</p>
-                  <span class="h3">$12,600</span>
-                  <span class="small text-muted">+20%</span>
-                  <span class="fe fe-arrow-up text-success fe-12"></span>
-                  <p class="text-muted mt-2"> Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui </p>
-                </div>
-                <div class="col-6 col-lg-2 text-center py-4">
-                  <p class="mb-1 small text-muted">Today</p>
-                  <span class="h3">$2600</span><br />
-                  <span class="small text-muted">+20%</span>
-                  <span class="fe fe-arrow-up text-success fe-12"></span>
-                </div>
-                <div class="col-6 col-lg-2 text-center py-4 mb-2">
-                  <p class="mb-1 small text-muted">Goal Value</p>
-                  <span class="h3">$260</span><br />
-                  <span class="small text-muted">+6%</span>
-                  <span class="fe fe-arrow-up text-success fe-12"></span>
-                </div>
-                <div class="col-6 col-lg-2 text-center py-4">
-                  <p class="mb-1 small text-muted">Completions</p>
-                  <span class="h3">26</span><br />
-                  <span class="small text-muted">+20%</span>
-                  <span class="fe fe-arrow-up text-success fe-12"></span>
-                </div>
-                <div class="col-6 col-lg-2 text-center py-4">
-                  <p class="mb-1 small text-muted">Conversion</p>
-                  <span class="h3">6%</span><br />
-                  <span class="small text-muted">-2%</span>
-                  <span class="fe fe-arrow-down text-danger fe-12"></span>
-                </div>
+
+        <div class="row">
+          <div class="col-md-6 col-xl-3 mb-4">
+              <div class="card shadow">
+                  <div class="card-body">
+                      <div class="row align-items-center">
+                          <div class="col-3 text-center">
+                          </div>
+                          <div class="col pr-0">
+                              <h5 class="mb-0">Total Logs</h5>
+                              <span class="h4 small mb-0">{{ total_logs }}</span>
+                          </div>
+                      </div>
+                  </div>
               </div>
-              <div class="chartbox mr-4">
-                <div id="areaChart"></div>
+          </div>
+          <div class="col-md-6 col-xl-3 mb-4">
+              <div class="card shadow">
+                  <div class="card-body">
+                      <div class="row align-items-center">
+                          <div class="col-3 text-center">
+                          </div>
+                          <div class="col pr-0">
+                              <h5 class="mb-0">Processed Logs</h5>
+                              <span class="h4 small mb-0">{{ processed_logs }}</span>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div> <!-- .card-body -->
-          </div> <!-- .card -->
-        </div>
+          </div>
+          <div class="col-md-6 col-xl-3 mb-4">
+              <div class="card shadow">
+                  <div class="card-body">
+                      <div class="row align-items-center">
+                          <div class="col-3 text-center">
+                          </div>
+                          <div class="col pr-0">
+                              <h5 class="mb-0">Alerts Triggered</h5>
+                              <span class="h4 small mb-0">{{ alerts_triggered }}</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-6 col-xl-3 mb-4">
+              <div class="card shadow">
+                  <div class="card-body">
+                      <div class="row align-items-center">
+                          <div class="col-3 text-center">
+                          </div>
+                          <div class="col pr-0">
+                              <h5 class="mb-0">Total Log Sources</h5>
+                              <span class="h4 small mb-0">{{ total_log_sources }}</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div> <!-- end section -->
+
         <div class="row items-align-baseline">
-          <div class="col-md-12 col-lg-4">
-            <div class="card shadow eq-card mb-4">
-              <div class="card-body mb-n3">
-                <div class="row items-align-baseline h-100">
-                  <div class="col-md-6 my-3">
-                    <p class="mb-0"><strong class="mb-0 text-uppercase text-muted">Earning</strong></p>
-                    <h3>$2,562</h3>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </div>
-                  <div class="col-md-6 my-4 text-center">
-                    <div lass="chart-box mx-4">
-                      <div id="radialbarWidget"></div>
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <strong>Systems Overview</strong>
+                </div>
+                <div class="card-body px-4">
+                    <div class="row border-bottom">
+                        <div class="col-4 text-center mb-3">                    
+                            <span class="h3">Windows</span><br />
+                            <span class="small text-muted">{{ windows_alert_percentage }}% of total alerts</span>                    
+                        </div>
+                        <div class="col-4 text-center mb-3">                    
+                            <span class="h3">Active Directory</span><br />
+                            <span class="small text-muted">{{ ad_alert_percentage }}% of total alerts</span>                    
+                        </div>
+                        <div class="col-4 text-center mb-3">                    
+                            <span class="h3">Linux Server</span><br />
+                            <span class="small text-muted">{{ linux_alert_percentage }}% of total alerts</span>                    
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-md-6 border-top py-3">
-                    <p class="mb-1"><strong class="text-muted">Cost</strong></p>
-                    <h4 class="mb-0">108</h4>
-                    <p class="small text-muted mb-0"><span>37.7% Last week</span></p>
-                  </div> <!-- .col -->
-                  <div class="col-md-6 border-top py-3">
-                    <p class="mb-1"><strong class="text-muted">Revenue</strong></p>
-                    <h4 class="mb-0">1168</h4>
-                    <p class="small text-muted mb-0"><span>-18.9% Last week</span></p>
-                  </div> <!-- .col -->
-                </div>
-              </div> <!-- .card-body -->
+                    <table class="table table-borderless mt-3 mb-1 mx-n1 table-sm">
+                        <thead>
+                            <tr>
+                                <th class="w-50">System</th>
+                                <th class="text-right">Total Logs</th>
+                                <th class="text-right">Total Alerts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Windows</td>
+                                <td class="text-right">{{ total_windows_logs }}</td>
+                                <td class="text-right">{{ windows_alerts }}</td>
+                            </tr>
+                            <tr>
+                                <td>Active Directory</td>
+                                <td class="text-right">{{ total_ad_logs }}</td>
+                                <td class="text-right">{{ ad_alerts }}</td>
+                            </tr>
+                            <tr>
+                                <td>Linux Server</td>
+                                <td class="text-right">{{ total_linux_logs }}</td>
+                                <td class="text-right">{{ linux_alerts }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- .card-body -->
             </div> <!-- .card -->
-          </div> <!-- .col -->
-          <div class="col-md-12 col-lg-4">
-            <div class="card shadow eq-card mb-4">
+        </div> <!-- .col -->
+        <div class="col-md-12 col-lg-6">
+          <div class="card shadow eq-card mb-4">
               <div class="card-body">
-                <div class="chart-widget mb-2">
-                  <div id="radialbar"></div>
-                </div>
-                <div class="row items-align-center">
-                  <div class="col-4 text-center">
-                    <p class="text-muted mb-1">Cost</p>
-                    <h6 class="mb-1">$1,823</h6>
-                    <p class="text-muted mb-0">+12%</p>
+                  <!-- Radial Chart -->
+                  <div class="chart-widget mb-2">
+                      <div id="radialbar"></div>
                   </div>
-                  <div class="col-4 text-center">
-                    <p class="text-muted mb-1">Revenue</p>
-                    <h6 class="mb-1">$6,830</h6>
-                    <p class="text-muted mb-0">+8%</p>
+                  <!-- Severity Counts -->
+                  <div class="row items-align-center">
+                      <div class="col-3 text-center">
+                          <p class="text-muted mb-1">Critical</p>
+                          <h6 class="mb-1">10</h6>                    
+                      </div>
+                      <div class="col-3 text-center">
+                          <p class="text-muted mb-1">High</p>
+                          <h6 class="mb-1">20</h6>                    
+                      </div>
+                      <div class="col-3 text-center">
+                          <p class="text-muted mb-1">Low</p>
+                          <h6 class="mb-1">20</h6>                    
+                      </div>
+                      <div class="col-3 text-center">
+                          <p class="text-muted mb-1">Info</p>
+                          <h6 class="mb-1">36</h6>                    
+                      </div>
                   </div>
-                  <div class="col-4 text-center">
-                    <p class="text-muted mb-1">Earning</p>
-                    <h6 class="mb-1">$4,830</h6>
-                    <p class="text-muted mb-0">+8%</p>
-                  </div>
-                </div>
               </div> <!-- .card-body -->
-            </div> <!-- .card -->
-          </div> <!-- .col -->
-          <div class="col-md-12 col-lg-4">
-            <div class="card shadow eq-card mb-4">
-              <div class="card-body">
-                <div class="d-flex mt-3 mb-4">
-                  <div class="flex-fill pt-2">
-                    <p class="mb-0 text-muted">Total</p>
-                    <h4 class="mb-0">108</h4>
-                    <span class="small text-muted">+37.7%</span>
-                  </div>
-                  <div class="flex-fill chart-box mt-n2">
-                    <div id="barChartWidget"></div>
-                  </div>
-                </div> <!-- .d-flex -->
-                <div class="row border-top">
-                  <div class="col-md-6 pt-4">
-                    <h6 class="mb-0">108 <span class="small text-muted">+37.7%</span></h6>
-                    <p class="mb-0 text-muted">Cost</p>
-                  </div>
-                  <div class="col-md-6 pt-4">
-                    <h6 class="mb-0">1168 <span class="small text-muted">-18.9%</span></h6>
-                    <p class="mb-0 text-muted">Revenue</p>
-                  </div>
-                </div> <!-- .row -->
-              </div> <!-- .card-body -->
-            </div> <!-- .card -->
-          </div> <!-- .col-md -->
+          </div> <!-- .card -->
+      </div> <!-- .col -->
+
         </div> <!-- .row -->
         <div class="row">
           <!-- Recent Activity -->
           <div class="col-md-12 col-lg-4 mb-4">
             <div class="card timeline shadow">
-              <div class="card-header">
-                <strong class="card-title">Recent Activity</strong>
-                <a class="float-right small text-muted" href="#!">View all</a>
-              </div>
-              <div class="card-body" data-simplebar style="height:355px; overflow-y: auto; overflow-x: hidden;">
-                <h6 class="text-uppercase text-muted mb-4">Today</h6>
-                <div class="pb-3 timeline-item item-primary">
-                  <div class="pl-5">
-                    <div class="mb-1"><strong>@Brown Asher</strong><span class="text-muted small mx-2">Just create new layout Index, form, table</span><strong>Tiny Admin</strong></div>
-                    <p class="small text-muted">Creative Design <span class="badge badge-light">1h ago</span>
-                    </p>
-                  </div>
+                <div class="card-header">
+                    <strong class="card-title">Recent Reports</strong>
+                    <a class="float-right small text-muted" href="{% url 'gen_reports' %}">View all</a>
                 </div>
-                <div class="pb-3 timeline-item item-warning">
-                  <div class="pl-5">
-                    <div class="mb-3"><strong>@Hester Nissim</strong><span class="text-muted small mx-2">has upload new files to</span><strong>Tiny Admin</strong></div>
-                    <div class="row mb-3">
-                      <div class="col"><img src="./assets/products/p1.jpg" alt="..." class="img-fluid rounded"></div>
-                      <div class="col"><img src="./assets/products/p2.jpg" alt="..." class="img-fluid rounded"></div>
-                      <div class="col"><img src="./assets/products/p3.jpg" alt="..." class="img-fluid rounded"></div>
-                      <div class="col"><img src="./assets/products/p4.jpg" alt="..." class="img-fluid rounded"></div>
-                    </div>
-                    <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="pb-3 timeline-item item-success">
-                  <div class="pl-5">
-                    <div class="mb-3"><strong>@Kelley Sonya</strong><span class="text-muted small mx-2">has commented on</span><strong>Advanced table</strong></div>
-                    <div class="card d-inline-flex mb-2">
-                      <div class="card-body bg-light py-2 px-3 small rounded"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim nulla eu quam cursus placerat. Vivamus non odio ullamcorper, lacinia ante nec, blandit leo. </div>
-                    </div>
-                    <p class="small text-muted">Back-End Development <span class="badge badge-light">1h ago</span>
-                    </p>
-                  </div>
-                </div>
-                <h6 class="text-uppercase text-muted mb-4">Yesterday</h6>
-                <div class="pb-3 timeline-item item-warning">
-                  <div class="pl-5">
-                    <div class="mb-3"><strong>@Fletcher Everett</strong><span class="text-muted small mx-2">created new group for</span><strong>Tiny Admin</strong></div>
-                    <ul class="avatars-list mb-3">
-                      <li>
-                        <a href="#!" class="avatar avatar-sm">
-                          <img alt="..." class="avatar-img rounded-circle" src="./assets/avatars/face-1.jpg">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#!" class="avatar avatar-sm">
-                          <img alt="..." class="avatar-img rounded-circle" src="./assets/avatars/face-4.jpg">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#!" class="avatar avatar-sm">
-                          <img alt="..." class="avatar-img rounded-circle" src="./assets/avatars/face-3.jpg">
-                        </a>
-                      </li>
-                    </ul>
-                    <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="pb-3 timeline-item item-success">
-                  <div class="pl-5">
-                    <div class="mb-3"><strong>@Bertha Ball</strong><span class="text-muted small mx-2">has commented on</span><strong>Advanced table</strong></div>
-                    <div class="card d-inline-flex mb-2">
-                      <div class="card-body bg-light py-2 px-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim nulla eu quam cursus placerat. Vivamus non odio ullamcorper, lacinia ante nec, blandit leo. </div>
-                    </div>
-                    <p class="small text-muted">Back-End Development <span class="badge badge-light">1h ago</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="pb-3 timeline-item item-danger">
-                  <div class="pl-5">
-                    <div class="mb-3"><strong>@Lillith Joseph</strong><span class="text-muted small mx-2">has upload new files to</span><strong>Tiny Admin</strong></div>
-                    <div class="row mb-3">
-                      <div class="col"><img src="./assets/products/p4.jpg" alt="..." class="img-fluid rounded"></div>
-                      <div class="col"><img src="./assets/products/p1.jpg" alt="..." class="img-fluid rounded"></div>
-                      <div class="col"><img src="./assets/products/p2.jpg" alt="..." class="img-fluid rounded"></div>
-                    </div>
-                    <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
-                    </p>
-                  </div>
-                </div>
-              </div> <!-- / .card-body -->
+                <div class="card-body" data-simplebar style="height:355px; overflow-y: auto; overflow-x: hidden;">
+                    <h6 class="text-uppercase text-muted mb-4">Today</h6>
+                    {% for report in recent_reports %}
+                        <div class="pb-3 timeline-item item-primary report-item">
+                            <div class="pl-5">
+                                <div class="mb-1">
+                                    <strong>{{ report.generated_by.username }}</strong>
+                                    <span class="text-muted small mx-2">generated a new report:</span>
+                                    <strong>{{ report.report_title }}</strong>
+                                </div>
+                                <p class="small text-muted">
+                                    {{ report.data_sources|join:", " }}
+                                    <span class="badge badge-light">{{ report.generated_at|timesince }} ago</span>
+                                    <a href="{% url 'report_detail' report.id %}" class="badge badge-primary">View Details</a>
+                                </p>
+                            </div>
+                        </div>
+                        {% if not forloop.last %}<hr>{% endif %}  <!-- Add horizontal line between reports -->
+                    {% empty %}
+                        <div class="pb-3 timeline-item item-primary">
+                            <div class="pl-5">
+                                <div class="mb-1">
+                                    <strong>No reports found.</strong>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div> <!-- / .card-body -->
             </div> <!-- / .card -->
-          </div> <!-- / .col-md-6 -->
+        </div> <!-- / .col-md-6 -->
+
           <!-- Striped rows -->
           <div class="col-md-12 col-lg-8">
             <div class="card shadow">
               <div class="card-header">
-                <strong class="card-title">Recent Data</strong>
-                <a class="float-right small text-muted" href="#!">View all</a>
+                <strong class="card-title">Recent Alerts</strong>
+                <a class="float-right small text-muted" href="{% url 'alert_history'%}">View all</a>
               </div>
               <div class="card-body my-n2">
                 <table class="table table-striped table-hover table-borderless">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Address</th>
-                      <th>Date</th>
-                      <th>Action</th>
+                      <th>Timestamp</th>
+                      <th>Hostname</th>
+                      <th>Log Source</th>
+                      <th>Alert Title</th>                      
                     </tr>
                   </thead>
                   <tbody>
+                    {% for alert in total_sys_alerts %}
                     <tr>
-                      <td>2474</td>
-                      <th scope="col">Brown, Asher D.</th>
-                      <td>Ap #331-7123 Lobortis Avenue</td>
-                      <td>13/09/2020</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr1">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
-                          </div>
-                        </div>
-                      </td>
+                      <td>{{ alert.timestamp }}</td>
+                      <th scope="col">{{ alert.hostname }}</th>
+                      <td>{{ alert.log_source_name }}</td>
+                      <td>{{ alert.alert_title }}</td>
                     </tr>
-                    <tr>
-                      <td>2786</td>
-                      <th scope="col">Leblanc, Yoshio V.</th>
-                      <td>287-8300 Nisl. St.</td>
-                      <td>04/05/2019</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr2">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2747</td>
-                      <th scope="col">Hester, Nissim L.</th>
-                      <td>4577 Cras St.</td>
-                      <td>04/06/2019</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2639</td>
-                      <th scope="col">Gardner, Leigh S.</th>
-                      <td>P.O. Box 228, 7512 Lectus Ave</td>
-                      <td>04/08/2019</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr4">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2238</td>
-                      <th scope="col">Higgins, Uriah L.</th>
-                      <td>Ap #377-5357 Sed Road</td>
-                      <td>04/01/2019</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted sr-only">Action</span>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr5">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
             </div>
           </div> <!-- Striped rows -->
+          
         </div> <!-- .row-->
       </div> <!-- .col-12 -->
     </div> <!-- .row -->

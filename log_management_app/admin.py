@@ -5,7 +5,6 @@ from .models import *
 admin.site.register(WindowsLog)
 admin.site.register(WindowsADLog)
 admin.site.register(LogEntry)
-# admin.site.register(Anomaly)
 
 admin.site.register(LinuxLog)
 
@@ -22,6 +21,7 @@ admin.site.register(MongoLogFile)
 
 admin.site.register(Alert)
 admin.site.register(CustomToken)
+admin.site.register(Report)
 
 
 

@@ -125,9 +125,66 @@ def log_history(request):
 
 
 #LOG SOURCES
+from log_management_app.models import Report  # Import the Report model
+
 def home(request):
-    context={'user':request.user}
-    return render(request,'baseapp/home.html',context)
+    # Calculate total logs
+    total_windows_logs = WindowsLog.objects.count()
+    total_ad_logs = WindowsADLog.objects.count()
+    total_linux_logs = LinuxLog.objects.count()
+    total_logs = total_windows_logs + total_ad_logs + total_linux_logs
+
+    # Calculate processed logs
+    processed_logs = (
+        WindowsLog.objects.filter(processed=True).count() +
+        WindowsADLog.objects.filter(processed=True).count() +
+        LinuxLog.objects.filter(processed=True).count()
+    )
+
+    # Calculate alerts triggered
+    total_alerts = Alert.objects.count()
+    total_sys_alerts = Alert.objects.all()
+
+    # Calculate total log sources
+    windows_log_sources = WindowsLog.objects.values_list('log_source_name', flat=True).distinct()
+    windows_ad_log_sources = WindowsADLog.objects.values_list('log_source_name', flat=True).distinct()
+    linux_log_sources = LinuxLog.objects.values_list('log_source_name', flat=True).distinct()
+    total_log_sources = len(set(windows_log_sources) | set(windows_ad_log_sources) | set(linux_log_sources))
+
+    # Calculate alerts for each system
+    windows_alerts = Alert.objects.filter(log_source_name__icontains="Windows").count()
+    ad_alerts = Alert.objects.filter(log_source_name__icontains="Active Directory").count()
+    linux_alerts = Alert.objects.filter(connection__icontains="linux").count()
+
+    # Calculate percentage of alerts for each system
+    windows_alert_percentage = (windows_alerts / total_alerts * 100) if total_alerts > 0 else 0
+    ad_alert_percentage = (ad_alerts / total_alerts * 100) if total_alerts > 0 else 0
+    linux_alert_percentage = (linux_alerts / total_alerts * 100) if total_alerts > 0 else 0
+
+    # Fetch the last 10 reports
+    recent_reports = Report.objects.order_by('-generated_at')[:10]
+
+    # Add metrics to the context
+    context = {
+        'user': request.user,
+        'total_logs': total_logs,
+        'total_sys_alerts': total_sys_alerts,
+        'processed_logs': processed_logs,
+        'alerts_triggered': total_alerts,
+        'total_log_sources': total_log_sources,
+        'total_windows_logs': total_windows_logs,
+        'total_ad_logs': total_ad_logs,
+        'total_linux_logs': total_linux_logs,
+        'windows_alerts': windows_alerts,
+        'ad_alerts': ad_alerts,
+        'linux_alerts': linux_alerts,
+        'windows_alert_percentage': round(windows_alert_percentage, 2),
+        'ad_alert_percentage': round(ad_alert_percentage, 2),
+        'linux_alert_percentage': round(linux_alert_percentage, 2),
+        'recent_reports': recent_reports,  # Add recent reports to the context
+    }
+
+    return render(request, 'baseapp/home.html', context)
 
 from itertools import chain
 from django.db.models import Max

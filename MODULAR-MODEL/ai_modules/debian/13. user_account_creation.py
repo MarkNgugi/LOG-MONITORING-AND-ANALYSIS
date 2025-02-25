@@ -65,7 +65,8 @@ def create_alerts(alerts):
                 message=alert_data["message"],
                 severity=alert_data["severity"],
                 user=default_user,   
-                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert             
+                log_source_name=alert_data["log_source_name"],  # Include log_source_name in the alert   
+                connection=alert_data["connection"]          
             )
             print(f"Alert created: {alert_data['alert_title']}")
     except Exception as e:

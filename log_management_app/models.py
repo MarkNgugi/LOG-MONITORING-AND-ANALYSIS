@@ -45,6 +45,7 @@ class WindowsADLog(models.Model):
     hostname = models.CharField(max_length=255, null=True, blank=True)   
     message = models.TextField(null=True, blank=True)     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='windowsAD_logs')
+    processed = models.BooleanField(default=False)
 
     def __str__(self):        
         return str(self.event_id) if self.hostname else "No Source Name"
@@ -101,6 +102,33 @@ class Alert(models.Model):
 
     def __str__(self):
         return self.alert_title
+ 
+
+
+class Report(models.Model):
+    SEVERITY_CHOICES = [
+        ('Critical', 'Critical'),
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('Low', 'Low'),
+    ]
+
+    report_title = models.CharField(max_length=255)
+    generated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reports')
+    generated_at = models.DateTimeField(auto_now_add=True)
+    total_logs_processed = models.IntegerField()
+    data_sources = models.JSONField(null=True,blank=True)  # Stores the selected log sources (e.g., ["Windows", "Linux"])
+    log_summary = models.JSONField(null=True,blank=True)  # Stores aggregated insights (e.g., {"Windows": 100, "Linux": 50})
+    total_alerts_triggered = models.IntegerField()
+    alert_severity_distribution = models.JSONField()  # Stores severity distribution (e.g., {"Critical": 5, "High": 10})
+    top_critical_alerts = models.JSONField()  # Stores top 5 critical alerts
+
+    def __str__(self):
+        return self.report_title
+
+
+ 
+
 
 class ApacheLog(models.Model):
    

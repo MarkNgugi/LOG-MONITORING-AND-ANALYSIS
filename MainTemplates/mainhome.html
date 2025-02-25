@@ -70,9 +70,6 @@
         <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">
           <i class="fe fe-menu navbar-toggler-icon"></i>
         </button>
-        <form class="form-inline mr-auto searchform text-muted">
-          <input class="form-control mr-sm-2 bg-transparent border-0 pl-4 text-muted" type="search" placeholder="Type something..." aria-label="Search">
-        </form>
         <ul class="nav"> 
           <li class="nav-item">
             <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="dark">
@@ -97,9 +94,8 @@
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="{%url 'accountsettings'%}">Profile</a>
-              <a class="dropdown-item" href="#">Settings</a>
-              <a class="dropdown-item" href="#">Activities</a>                                                    
+              <a class="dropdown-item" href="{%url 'accountsettings'%}">Profile</a> 
+              <a class="dropdown-item" href="{%url 'logout'%}">Logout</a>
             </div>
           </li>
         </ul>
@@ -131,12 +127,6 @@
               <ul class="collapse list-unstyled pl-4 w-100" id="dashboard">
                 <li class="nav-item active">
                   <a class="nav-link pl-3" href="{%url 'home'%}"><span class="ml-1 item-text">Overview</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href=""><span class="ml-1 item-text">System Health</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href=""><span class="ml-1 item-text">Recent Alerts</span></a>
                 </li>
               </ul>
             </li>
@@ -195,46 +185,8 @@
             </li>
           
           </ul>
-          
-          
-
-          
-          <p class="text-muted nav-heading mt-4 mb-1">
-            <span>Monitoring and Analysis</span>
-          </p>
-          
-          <ul class="navbar-nav flex-fill w-100 mb-2">
-            <!-- Metrics Monitoring Dropdown -->
-            <li class="nav-item dropdown w-100">
-              <a href="#metricsMonitoringDropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fe fe-activity fe-16"></i>
-                <span class="ml-3 item-text">Metrics Tracking</span>
-              </a>
-              <!-- Collapsible List for Dropdown Items -->
-              <ul class="collapse list-unstyled pl-4 w-100" id="metricsMonitoringDropdown">
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{%url 'linuxinfo'%}">
-                    <i class="fe fe-bar-chart-2 fe-16"></i>
-                    <span class="ml-3 item-text">Linux Metrics</span>
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{%url 'apacheinfo'%}">
-                    <i class="fe fe-bar-chart-2 fe-16"></i>
-                    <span class="ml-3 item-text">Apache Metrics</span> 
-                  </a>
-                </li>
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{%url 'nginxinfo'%}">
-                    <i class="fe fe-bar-chart-2 fe-16"></i>
-                    <span class="ml-3 item-text">Nginx Metrics</span> 
-                  </a>
-                </li>                
-              </ul>
-            </li>
-          </ul>
-          
-          
+                        
+                
                             
           <p class="text-muted nav-heading mt-4 mb-1">
             <span>Alerts</span> 
@@ -249,13 +201,6 @@
               </a>
               <!-- Collapsible List for Dropdown Items -->
               <ul class="collapse list-unstyled pl-4 w-100" id="alertingDropdown">
-
-                <li class="nav-item w-100">
-                  <a class="nav-link" href="{% url 'notification-policies' %}">
-                    <i class="fe fe-settings fe-16"></i> 
-                    <span class="ml-3 item-text">Notification Settings</span>
-                  </a>
-                </li>
                 <li class="nav-item w-100">
                   <a class="nav-link" href="{% url 'alert_history' %}">
                     <i class="fe fe-archive fe-16"></i>
@@ -466,6 +411,7 @@
     <script src='/static/js/dropzone.min.js'></script>
     <script src='/static/js/uppy.min.js'></script>
     <script src='/static/js/quill.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
       $('.select2').select2(
       {
