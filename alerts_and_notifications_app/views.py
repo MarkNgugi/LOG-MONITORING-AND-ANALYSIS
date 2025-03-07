@@ -3,36 +3,6 @@ from .models import *
 from log_management_app.models import *
 import json
 from django.shortcuts import render, get_object_or_404
-
-#ALERTS
-
-
-
-def alertconfig(request):
-    context={}
-    return render(request,'baseapp/alertconfig/alertconfig.html',context)
-
-def alertconfigpage(request):
-    context={}
-    return render(request,'baseapp/alertconfig/configpage.html',context)
-
-def contactpoint(request):
-    context={}
-    return render(request,'baseapp/contactpoints/contactpoint.html',context)
-
-def notification_policy(request):
-    context={}
-    return render(request,'baseapp/notificationpolicy/notificationpolicies.html',context)
-
-    
-   
-
-def scheduledreports(request):
-    reports = Report.objects.all()
-    context={'reports':reports}
-    return render(request,'baseapp/scheduledreports/scheduledreports.html',context)
-
-
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.core.serializers.json import DjangoJSONEncoder
@@ -41,9 +11,15 @@ from datetime import datetime
 from log_management_app.models import WindowsLog, WindowsADLog, LinuxLog, Alert
 
 
+#ALERTS
+def scheduledreports(request):
+    reports = Report.objects.all()
+    context={'reports':reports}
+    return render(request,'baseapp/scheduledreports/scheduledreports.html',context)
+
+
 def addscheduledreport(request):
-    if request.method == 'POST':
-        # Debug: Print the POST data
+    if request.method == 'POST':        
         print(request.POST)
 
         # Get form data
@@ -123,11 +99,3 @@ def report_detail(request, report_id):
         'report': report,
     }
     return render(request, 'baseapp/scheduledreports/report_detail.html', context)
-    
-def customalerts(request):
-    context={}
-    return render(request,'baseapp/customalerts/customalerts.html',context)
-
-def notification_settings(request):
-    context={}
-    return render(request,'baseapp/notificationsettings/notsettings.html',context)

@@ -54,8 +54,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <a class="dropdown-item" href="{% url 'sourceinfo' os_type=os_type log_source_name=log_source.log_source_name hostname=log_source.hostname %}?log_type={{ log_source.log_type }}">More Details</a>
-                          <a class="dropdown-item" href="#">Generate Report</a>
-                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item" href="{%url 'addreport'%}">Generate Report</a>                          
                           <a class="dropdown-item" href="#">Delete</a>
                         </div>
                       </div>
