@@ -18,6 +18,11 @@ def scheduledreports(request):
     return render(request,'baseapp/scheduledreports/scheduledreports.html',context)
 
 
+def delete_report(request, report_id):
+    report = get_object_or_404(Report, id=report_id)
+    report.delete()
+    return redirect('gen_reports')
+
 def addscheduledreport(request):
     if request.method == 'POST':        
         print(request.POST)

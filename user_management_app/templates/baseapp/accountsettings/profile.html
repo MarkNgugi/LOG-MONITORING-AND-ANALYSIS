@@ -1,41 +1,38 @@
-<form method="post" action="{% url 'accountsettings_tab' tab='profile' %}">
+<form method="post" action="{% url 'accountsettings_tab' tab='profile' %}" enctype="multipart/form-data">
   {% csrf_token %}
   
   <div class="row mt-5 align-items-center">
     <div class="col-md-3 text-center mb-5">
-      <div class="avatar avatar-xl">
-        <img src="/static/assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+      <div class="avatar avatar-xl" style="position: relative;">
+        <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}/static/assets/avatars/face-1.jpg{% endif %}" alt="Profile Picture" class="avatar-img rounded-circle" id="profile-picture">
       </div>
+      <!-- Button to trigger file input -->
+      <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('profile-picture-input').click()">
+        Change Profile Picture
+      </button>
+      <input type="file" id="profile-picture-input" name="profile_picture" accept="image/*" style="display: none;">
     </div>
     <div class="col"> 
       <div class="row align-items-center">
         <div class="col-md-7">
           <h4 class="mb-1">{{ user.first_name }} {{ user.last_name }}</h4>
-          <p class="small mb-3"><span class="badge badge-dark">New York, USA</span></p>
+          <h5 class="mb-3"><span class="badge badge-dark">{{ user.username }}</span></h5>
         </div>
       </div> 
       <div class="row mb-4">
         <div class="col-md-7">
-          <p class="text-muted"> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+          <!-- <p class="text-muted"> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p> -->
         </div>
         <div class="col">
-          <p class="small mb-0 text-muted">Nec Urna Suscipit Ltd</p>
-          <p class="small mb-0 text-muted">P.O. Box 464, 5975 Eget Avenue</p>
-          <p class="small mb-0 text-muted">(537) 315-1481</p>
+          <!-- <p class="small mb-0 text-muted">Nec Urna Suscipit Ltd</p>
+          <p class="small mb-0 text-muted">{{ user.first_name }}</p>
+          <p class="small mb-0 text-muted">(537) 315-1481</p> -->
         </div>
       </div>
     </div>
   </div>
 
   <hr class="my-4">
-
-  <!-- {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %} -->
 
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -54,7 +51,7 @@
 
   <hr class="my-4">
 
-  <button type="submit" class="btn btn-primary">Save Change</button>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
 
 <h5 class="mb-1 mt-5 text-danger" style="font-size: 22px;">Delete Account</h5>
@@ -63,5 +60,19 @@
 <div class="list-group mb-5 shadow">
   <div class="">
     <button class="btn btn-danger">Delete Your Account</button>
-  </div> <!-- .list-group-item -->
-</div> <!-- .list-group -->
+  </div>
+</div>
+
+<script>
+  // Preview the new image after selection
+  document.getElementById('profile-picture-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profile-picture').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>

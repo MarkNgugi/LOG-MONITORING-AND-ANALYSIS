@@ -28,7 +28,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)                    
     account_Status = models.BooleanField(default=False)    
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)    
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True,editable=False)
     is_active = models.BooleanField(default=True)

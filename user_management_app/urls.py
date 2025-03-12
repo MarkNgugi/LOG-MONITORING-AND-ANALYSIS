@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from log_management_app import urls
+from django.conf import settings
+from django.conf.urls.static import static
 
  
 

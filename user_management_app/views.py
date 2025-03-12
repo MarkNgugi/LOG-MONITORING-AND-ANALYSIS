@@ -58,6 +58,16 @@ def accountsettings(request, tab='profile'):
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
         user.email = request.POST.get('email')
+        
+        # Handle profile picture upload
+        if 'profile_picture' in request.FILES:
+            # Delete the old profile picture if it exists
+            if user.profile_picture:
+                user.profile_picture.delete()
+            # Save the new profile picture
+            user.profile_picture = request.FILES['profile_picture']
+            print(f"New profile picture saved: {user.profile_picture}")  # Debugging
+        
         user.save()
         messages.success(request, 'Profile updated successfully.')
         return redirect('accountsettings_tab', tab='profile')
