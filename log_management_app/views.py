@@ -190,39 +190,37 @@ import csv
 from django.db.models import Q
 
 def logs_search(request):
-    # Get search parameters
-    query = request.GET.get('q', '')
-    log_type = request.GET.get('log_type', '')
-    log_level = request.GET.get('log_level', '')
-    hostname = request.GET.get('hostname', '')
-    service = request.GET.get('service', '')
-    user = request.GET.get('user', '')
-    date_from = request.GET.get('date_from', '')
+    # Get all filter parameters
+    filters = {
+        'log_type': request.GET.get('log_type', ''),
+        'log_level': request.GET.get('log_level', ''),
+        'hostname': request.GET.get('hostname', ''),
+        'service': request.GET.get('service', ''),
+        'user': request.GET.get('user', ''),
+        'process_id': request.GET.get('process_id', '')
+    }
 
     # Start with all logs
     logs = LinuxLog.objects.all().order_by('-timestamp')
 
-    # Apply filters
-    if query:
-        logs = logs.filter(Q(message__icontains=query) | Q(command__icontains=query))
+    # Apply filters only if they exist in request.GET
+    if filters['log_type']:
+        logs = logs.filter(log_type=filters['log_type'])
     
-    if log_type:
-        logs = logs.filter(log_type=log_type)
+    if filters['log_level']:
+        logs = logs.filter(log_level=filters['log_level'])
     
-    if log_level:
-        logs = logs.filter(log_level=log_level)
+    if filters['hostname']:
+        logs = logs.filter(hostname__icontains=filters['hostname'])
     
-    if hostname:
-        logs = logs.filter(hostname__icontains=hostname)
+    if filters['service']:
+        logs = logs.filter(service__icontains=filters['service'])
     
-    if service:
-        logs = logs.filter(service__icontains=service)
+    if filters['user']:
+        logs = logs.filter(user__icontains=filters['user'])
     
-    if user:
-        logs = logs.filter(user__icontains=user)
-    
-    if date_from:
-        logs = logs.filter(timestamp__gte=date_from)
+    if filters['process_id']:
+        logs = logs.filter(process_id=filters['process_id'])
 
     # Get counts for quick stats
     syslog_count = LinuxLog.objects.filter(log_type='syslog').count()
@@ -236,7 +234,7 @@ def logs_search(request):
         response['Content-Disposition'] = 'attachment; filename="linux_logs_export.csv"'
         
         writer = csv.writer(response)
-        writer.writerow(['Timestamp', 'Type', 'Hostname', 'Service', 'User', 'Message', 'Level'])
+        writer.writerow(['Timestamp', 'Type', 'Hostname', 'Service', 'Process ID', 'User', 'Message', 'Level'])
         
         for log in logs:
             writer.writerow([
@@ -244,6 +242,7 @@ def logs_search(request):
                 log.get_log_type_display(),
                 log.hostname,
                 log.service,
+                log.process_id,
                 log.user,
                 log.message,
                 log.log_level,
@@ -271,7 +270,7 @@ def logs_search(request):
         'query_params': query_params,
     }
 
-    return render(request, 'logs_search.html', context)
+    return render(request, 'baseapp/search/search.html', context)
 
 
 #LOG INGESTION 

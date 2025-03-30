@@ -5,139 +5,120 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-12">
-      <!-- Main Search Section -->
-      <div class="w-75 mx-auto text-center justify-content-center py-4 my-4">
-        <h2 class="page-title mb-0">Linux Log Search</h2>
-        <p class="lead text-muted mb-4">Search through system and authentication logs</p>
-        <form class="searchform" method="GET" action="">
-          <div class="input-group mb-3" style="max-width: 800px; margin: 0 auto;">
-            <input class="form-control form-control-lg bg-white rounded-start-pill pl-5" 
-                   type="search" name="q" placeholder="Search log messages..." 
-                   value="{{ request.GET.q }}" aria-label="Search"
-                   style="flex-grow: 1; border-right: none;">
-            <span class="input-group-text bg-white border-left-0" style="border-right: none;">
-              <i class="fe fe-search text-muted"></i>
-            </span>
-            <button class="btn btn-primary rounded-end-pill px-4" type="submit"
-                    style="min-width: 120px;">
-              Search
-            </button>
-          </div>
-          
-          <!-- Advanced Filters -->
-          <div class="card shadow-sm mb-4">
-            <div class="card-body">
-              <h5 class="card-title">Filters</h5>
-              <div class="row">
-                <div class="col-md-4">
-                  <label class="form-label">Log Type</label>
-                  <select class="form-select" name="log_type">
-                    <option value="">All Types</option>
-                    <option value="syslog" {% if request.GET.log_type == 'syslog' %}selected{% endif %}>System Logs</option>
-                    <option value="authlog" {% if request.GET.log_type == 'authlog' %}selected{% endif %}>Auth Logs</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label">Log Level</label>
-                  <select class="form-select" name="log_level">
-                    <option value="">All Levels</option>
-                    <option value="info" {% if request.GET.log_level == 'info' %}selected{% endif %}>Info</option>
-                    <option value="warning" {% if request.GET.log_level == 'warning' %}selected{% endif %}>Warning</option>
-                    <option value="error" {% if request.GET.log_level == 'error' %}selected{% endif %}>Error</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label">Hostname</label>
-                  <input type="text" class="form-control" name="hostname" 
-                         placeholder="Filter by host" value="{{ request.GET.hostname }}">
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-4">
-                  <label class="form-label">Service</label>
-                  <input type="text" class="form-control" name="service" 
-                         placeholder="Filter by service" value="{{ request.GET.service }}">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label">User</label>
-                  <input type="text" class="form-control" name="user" 
-                         placeholder="Filter by user" value="{{ request.GET.user }}">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label">Date Range</label>
-                  <input type="date" class="form-control" name="date_from" 
-                         value="{{ request.GET.date_from }}">
-                </div>
-              </div>
-              <div class="mt-3 text-center">
-                <button type="submit" class="btn btn-primary me-2">
-                  <i class="fe fe-filter"></i> Apply Filters
-                </button>
-                <a href="" class="btn btn-outline-secondary">
-                  <i class="fe fe-refresh-ccw"></i> Reset
-                </a>
-              </div>
+      <!-- Quick Stats Cards -->
+      <div class="row mb-3">
+        <div class="col-6 col-lg-3">
+          <div class="card shadow-sm mb-3">
+            <div class="card-body p-3">
+              <i class="fe fe-server fe-24 text-primary"></i>
+              <a href="?log_type=syslog">
+                <h3 class="h6 mt-2 mb-1">System Logs</h3>
+              </a>
+              <p class="text-muted small mb-0">{{ syslog_count }} entries</p>
             </div>
           </div>
-        </form>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card shadow-sm mb-3">
+            <div class="card-body p-3">
+              <i class="fe fe-shield fe-24 text-success"></i>
+              <a href="?log_type=authlog">
+                <h3 class="h6 mt-2 mb-1">Auth Logs</h3>
+              </a>
+              <p class="text-muted small mb-0">{{ authlog_count }} entries</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card shadow-sm mb-3">
+            <div class="card-body p-3">
+              <i class="fe fe-alert-triangle fe-24 text-warning"></i>
+              <a href="?log_level=error">
+                <h3 class="h6 mt-2 mb-1">Error Logs</h3>
+              </a>
+              <p class="text-muted small mb-0">{{ error_count }} entries</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card shadow-sm mb-3">
+            <div class="card-body p-3">
+              <i class="fe fe-users fe-24 text-danger"></i>
+              <a href="?user__isnull=False">
+                <h3 class="h6 mt-2 mb-1">User Activity</h3>
+              </a>
+              <p class="text-muted small mb-0">{{ user_activity_count }} entries</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Quick Stats Cards -->
-      <div class="row my-4">
-        <div class="col-6 col-lg-3">
-          <div class="card shadow mb-4">
-            <div class="card-body">
-              <i class="fe fe-server fe-32 text-primary"></i>
-              <a href="?log_type=syslog">
-                <h3 class="h5 mt-4 mb-1">System Logs</h3>
-              </a>
-              <p class="text-muted">{{ syslog_count }} entries</p>
+      <!-- Filters Card -->
+      <form class="searchform" method="GET" action="{% url 'search' %}">
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Filter Logs</h5>
+            <div class="row g-3">
+              <div class="col-md-3 col-6">
+                <label class="form-label small text-muted mb-1">Log Type</label>
+                <select class="form-select form-select-sm" name="log_type">
+                  <option value="">All Types</option>
+                  <option value="syslog" {% if request.GET.log_type == 'syslog' %}selected{% endif %}>System Logs</option>
+                  <option value="authlog" {% if request.GET.log_type == 'authlog' %}selected{% endif %}>Auth Logs</option>
+                </select>
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small text-muted mb-1">Log Level</label>
+                <select class="form-select form-select-sm" name="log_level">
+                  <option value="">All Levels</option>
+                  <option value="info" {% if request.GET.log_level == 'info' %}selected{% endif %}>Info</option>
+                  <option value="warning" {% if request.GET.log_level == 'warning' %}selected{% endif %}>Warning</option>
+                  <option value="error" {% if request.GET.log_level == 'error' %}selected{% endif %}>Error</option>
+                </select>
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small text-muted mb-1">Hostname</label>
+                <input type="text" class="form-control form-control-sm" name="hostname" 
+                       placeholder="Host" value="{{ request.GET.hostname }}">
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small text-muted mb-1">Service</label>
+                <input type="text" class="form-control form-control-sm" name="service" 
+                       placeholder="Service" value="{{ request.GET.service }}">
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small text-muted mb-1">User</label>
+                <input type="text" class="form-control form-control-sm" name="user" 
+                       placeholder="User" value="{{ request.GET.user }}">
+              </div>
+              <div class="col-md-3 col-6">
+                <label class="form-label small text-muted mb-1">Process ID</label>
+                <input type="text" class="form-control form-control-sm" name="process_id" 
+                       placeholder="PID" value="{{ request.GET.process_id }}">
+              </div>
+              <div class="col-md-6 col-12 d-flex align-items-end">
+                <div class="d-flex w-100 gap-2">
+                  <button type="submit" class="btn btn-primary btn-sm flex-grow-1">
+                    <i class="fe fe-filter me-1"></i> Apply Filters
+                  </button>
+                  <a href="{% url 'search' %}" class="btn btn-outline-secondary btn-sm flex-grow-1">
+                    <i class="fe fe-refresh-ccw me-1"></i> Clear
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-6 col-lg-3">
-          <div class="card shadow mb-4">
-            <div class="card-body">
-              <i class="fe fe-shield fe-32 text-success"></i>
-              <a href="?log_type=authlog">
-                <h3 class="h5 mt-4 mb-1">Auth Logs</h3>
-              </a>
-              <p class="text-muted">{{ authlog_count }} entries</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="card shadow mb-4">
-            <div class="card-body">
-              <i class="fe fe-alert-triangle fe-32 text-warning"></i>
-              <a href="?log_level=error">
-                <h3 class="h5 mt-4 mb-1">Error Logs</h3>
-              </a>
-              <p class="text-muted">{{ error_count }} entries</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="card shadow">
-            <div class="card-body">
-              <i class="fe fe-users fe-32 text-danger"></i>
-              <a href="?user__isnull=False">
-                <h3 class="h5 mt-4 mb-1">User Activity</h3>
-              </a>
-              <p class="text-muted">{{ user_activity_count }} entries</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      </form>
 
       <!-- Search Results Section -->
-      {% if logs %}
-      <div class="card shadow mb-4">
+      {% if logs and request.GET %}
+      <div class="card shadow-sm mb-4">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Search Results</h3>
             <div>
-              <span class="badge bg-primary me-2">{{ logs.paginator.count }} total entries</span>
+              <span class="badge bg-primary me-2">{{ logs.paginator.count }} entries</span>
               <a href="?export=csv&{{ request.GET.urlencode }}" class="btn btn-sm btn-success">
                 <i class="fe fe-download"></i> Export CSV
               </a>
@@ -153,6 +134,7 @@
                   <th>Type</th>
                   <th>Host</th>
                   <th>Service</th>
+                  <th>PID</th>
                   <th>User</th>
                   <th>Message</th>
                   <th>Level</th>
@@ -169,6 +151,7 @@
                   </td>
                   <td>{{ log.hostname|default:"-" }}</td>
                   <td>{{ log.service|default:"-" }}</td>
+                  <td>{{ log.process_id|default:"-" }}</td>
                   <td>{{ log.user|default:"-" }}</td>
                   <td class="log-message">
                     <div class="text-wrap" style="max-width: 300px;">
@@ -224,22 +207,23 @@
           </div>
         </div>
       </div>
-      {% elif request.GET.q or request.GET.log_type or request.GET.log_level %}
+      {% elif request.GET %}
       <div class="alert alert-info">
-        No logs found matching your criteria.
+        No logs found matching your criteria. Try different filters.
       </div>
       {% endif %}
 
       <!-- Log Information Section -->
-      <div class="my-5 p-5 bg-light rounded">
+      {% if not logs and not request.GET %}
+      <div class="mt-4 p-4 bg-light rounded">
         <div class="text-center">
           <h2 class="mb-0">About Linux Logs</h2>
-          <p class="lead text-muted mb-5">Understanding system and authentication logs</p>
+          <p class="lead text-muted mb-4">Understanding system and authentication logs</p>
         </div>
-        <div class="row my-5">
+        <div class="row mt-4">
           <div class="col-md-6">
-            <h3 class="h5 mt-4 mb-1">System Logs (syslog)</h3>
-            <p class="text-muted mb-4">General system activity and services</p>
+            <h3 class="h6 mt-3 mb-1">System Logs (syslog)</h3>
+            <p class="text-muted mb-3">General system activity and services</p>
             <ul class="list-unstyled">
               <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Records system-wide events</li>
               <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Includes service start/stop messages</li>
@@ -248,8 +232,8 @@
             </ul>
           </div>
           <div class="col-md-6">
-            <h3 class="h5 mt-4 mb-1">Auth Logs (authlog)</h3>
-            <p class="text-muted mb-4">Authentication and security events</p>
+            <h3 class="h6 mt-3 mb-1">Auth Logs (authlog)</h3>
+            <p class="text-muted mb-3">Authentication and security events</p>
             <ul class="list-unstyled">
               <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Records user logins/logouts</li>
               <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Contains sudo commands</li>
@@ -259,6 +243,7 @@
           </div>
         </div>
       </div>
+      {% endif %}
     </div>
   </div>
 </div>
