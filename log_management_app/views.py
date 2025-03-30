@@ -182,6 +182,98 @@ def sourceinfo(request, os_type, log_source_name, hostname):
     return render(request, 'baseapp/logsources/sourceinfo.html', context)
 
 
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import LinuxLog
+from django.http import HttpResponse
+import csv
+from django.db.models import Q
+
+def logs_search(request):
+    # Get search parameters
+    query = request.GET.get('q', '')
+    log_type = request.GET.get('log_type', '')
+    log_level = request.GET.get('log_level', '')
+    hostname = request.GET.get('hostname', '')
+    service = request.GET.get('service', '')
+    user = request.GET.get('user', '')
+    date_from = request.GET.get('date_from', '')
+
+    # Start with all logs
+    logs = LinuxLog.objects.all().order_by('-timestamp')
+
+    # Apply filters
+    if query:
+        logs = logs.filter(Q(message__icontains=query) | Q(command__icontains=query))
+    
+    if log_type:
+        logs = logs.filter(log_type=log_type)
+    
+    if log_level:
+        logs = logs.filter(log_level=log_level)
+    
+    if hostname:
+        logs = logs.filter(hostname__icontains=hostname)
+    
+    if service:
+        logs = logs.filter(service__icontains=service)
+    
+    if user:
+        logs = logs.filter(user__icontains=user)
+    
+    if date_from:
+        logs = logs.filter(timestamp__gte=date_from)
+
+    # Get counts for quick stats
+    syslog_count = LinuxLog.objects.filter(log_type='syslog').count()
+    authlog_count = LinuxLog.objects.filter(log_type='authlog').count()
+    error_count = LinuxLog.objects.filter(log_level='error').count()
+    user_activity_count = LinuxLog.objects.filter(user__isnull=False).count()
+
+    # Handle CSV export
+    if request.GET.get('export') == 'csv':
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="linux_logs_export.csv"'
+        
+        writer = csv.writer(response)
+        writer.writerow(['Timestamp', 'Type', 'Hostname', 'Service', 'User', 'Message', 'Level'])
+        
+        for log in logs:
+            writer.writerow([
+                log.timestamp,
+                log.get_log_type_display(),
+                log.hostname,
+                log.service,
+                log.user,
+                log.message,
+                log.log_level,
+            ])
+        
+        return response
+
+    # Pagination
+    paginator = Paginator(logs, 25)  # Show 25 logs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Get the query parameters without page for pagination links
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+        del query_params['page']
+    query_params = query_params.urlencode()
+
+    context = {
+        'logs': page_obj,
+        'syslog_count': syslog_count,
+        'authlog_count': authlog_count,
+        'error_count': error_count,
+        'user_activity_count': user_activity_count,
+        'query_params': query_params,
+    }
+
+    return render(request, 'logs_search.html', context)
+
+
 #LOG INGESTION 
 def system_os_types(request):  
     context={}

@@ -2,111 +2,276 @@
 
 {% block content %}
 
-        <div class="container-fluid">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <div class="w-50 mx-auto text-center justify-content-center py-5 my-5">
-                <h2 class="page-title mb-0">Search for logs</h2>
-                <p class="lead text-muted mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <form class="searchform searchform-lg">
-                  <input class="form-control form-control-lg bg-white rounded-pill pl-5" type="search" placeholder="Search by keyword" aria-label="Search">
-                  <p class="help-text mt-2 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </form>
-              </div>
-              <div class="row my-4">
-                <div class="col-6 col-lg-3">
-                  <div class="card shadow mb-4">
-                    <div class="card-body">
-                      <i class="fe fe-info fe-32 text-primary"></i>
-                      <a href="#">
-                        <h3 class="h5 mt-4 mb-1">Getting start</h3>
-                      </a>
-                      <p class="text-muted">Start working with theme</p>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </div> <!-- .col-md-->
-                <div class="col-6 col-lg-3">
-                  <div class="card shadow mb-4">
-                    <div class="card-body">
-                      <i class="fe fe-help-circle fe-32 text-success"></i>
-                      <a href="./page-faqs.html">
-                        <h3 class="h5 mt-4 mb-1">FAQs</h3>
-                      </a>
-                      <p class="text-muted">Frequently asked questions</p>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </div> <!-- .col-md-->
-                <div class="col-6 col-lg-3">
-                  <div class="card shadow mb-4">
-                    <div class="card-body">
-                      <i class="fe fe-globe fe-32 text-warning"></i>
-                      <a href="#">
-                        <h3 class="h5 mt-4 mb-1">Knowledge Base</h3>
-                      </a>
-                      <p class="text-muted">Learn more about products?</p>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </div> <!-- .col-md-->
-                <div class="col-6 col-lg-3">
-                  <div class="card shadow">
-                    <div class="card-body">
-                      <i class="fe fe-alert-triangle fe-32 text-danger"></i>
-                      <a href="#">
-                        <h3 class="h5 mt-4 mb-1">Reporting</h3>
-                      </a>
-                      <p class="text-muted">Report a bug</p>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </div> <!-- .col-md-->
-              </div> <!-- .row -->
-              <div class="my-5 p-5">
-                <div class="text-center">
-                  <h2 class="mb-0">Knowledge Base</h2>
-                  <p class="lead text-muted mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <!-- Main Search Section -->
+      <div class="w-75 mx-auto text-center justify-content-center py-4 my-4">
+        <h2 class="page-title mb-0">Linux Log Search</h2>
+        <p class="lead text-muted mb-4">Search through system and authentication logs</p>
+        <form class="searchform" method="GET" action="">
+          <div class="input-group mb-3" style="max-width: 800px; margin: 0 auto;">
+            <input class="form-control form-control-lg bg-white rounded-start-pill pl-5" 
+                   type="search" name="q" placeholder="Search log messages..." 
+                   value="{{ request.GET.q }}" aria-label="Search"
+                   style="flex-grow: 1; border-right: none;">
+            <span class="input-group-text bg-white border-left-0" style="border-right: none;">
+              <i class="fe fe-search text-muted"></i>
+            </span>
+            <button class="btn btn-primary rounded-end-pill px-4" type="submit"
+                    style="min-width: 120px;">
+              Search
+            </button>
+          </div>
+          
+          <!-- Advanced Filters -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Filters</h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <label class="form-label">Log Type</label>
+                  <select class="form-select" name="log_type">
+                    <option value="">All Types</option>
+                    <option value="syslog" {% if request.GET.log_type == 'syslog' %}selected{% endif %}>System Logs</option>
+                    <option value="authlog" {% if request.GET.log_type == 'authlog' %}selected{% endif %}>Auth Logs</option>
+                  </select>
                 </div>
-                <div class="row my-5">
-                  <div class="col-md-4">
-                    <h3 class="h5 mt-4 mb-1">Getting start</h3>
-                    <p class="text-muted mb-4">Start working with theme</p>
-                    <ul class="list-unstyled">
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Lorem ipsum dolor sit amet</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Consectetur adipiscing elit</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Integer molestie lorem at massa</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Facilisis in pretium nisl aliquet</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Nulla volutpat aliquam velit</li>
-                    </ul>
-                  </div> <!-- .col-md-->
-                  <div class="col-md-4">
-                    <h3 class="h5 mt-4 mb-1">Integrations</h3>
-                    <p class="text-muted mb-4">How to integrate the theme?</p>
-                    <ul class="list-unstyled">
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Lorem ipsum dolor sit amet</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Consectetur adipiscing elit</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Integer molestie lorem at massa</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Facilisis in pretium nisl aliquet</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Nulla volutpat aliquam velit</li>
-                    </ul>
-                  </div> <!-- .col-md-->
-                  <div class="col-md-4">
-                    <h3 class="h5 mt-4 mb-1">Reporting</h3>
-                    <p class="text-muted mb-4">Report a bug or request a feature</p>
-                    <ul class="list-unstyled">
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Lorem ipsum dolor sit amet</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Consectetur adipiscing elit</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Integer molestie lorem at massa</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Facilisis in pretium nisl aliquet</li>
-                      <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Nulla volutpat aliquam velit</li>
-                    </ul>
-                  </div> <!-- .col-md-->
-                </div> <!-- .row -->
+                <div class="col-md-4">
+                  <label class="form-label">Log Level</label>
+                  <select class="form-select" name="log_level">
+                    <option value="">All Levels</option>
+                    <option value="info" {% if request.GET.log_level == 'info' %}selected{% endif %}>Info</option>
+                    <option value="warning" {% if request.GET.log_level == 'warning' %}selected{% endif %}>Warning</option>
+                    <option value="error" {% if request.GET.log_level == 'error' %}selected{% endif %}>Error</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Hostname</label>
+                  <input type="text" class="form-control" name="hostname" 
+                         placeholder="Filter by host" value="{{ request.GET.hostname }}">
+                </div>
               </div>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <label class="form-label">Service</label>
+                  <input type="text" class="form-control" name="service" 
+                         placeholder="Filter by service" value="{{ request.GET.service }}">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">User</label>
+                  <input type="text" class="form-control" name="user" 
+                         placeholder="Filter by user" value="{{ request.GET.user }}">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Date Range</label>
+                  <input type="date" class="form-control" name="date_from" 
+                         value="{{ request.GET.date_from }}">
+                </div>
+              </div>
+              <div class="mt-3 text-center">
+                <button type="submit" class="btn btn-primary me-2">
+                  <i class="fe fe-filter"></i> Apply Filters
+                </button>
+                <a href="" class="btn btn-outline-secondary">
+                  <i class="fe fe-refresh-ccw"></i> Reset
+                </a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Quick Stats Cards -->
+      <div class="row my-4">
+        <div class="col-6 col-lg-3">
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <i class="fe fe-server fe-32 text-primary"></i>
+              <a href="?log_type=syslog">
+                <h3 class="h5 mt-4 mb-1">System Logs</h3>
+              </a>
+              <p class="text-muted">{{ syslog_count }} entries</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <i class="fe fe-shield fe-32 text-success"></i>
+              <a href="?log_type=authlog">
+                <h3 class="h5 mt-4 mb-1">Auth Logs</h3>
+              </a>
+              <p class="text-muted">{{ authlog_count }} entries</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <i class="fe fe-alert-triangle fe-32 text-warning"></i>
+              <a href="?log_level=error">
+                <h3 class="h5 mt-4 mb-1">Error Logs</h3>
+              </a>
+              <p class="text-muted">{{ error_count }} entries</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card shadow">
+            <div class="card-body">
+              <i class="fe fe-users fe-32 text-danger"></i>
+              <a href="?user__isnull=False">
+                <h3 class="h5 mt-4 mb-1">User Activity</h3>
+              </a>
+              <p class="text-muted">{{ user_activity_count }} entries</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Results Section -->
+      {% if logs %}
+      <div class="card shadow mb-4">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Search Results</h3>
+            <div>
+              <span class="badge bg-primary me-2">{{ logs.paginator.count }} total entries</span>
+              <a href="?export=csv&{{ request.GET.urlencode }}" class="btn btn-sm btn-success">
+                <i class="fe fe-download"></i> Export CSV
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Type</th>
+                  <th>Host</th>
+                  <th>Service</th>
+                  <th>User</th>
+                  <th>Message</th>
+                  <th>Level</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for log in logs %}
+                <tr>
+                  <td nowrap>{{ log.timestamp }}</td>
+                  <td>
+                    <span class="badge {% if log.log_type == 'authlog' %}bg-success{% else %}bg-primary{% endif %}">
+                      {{ log.get_log_type_display }}
+                    </span>
+                  </td>
+                  <td>{{ log.hostname|default:"-" }}</td>
+                  <td>{{ log.service|default:"-" }}</td>
+                  <td>{{ log.user|default:"-" }}</td>
+                  <td class="log-message">
+                    <div class="text-wrap" style="max-width: 300px;">
+                      {{ log.message|truncatechars:100 }}
+                      {% if log.message|length > 100 %}
+                      <a href="#" class="show-more" data-full="{{ log.message }}">...more</a>
+                      {% endif %}
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge 
+                      {% if log.log_level == 'error' %}bg-danger
+                      {% elif log.log_level == 'warning' %}bg-warning
+                      {% else %}bg-info{% endif %}">
+                      {{ log.log_level|default:"info"|title }}
+                    </span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Pagination -->
+          <div class="mt-4 d-flex justify-content-center">
+            <ul class="pagination">
+              {% if logs.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1&{{ query_params }}">First</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ logs.previous_page_number }}&{{ query_params }}">Previous</a>
+              </li>
+              {% endif %}
               
-            </div> <!-- .col-12 -->
-          </div> <!-- .row -->
-        </div> <!-- .container-fluid -->
-        
-        {% endblock %}
+              {% for num in logs.paginator.page_range %}
+                {% if logs.number == num %}
+                <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                {% elif num > logs.number|add:'-3' and num < logs.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}&{{ query_params }}">{{ num }}</a></li>
+                {% endif %}
+              {% endfor %}
+              
+              {% if logs.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ logs.next_page_number }}&{{ query_params }}">Next</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ logs.paginator.num_pages }}&{{ query_params }}">Last</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% elif request.GET.q or request.GET.log_type or request.GET.log_level %}
+      <div class="alert alert-info">
+        No logs found matching your criteria.
+      </div>
+      {% endif %}
 
+      <!-- Log Information Section -->
+      <div class="my-5 p-5 bg-light rounded">
+        <div class="text-center">
+          <h2 class="mb-0">About Linux Logs</h2>
+          <p class="lead text-muted mb-5">Understanding system and authentication logs</p>
+        </div>
+        <div class="row my-5">
+          <div class="col-md-6">
+            <h3 class="h5 mt-4 mb-1">System Logs (syslog)</h3>
+            <p class="text-muted mb-4">General system activity and services</p>
+            <ul class="list-unstyled">
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Records system-wide events</li>
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Includes service start/stop messages</li>
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Contains kernel messages</li>
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Typically stored in /var/log/syslog</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h3 class="h5 mt-4 mb-1">Auth Logs (authlog)</h3>
+            <p class="text-muted mb-4">Authentication and security events</p>
+            <ul class="list-unstyled">
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Records user logins/logouts</li>
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Contains sudo commands</li>
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Shows SSH access attempts</li>
+              <li class="my-1"><i class="fe fe-file-text mr-2 text-muted"></i>Typically stored in /var/log/auth.log</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<script>
+// Show full log message when clicking "more"
+document.querySelectorAll('.show-more').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const fullMessage = this.getAttribute('data-full');
+    this.parentElement.innerHTML = fullMessage;
+  });
+});
+</script>
 
-        
+{% endblock %}
