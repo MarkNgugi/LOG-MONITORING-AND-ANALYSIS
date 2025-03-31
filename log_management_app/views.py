@@ -104,44 +104,27 @@ def home(request):
 
 
 def logsources(request, os_type=None):
-    # Querysets for system logs
-    log_sources_windows = WindowsLog.objects.filter(user=request.user)
-    log_sources_windows_ad = WindowsADLog.objects.filter(user=request.user)
+    # Get only Linux log sources for the current user
     log_sources_linux = LinuxLog.objects.filter(owner=request.user)
-
-    # Filtering based on parameters
-    if os_type:
-        if os_type == 'windows':
-            log_sources = log_sources_windows.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
-        elif os_type == 'windowsAD':
-            log_sources = log_sources_windows_ad.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
-        elif os_type == 'linux':
-            log_sources = log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
+    
+    # Filtering based on parameters (keeping only linux for consistency)
+    if os_type and os_type == 'linux':
+        log_sources = log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
     else:
-        # Combine all log sources if no os_type is specified
-        log_sources = list(chain(
-            log_sources_windows.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp')),
-            log_sources_windows_ad.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp')),
-            log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
-        ))
+        # Default to linux logs even if no os_type is specified
+        log_sources = log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
 
-    # Counts for each category
-    windows_count = log_sources_windows.count()
-    windows_ad_count = log_sources_windows_ad.count()
+    # Count for linux logs
     linux_count = log_sources_linux.count()
-    total_system_logs_count = windows_count + windows_ad_count + linux_count
 
     context = {
-        'windows_count': windows_count,
-        'windows_ad_count': windows_ad_count,
         'linux_count': linux_count,
-        'total_system_logs_count': total_system_logs_count,
-        'log_sources': log_sources,  # Pass the filtered log_sources to the template
-        'os_type': os_type,
+        'total_system_logs_count': linux_count,  # Since we only have linux now
+        'log_sources': log_sources,
+        'os_type': 'linux',  # Always set to linux now
     }
 
     return render(request, 'baseapp/logsources/logsources.html', context)
-
 
 
 def sourceinfo(request, os_type, log_source_name, hostname):
