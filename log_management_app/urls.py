@@ -10,7 +10,8 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('home/',views.home,name='home'),    
-    path('search/',views.logs_search,name='search'),     
+    path('search/',views.logs_search,name='search'),   
+    path('download-script/', views.download_script, name='download_script'),  
 
  
 #LOG SOURCES

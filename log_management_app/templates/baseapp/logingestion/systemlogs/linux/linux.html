@@ -60,14 +60,24 @@
     <div class="card-body">
         <h4>1. Download Script File</h4>
         <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
-        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn" data-toggle="modal" data-target="#logSourceModal"> Initialize Setup </button>
+        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn">Initialize Setup</button>
 
         <div class="alert alert-info mt-3">
             <i class="fas fa-info-circle"></i>
             After completing the setup, verify the script is running successfully by checking your system's integration status.
         </div>
     </div> <!-- /.card-body -->
-</div> <!-- /.card -->
+</div>
+
+<script>
+document.getElementById('setup-alloy-btn').addEventListener('click', function() {
+    // Trigger the file download
+    window.location.href = "{% url 'download_script' %}";
+    
+    // Optional: Show a modal or notification after download
+    // $('#logSourceModal').modal('show');
+});
+</script>
 
 <!-- Modal for Log Source Name -->
 <div class="modal fade" id="logSourceModal" tabindex="-1" role="dialog" aria-labelledby="logSourceModalTitle" aria-hidden="true">

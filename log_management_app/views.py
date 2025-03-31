@@ -293,6 +293,29 @@ def linux_log_upload(request):
     return render(request, 'baseapp/logingestion/systemlogs/linux/linux.html', context)
 
 
+from django.template.loader import render_to_string
+@login_required
+def download_script(request):
+    # Get the current user
+    user = request.user
+    
+    # Get the next log source number
+    last_source = LinuxLog.objects.filter(user=user).order_by('-id').first()
+    next_number = 1 if last_source is None else int(last_source.name.split('[')[-1].replace(']', '')) + 1
+    
+    log_source_name = f"DEBIAN [{next_number}]"
+    
+    # Create the script content with the user's ID and log source name
+    script_content = render_to_string('baseapp/linux_integration/script_template.sh', {
+        'user_id': user.id,
+        'log_source_name': log_source_name,
+    })
+    
+    # Create response
+    response = HttpResponse(script_content, content_type='application/x-sh')
+    response['Content-Disposition'] = 'attachment; filename="linux_log_monitor.sh"'
+    
+    return response
 
 logger = logging.getLogger(__name__)
 class LinuxLogView(APIView):
@@ -377,3 +400,4 @@ def delete_alert(request, alert_id):
 def reportspage(request):
     context={}
     return render(request,'baseapp/reports/report.html',context)
+
