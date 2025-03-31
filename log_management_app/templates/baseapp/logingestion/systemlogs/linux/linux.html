@@ -55,19 +55,71 @@
                                 <div class="col-md-12">
 
                                     
-<!-- Step 2: Download Script File -->
+<!-- Step 1: Script Setup -->
+<!-- Step 1: Script Setup -->
 <div class="card shadow mb-4">
     <div class="card-body">
-        <h4>1. Download Script File</h4>
-        <p class="mb-2"><strong>Before you configure this integration, you must set up the script</strong></p>                                            
-        <button type="button" class="btn mb-2 btn-outline-success" id="setup-alloy-btn">Initialize Setup</button>
-
-        <div class="alert alert-info mt-3">
-            <i class="fas fa-info-circle"></i>
-            After completing the setup, verify the script is running successfully by checking your system's integration status.
+      <h4 class="mb-4 border-bottom pb-2">Step 1: Set Up the Monitoring Script</h4>
+      
+      <!-- Download Section -->
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">1</span>
+          Download the Monitoring Script
+        </h5>
+        <p>Get the Linux monitoring script to start collecting your system logs:</p>
+        <button type="button" class="btn btn-success mb-3" id="setup-alloy-btn">
+          <i class="fas fa-download me-2"></i> Download Script
+        </button>
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>
+          Save this file to an accessible location like your <code>~/Downloads</code> directory
         </div>
-    </div> <!-- /.card-body -->
-</div>
+      </div>
+  
+      <!-- Make Executable Section -->
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">2</span>
+          Make the Script Executable
+        </h5>
+        <p>Open Terminal and navigate to your download directory, then run:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-2">
+          <code>chmod +x linux_log_monitor.sh</code>
+        </div>
+        <p class="small text-muted">This command gives the script execution permissions.</p>
+      </div>
+  
+      <!-- Run Script Section -->
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">3</span>
+          Run the Monitoring Script
+        </h5>
+        <p>Start the monitoring service with this command:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-3">
+          <code>sudo ./linux_log_monitor.sh</code>
+        </div>
+        
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          For permanent monitoring, consider creating a systemd service (see Step 2)
+        </div>
+      </div>
+  
+      <!-- Verification Section -->
+      <div>
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">4</span>
+          Verify Installation
+        </h5>
+        <p>Check your dashboard to confirm logs are being received. You can test with:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-2">
+          <code>tail -f /var/log/syslog | grep "test pattern"</code>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script>
 document.getElementById('setup-alloy-btn').addEventListener('click', function() {
@@ -394,65 +446,102 @@ wait`;
                                     
                                     
 
-<!-- Step 3: Create a Systemd Service File -->
-<div class="card shadow mb-4" id="serviceFileSection">
+<!-- Step 2: Create Systemd Service -->
+<div class="card shadow mb-4">
     <div class="card-body">
-        <h4>2. Create a Systemd Service File</h4>
-        <p>Systemd services are configured using <code>.service</code> files. Follow these steps to create a service file for your script:</p>
-        <ol>
-            <li>Create a service file using the command below:</li>
-            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
-                <code>sudo nano /etc/systemd/system/log-collector.service</code>
-            </div>
-            <li>Add the following content to the service file:</li>
-            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
-                <pre style="color: white;">[Unit]
-Description=Log Collector Service
-After=network.target
-            
-[Service]
-ExecStart=/usr/local/bin/collect-logs.sh
-Restart=always
-RestartSec=5s
-User=root
-Environment=LOG_API_URL="https://example.com/api/logs"
-            
-[Install]
-WantedBy=multi-user.target</pre>
-            </div>
-            <li>Save and close the file.</li>
-        </ol>
-    </div> <!-- /.card-body -->
-</div> <!-- /.card -->
-
-<!-- JavaScript -->
-
-
-<!-- Step 4: Reload Systemd and Enable the Service -->
-<div class="card shadow mb-4" id="step4Card">
+      <h4 class="mb-4 border-bottom pb-2">Step 2: Create Systemd Service</h4>
+      
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">1</span>
+          Create Service File
+        </h5>
+        <p>Create a systemd service file with this command:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-3">
+          <code class="text-white">sudo nano /etc/systemd/system/log-collector.service</code>
+        </div>
+      </div>
+  
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">2</span>
+          Configure Service
+        </h5>
+        <p>Add this configuration to the file:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-3">
+          <pre class="text-white mb-0">[Unit]
+  Description=Log Collector Service
+  After=network.target
+  
+  [Service]
+  ExecStart=/usr/local/bin/collect-logs.sh
+  Restart=always
+  RestartSec=5s
+  User=root
+  Environment=LOG_API_URL="https://example.com/api/logs"
+  
+  [Install]
+  WantedBy=multi-user.target</pre>
+        </div>
+        <p class="small text-muted mt-2">Press Ctrl+O to save, then Ctrl+X to exit nano</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Step 3: Enable Systemd Service -->
+  <div class="card shadow mb-4">
     <div class="card-body">
-        <h4>3. Reload Systemd and Enable the Service</h4>
-        <p>Reload the systemd configuration to recognize the new service and enable it to start on boot.</p>
-        <ol id="step4Instructions">
-            <li>Reload the systemd configuration using the command below:</li>
-            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
-                <code>sudo systemctl daemon-reload</code>
-            </div>
-            <li>Enable the service to start on boot:</li>
-            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
-                <code>sudo systemctl enable log-collector.service</code>
-            </div>
-            <li>Start the service using the command below:</li>
-            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
-                <code>sudo systemctl start log-collector.service</code>
-            </div>
-            <li>Check the service status to ensure it is running:</li>
-            <div class="code-component" style="background-color: #111217; color: #ffffff; padding: 10px; border-radius: 8px; font-family: monospace;">
-                <code>sudo systemctl status log-collector.service</code>
-            </div>
-        </ol>
-    </div> <!-- /.card-body -->
-</div> <!-- /.card -->
+      <h4 class="mb-4 border-bottom pb-2">Step 3: Enable and Start Service</h4>
+      
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">1</span>
+          Reload Systemd
+        </h5>
+        <p>Make systemd recognize your new service:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-3">
+          <code class="text-white">sudo systemctl daemon-reload</code>
+        </div>
+      </div>
+  
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">2</span>
+          Enable on Boot
+        </h5>
+        <p>Configure the service to start automatically:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-3">
+          <code class="text-white">sudo systemctl enable log-collector.service</code>
+        </div>
+      </div>
+  
+      <div class="mb-4">
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">3</span>
+          Start Service
+        </h5>
+        <p>Launch the service immediately:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-3">
+          <code class="text-white">sudo systemctl start log-collector.service</code>
+        </div>
+      </div>
+  
+      <div>
+        <h5 class="d-flex align-items-center">
+          <span class="badge bg-primary me-3">4</span>
+          Verify Status
+        </h5>
+        <p>Check that the service is running properly:</p>
+        <div class="code-component bg-dark text-light p-3 rounded mb-2">
+          <code class="text-white">sudo systemctl status log-collector.service</code>
+        </div>
+        <div class="alert alert-info mt-3">
+          <i class="fas fa-info-circle me-2"></i>
+          Look for <code class="bg-light px-1 rounded">active (running)</code> in the output to confirm success
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
