@@ -12,6 +12,8 @@ urlpatterns = [
     path('home/',views.home,name='home'),    
     path('search/',views.logs_search,name='search'),   
     path('download-script/', views.download_script, name='download_script'),  
+    path('edit-log-source/<str:log_source_name>/<str:hostname>/', views.edit_linux_log_source, name='edit_linux_log_source'),
+    path('delete-log-source/<str:log_source_name>/<str:hostname>/', views.delete_linux_log_source, name='delete_linux_log_source'),
 
  
 #LOG SOURCES

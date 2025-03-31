@@ -103,28 +103,63 @@ def home(request):
 
 
 
-def logsources(request, os_type=None):
-    # Get only Linux log sources for the current user
-    log_sources_linux = LinuxLog.objects.filter(owner=request.user)
-    
-    # Filtering based on parameters (keeping only linux for consistency)
-    if os_type and os_type == 'linux':
-        log_sources = log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
-    else:
-        # Default to linux logs even if no os_type is specified
-        log_sources = log_sources_linux.values('log_source_name', 'hostname').annotate(last_collected=Max('timestamp'))
+def logsources(request):
+    # Get distinct Linux log sources for the current user with their last collected timestamp
+    log_sources = LinuxLog.objects.filter(owner=request.user).values(
+        'log_source_name', 
+        'hostname'
+    ).annotate(
+        last_collected=Max('timestamp')
+    ).order_by('log_source_name')
 
-    # Count for linux logs
-    linux_count = log_sources_linux.count()
+    # Count of distinct log sources (based on name + hostname combinations)
+    linux_count = log_sources.count()
 
     context = {
         'linux_count': linux_count,
-        'total_system_logs_count': linux_count,  # Since we only have linux now
+        'total_system_logs_count': linux_count,
         'log_sources': log_sources,
-        'os_type': 'linux',  # Always set to linux now
+        'os_type': 'linux',  # Hardcoded since we only handle Linux now
     }
 
     return render(request, 'baseapp/logsources/logsources.html', context)
+
+
+def edit_linux_log_source(request, log_source_name, hostname):
+    if request.method == 'POST':
+        new_name = request.POST.get('log_source_name')
+        
+        # Update all logs with this source name and hostname
+        updated = LinuxLog.objects.filter(
+            log_source_name=log_source_name,
+            hostname=hostname,
+            owner=request.user
+        ).update(log_source_name=new_name)
+        
+        if updated:
+            messages.success(request, 'Log source updated successfully!')
+        else:
+            messages.error(request, 'Failed to update log source.')
+        
+        return redirect('logsources')
+    
+    return redirect('logsources')
+
+def delete_linux_log_source(request, log_source_name, hostname):
+    if request.method == 'GET':
+        # Delete all logs with this source name and hostname
+        deleted, _ = LinuxLog.objects.filter(
+            log_source_name=log_source_name,
+            hostname=hostname,
+            owner=request.user
+        ).delete()
+        
+        if deleted:
+            messages.success(request, 'Log source deleted successfully!')
+        else:
+            messages.error(request, 'Failed to delete log source or log source not found.')
+    
+    return redirect('logsources')
 
 
 def sourceinfo(request, os_type, log_source_name, hostname):
