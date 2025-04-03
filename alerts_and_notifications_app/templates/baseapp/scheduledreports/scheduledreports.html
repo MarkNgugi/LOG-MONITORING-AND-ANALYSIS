@@ -4,7 +4,15 @@
 
 <style>
   .custom-badge-text {
-      font-size: 18px; /* Adjust the size as needed */
+      font-size: 18px; 
+  }
+  .data-source-badge {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: middle;
   }
 </style>
 
@@ -34,7 +42,12 @@
                       </div>
                       <div class="card-text my-2">
                         <strong class="card-title my-0">{{ report.report_title }}</strong>
-                        <p class="small"><span class="badge badge-light text-muted">New York, USA</span></p>
+                        <p class="small">
+                          <span class="badge badge-light text-muted">
+                            {{ report.generated_at|date:"M d, Y" }} • 
+                            {{ report.total_alerts_triggered }} alerts
+                          </span>
+                        </p>
                       </div>
                     </div> <!-- ./card-text -->
                   </a>
@@ -42,7 +55,16 @@
                     <div class="row align-items-center justify-content-between">
                       <div class="col-auto">
                         <small>
-                          <span class="dot dot-lg bg-success mr-1"></span>{{ report.data_sources }}</small>
+                          <span class="dot dot-lg bg-success mr-1"></span>
+                          <span class="data-source-badge">
+                            {% if report.data_sources %}
+                              {{ report.data_sources.0|default:""|cut:"'"|cut:"["|cut:"]" }}
+                              {% if report.data_sources|length > 1 %} +{{ report.data_sources|length|add:"-1" }}{% endif %}
+                            {% else %}
+                              No data
+                            {% endif %}
+                          </span>
+                        </small>
                       </div>
                       <div class="col-auto">
                         <div class="file-action">
