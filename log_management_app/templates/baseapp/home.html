@@ -70,38 +70,54 @@
             </div>
 
             <!-- Linux Overview and Severity -->
-            <div class="row items-align-baseline">
-                <div class="col-md-6">
-                    <div class="card shadow mb-4">
-                        <div class="card-header">
-                            <strong>Linux Server Overview</strong>
-                        </div>
-                        <div class="card-body px-4">
-                            <div class="text-center mb-3">                    
-                                <span class="h3">Linux Server</span><br />
-                                <span class="small text-muted">{{ linux_alert_percentage }}% of total alerts</span>                    
-                            </div>
-                            <table class="table table-borderless mt-3 mb-1 mx-n1 table-sm">
-                                <thead>
-                                    <tr>
-                                        <th class="w-50">Metric</th>
-                                        <th class="text-right">Count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Total Logs</td>
-                                        <td class="text-right">{{ total_linux_logs }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total Alerts</td>
-                                        <td class="text-right">{{ linux_alerts }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="row items-align-baseline">              
+                <!-- Option 1: Alert Trends Graph -->
+                <div class="col-md-6 mb-4">
+                  <div class="card shadow h-100">
+                      <div class="card-header">
+                          <strong>Alert Trends (Last 7 Days)</strong>
+                      </div>
+                      <div class="card-body">
+                          <canvas id="alertTrendChart" height="200"></canvas>
+                          <div class="mt-3 text-center small text-muted">
+                              <i class="fe fe-activity mr-1"></i>
+                              {% with peak_alerts=alert_trends.counts.0 peak_date=alert_trends.dates.0 %}
+                                  {% if peak_alerts %}
+                                      Peak: {{ peak_alerts }} alerts on {{ peak_date }}
+                                  {% else %}
+                                      No alert data available
+                                  {% endif %}
+                              {% endwith %}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+                <div class="col-md-6 mb-4">
+                  <div class="card shadow h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                          <strong>Log Processing Rate</strong>
+                          <span class="badge badge-{% if processed_logs == total_logs %}success{% else %}warning{% endif %}">
+                              {% widthratio processed_logs total_logs 100 %}% Complete
+                          </span>
+                      </div>
+                      <div class="card-body">
+                          <canvas id="processingChart" height="150"></canvas>
+                          <div class="row mt-3 text-center">
+                              <div class="col-6">
+                                  <span class="h4">{{ processed_logs }}</span>
+                                  <p class="small text-muted mb-0">Processed</p>
+                              </div>
+                              <div class="col-6">
+                                  <span class="h4">{{ pending_logs }}</span>
+                                  <p class="small text-muted mb-0">Pending</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+            
                 <div class="col-md-6">
                     <div class="card shadow eq-card mb-4">
                         <div class="card-header">
@@ -129,41 +145,7 @@
                             <div class="mt-3 text-center">
                               <canvas id="severityChart" height="150"></canvas>
                           </div>
-                          
-                          <script>
-                          document.addEventListener('DOMContentLoaded', function() {
-                              const ctx = document.getElementById('severityChart').getContext('2d');
-                              const chart = new Chart(ctx, {
-                                  type: 'doughnut',
-                                  data: {
-                                      labels: ['Critical', 'High', 'Low', 'Info'],
-                                      datasets: [{
-                                          data: [
-                                              {{ severity_counts.Critical }},
-                                              {{ severity_counts.High }},
-                                              {{ severity_counts.Low }},
-                                              {{ severity_counts.Info }}
-                                          ],
-                                          backgroundColor: [
-                                              '#dc3545', // Critical - red
-                                              '#ffc107', // High - yellow
-                                              '#17a2b8', // Low - cyan
-                                              '#6c757d'  // Info - gray
-                                          ],
-                                          borderWidth: 0
-                                      }]
-                                  },
-                                  options: {
-                                      cutout: '70%',
-                                      plugins: {
-                                          legend: {
-                                              display: false
-                                          }
-                                      }
-                                  }
-                              });
-                          });
-                          </script>
+                        
                             
                         </div>
                     </div>
@@ -171,85 +153,164 @@
             </div>
 
             <!-- Recent Activity -->
-            <div class="row">
-                <div class="col-md-12 col-lg-4 mb-4">
-                    <div class="card timeline shadow">
-                        <div class="card-header">
-                            <strong class="card-title">Recent Reports</strong>
-                            <a class="float-right small text-muted" href="{% url 'gen_reports' %}">View all</a>
-                        </div>
-                        <div class="card-body" data-simplebar style="height:355px; overflow-y: auto; overflow-x: hidden;">
-                            {% for report in recent_reports %}
-                                <div class="pb-3 timeline-item item-primary report-item">
-                                    <div class="pl-5">
-                                        <div class="mb-1">
-                                            <strong>{{ report.generated_by.username }}</strong>
-                                            <span class="text-muted small mx-2">generated a new report:</span>
-                                            <strong>{{ report.report_title }}</strong>
-                                        </div>
-                                        <p class="small text-muted">
-                                            {{ report.generated_at|timesince }} ago
-                                            <a href="{% url 'report_detail' report.id %}" class="badge badge-primary">View Details</a>
-                                        </p>
-                                    </div>
-                                </div>
-                                {% if not forloop.last %}<hr>{% endif %}
-                            {% empty %}
-                                <div class="pb-3 timeline-item item-primary">
-                                    <div class="pl-5">
-                                        <div class="mb-1">
-                                            <strong>No reports found.</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
+<!-- Recent Reports and Alerts -->
+<div class="row">
+  <!-- Recent Reports -->
+  <div class="col-md-6">
+      <div class="card shadow h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+              <strong class="card-title">Recent Reports</strong>
+              <a class="small text-muted" href="{% url 'gen_reports' %}">View all</a>
+          </div>
+          <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+              <div class="list-group list-group-flush">
+                  {% for report in recent_reports %}
+                  <div class="list-group-item border-0 px-0 py-2">
+                      <div class="d-flex justify-content-between">
+                          <h6 class="mb-1 text-truncate" style="max-width: 70%;">{{ report.report_title }}</h6>
+                          <small class="text-muted">{{ report.generated_at|timesince }} ago</small>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center">
+                          <small class="text-muted">By {{ report.generated_by.username }}</small>
+                          <a href="{% url 'report_detail' report.id %}" class="badge badge-primary">View</a>
+                      </div>
+                  </div>
+                  {% empty %}
+                  <div class="text-center text-muted py-3">No reports found</div>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+  </div>
 
-                <!-- Recent Alerts -->
-                <div class="col-md-12 col-lg-8">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <strong class="card-title">Recent Alerts</strong>
-                            <a class="float-right small text-muted" href="{% url 'alert_history' %}">View all</a>
-                        </div>
-                        <div class="card-body my-n2">
-                            <table class="table table-striped table-hover table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>Timestamp</th>
-                                        <th>Hostname</th>
-                                        <th>Severity</th>
-                                        <th>Alert Title</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for alert in total_sys_alerts %}
-                                    <tr>
-                                        <td>{{ alert.timestamp }}</td>
-                                        <td>{{ alert.hostname }}</td>
-                                        <td><span class="badge 
-                                            {% if alert.severity == 'Critical' %}badge-danger
-                                            {% elif alert.severity == 'High' %}badge-warning
-                                            {% elif alert.severity == 'Low' %}badge-info
-                                            {% else %}badge-secondary{% endif %}">
-                                            {{ alert.severity }}
-                                        </span></td>
-                                        <td>{{ alert.alert_title }}</td>
-                                    </tr>
-                                    {% empty %}
-                                    <tr>
-                                        <td colspan="4" class="text-center">No alerts found</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Recent Alerts -->
+  <div class="col-md-6">
+      <div class="card shadow h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+              <strong class="card-title">Recent Alerts</strong>
+              <a class="small text-muted" href="{% url 'alert_history' %}">View all</a>
+          </div>
+          <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+              <div class="list-group list-group-flush">
+                  {% for alert in total_sys_alerts %}
+                  <div class="list-group-item border-0 px-0 py-2">
+                      <div class="d-flex justify-content-between align-items-center">
+                          <h6 class="mb-1 text-truncate" style="max-width: 70%;">{{ alert.alert_title }}</h6>
+                          <span class="badge 
+                              {% if alert.severity == 'Critical' %}badge-danger
+                              {% elif alert.severity == 'High' %}badge-warning
+                              {% elif alert.severity == 'Low' %}badge-info
+                              {% else %}badge-secondary{% endif %}">
+                              {{ alert.severity }}
+                          </span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                          <small class="text-muted">{{ alert.hostname }}</small>
+                          <small class="text-muted">{{ alert.timestamp }}</small>
+                      </div>
+                  </div>
+                  {% empty %}
+                  <div class="text-center text-muted py-3">No alerts found</div>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
         </div>
     </div>
 </div>
+
+<!-- ADD THIS RIGHT BEFORE THE ENDBLOCK -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Alert Trends Chart
+document.addEventListener('DOMContentLoaded', function() {
+    new Chart(
+        document.getElementById('alertTrendChart'),
+        {
+            type: 'line',
+            data: {
+                labels: {{ alert_trends.dates|safe }},
+                datasets: [{
+                    data: {{ alert_trends.counts }},
+                    backgroundColor: 'rgba(23, 162, 184, 0.1)',
+                    borderColor: '#17a2b8',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { drawBorder: false } },
+                    x: { grid: { display: false } }
+                }
+            }
+        }
+    );
+
+    // Processing Chart
+    new Chart(
+        document.getElementById('processingChart'),
+        {
+            type: 'doughnut',
+            data: {
+                labels: ['Processed', 'Pending'],
+                datasets: [{
+                  data: [
+    {{ processed_logs }},
+    {{ pending_logs }}
+],
+                    backgroundColor: ['#28a745', '#6c757d'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '65%',
+                plugins: { legend: { display: false } }
+            }
+        }
+    );
+});
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('severityChart').getContext('2d');
+      const chart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: ['Critical', 'High', 'Low', 'Info'],
+              datasets: [{
+                  data: [
+                      {{ severity_counts.Critical }},
+                      {{ severity_counts.High }},
+                      {{ severity_counts.Low }},
+                      {{ severity_counts.Info }}
+                  ],
+                  backgroundColor: [
+                      '#dc3545', // Critical - red
+                      '#ffc107', // High - yellow
+                      '#17a2b8', // Low - cyan
+                      '#6c757d'  // Info - gray
+                  ],
+                  borderWidth: 0
+              }]
+          },
+          options: {
+              cutout: '70%',
+              plugins: {
+                  legend: {
+                      display: false
+                  }
+              }
+          }
+      });
+  });
+  </script>
+
 {% endblock %}

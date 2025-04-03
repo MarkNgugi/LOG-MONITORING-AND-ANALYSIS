@@ -3,15 +3,35 @@
 {% block content %}
 <style>
   .alert-title-link {
-    color: #0078f8; /* A distinct blue shade */
-    font-weight: 600; /* Bold text for better visibility */
-    text-decoration: none; /* Remove underline for cleaner look */
-    transition: color 0.3s ease; /* Smooth hover effect */
+    color: #0078f8;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
   }
 
   .alert-title-link:hover {
-    color: #0476f0; /* Darker blue on hover */
-    text-decoration: none; /* Underline on hover for clarity */
+    color: #0476f0;
+    text-decoration: none;
+  }
+  
+  .severity-critical { color: #dc3545; }
+  .severity-high { color: #fd7e14; }
+  .severity-medium { color: #ffc107; }
+  .severity-low { color: #28a745; }
+  .severity-info { color: #17a2b8; }
+
+  .dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-lg {
+    height: 12px;
+    width: 12px;
+  }
+  .bg-orange {
+    background-color: #ff9800;
   }
 </style>
 
@@ -26,21 +46,57 @@
     </div>
 {% endif %}
 
-<!-- Add the navigation pills section here -->
+<!-- Severity-based navigation pills -->
 <div class="row mb-4">
   <div class="col-md">
     <ul class="nav nav-pills justify-content-start">
       <li class="nav-item">
-        <a class="nav-link active bg-transparent pr-2 pl-0 text-primary" href="#">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
+        <a class="nav-link {% if not request.GET.severity %}active bg-transparent pr-2 pl-0 text-primary{% else %}text-muted px-2{% endif %}" 
+           href="?">
+          All <span class="badge badge-pill {% if not request.GET.severity %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">
+            {{ total_alerts }}
+          </span>
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-muted px-2" href="#">Windows<span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
+        <a class="nav-link {% if request.GET.severity == 'Critical' %}active bg-transparent pr-2 pl-0 text-primary{% else %}text-muted px-2{% endif %}" 
+           href="?severity=Critical">
+          Critical<span class="badge badge-pill {% if request.GET.severity == 'Critical' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">
+            {{ severity_counts.Critical }}
+          </span>
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-muted px-2" href="#">Active Directory<span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
+        <a class="nav-link {% if request.GET.severity == 'High' %}active bg-transparent pr-2 pl-0 text-primary{% else %}text-muted px-2{% endif %}" 
+           href="?severity=High">
+          High<span class="badge badge-pill {% if request.GET.severity == 'High' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">
+            {{ severity_counts.High }}
+          </span>
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-muted px-2" href="#">Linux Server<span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
+        <a class="nav-link {% if request.GET.severity == 'Medium' %}active bg-transparent pr-2 pl-0 text-primary{% else %}text-muted px-2{% endif %}" 
+           href="?severity=Medium">
+          Medium<span class="badge badge-pill {% if request.GET.severity == 'Medium' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">
+            {{ severity_counts.Medium }}
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.GET.severity == 'Low' %}active bg-transparent pr-2 pl-0 text-primary{% else %}text-muted px-2{% endif %}" 
+           href="?severity=Low">
+          Low<span class="badge badge-pill {% if request.GET.severity == 'Low' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">
+            {{ severity_counts.Low }}
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.GET.severity == 'Info' %}active bg-transparent pr-2 pl-0 text-primary{% else %}text-muted px-2{% endif %}" 
+           href="?severity=Info">
+          Info<span class="badge badge-pill {% if request.GET.severity == 'Info' %}bg-primary text-white{% else %}bg-white border text-muted{% endif %} ml-2">
+            {{ severity_counts.Info }}
+          </span>
+        </a>
       </li>
     </ul>
   </div>
@@ -49,7 +105,6 @@
 <!-- Table section -->
 <div class="row">
   <div class="col-md-12">
-    <!-- table -->
     <table class="table table-borderless table-striped">
       <thead>
         <tr>
@@ -57,7 +112,7 @@
           <th></th>
           <th>Severity</th>
           <th>Hostname</th>
-          <th>Log Source Name</th> <!-- New column for Log Source Name -->
+          <th>Log Source Name</th>
           <th>Connection</th>          
           <th>Alert Title</th>                        
           <th>Alert</th>
@@ -69,22 +124,33 @@
         {% for alert in alerts %}
         <tr>
           <td class="text-muted small">{{ alert.id }}</td>
-          <td class="text-center"><span class="dot dot-lg bg-danger mr-2"></span></td>
-          <td class="text small">{{ alert.severity }}</td>        
+          <td class="text-center">
+            {% if alert.severity == "Critical" %}
+              <span class="dot dot-lg bg-danger mr-2"></span>
+            {% elif alert.severity == "High" %}
+              <span class="dot dot-lg bg-warning mr-2"></span>
+            {% elif alert.severity == "Medium" %}
+              <span class="dot dot-lg bg-orange mr-2"></span>
+            {% elif alert.severity == "Low" %}
+              <span class="dot dot-lg bg-success mr-2"></span>
+            {% else %}
+              <span class="dot dot-lg bg-info mr-2"></span>
+            {% endif %}
+          </td>
+          <td class="text small severity-{{ alert.severity|lower }}">{{ alert.severity }}</td>        
           <td>{{ alert.hostname }}</td>
           <td>
-            <a href="{% url 'sourceinfo' os_type=alert.os_type log_source_name=alert.log_source_name hostname=alert.hostname %}">
+            <a href="{% url 'sourceinfo' os_type='linux' log_source_name=alert.log_source_name hostname=alert.hostname %}">
               {{ alert.log_source_name }}
             </a>
-          </td> <!-- Display Log Source Name -->
-          <td class="text small">{{alert.connection}}</td>
-          <!-- Make Alert Title clickable with improved styling -->
+          </td>
+          <td class="text small">{{ alert.connection }}</td>
           <td class="text small">
             <a href="{% url 'alertdetail' alert.id %}" class="alert-title-link">
               {{ alert.alert_title }}
             </a>
           </td>
-          <th scope="col">{{ alert.message }}</th>
+          <td>{{ alert.message }}</td>
           <td class="text-muted small">{{ alert.timestamp }}</td>
           <td>
             <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -99,15 +165,6 @@
         {% endfor %}
       </tbody>
     </table>
-    <!-- <nav aria-label="Table Paging" class="my-3">
-      <ul class="pagination justify-content-end mb-0">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-      </ul>
-    </nav> -->
-  </div> <!-- .col -->
-</div> <!-- .row -->
+  </div>
+</div>
 {% endblock %}

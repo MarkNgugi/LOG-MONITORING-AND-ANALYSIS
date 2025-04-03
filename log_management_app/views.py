@@ -42,6 +42,10 @@ def get_user_id(request):
     return JsonResponse({"user_id": request.user.id})
 
 
+from django.db.models import Count
+from datetime import timedelta
+from django.utils import timezone
+
 def home(request):
     # Calculate total logs
     total_linux_logs = LinuxLog.objects.count()
@@ -75,7 +79,27 @@ def home(request):
         'Info': Alert.objects.filter(severity='Info').count(),
     }
 
-    # Add metrics to the context
+    # Alert trends data (last 7 days)
+    today = timezone.now().date()
+    date_range = [today - timedelta(days=i) for i in range(6, -1, -1)]
+    
+    alert_trends = {
+        'dates': [date.strftime("%b %d") for date in date_range],
+        'counts': []
+    }
+    
+    for date in date_range:
+        next_day = date + timedelta(days=1)
+        count = Alert.objects.filter(
+            timestamp__gte=date,
+            timestamp__lt=next_day
+        ).count()
+        alert_trends['counts'].append(count)
+
+    # Calculate peak alerts
+    alert_trends['max_count'] = max(alert_trends['counts']) if alert_trends['counts'] else 0
+    alert_trends['max_date'] = alert_trends['dates'][alert_trends['counts'].index(alert_trends['max_count'])] if alert_trends['counts'] else "N/A"
+
     context = {
         'user': request.user,
         'total_logs': total_logs,
@@ -88,6 +112,8 @@ def home(request):
         'linux_alert_percentage': round(linux_alert_percentage, 2),
         'recent_reports': recent_reports,
         'severity_counts': severity_counts,
+        'alert_trends': alert_trends,
+        'pending_logs': total_logs - processed_logs,
     }
 
     return render(request, 'baseapp/home.html', context)
@@ -364,20 +390,34 @@ def linux_info(request):
     return render(request,'baseapp/logingestion/systemlogs/linux/linuxinfo.html',context)
 
 
+
 def alert_history(request):
+    severity_filter = request.GET.get('severity', None)
+    
+    # Start with base queryset
     alerts = Alert.objects.filter(user=request.user)
     
-    # Dynamically determine os_type based on the log source
+    # Apply severity filter if provided
+    if severity_filter:
+        alerts = alerts.filter(severity__iexact=severity_filter)
+    
+    # Calculate counts for each severity
+    severity_counts = {
+        'Critical': Alert.objects.filter(user=request.user, severity__iexact='Critical').count(),
+        'High': Alert.objects.filter(user=request.user, severity__iexact='High').count(),
+        'Medium': Alert.objects.filter(user=request.user, severity__iexact='Medium').count(),
+        'Low': Alert.objects.filter(user=request.user, severity__iexact='Low').count(),
+        'Info': Alert.objects.filter(user=request.user, severity__iexact='Info').count(),
+    }
+
+    # Set os_type to 'linux' for all alerts
     for alert in alerts:
-        if 'windows' in alert.connection.lower():
-            alert.os_type = 'windows'
-        elif 'linux' in alert.connection.lower():
-            alert.os_type = 'linux'
-        else:
-            alert.os_type = 'windowsAD'  # Default or adjust as needed
+        alert.os_type = 'linux'
 
     context = {
         'alerts': alerts,
+        'severity_counts': severity_counts,
+        'total_alerts': alerts.count() if not severity_filter else Alert.objects.filter(user=request.user).count()
     }
 
     return render(request, 'baseapp/alerts/alerts.html', context)
