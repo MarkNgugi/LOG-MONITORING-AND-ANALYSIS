@@ -35,12 +35,18 @@
                         <input type="text" id="reportName" name="reportName" class="form-control form-control-custom" placeholder="Enter report name" required>
                     </div>
                     <!-- Log Sources Dropdown -->
-                    <div class="form-group col-md-12">
-                        <label for="logSources">Select Log Source</label>
-                        <select id="logSources" name="logSources" class="form-control form-control-custom">
-                            <!-- Options will be populated dynamically by JavaScript -->
-                        </select>
-                    </div>
+<!-- Replace the existing log sources dropdown with this: -->
+<div class="form-group col-md-12">
+    <label for="logSources">Select Log Source</label>
+    <select id="logSources" name="logSources" class="form-control form-control-custom" required>
+        <option value="" selected disabled>Select a log source</option>
+        {% for log_source in all_log_sources %}
+            {% if log_source %}  <!-- Only show if log_source is not empty -->
+                <option value="{{ log_source }}">{{ log_source }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
                     <!-- Submit Button -->
                     <button type="submit" class="btn btn-primary">Generate Report</button>
                 </form>

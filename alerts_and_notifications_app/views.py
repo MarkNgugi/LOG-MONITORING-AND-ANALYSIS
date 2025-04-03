@@ -24,56 +24,44 @@ def delete_report(request, report_id):
     return redirect('gen_reports')
 
 def addscheduledreport(request):
-    if request.method == 'POST':        
-        print(request.POST)
-
-        # Get form data
+    if request.method == 'POST':
         report_title = request.POST.get('reportName')
         selected_log_source = request.POST.get('logSources')
 
-        # Debug: Print the retrieved values
-        print(f"Report Title: {report_title}")
-        print(f"Selected Log Source: {selected_log_source}")
-
-        # Ensure report_title is not None or empty
         if not report_title:
             return JsonResponse({'error': 'Report title is required'}, status=400)
 
-        # Get the current user
-        generated_by = request.user
+        # Get Linux logs for selected source
+        logs = LinuxLog.objects.filter(log_source_name=selected_log_source)
+        total_logs_processed = logs.count()
 
-        # Fetch logs based on the selected log source
-        if selected_log_source == 'Windows':
-            logs = WindowsLog.objects.filter(log_source_name=selected_log_source)
-        elif selected_log_source == 'Windows AD':
-            logs = WindowsADLog.objects.filter(log_source_name=selected_log_source)
-        elif selected_log_source == 'Linux':
-            logs = LinuxLog.objects.filter(log_source_name=selected_log_source)
-        else:
-            logs = []
-
-        # Calculate total logs processed
-        total_logs_processed = len(logs)
-
-        # Fetch alerts related to the selected log source
+        # Get alerts for selected source
         alerts = Alert.objects.filter(log_source_name=selected_log_source)
-        total_alerts_triggered = len(alerts)
+        total_alerts_triggered = alerts.count()
 
-        # Calculate alert severity distribution
+        # Severity distribution (Critical, High, Low, Info)
         severity_distribution = {
             'Critical': alerts.filter(severity='Critical').count(),
             'High': alerts.filter(severity='High').count(),
-            'Medium': alerts.filter(severity='Medium').count(),
             'Low': alerts.filter(severity='Low').count(),
+            'Info': alerts.filter(severity='Info').count(),
         }
 
-        # Get top 5 critical alerts
-        top_critical_alerts = list(alerts.filter(severity='Critical').values('alert_title', 'timestamp', 'hostname', 'message')[:5])
+        # Prepare top critical alerts with proper timestamp formatting
+        top_critical_alerts = []
+        for alert in alerts.filter(severity='Critical').order_by('-timestamp')[:5]:
+            top_critical_alerts.append({
+                'alert_title': alert.alert_title,
+                'timestamp': alert.timestamp.strftime("%b. %d, %Y, %I:%M %p"),
+                'hostname': alert.hostname,
+                'message': alert.message,
+                'log_source_name': alert.log_source_name
+            })
 
-        # Create the report
+        # Create and save report
         report = Report(
             report_title=report_title,
-            generated_by=generated_by,
+            generated_by=request.user,
             total_logs_processed=total_logs_processed,
             data_sources=[selected_log_source],
             log_summary={selected_log_source: total_logs_processed},
@@ -83,24 +71,59 @@ def addscheduledreport(request):
         )
         report.save()
 
-        return redirect('report_detail', report_id=report.id)
+        return redirect('gen_reports',)
 
-    # For GET requests, populate the log sources dropdown
-    windows_log_sources = list(WindowsLog.objects.values_list('log_source_name', flat=True).distinct())
-    windows_ad_log_sources = list(WindowsADLog.objects.values_list('log_source_name', flat=True).distinct())
-    linux_log_sources = list(LinuxLog.objects.values_list('log_source_name', flat=True).distinct())
-    all_log_sources = list(set(windows_log_sources + windows_ad_log_sources + linux_log_sources))
+    # GET request - get distinct Linux log sources ordered by name
+    linux_log_sources = LinuxLog.objects.exclude(log_source_name__isnull=True)\
+                                       .exclude(log_source_name__exact='')\
+                                       .order_by('log_source_name')\
+                                       .values_list('log_source_name', flat=True)\
+                                       .distinct()
 
-    context = {
-        'all_log_sources': json.dumps(all_log_sources),
-    }
-    return render(request, 'baseapp/scheduledreports/addreport.html', context)
+    return render(request, 'baseapp/scheduledreports/addreport.html', {
+        'all_log_sources': list(linux_log_sources)
+    })
 
 
+from django.db.models import Q
 
 def report_detail(request, report_id):
     report = get_object_or_404(Report, id=report_id)
+    
+    # Get data sources from the report - handle different formats
+    data_sources = []
+    if report.data_sources:
+        if isinstance(report.data_sources, list):
+            data_sources = [str(src).strip(" '\"[]") for src in report.data_sources]
+        elif isinstance(report.data_sources, str):
+            data_sources = [src.strip(" '\"[]") for src in report.data_sources.split(',')]
+    
+    data_sources = [src for src in data_sources if src]
+    
+    # Fetch all matching alerts (not just critical) for accurate total count
+    all_matching_alerts = Alert.objects.all()
+    if data_sources:
+        query = Q()
+        for source in data_sources:
+            query |= Q(log_source_name__icontains=source)
+        all_matching_alerts = all_matching_alerts.filter(query)
+    
+    # Get critical alerts from the matching set
+    critical_alerts = all_matching_alerts.filter(severity="Critical").order_by('-timestamp')[:5]
+    
+    # Calculate actual counts
+    total_alerts = all_matching_alerts.count()
+    severity_distribution = {
+        'Critical': all_matching_alerts.filter(severity="Critical").count(),
+        'High': all_matching_alerts.filter(severity="High").count(),
+        'Low': all_matching_alerts.filter(severity="Low").count(),
+        'Info': all_matching_alerts.filter(severity="Info").count(),
+    }
+    
     context = {
         'report': report,
+        'critical_alerts': critical_alerts,
+        'actual_total_alerts': total_alerts,
+        'actual_severity_distribution': severity_distribution,
     }
     return render(request, 'baseapp/scheduledreports/report_detail.html', context)
