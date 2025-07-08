@@ -421,8 +421,7 @@ def alert_history(request):
     }
 
     return render(request, 'baseapp/alerts/alerts.html', context)
-
-
+    
 
 def alertdetail(request,id):
     alert = Alert.objects.filter(id=id)
