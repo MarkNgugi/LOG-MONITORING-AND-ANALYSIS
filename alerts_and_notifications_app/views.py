@@ -10,6 +10,10 @@ import json
 from datetime import datetime
 from log_management_app.models import WindowsLog, WindowsADLog, LinuxLog, Alert
 
+#remove this view later
+def alerts(request):
+    context = {}
+    return render(request, "home/templates/mark.html",context)
 
 #ALERTS
 def scheduledreports(request):
