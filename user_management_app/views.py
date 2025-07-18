@@ -49,7 +49,6 @@ def custom_logout(request):
     return redirect('login')
 
 
-
 @login_required
 def accountsettings(request, tab='profile'):
     user = request.user
